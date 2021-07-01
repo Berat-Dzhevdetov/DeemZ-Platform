@@ -1,8 +1,7 @@
-﻿using DeemZ.Data.Models;
-
-namespace DeemZ.Data
+﻿namespace DeemZ.Data
 {
     using Microsoft.EntityFrameworkCore;
+    using DeemZ.Data.Models;
 
     public class DeemZDbContext : DbContext
     {

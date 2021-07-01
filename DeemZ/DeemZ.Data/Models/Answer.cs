@@ -1,9 +1,8 @@
-﻿using DeemZ.Data;
-
-namespace DeemZ.Data.Models
+﻿namespace DeemZ.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using DeemZ.Data;
 
     public class Answer
     {

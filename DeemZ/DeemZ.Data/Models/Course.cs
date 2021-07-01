@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Course
     {
@@ -23,11 +22,7 @@
         [Required]
         public DateTime EndDate { get; set; }
 
-        public Exam Exam { get; set; }
-
-        [ForeignKey(nameof(Exam))]
-        public string ExamId { get; set; }
-
+        public ICollection<Exam> Exams { get; set; } = new HashSet<Exam>();
         public ICollection<Lecture> Lectures { get; set; } = new HashSet<Lecture>();
 
         public decimal Price { get; set; } = DataConstants.Course.DefaultPrice;

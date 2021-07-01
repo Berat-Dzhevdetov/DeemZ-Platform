@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     public class Exam
     {
         [Key]
@@ -24,11 +22,10 @@
         [Required]
         public Course Course { get; set; }
         [Required]
-        [ForeignKey(nameof(Course))]
         public string CourseId { get; set; }
 
         public int MaxPoints { get; set; }
 
-        public ICollection<Question> Question { get; set; } = new HashSet<Question>();
+        public ICollection<Question> Questions { get; set; } = new HashSet<Question>();
     }
 }
