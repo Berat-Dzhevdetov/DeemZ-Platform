@@ -42,6 +42,8 @@ namespace DeemZ.App
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DeemZDbContext context)
         {
             context.Database.Migrate();
+            //context.Database.EnsureDeleted();
+            //context.Database.EnsureCreated();
 
             if (env.IsDevelopment())
             {

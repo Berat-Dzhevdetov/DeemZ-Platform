@@ -26,6 +26,9 @@
 
         public int MaxPoints { get; set; }
 
+        [Required]
+        public string Password { get; set; }
+
         public ICollection<Question> Questions { get; set; } = new HashSet<Question>();
     }
 }

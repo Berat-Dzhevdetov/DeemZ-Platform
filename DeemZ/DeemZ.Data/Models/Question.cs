@@ -16,6 +16,8 @@
 
         public int Points { get; set; }
 
+        public bool IsMultipleChoice { get; set; }
+
         public Exam Exam { get; set; }
         public string ExamId { get; set; }
 
