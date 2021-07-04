@@ -2,19 +2,12 @@ using DeemZ.Data;
 using DeemZ.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DeemZ.App
+namespace DeemZ.Web
 {
     public class Startup
     {
@@ -31,18 +24,18 @@ namespace DeemZ.App
             services.AddDbContext<DeemZDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            
-            services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(
+                options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DeemZDbContext>();
+
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DeemZDbContext context)
         {
-            context.Database.Migrate();
+            //context.Database.Migrate();
             //context.Database.EnsureDeleted();
             //context.Database.EnsureCreated();
 
@@ -69,6 +62,10 @@ namespace DeemZ.App
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Exam",
+                    pattern : "{Exam}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,4 +1,4 @@
-﻿namespace DeemZ.App.Controllers
+﻿namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     public class CurriculumController : Controller

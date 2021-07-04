@@ -1,14 +1,8 @@
-﻿using DeemZ.App.Models;
-using DeemZ.Data;
-using DeemZ.Data.Models;
+﻿using DeemZ.Data;
+using DeemZ.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace DeemZ.App.Controllers
 {

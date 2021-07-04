@@ -32,5 +32,7 @@
         public bool IsPublic { get; set; } = false;
 
         public ICollection<Question> Questions { get; set; } = new HashSet<Question>();
+
+        public ICollection<ApplicationUser> Users { get; set; } = new HashSet<ApplicationUser>();
     }
 }

@@ -5,13 +5,6 @@
     using System.ComponentModel.DataAnnotations;
     public class ApplicationUser : IdentityUser
     {
-        [Required]
-        [MaxLength(DataConstants.User.MaxUsernameLength)]
-        public string Username { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
         [MaxLength(DataConstants.User.MaxLengthForNames)]
         public string FirstName { get; set; }
         [MaxLength(DataConstants.User.MaxLengthForNames)]
