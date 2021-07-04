@@ -29,5 +29,6 @@
 
         public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
         public ICollection<UserCourse> UserCourses { get; set; } = new HashSet<UserCourse>();
+        public ICollection<Exam> Exams { get; set; } = new HashSet<Exam>();
     }
 }
