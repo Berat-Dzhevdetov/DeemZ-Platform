@@ -29,6 +29,8 @@
         [Required]
         public string Password { get; set; }
 
+        public bool IsPublic { get; set; } = false;
+
         public ICollection<Question> Questions { get; set; } = new HashSet<Question>();
     }
 }
