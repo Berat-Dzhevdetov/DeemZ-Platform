@@ -28,6 +28,7 @@
         public DbSet<ResourceType> ResourceTypes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
+        public DbSet<InformativeMessage> InformativeMessages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
