@@ -1,16 +1,15 @@
 ﻿namespace DeemZ.Data
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using DeemZ.Data.Models;
 
-    public class DeemZDbContext : DbContext
+    public class DeemZDbContext : IdentityDbContext<ApplicationUser>
     {
-
         public DeemZDbContext(DbContextOptions<DeemZDbContext> options)
             : base(options)
         {
         }
-
 
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Area> Areas { get; set; }
@@ -26,7 +25,6 @@
         public DbSet<Report> Reports { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<ResourceType> ResourceTypes { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<InformativeMessage> InformativeMessages { get; set; }
 

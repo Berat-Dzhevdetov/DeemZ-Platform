@@ -19,7 +19,7 @@
         public string Description { get; set; }
 
         [Required]
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
         [Required]
         public string UserId { get; set; }
 

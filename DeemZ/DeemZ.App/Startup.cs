@@ -1,4 +1,5 @@
 using DeemZ.Data;
+using DeemZ.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +34,7 @@ namespace DeemZ.App
             
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DeemZDbContext>();
             services.AddControllersWithViews();
         }
@@ -60,6 +61,8 @@ namespace DeemZ.App
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();
