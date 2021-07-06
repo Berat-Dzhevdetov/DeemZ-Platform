@@ -1,6 +1,9 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+:root {
+    --white: #f9f9fb;
+}
 * {
     margin: 0;
     padding: 0;
@@ -8,6 +11,7 @@ for details on configuring this project to bundle and minify static web assets. 
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 
 a.navbar-brand {
     white-space: normal;
@@ -40,13 +44,6 @@ a {
 -------------------------------------------------- */
 html {
     font-size: 16px;
-    font-family: "LatoBold","Arial","Helvetica",sans-serif !important;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
 }
 
 .border-top {
@@ -96,7 +93,7 @@ body {
 }
 
 .guest-users-container {
-    background-color: #f9f9fb;
+    background-color: var(--white);
     width: 100%;
     color: #f3f3f3;
     height: 100%;
@@ -168,7 +165,7 @@ svg:not(:root) {
 }
 
 .guest-users-container .benefits-section-item .benefits-icon-wrapper path {
-    fill: #fff;
+    fill: var(--white);
 }
 
 .guest-users-container .seo-section {
@@ -234,12 +231,16 @@ svg:not(:root) {
         }
 }
 
-@media only screen and (max-width: 780px) {
-    body {
-        background-color: lightblue;
+@media only screen and (max-width: 950px){
+    .guest-users-container .seo-section {
+        display: block;
+        margin: 0 auto;
     }
+        .guest-users-container .seo-section .left,
+        .guest-users-container .seo-section .right {
+            width: 100%;
+        }
 }
-
 
 @media only screen and (max-width: 767px) {
     .guest-users-container .benefits-section-item {
