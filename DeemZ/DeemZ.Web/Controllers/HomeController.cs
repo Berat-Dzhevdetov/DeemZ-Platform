@@ -19,6 +19,11 @@ namespace DeemZ.App.Controllers
 
         public IActionResult Index()
         {
+            bool isAuthenticated = User.Identity.IsAuthenticated;
+            if (isAuthenticated)
+            {
+                return this.View("LoggedIndex");
+            }
             return View();
         }
 
