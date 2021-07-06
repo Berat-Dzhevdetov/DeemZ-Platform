@@ -20,8 +20,8 @@ a {
     color: #151515;
 }
 
-.white-text{
-    color: #f3f3f3!important;
+.white-text {
+    color: #f3f3f3 !important;
 }
 
 .btn-primary {
@@ -171,21 +171,75 @@ svg:not(:root) {
     fill: #fff;
 }
 
-@media only screen and (max-width: 780px) {
-    body {
-        background-color: lightblue;
+.guest-users-container .seo-section {
+    display: flex;
+    flex-direction: row;
+    margin: 2rem 0.5rem;
+}
+
+    .guest-users-container .seo-section .left,
+    .guest-users-container .seo-section .right {
+        width: 50%;
+        color: #000;
+        padding: 1.5rem;
     }
+
+        .guest-users-container .seo-section .left h2 {
+            font-size: 24px;
+            line-height: 30px;
+            font-weight: 500;
+            font-family: 'Montserrat-Medium',sans-serif;
+            font-weight: normal;
+            font-style: normal;
+            margin: 20px 0 10px 0;
+        }
+
+        .guest-users-container .seo-section .right img {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+    .guest-users-container .seo-section .right {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+.guest-users-container .apply {
+    background: url("https://softuni.bg/Content/images/home-page/home-page-apply.png") center;
+    background-size: cover;
+    padding: 2rem;
 }
 
 @media only screen and (max-width: 991px) {
     .guest-users-container .benefits-section-container {
         flex-direction: row;
     }
+
         .guest-users-container .benefits-section-container .benefits-section-row {
             flex-direction: column;
             justify-content: space-around;
         }
+
+    .guest-users-container .header-section {
+        padding: 5rem 2rem;
+    }
+
+        .guest-users-container .header-section h1 {
+            font-size: 2rem;
+        }
+
+        .guest-users-container .header-section h2 {
+            font-size: 1.5rem;
+        }
 }
+
+@media only screen and (max-width: 780px) {
+    body {
+        background-color: lightblue;
+    }
+}
+
 
 @media only screen and (max-width: 767px) {
     .guest-users-container .benefits-section-item {
@@ -193,6 +247,7 @@ svg:not(:root) {
         margin-left: 0;
         padding-bottom: 10px;
     }
+
     .guest-users-container .benefits-section-container {
         flex-direction: column;
     }
