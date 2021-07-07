@@ -4,6 +4,7 @@ for details on configuring this project to bundle and minify static web assets. 
 :root {
     --white: #f9f9fb;
     --regal-blue: #234465;
+    --orange: #FFA000;
 }
 
 * {
@@ -14,6 +15,28 @@ for details on configuring this project to bundle and minify static web assets. 
     box-sizing: border-box;
 }
 
+.navbar{
+    height: 70px;
+}
+
+.arrow-right {
+    float: right;
+    background: var(--orange);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    color: white;
+    text-align:center;
+}
+
+    .arrow-right:hover, .info-item:hover + .arrow-right {
+        background: var(--regal-blue);
+    }
+
+.fa-play {
+    font-size: 10px;
+    transform: translateY(-2px);
+}
 
 a.navbar-brand {
     white-space: normal;
@@ -258,9 +281,9 @@ svg:not(:root) {
                 position: relative;
             }
 
-                .logged-user-index .card-info ul li a {
-                    text-decoration: none;
-                }
+            .logged-user-index .card-info ul li a {
+                display:block;
+            }
 
     .logged-user-index .card-holder .card-info .info-item {
         word-wrap: break-word;

@@ -1,12 +1,12 @@
-using DeemZ.Data;
-using DeemZ.Data.Models;
-using DeemZ.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DeemZ.Data;
+using DeemZ.Data.Models;
+using DeemZ.Services;
 
 namespace DeemZ.Web
 {
