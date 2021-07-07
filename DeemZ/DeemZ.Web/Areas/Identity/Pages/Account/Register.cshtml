@@ -41,6 +41,13 @@
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
+            <ul class="no-bullets">
+                <li>
+                    <input type="checkbox" asp-for="Input.PrivacyConfirm" />
+                    I accept the <a asp-controller="Home" asp-action="Privacy">terms and conditions</a> of DeemZ<br />
+                    <span asp-validation-for="Input.PrivacyConfirm" class="text-danger"></span>
+                </li>
+            </ul>
         <button type="submit" class="btn btn-primary">Sign up</button>
         </div>
     </form>

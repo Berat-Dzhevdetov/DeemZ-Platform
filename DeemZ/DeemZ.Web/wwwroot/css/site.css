@@ -5,6 +5,7 @@ for details on configuring this project to bundle and minify static web assets. 
     --white: #f9f9fb;
     --regal-blue: #234465;
     --orange: #FFA000;
+    --cyan: #44a9f8;
 }
 
 * {
@@ -13,6 +14,31 @@ for details on configuring this project to bundle and minify static web assets. 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 15px;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+ul.no-bullets {
+    list-style-type: none;
 }
 
 .flex {
@@ -54,7 +80,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #151515;
+    color: var(--cyan);
 }
 
 .white-text {
@@ -433,6 +459,10 @@ svg:not(:root) {
             text-align: center;
         }
 
+input[type=checkbox] {
+    width: 15px;
+    height: 15px;
+}
 @media only screen and (max-width: 1050px) {
     .logged-user-index .cards {
         flex-direction: column;

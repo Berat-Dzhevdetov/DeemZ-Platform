@@ -70,6 +70,9 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Range(typeof(bool), "true", "true", ErrorMessage = "You should agree with our terms and conditions.")]
+            public bool PrivacyConfirm { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -87,8 +90,10 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
                 var user = new ApplicationUser
                 {
                     UserName = Input.Username,
-                    Email = Input.Email
+                    Email = Input.Email,
+                    PrivacyConfirm = Input.PrivacyConfirm
                 };
+                ;
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

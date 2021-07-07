@@ -10,6 +10,8 @@
         [MaxLength(DataConstants.User.MaxLengthForNames)]
         public string LastName { get; set; }
 
+        public bool PrivacyConfirm { get; set; }
+
         public City City { get; set; }
         public string CityId { get; set; }
 
