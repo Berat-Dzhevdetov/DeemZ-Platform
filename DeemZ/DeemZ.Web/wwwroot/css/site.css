@@ -27,10 +27,6 @@ for details on configuring this project to bundle and minify static web assets. 
     flex-direction: column;
 }
 
-.navbar {
-    height: 70px;
-}
-
 .arrow-right {
     float: right;
     background: var(--orange);
@@ -345,24 +341,9 @@ svg:not(:root) {
     transition: all .2s ease;
 }
 
-/*.form {
-    width: 60%;
-    text-align: center;
-    margin: 0 auto;
-    align-content: center;
-    justify-content: center;
+.navbar-collapse{
+    background: var(--regal-blue);
 }
-
-.form-group {
-    display: flex;
-    align-items: baseline;
-    flex:2;
-    flex-wrap: wrap;
-}
-
-    .form-group input {
-    }*/
-/*test*/
 
 .inner-addon {
     position: relative;
@@ -452,8 +433,8 @@ svg:not(:root) {
             text-align: center;
         }
 
-        @media only screen and (max-width: 1050px) {
-            .logged-user-index .cards {
+@media only screen and (max-width: 1050px) {
+    .logged-user-index .cards {
         flex-direction: column;
     }
 
@@ -497,6 +478,12 @@ svg:not(:root) {
         }
 }
 
+@media only screen and (max-width:800px) {
+    .form {
+        width: 70%;
+    }
+}
+
 @media only screen and (max-width: 767px) {
     .guest-users-container .benefits-section-item {
         justify-content: center;
@@ -507,6 +494,10 @@ svg:not(:root) {
     .guest-users-container .benefits-section-container {
         flex-direction: column;
     }
+
+    .form {
+        width: 80%;
+    }
 }
 
 
@@ -514,10 +505,18 @@ svg:not(:root) {
     .logged-user-index .cards {
         padding: 0;
     }
+
+    .form {
+        width: 92%;
+    }
 }
 
 @media only screen and (max-width: 350px) {
     .logged-user-index .cards .card-holder {
         padding: 1rem 0;
+    }
+
+    .form .image-holder div h1 {
+        width: 70%;
     }
 }
