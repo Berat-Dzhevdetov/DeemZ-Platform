@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Data", "DeemZ.Data\DeemZ.Data.csproj", "{D8CA1C5D-403A-4717-928B-BC4263C60AAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeemZ.Web", "DeemZ.Web\DeemZ.Web.csproj", "{411C0AF1-F002-417B-8972-6AC6F6D6A90E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Web", "DeemZ.Web\DeemZ.Web.csproj", "{411C0AF1-F002-417B-8972-6AC6F6D6A90E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeemZ.Services", "DeemZ.Services\DeemZ.Services.csproj", "{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{411C0AF1-F002-417B-8972-6AC6F6D6A90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{411C0AF1-F002-417B-8972-6AC6F6D6A90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{411C0AF1-F002-417B-8972-6AC6F6D6A90E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

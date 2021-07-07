@@ -1,5 +1,6 @@
 using DeemZ.Data;
 using DeemZ.Data.Models;
+using DeemZ.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace DeemZ.Web
             services.AddDefaultIdentity<ApplicationUser>(
                 options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DeemZDbContext>();
+
+            services.AddSingleton<Guard>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -56,8 +59,6 @@ namespace DeemZ.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();
