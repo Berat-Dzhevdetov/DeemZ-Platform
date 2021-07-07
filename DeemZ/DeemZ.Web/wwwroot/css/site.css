@@ -15,7 +15,19 @@ for details on configuring this project to bundle and minify static web assets. 
     box-sizing: border-box;
 }
 
-.navbar{
+.flex {
+    display: flex;
+}
+
+.flex-direction-row {
+    flex-direction: row;
+}
+
+.flex-direction-column {
+    flex-direction: column;
+}
+
+.navbar {
     height: 70px;
 }
 
@@ -26,7 +38,7 @@ for details on configuring this project to bundle and minify static web assets. 
     height: 24px;
     border-radius: 50%;
     color: white;
-    text-align:center;
+    text-align: center;
 }
 
     .arrow-right:hover, .info-item:hover + .arrow-right {
@@ -281,9 +293,9 @@ svg:not(:root) {
                 position: relative;
             }
 
-            .logged-user-index .card-info ul li a {
-                display:block;
-            }
+                .logged-user-index .card-info ul li a {
+                    display: block;
+                }
 
     .logged-user-index .card-holder .card-info .info-item {
         word-wrap: break-word;
@@ -331,6 +343,58 @@ svg:not(:root) {
     -ms-border-radius: 20px;
     border-radius: 20px;
     transition: all .2s ease;
+}
+
+/*.form {
+    width: 60%;
+    text-align: center;
+    margin: 0 auto;
+    align-content: center;
+    justify-content: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: baseline;
+    flex:2;
+    flex-wrap: wrap;
+}
+
+    .form-group input {
+    }*/
+    /*test*/
+
+.inner-addon {
+    position: relative;
+}
+.form-group {
+    position: relative;
+}
+
+.form {
+    width: 70%;
+    margin: 0 auto;
+    text-align:center;
+}
+
+.form input{
+    height: 52px;
+    width: 100%;
+    font-size: 16px;
+    padding-left: 60px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ccc; 
+}
+
+
+.inner-addon i {
+    position: absolute;
+    padding: 10px;
+    font-size: 24px;
+    pointer-events: none;
+    top: 0;
+    left: 5px;
 }
 
 @media only screen and (max-width: 1050px) {

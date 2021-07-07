@@ -7,9 +7,9 @@
         {
             public const int MinUsernameLength = 4; 
             public const int MaxUsernameLength = 16;
-            public const string PasswordRegex = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,16}$";
             public const int MinLengthForNames = 3;
             public const int MaxLengthForNames = 25;
+            public const string UsernameRegex = @"^[a-zA-Z]([._]?[a-zA-Z0-9]+)+$";
         }
 
         public class Forum

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using DeemZ.Data;
 
 namespace DeemZ.Web.Areas.Identity.Pages.Account
 {
@@ -40,6 +41,11 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [MinLength(DataConstants.User.MinUsernameLength)]
+            [MaxLength(DataConstants.User.MaxUsernameLength)]
+            public string Username { get; set; }
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
