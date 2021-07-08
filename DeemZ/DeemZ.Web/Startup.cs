@@ -8,7 +8,7 @@ using DeemZ.Data;
 using DeemZ.Data.Models;
 using DeemZ.Services;
 using AutoMapper;
-using DeemZ.Services.Course;
+using DeemZ.Services.CourseServices;
 using DeemZ.Services.AutoMapperProfiles;
 
 namespace DeemZ.Web
@@ -39,6 +39,7 @@ namespace DeemZ.Web
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserProfile());
+                mc.AddProfile(new CourseProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <Compile Remove="AutoMapperProfiles\**" />
+    <Content Remove="AutoMapperProfiles\**" />
+    <EmbeddedResource Remove="AutoMapperProfiles\**" />
+    <None Remove="AutoMapperProfiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.6" />
@@ -22,10 +28,6 @@
     <ProjectReference Include="..\DeemZ.Data\DeemZ.Data.csproj" />
     <ProjectReference Include="..\DeemZ.Models\DeemZ.Models.csproj" />
     <ProjectReference Include="..\DeemZ.Services\DeemZ.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AutoMapperProfiles\" />
   </ItemGroup>
 
 </Project>

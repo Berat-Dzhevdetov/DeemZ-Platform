@@ -15,7 +15,7 @@ using DeemZ.Models.ViewModels.Homework;
 using DeemZ.Models.ViewModels.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using DeemZ.Services.Course;
+using DeemZ.Services.CourseServices;
 
 namespace DeemZ.App.Controllers
 {
@@ -46,7 +46,7 @@ namespace DeemZ.App.Controllers
                 var viewModel = new IndexUserViewModel()
                 {
                     Credits = courseService.GetCreditsByUserId(user.Id),
-                    Courses = courseService.GetCurrentCoursesByUserId(user.Id)
+                    Courses = courseService.GetCurrentCoursesByUserId<IndexCourseViewModel>(user.Id,true)
                 };
 
                 return this.View("LoggedIndex", viewModel);
