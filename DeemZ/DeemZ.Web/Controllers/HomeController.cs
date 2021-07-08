@@ -1,8 +1,11 @@
 ﻿using DeemZ.Data;
+using DeemZ.Data.Models;
 using DeemZ.Web.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DeemZ.App.Controllers
 {
@@ -10,19 +13,22 @@ namespace DeemZ.App.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DeemZDbContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(ILogger<HomeController> logger, DeemZDbContext context)
+        public HomeController(ILogger<HomeController> logger, DeemZDbContext context, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             this.context = context;
+            this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
-                return this.View("LoggedIndex");
+                var user = await this.userManager.GetUserAsync(HttpContext.User);
+                return this.View("LoggedIndex",user);
             }
             return View();
         }

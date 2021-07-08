@@ -42,11 +42,6 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [MinLength(DataConstants.User.MinUsernameLength)]
-            [MaxLength(DataConstants.User.MaxUsernameLength)]
-            public string Username { get; set; }
-
-            [Required]
             [EmailAddress]
             public string Email { get; set; }
 
