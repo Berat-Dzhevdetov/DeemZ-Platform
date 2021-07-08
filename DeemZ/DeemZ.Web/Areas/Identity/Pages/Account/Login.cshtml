@@ -16,9 +16,9 @@
         <div class="p-3">
             <div class="form-group">
                 <div class="inner-addon">
-                    <input asp-for="Input.Email" placeholder="Email" type="email" value="">
-                    <i class="fa fa-envelope fa-envelope-custom" aria-hidden="true"></i>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    <input asp-for="Input.Username" placeholder="Username" type="text" value="">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -28,12 +28,20 @@
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
             </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <ul class="no-bullets">
+            <li>
+                <input type="checkbox" asp-for="Input.RememberMe" />
+                <label asp-for="Input.RememberMe"></label>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-primary">@ViewData["Title"]</button>
+            </li>
+        </ul>
+    </form>
             <div class="form-group">
-                <ul class="no-bullets">
-                    <li>
-                        <input type="checkbox" asp-for="Input.RememberMe" />
-                        <label asp-for="Input.RememberMe"></label>
-                    </li>
+                <ul>
                     <li>
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </li>
@@ -45,9 +53,6 @@
                     </li>
                 </ul>
             </div>
-            <button type="submit" class="btn btn-primary">@ViewData["Title"]</button>
-        </div>
-    </form>
 </div>
 
 
