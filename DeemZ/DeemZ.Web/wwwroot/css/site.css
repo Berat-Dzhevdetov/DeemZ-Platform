@@ -435,6 +435,10 @@ svg:not(:root) {
         height: 180px;
     }
 
+    .form ul{
+        list-style-type: none;
+    }
+
     .form .image-holder div {
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
