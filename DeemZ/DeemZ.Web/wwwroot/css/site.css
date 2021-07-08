@@ -37,6 +37,10 @@ for details on configuring this project to bundle and minify static web assets. 
         background: #555;
     }
 
+.privacy-policy ul {
+    margin-left: 3rem;
+}
+
 ul.no-bullets {
     list-style-type: none;
 }
