@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "ASP NET CORE";
+}
+
+<div class="course">
+    <div class="course-heading p-5 text-center flex flex-column">
+        <h1>ASP.NET Core - july 2021</h1>
+        <div class="course-info flex flex-row justify-content-center">
+            <div class="course-info flex flex-row custom-text-muted">
+                <div class="start-date m-4">
+                    <img src="https://softuni.bg/Content/images/icons/play-icon.svg" />
+                    Start date: 15.08.2020
+                </div>
+                <div class="credits m-4">
+                    <img src="https://softuni.bg/Content/images/icons/timeline-icon.svg" />
+                    15 points
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="course-subjects box-shadow-all-corners rounded">
+        <h2 class="subjects">Subjects</h2>
+        <ul class="course-list course-list-enroled no-bullets">
+            @for (int i = 1; i <= 10; i++)
+            {
+                <li data-number="@i" class="flex clickable">
+                    <span class="lecture-title"><span class="lecture-number">@i</span> asdas</span>
+                    <div class="position-relative plus-close-holder">
+                        <div class="horizontial-line lines"></div>
+                        <div class="vertical-line lines"></div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

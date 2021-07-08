@@ -122,6 +122,10 @@ html {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+.box-shadow-all-corners {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
 button.accept-policy {
     font-size: 1rem;
     line-height: inherit;
@@ -371,7 +375,7 @@ svg:not(:root) {
     transition: all .2s ease;
 }
 
-.navbar-collapse{
+.navbar-collapse {
     background: var(--regal-blue);
 }
 
@@ -439,38 +443,39 @@ svg:not(:root) {
         height: 180px;
     }
 
-    .form ul{
-        list-style-type: none;
-    }
+.form ul {
+    list-style-type: none;
+}
 
-    .form .image-holder div {
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        color: var(--white);
-        background-color: rgba(54,84,99,.7);
-        width: 100%;
+.form .image-holder div {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    color: var(--white);
+    background-color: rgba(54,84,99,.7);
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    align-items: center;
+    text-align: center;
+    flex-grow: 100;
+}
+
+    .form .image-holder div h1 {
+        margin: auto;
+        width: 50%;
+        padding: 55px 0;
         height: 100%;
-        margin: 0px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        align-items: center;
         text-align: center;
-        flex-grow: 100;
     }
-
-        .form .image-holder div h1 {
-            margin: auto;
-            width: 50%;
-            padding: 55px 0;
-            height: 100%;
-            text-align: center;
-        }
 
 input[type=checkbox] {
     width: 15px;
     height: 15px;
 }
+
 @media only screen and (max-width: 1050px) {
     .logged-user-index .cards {
         flex-direction: column;
@@ -502,6 +507,100 @@ input[type=checkbox] {
         .guest-users-container .header-section h2 {
             font-size: 1.5rem;
         }
+}
+
+.course .course-heading {
+    width: 100%;
+    height: 100%;
+    background-color: #306085;
+    color: white;
+}
+
+.course .course-subjects {
+    margin: 2rem 4rem;
+    padding: 1.5rem;
+}
+
+    .course .course-subjects ul.course-list li {
+        background-color: #F1F1F1;
+        padding: 1rem;
+    }
+
+    .course .course-subjects .subjects {
+        font-size: 24px;
+        line-height: 30px;
+        font-family: 'Montserrat-Medium',sans-serif;
+        font-weight: normal;
+        font-style: normal;
+        font-weight: 500;
+        padding: 0 0 16px;
+    }
+
+    .course .course-subjects .course-list {
+        display: grid;
+        gap: 1px;
+    }
+
+        .course .course-subjects .course-list.course-list-enroled {
+            grid-template-columns: repeat(2,1fr);
+            gap: 1px 24px;
+        }
+
+    .course .course-subjects ul.course-list li.clicked-lecture {
+        color: white !important;
+        background: var(--orange) !important;
+    }
+
+.clickable {
+    cursor: pointer;
+}
+
+.plus-close-holder {
+    transition: transform .3s ease-in-out;
+}
+
+.horizontial-line,
+.vertical-line {
+    background: var(--orange);
+}
+
+.horizontial-line {
+    width: 5px;
+    height: 20px;
+    z-index: 10;
+    position: absolute;
+    left: 8px;
+}
+
+.vertical-line {
+    width: 20px;
+    height: 5px;
+    transform: translateY(8px)
+}
+
+.close-rotate {
+    transform: rotate(45deg);
+}
+
+.white-background
+{
+    background: var(--white);
+}
+
+span.lecture-title {
+    width: 100%;
+    font-size: 18px;
+    line-height: 22px;
+    font-family: 'Lato',sans-serif;
+}
+
+span.lecture-number::after {
+    content: ".";
+}
+
+
+.custom-text-muted {
+    color: rgb(178,178,175);
 }
 
 @media only screen and (max-width: 950px) {

@@ -3,7 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     public class CourseController : Controller
     {
-        public IActionResult Course(string courseId)
+        public IActionResult ViewCourse(string courseId)
         {
             if (courseId == null) return NotFound();
 

@@ -33,9 +33,9 @@
          => context.UserCourses
                 .Where(
                     x => x.User.Id == id &&
-                    x.IsPaid == isPaid 
-                    //x.Course.StartDate <= DateTime.UtcNow &&
-                    //x.Course.EndDate >= DateTime.UtcNow 
+                    x.IsPaid == isPaid &&
+                    x.Course.StartDate <= DateTime.UtcNow &&
+                    x.Course.EndDate >= DateTime.UtcNow 
                 )
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x.Course))
