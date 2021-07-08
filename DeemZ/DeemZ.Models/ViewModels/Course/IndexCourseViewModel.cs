@@ -1,6 +1,6 @@
-﻿namespace DeemZ.Web.Models.ViewModels.Resources
+﻿namespace DeemZ.Models.ViewModels.Course
 {
-    public class IndexResourceViewModel
+    public class IndexCourseViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

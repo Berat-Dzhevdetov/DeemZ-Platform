@@ -1,4 +1,4 @@
-namespace DeemZ.Web.Models
+namespace DeemZ.Models
 {
     public class ErrorViewModel
     {

@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Data", "DeemZ.Data\De
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Web", "DeemZ.Web\DeemZ.Web.csproj", "{411C0AF1-F002-417B-8972-6AC6F6D6A90E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeemZ.Services", "DeemZ.Services\DeemZ.Services.csproj", "{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Services", "DeemZ.Services\DeemZ.Services.csproj", "{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeemZ.Models", "DeemZ.Models\DeemZ.Models.csproj", "{050F0813-549B-4525-99FF-3DFB570E8E80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{050F0813-549B-4525-99FF-3DFB570E8E80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{050F0813-549B-4525-99FF-3DFB570E8E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{050F0813-549B-4525-99FF-3DFB570E8E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{050F0813-549B-4525-99FF-3DFB570E8E80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

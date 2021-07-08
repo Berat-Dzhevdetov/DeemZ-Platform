@@ -1,5 +1,7 @@
 ﻿using DeemZ.Data;
+using DeemZ.Models.ViewModels.Course;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,10 +22,16 @@ namespace DeemZ.Services.Course
                .FirstOrDefault(x => x.Id == id)
                .Exams.Sum(x => x.Credits);
 
-        public IEnumerable<IndexCourseViewModel> GetCoursesByUserId(string id)
+        public IEnumerable<IndexCourseViewModel> GetCurrentCoursesByUserId(string id)
         {
-
-            return 1;
+            context.Courses
+                .Where(x => x.StartDate <= DateTime.UtcNow && x.EndDate >= DateTime.UtcNow)
+                .Select(x => new IndexCourseViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList();
+            return new List<IndexCourseViewModel>();
         }
     }
 }

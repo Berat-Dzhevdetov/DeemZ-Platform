@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DeemZ.Data\DeemZ.Data.csproj" />
+    <ProjectReference Include="..\DeemZ.Models\DeemZ.Models.csproj" />
     <ProjectReference Include="..\DeemZ.Services\DeemZ.Services.csproj" />
   </ItemGroup>
 

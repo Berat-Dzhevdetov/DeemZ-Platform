@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using DeemZ.Data;
 using DeemZ.Data.Models;
-using DeemZ.Web.Models;
-using DeemZ.Web.Models.ViewModels.User;
+using DeemZ.Models;
+using DeemZ.Models.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Linq;
-using DeemZ.Web.Models.ViewModels.Course;
+using DeemZ.Models.ViewModels.Course;
 using System.Collections.Generic;
-using DeemZ.Web.Models.ViewModels.Homework;
-using DeemZ.Web.Models.ViewModels.Resources;
+using DeemZ.Models.ViewModels.Homework;
+using DeemZ.Models.ViewModels.Resources;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using DeemZ.Services.Course;
@@ -46,7 +46,7 @@ namespace DeemZ.App.Controllers
                 var viewModel = new IndexUserViewModel()
                 {
                     Credits = courseService.GetCreditsByUserId(user.Id),
-                    Courses = courseService.GetCoursesByUserId(user.Id)
+                    Courses = courseService.GetCurrentCoursesByUserId(user.Id)
                 };
 
                 return this.View("LoggedIndex", viewModel);

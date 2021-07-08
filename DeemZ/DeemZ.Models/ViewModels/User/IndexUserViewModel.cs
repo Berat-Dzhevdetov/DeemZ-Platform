@@ -1,9 +1,9 @@
-﻿namespace DeemZ.Web.Models.ViewModels.User
+﻿namespace DeemZ.Models.ViewModels.User
 {
     using System.Collections.Generic;
-    using DeemZ.Web.Models.ViewModels.Course;
-    using DeemZ.Web.Models.ViewModels.Homework;
-    using DeemZ.Web.Models.ViewModels.Resources;
+    using DeemZ.Models.ViewModels.Course;
+    using DeemZ.Models.ViewModels.Homework;
+    using DeemZ.Models.ViewModels.Resources;
 
     public class IndexUserViewModel
     {

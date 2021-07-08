@@ -1,6 +1,6 @@
-﻿namespace DeemZ.Web.Models.ViewModels.Homework
+﻿namespace DeemZ.Models.ViewModels.Resources
 {
-    public class IndexHomeworkViewModel
+    public class IndexResourceViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

@@ -8,8 +8,8 @@ using DeemZ.Data;
 using DeemZ.Data.Models;
 using DeemZ.Services;
 using AutoMapper;
-using DeemZ.Web.AutoMapperProfiles;
 using DeemZ.Services.Course;
+using DeemZ.Services.AutoMapperProfiles;
 
 namespace DeemZ.Web
 {
