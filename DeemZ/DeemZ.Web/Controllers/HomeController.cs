@@ -13,6 +13,9 @@ using DeemZ.Web.Models.ViewModels.Course;
 using System.Collections.Generic;
 using DeemZ.Web.Models.ViewModels.Homework;
 using DeemZ.Web.Models.ViewModels.Resources;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using DeemZ.Services.Course;
 
 namespace DeemZ.App.Controllers
 {
@@ -22,29 +25,30 @@ namespace DeemZ.App.Controllers
         private readonly DeemZDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
+        private readonly ICourseService courseService;
 
-        public HomeController(ILogger<HomeController> logger, DeemZDbContext context, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, DeemZDbContext context, UserManager<ApplicationUser> userManager, IMapper mapper, ICourseService courseService)
         {
             _logger = logger;
             this.context = context;
             this.userManager = userManager;
             this.mapper = mapper;
+            this.courseService = courseService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
-                var user = this.userManager.GetUserAsync(HttpContext.User);
+                var user = await this.userManager.GetUserAsync(HttpContext.User);
+
                 var viewModel = new IndexUserViewModel()
                 {
-                    Courses = new List<IndexCourseViewModel>(),
-                    Homework = new List<IndexHomeworkViewModel>(),
-                    Resources = new List<IndexResourceViewModel>(),
-                    Credits = 89
+                    Credits = courseService.GetCreditsByUserId(user.Id),
+                    Courses = courseService.GetCoursesByUserId(user.Id)
                 };
-                //var viewModel = mapper.Map<IndexUserViewModel>(user);
+
                 return this.View("LoggedIndex", viewModel);
             }
             return View();

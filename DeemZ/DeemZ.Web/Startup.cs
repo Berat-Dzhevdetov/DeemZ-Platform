@@ -9,6 +9,7 @@ using DeemZ.Data.Models;
 using DeemZ.Services;
 using AutoMapper;
 using DeemZ.Web.AutoMapperProfiles;
+using DeemZ.Services.Course;
 
 namespace DeemZ.Web
 {
@@ -33,7 +34,7 @@ namespace DeemZ.Web
 
             services.AddSingleton<Guard>();
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<ICourseService, CourseService>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
