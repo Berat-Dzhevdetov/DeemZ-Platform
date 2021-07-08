@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using DeemZ.Data;
 using DeemZ.Data.Models;
 using DeemZ.Services;
+using AutoMapper;
+using DeemZ.Web.AutoMapperProfiles;
 
 namespace DeemZ.Web
 {
@@ -30,6 +32,16 @@ namespace DeemZ.Web
                 .AddEntityFrameworkStores<DeemZDbContext>();
 
             services.AddSingleton<Guard>();
+
+            services.AddAutoMapper(typeof(Startup));
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddControllersWithViews();
             services.AddRazorPages();

@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
+@using DeemZ.Web.Models.ViewModels.User
+@model IndexUserViewModel
 
 <div class="logged-user-index">
     <div class="cards">
@@ -8,18 +10,30 @@
             <div class="card-header capitalize">Мy courses</div>
             <div class="card-info">
                 <ul>
-                    <li class="info-item">
-                        <a href="~/media/logo.png">
-                            ASP.NET Core - юни 2021
-                            <span class="arrow-right">
-                                <i class="fas fa-play"></i>
-                            </span>
-                        </a>
-                    </li>
+                    @if (Model.Courses.Any())
+                    {
+                        @foreach (var course in Model.Courses)
+                        {
+                            <li class="info-item">
+                                <a href="./Course/ViewCourse?courseId=@course.Id">
+                                    @course.Name
+                                    <span class="arrow-right">
+                                        <i class="fas fa-play"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="info-item">
+                            You currently have no courses enrolled
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="card-links credits regal-blue">
-                Total points: 100
+                Total points: @Model.Credits
             </div>
         </div>
         <div class="card-holder">

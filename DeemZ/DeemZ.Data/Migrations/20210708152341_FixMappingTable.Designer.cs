@@ -4,20 +4,37 @@ using DeemZ.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeemZ.Data.Migrations
 {
     [DbContext(typeof(DeemZDbContext))]
-    partial class DeemZDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210708152341_FixMappingTable")]
+    partial class FixMappingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ApplicationUserExam", b =>
+                {
+                    b.Property<string>("ExamsId")
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ExamsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ApplicationUserExam");
+                });
 
             modelBuilder.Entity("DeemZ.Data.Models.Answer", b =>
                 {
@@ -131,9 +148,6 @@ namespace DeemZ.Data.Migrations
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
 
                     b.HasKey("ExamId", "ApplicationUserId");
 
@@ -637,6 +651,21 @@ namespace DeemZ.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ApplicationUserExam", b =>
+                {
+                    b.HasOne("DeemZ.Data.Models.Exam", null)
+                        .WithMany()
+                        .HasForeignKey("ExamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DeemZ.Data.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DeemZ.Data.Models.Answer", b =>
                 {
                     b.HasOne("DeemZ.Data.Models.Question", "Question")
@@ -660,13 +689,13 @@ namespace DeemZ.Data.Migrations
             modelBuilder.Entity("DeemZ.Data.Models.ApplicationUserExam", b =>
                 {
                     b.HasOne("DeemZ.Data.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Exams")
+                        .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DeemZ.Data.Models.Exam", "Exam")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -858,8 +887,6 @@ namespace DeemZ.Data.Migrations
 
             modelBuilder.Entity("DeemZ.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Exams");
-
                     b.Navigation("Reports");
 
                     b.Navigation("UserCourses");
@@ -875,8 +902,6 @@ namespace DeemZ.Data.Migrations
             modelBuilder.Entity("DeemZ.Data.Models.Exam", b =>
                 {
                     b.Navigation("Questions");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Forum", b =>

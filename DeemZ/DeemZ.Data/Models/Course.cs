@@ -14,8 +14,6 @@
         [Required]
         public string Name { get; set; }
 
-        public int Credits { get; set; }
-
         [Required]
         public DateTime StartDate { get; set; }
 
@@ -28,6 +26,5 @@
 
         public ICollection<Exam> Exams { get; set; } = new HashSet<Exam>();
         public ICollection<Lecture> Lectures { get; set; } = new HashSet<Lecture>();
-
     }
 }

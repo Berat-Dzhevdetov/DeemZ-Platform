@@ -27,7 +27,8 @@
         public DbSet<ResourceType> ResourceTypes { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<InformativeMessage> InformativeMessages { get; set; }
-
+        public DbSet<ApplicationUserExam> ApplicationUserExams { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -42,6 +43,11 @@
             mb.Entity<UserCourse>(x =>
             {
                 x.HasKey(x => new { x.CourseId, x.UserId });
+            });
+
+            mb.Entity<ApplicationUserExam>(x =>
+            {
+                x.HasKey(x => new { x.ExamId, x.ApplicationUserId });
             });
 
             base.OnModelCreating(mb);

@@ -8,8 +8,6 @@
         public Course Course { get; set; }
         public string CourseId { get; set; }
 
-        public int EarnedCredits { get; set; }
-
         public DateTime? PaidOn { get; set; }
 
         public bool IsPaid { get; set; }
