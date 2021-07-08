@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using DeemZ.Data;
-
 namespace DeemZ.Web.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -71,7 +70,11 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Range(typeof(bool), "true", "true", ErrorMessage = "You should agree with our terms and conditions.")]
+            public bool isTrue
+            { get { return true; } }
+
+            [Required]
+            [Compare("isTrue", ErrorMessage = "Please agree to Terms and Conditions")]
             public bool PrivacyConfirm { get; set; }
         }
 
