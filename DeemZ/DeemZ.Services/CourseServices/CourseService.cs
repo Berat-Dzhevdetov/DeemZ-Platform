@@ -6,8 +6,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using DeemZ.Data;
-    using DeemZ.Models.ViewModels.Course;
-    using DeemZ.Data.Models;
 
     public class CourseService : ICourseService
     {

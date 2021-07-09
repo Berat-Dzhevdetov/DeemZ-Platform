@@ -1,38 +1,23 @@
-﻿using AutoMapper;
-using DeemZ.Data;
-using DeemZ.Data.Models;
-using DeemZ.Models;
-using DeemZ.Models.ViewModels.User;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Linq;
-using DeemZ.Models.ViewModels.Course;
-using System.Collections.Generic;
-using DeemZ.Models.ViewModels.Homework;
-using DeemZ.Models.ViewModels.Resources;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using DeemZ.Services.CourseServices;
-
-namespace DeemZ.App.Controllers
+﻿namespace DeemZ.App.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
+    using System.Threading.Tasks;
+    using DeemZ.Data.Models;
+    using DeemZ.Models;
+    using DeemZ.Models.ViewModels.Course;
+    using DeemZ.Models.ViewModels.User;
+    using DeemZ.Services.CourseServices;
+
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly DeemZDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IMapper mapper;
         private readonly ICourseService courseService;
 
-        public HomeController(ILogger<HomeController> logger, DeemZDbContext context, UserManager<ApplicationUser> userManager, IMapper mapper, ICourseService courseService)
+        public HomeController(UserManager<ApplicationUser> userManager, ICourseService courseService)
         {
-            _logger = logger;
-            this.context = context;
             this.userManager = userManager;
-            this.mapper = mapper;
             this.courseService = courseService;
         }
 

@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using static DataConstants;
+
     public class City
     {
         [Key]
