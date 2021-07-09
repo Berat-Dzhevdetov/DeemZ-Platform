@@ -37,6 +37,13 @@ for details on configuring this project to bundle and minify static web assets. 
         background: #555;
     }
 
+.profile-picture {
+    width: 26px;
+    height: 26px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .privacy-policy ul {
     margin-left: 3rem;
 }
@@ -524,6 +531,7 @@ input[type=checkbox] {
     .course .course-subjects ul.course-list li {
         background-color: #F1F1F1;
         padding: 1rem;
+        justify-content: space-between;
     }
 
     .course .course-subjects .subjects {
@@ -551,9 +559,27 @@ input[type=checkbox] {
         background: var(--orange) !important;
     }
 
-.clickable {
-    cursor: pointer;
+    .course .course-subjects ul.course-list div.lecture-description {
+        display: none;
+        background-color: var(--white);
+        color: #565656;
+        padding: 1rem 2rem;
+    }
+    .course .course-subjects ul.course-list div.lecture-description div h2 {
+        color: var(--orange);
+    }
+        .course .course-subjects ul.course-list div.lecture-description li {
+            background-color: var(--white);
+            margin: 0;
+            padding: 0;
+            margin-left: 1rem;
+        }
 }
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
 
 .plus-close-holder {
     transition: transform .3s ease-in-out;

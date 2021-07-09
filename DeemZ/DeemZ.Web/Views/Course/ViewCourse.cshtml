@@ -23,11 +23,39 @@
         <ul class="course-list course-list-enroled no-bullets">
             @for (int i = 1; i <= 10; i++)
             {
-                <li data-number="@i" class="flex clickable">
-                    <span class="lecture-title"><span class="lecture-number">@i</span> asdas</span>
-                    <div class="position-relative plus-close-holder">
-                        <div class="horizontial-line lines"></div>
-                        <div class="vertical-line lines"></div>
+                <li class="flex flex-column">
+                    <div data-number="@i" class="flex justify-content-between clickable">
+                        <span class="lecture-title"><span class="lecture-number">@i</span> asdas</span>
+                        <div class="position-relative plus-close-holder">
+                            <div class="horizontial-line lines"></div>
+                            <div class="vertical-line lines"></div>
+                        </div>
+                    </div>
+                    <div class="lecture-description">
+                        <div>
+                            <h2>asdasdas</h2>
+                            <ul>
+                                <li>
+                                    Model Binding;
+                                </li>
+                                <li>
+                                    Model Validation;
+                                </li>
+                                <li>
+                                    Working with Files;
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2>Resourses</h2>
+                            <ul class="no-bullets">
+                                <li>
+                                    <a href="#">
+                                        Working with Data - Presentation
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </li>
             }
