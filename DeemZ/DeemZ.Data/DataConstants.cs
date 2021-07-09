@@ -58,5 +58,11 @@
         {
             public const int MinAnswerLength = 5;
         }
+
+        public class Resource
+        {
+            public const int MinNameLength = 3;
+            public const int MaxNameLength = 100;
+        }
     }
 }

@@ -12,6 +12,11 @@
 
         [Required]
         public string Path { get; set; }
+
+        [Required]
+        [MaxLength(DataConstants.Resource.MaxNameLength)]
+        public string Name { get; set; }
+
         [Required]
         public ResourceType ResourceType { get; set; }
         [Required]
