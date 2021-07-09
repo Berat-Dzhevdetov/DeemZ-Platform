@@ -12,6 +12,8 @@ namespace DeemZ.Web
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
     using DeemZ.Services.AutoMapperProfiles;
+    using DeemZ.Web.Infrastructure;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -48,40 +50,33 @@ namespace DeemZ.Web
             services.AddRazorPages();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DeemZDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var dbService = serviceScope.ServiceProvider.GetService<DeemZDbContext>();
-                dbService.Database.Migrate();
-            }
+            app.PrepareDatabase();
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+                app.UseDeveloperExceptionPage()
+                    .UseMigrationsEndPoint();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app.UseExceptionHandler("/Home/Error")
+                    .UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
+            app.UseHttpsRedirection()
+                .UseStaticFiles()
+                .UseRouting()
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                    {
+                        endpoints.MapControllerRoute(
+                            name: "default",
+                            pattern: "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapRazorPages();
+                    });
         }
     }
 }
