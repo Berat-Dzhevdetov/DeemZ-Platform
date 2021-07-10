@@ -5,6 +5,7 @@
     "EndDate": "04.07.2021 23:59:59",
     "SignUpStartDate": "20.07.2021 00:00:00",
     "SignUpEndDate": "27.07.2021 23:59:59",
+    "Credits" :  15,
     "Lectures": [
       {
         "Name": "Resources",

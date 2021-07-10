@@ -6,5 +6,7 @@
     {
         int GetCreditsByUserId(string id);
         IEnumerable<T> GetCurrentCoursesByUserId<T>(string id,bool isPaid = true);
+
+        T GetCourseById<T>(string id);
     }
 }

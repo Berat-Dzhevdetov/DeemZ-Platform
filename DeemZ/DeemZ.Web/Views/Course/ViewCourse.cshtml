@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "ASP NET CORE";
 }
+@model DetailsCourseViewModel
 
 <div class="course">
     <div class="course-heading p-5 text-center flex flex-column">
@@ -9,11 +10,11 @@
             <div class="course-info flex flex-row custom-text-muted">
                 <div class="start-date m-4">
                     <img src="https://softuni.bg/Content/images/icons/play-icon.svg" />
-                    Start date: 15.08.2020
+                    Start date: @Model.StartDate
                 </div>
                 <div class="credits m-4">
                     <img src="https://softuni.bg/Content/images/icons/timeline-icon.svg" />
-                    15 points
+                    @Model.Credits points
                 </div>
             </div>
         </div>
@@ -21,11 +22,12 @@
     <div class="course-subjects box-shadow-all-corners rounded">
         <h2 class="subjects">Subjects</h2>
         <ul class="course-list course-list-enroled no-bullets">
-            @for (int i = 1; i <= 10; i++)
+            @for (int i = 0; i < Model.Lectures.Count; i++)
             {
+                DetailsLectureViewModel currentLecture = Model.Lectures[i];
                 <li class="flex flex-column">
-                    <div data-number="@i" class="flex justify-content-between clickable">
-                        <span class="lecture-title"><span class="lecture-number">@i</span> asdas</span>
+                    <div data-number="@currentLecture.Id" class="flex justify-content-between clickable">
+                        <span class="lecture-title"><span class="lecture-number">@(i + 1)</span> @currentLecture.Name</span>
                         <div class="position-relative plus-close-holder">
                             <div class="horizontial-line lines"></div>
                             <div class="vertical-line lines"></div>
@@ -33,27 +35,45 @@
                     </div>
                     <div class="lecture-description">
                         <div>
-                            <h2>asdasdas</h2>
+                            <h2>@currentLecture.Name</h2>
                             <ul>
-                                <li>
-                                    Model Binding;
-                                </li>
-                                <li>
-                                    Model Validation;
-                                </li>
-                                <li>
-                                    Working with Files;
-                                </li>
+                                @if (currentLecture.Resourses.Any())
+                                {
+                                    @foreach (var description in currentLecture.Descriptions)
+                                    {
+                                        <li>
+                                            @description.Name
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>
+                                        This lecture has no description
+                                    </li>
+                                }
                             </ul>
                         </div>
                         <div>
                             <h2>Resourses</h2>
                             <ul class="no-bullets">
-                                <li>
-                                    <a href="#">
-                                        Working with Data - Presentation
-                                    </a>
-                                </li>
+                                @if (currentLecture.Resourses.Any())
+                                {
+                                    foreach (var resource in currentLecture.Resourses)
+                                    {
+                                        <li>
+                                            <a href="@resource.Path">
+                                                @resource.Name
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>
+                                        This lecture has no resources
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>

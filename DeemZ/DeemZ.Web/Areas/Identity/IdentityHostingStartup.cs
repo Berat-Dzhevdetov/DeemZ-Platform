@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DeemZ.Data;
-using DeemZ.Data.Models;
 
 [assembly: HostingStartup(typeof(DeemZ.Web.Areas.Identity.IdentityHostingStartup))]
 namespace DeemZ.Web.Areas.Identity

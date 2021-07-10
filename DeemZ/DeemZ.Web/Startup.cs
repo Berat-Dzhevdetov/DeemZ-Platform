@@ -41,6 +41,10 @@ namespace DeemZ.Web
             {
                 mc.AddProfile(new UserProfile());
                 mc.AddProfile(new CourseProfile());
+                mc.AddProfile(new LectureProfile());
+                mc.AddProfile(new ResourceTypeProfile());
+                mc.AddProfile(new DescriptionProfile());
+                mc.AddProfile(new ResourceProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

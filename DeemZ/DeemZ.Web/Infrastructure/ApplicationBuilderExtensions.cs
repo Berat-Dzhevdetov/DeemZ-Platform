@@ -49,7 +49,7 @@
 
         public static void CreateCourses(DeemZDbContext data)
         {
-            //if (data.Courses.Any()) return;
+            if (data.Courses.Any()) return;
 
             var json = File.ReadAllText("./importCourseData.json");
 
@@ -65,7 +65,8 @@
                     SignUpEndDate = DateTime.Parse(course.SignUpEndDate),
                     EndDate = DateTime.Parse(course.EndDate),
                     StartDate = DateTime.Parse(course.StartDate),
-                    SignUpStartDate = DateTime.Parse(course.SignUpStartDate)
+                    SignUpStartDate = DateTime.Parse(course.SignUpStartDate),
+                    Credits = course.Credits
                 };
 
                 var lectures = new List<Lecture>();

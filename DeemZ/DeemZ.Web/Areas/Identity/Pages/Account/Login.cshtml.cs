@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using DeemZ.Data;
 
 namespace DeemZ.Web.Areas.Identity.Pages.Account
 {

@@ -9,7 +9,7 @@
         public string EndDate { get; set; }
         public string SignUpStartDate { get; set; }
         public string SignUpEndDate { get; set; }
-
+        public int Credits { get; set; }
         public List<LectureImportDataDTO> Lectures { get; set; }
     }
     
@@ -26,6 +26,5 @@
         public string Name { get; set; }
         public string Path { get; set; }
         public string ResourceType { get; set; }
-
     }
 }

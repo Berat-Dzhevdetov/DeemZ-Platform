@@ -23,9 +23,9 @@
                .Users
                .Include(x => x.Exams)
                .FirstOrDefault(x => x.Id == id)
-               .Exams.Sum(x => x.Credits);
+               .Exams.Sum(x => x.EarnedCredits);
 
-        
+
         //Gets user's given id courses
         public IEnumerable<T> GetCurrentCoursesByUserId<T>(string id, bool isPaid = true)
          => context.UserCourses
@@ -33,10 +33,21 @@
                     x => x.User.Id == id &&
                     x.IsPaid == isPaid &&
                     x.Course.StartDate <= DateTime.UtcNow &&
-                    x.Course.EndDate >= DateTime.UtcNow 
+                    x.Course.EndDate >= DateTime.UtcNow
                 )
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x.Course))
                 .ToList();
+
+        public T GetCourseById<T>(string id)
+            => context.Courses
+                .Where(x => x.Id == id)
+                .Include(x => x.Lectures)
+                .ThenInclude(x => x.Descriptions)
+                .Include(c => c.Lectures)
+                .ThenInclude(x => x.Resources)
+                .ThenInclude(x => x.ResourceType)
+                .Select(x => mapper.Map<T>(x))
+                .FirstOrDefault();
     }
 }

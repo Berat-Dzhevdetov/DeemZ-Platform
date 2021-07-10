@@ -21,6 +21,8 @@
         public DateTime EndDate { get; set; }
         public decimal Price { get; set; } = DataConstants.Course.DefaultPrice;
 
+        public int Credits { get; set; }
+
         public DateTime SignUpStartDate { get; set; } = DateTime.UtcNow;
         public DateTime SignUpEndDate { get; set; } = DateTime.UtcNow.AddDays(14);
 

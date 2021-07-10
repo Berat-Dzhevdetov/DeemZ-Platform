@@ -8,6 +8,8 @@
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public int Credits { get; set; }
+        public int EarnedCredits { get; set; }
+
+        public int EarnedPoints { get; set; }
     }
 }
