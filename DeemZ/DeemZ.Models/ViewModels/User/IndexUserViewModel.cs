@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using DeemZ.Models.ViewModels.Course;
-    using DeemZ.Models.ViewModels.Survey;
+    using DeemZ.Models.ViewModels.Surveys;
 
     public class IndexUserViewModel
     {

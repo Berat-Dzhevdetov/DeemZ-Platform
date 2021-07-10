@@ -48,6 +48,8 @@ namespace DeemZ.Web
                 mc.AddProfile(new DescriptionProfile());
                 mc.AddProfile(new ResourceProfile());
                 mc.AddProfile(new SurveyProfile());
+                mc.AddProfile(new SurveyQuestionProfile());
+                mc.AddProfile(new SurveyAnswerProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

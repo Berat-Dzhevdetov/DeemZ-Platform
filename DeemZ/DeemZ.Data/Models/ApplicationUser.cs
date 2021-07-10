@@ -20,6 +20,6 @@
 
         public ICollection<UserCourse> UserCourses { get; set; } = new HashSet<UserCourse>();
         public ICollection<ApplicationUserExam> Exams { get; set; } = new HashSet<ApplicationUserExam>();
-        public ICollection<Survey> Surveys { get; set; } = new HashSet<Survey>();
+        public ICollection<ApplicationUserSurvey> Surveys { get; set; } = new HashSet<ApplicationUserSurvey>();
     }
 }
