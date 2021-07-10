@@ -1,5 +1,5 @@
 ﻿@model TakeSurveyViewModel
-@{ 
+@{
     ViewData["Title"] = Model.Name;
 }
 
@@ -11,5 +11,27 @@
         <h3>
             Please give us 5 minutes to improve our quality!
         </h3>
+    </div>
+    <div class="question-list">
+        <form>
+            @foreach (var question in Model.Questions)
+            {
+                <div class="question-header">
+                    @question.Name
+                </div>
+                <ul class="no-bullets">
+                    @foreach (var answer in question.Answers)
+                    {
+                        <li>
+                            <input type="radio" name="@question.Id" />
+                            @answer.Text
+                        </li>
+                    }
+                </ul>
+            }
+            <div class="flex justify-content-center">
+                <input class="btn btn-primary" value="Submit" />
+            </div>
+        </form>
     </div>
 </div>

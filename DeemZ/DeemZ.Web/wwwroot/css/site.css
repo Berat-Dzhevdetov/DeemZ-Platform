@@ -638,8 +638,20 @@ span.lecture-number::after {
     color: rgb(178,178,175);
 }
 
-@media only screen and (max-width: 950px) {
-    .guest-users-container .seo-section {
+.survey{
+    margin: 2rem;
+}
+    .survey .question-list ul{
+        margin-left: 3rem;
+    }
+    .survey .question-list .question-header {
+        font-weight: 500;
+        font-size: 20px;
+        padding: 1.5rem;
+    }
+
+    @media only screen and (max-width: 950px) {
+        .guest-users-container .seo-section {
         display: block;
         margin: 0 auto;
     }
