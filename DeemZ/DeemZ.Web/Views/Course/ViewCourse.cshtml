@@ -1,18 +1,18 @@
-﻿@{
-    ViewData["Title"] = "ASP NET CORE";
+﻿@model DetailsCourseViewModel
+@{
+    ViewData["Title"] = Model.Name;
 }
-@model DetailsCourseViewModel
 
 <div class="course">
-    <div class="course-heading p-5 text-center flex flex-column">
-        <h1>ASP.NET Core - july 2021</h1>
+    <div class="course-heading text-center flex flex-column">
+        <h1>@Model.Name</h1>
         <div class="course-info flex flex-row justify-content-center">
             <div class="course-info flex flex-row custom-text-muted">
-                <div class="start-date m-4">
+                <div class="start-date">
                     <img src="https://softuni.bg/Content/images/icons/play-icon.svg" />
                     Start date: @Model.StartDate
                 </div>
-                <div class="credits m-4">
+                <div class="credits">
                     <img src="https://softuni.bg/Content/images/icons/timeline-icon.svg" />
                     @Model.Credits points
                 </div>
@@ -25,8 +25,8 @@
             @for (int i = 0; i < Model.Lectures.Count; i++)
             {
                 DetailsLectureViewModel currentLecture = Model.Lectures[i];
-                <li class="flex flex-column">
-                    <div data-number="@currentLecture.Id" class="flex justify-content-between clickable">
+                <li data-number="@currentLecture.Id" class="flex flex-column">
+                    <div class="flex justify-content-between clickable">
                         <span class="lecture-title"><span class="lecture-number">@(i + 1)</span> @currentLecture.Name</span>
                         <div class="position-relative plus-close-holder">
                             <div class="horizontial-line lines"></div>
@@ -37,12 +37,12 @@
                         <div>
                             <h2>@currentLecture.Name</h2>
                             <ul>
-                                @if (currentLecture.Resourses.Any())
+                                @if (currentLecture.Descriptions.Any())
                                 {
                                     @foreach (var description in currentLecture.Descriptions)
                                     {
                                         <li>
-                                            @description.Name
+                                            @description.Name;
                                         </li>
                                     }
                                 }
@@ -62,7 +62,7 @@
                                     foreach (var resource in currentLecture.Resourses)
                                     {
                                         <li>
-                                            <a href="@resource.Path">
+                                            <a href="/File/Resource?id=@resource.Id">
                                                 @resource.Name
                                             </a>
                                         </li>

@@ -521,6 +521,7 @@ input[type=checkbox] {
     height: 100%;
     background-color: #306085;
     color: white;
+    padding: 3rem;
 }
 
 .course .course-subjects {
@@ -565,21 +566,29 @@ input[type=checkbox] {
         color: #565656;
         padding: 1rem 2rem;
     }
-    .course .course-subjects ul.course-list div.lecture-description div h2 {
-        color: var(--orange);
-    }
+
+        .course .course-subjects ul.course-list div.lecture-description div h2 {
+            color: var(--orange);
+            font-size: 30px;
+        }
+
         .course .course-subjects ul.course-list div.lecture-description li {
             background-color: var(--white);
             margin: 0;
             padding: 0;
             margin-left: 1rem;
         }
-}
-    }
 
-    .clickable {
-        cursor: pointer;
-    }
+.course .course-heading .course-info .course-info .start-date {
+    margin: 1.5rem
+}
+.course .course-heading .course-info .course-info .credits {
+    margin: 1.5rem
+}
+
+.clickable {
+    cursor: pointer;
+}
 
 .plus-close-holder {
     transition: transform .3s ease-in-out;
@@ -608,8 +617,7 @@ input[type=checkbox] {
     transform: rotate(45deg);
 }
 
-.white-background
-{
+.white-background {
     background: var(--white);
 }
 
@@ -639,6 +647,10 @@ span.lecture-number::after {
         .guest-users-container .seo-section .right {
             width: 100%;
         }
+
+    .course .course-subjects {
+        margin: 1rem;
+    }
 }
 
 @media only screen and (max-width:800px) {
@@ -661,8 +673,44 @@ span.lecture-number::after {
     .form {
         width: 80%;
     }
+
+    .course .course-subjects .course-list {
+        display: flex !important;
+        flex-direction: column !important;
+
+    }
 }
 
+@media only screen and (max-width: 550px) {
+    .course .course-heading {
+        flex-direction: column !important;
+    }
+
+    .course .course-subjects {
+        margin: 0;
+        margin-bottom: 3.5rem;
+        padding:0;
+    }
+
+        .course .course-subjects .course-list {
+            padding-bottom: 2rem;
+        }
+            .course .course-subjects .subjects {
+            margin: 0;
+            padding: 1rem;
+        }
+
+        .course-heading{
+            padding: 1.5rem !important;
+        }
+    .course .course-heading .course-info .course-info .start-date {
+        margin: 0.5em;
+    }
+
+    .course .course-heading .course-info .course-info .credits {
+        margin: 0.5em;
+    }
+}
 
 @media only screen and (max-width: 400px) {
     .logged-user-index .cards {

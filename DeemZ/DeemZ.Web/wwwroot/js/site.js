@@ -11,11 +11,14 @@ document.querySelectorAll('li.info-item').forEach(li => {
 
 document.querySelectorAll('div.flex.clickable').forEach(div => {
     div.addEventListener('click', function (e) {
-        document.querySelectorAll('div.clicked-lecture').forEach(div => {
-            let id = div.getAttribute('data-number');
-            let currentTargetId = e.currentTarget.getAttribute('data-number');
-            if (currentTargetId != id)
+        document.querySelectorAll('li.clicked-lecture').forEach(li => {
+            let id = li.getAttribute('data-number');
+            let currentTargetId = e.currentTarget.parentNode.getAttribute('data-number');
+
+            if (currentTargetId != id) {
+                let div = li.querySelector('div.flex.justify-content-between.clickable');
                 div.click();
+            }
         })
         let div = e.currentTarget;
 
