@@ -18,7 +18,7 @@
             this.mapper = mapper;
         }
 
-        public bool DoesThisUserHavePermissionToTakeTheSurvey(string uid, string sid)
+        public bool DoesTheUserHavePermissionToSurvey(string uid, string sid)
         {
             var permission = context.Courses
                 .Any(x => x.UserCourses.Any(c => c.CourseId == x.Id && c.UserId == uid && c.IsPaid == true));

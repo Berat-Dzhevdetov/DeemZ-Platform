@@ -5,6 +5,7 @@
     {
         IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid);
         T GetSurveyById<T>(string sid, bool isPublic = true);
-        bool DoesThisUserHavePermissionToTakeTheSurvey(string uid, string sid);
+        bool DoesTheUserHavePermissionToSurvey(string uid, string sid);
+
     }
 }

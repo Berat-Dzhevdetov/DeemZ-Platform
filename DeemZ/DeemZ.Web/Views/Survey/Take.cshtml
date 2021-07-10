@@ -13,24 +13,28 @@
         </h3>
     </div>
     <div class="question-list">
-        <form>
+        <form asp-action="Take" asp-controller="Survey" method="post">
             @foreach (var question in Model.Questions)
             {
-                <div class="question-header">
-                    @question.Name
+                <div class="question">
+                    <div class="question-header">
+                        @question.Name
+                        <input hidden name="questionId" value="@question.Id"/>
+                    </div>
+                    <ul class="no-bullets">
+                        @foreach (var answer in question.Answers)
+                        {
+                            <li>
+                                <input type="radio" name="question_@question.Id" value="@answer.Id"/>
+                                @answer.Text
+                            </li>
+                        }
+                    </ul>
                 </div>
-                <ul class="no-bullets">
-                    @foreach (var answer in question.Answers)
-                    {
-                        <li>
-                            <input type="radio" name="@question.Id" />
-                            @answer.Text
-                        </li>
-                    }
-                </ul>
             }
-            <div class="flex justify-content-center">
-                <input class="btn btn-primary" value="Submit" />
+            <div class="mt-4 flex justify-content-center">
+                <input class="btn btn-primary" type="submit" value="Submit" />
+                <input hidden value="@Model.Id" name="surveyId"/>
             </div>
         </form>
     </div>
