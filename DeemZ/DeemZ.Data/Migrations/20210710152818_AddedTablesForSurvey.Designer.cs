@@ -4,14 +4,16 @@ using DeemZ.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeemZ.Data.Migrations
 {
     [DbContext(typeof(DeemZDbContext))]
-    partial class DeemZDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210710152818_AddedTablesForSurvey")]
+    partial class AddedTablesForSurvey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -451,9 +453,6 @@ namespace DeemZ.Data.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("LectureId")
                         .HasColumnType("nvarchar(40)");

@@ -31,7 +31,7 @@
                 var viewModel = new IndexUserViewModel()
                 {
                     Credits = courseService.GetCreditsByUserId(user.Id),
-                    Courses = courseService.GetCurrentCoursesByUserId<IndexCourseViewModel>(user.Id,true)
+                    Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(user.Id,true)
                 };
 
                 return this.View("LoggedIndex", viewModel);

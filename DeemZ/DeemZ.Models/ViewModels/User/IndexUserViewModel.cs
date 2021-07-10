@@ -7,5 +7,7 @@
     {
         public int Credits { get; set; }
         public IEnumerable<IndexCourseViewModel> Courses { get; set; }
+
+        public IEnumerable<IndexSurveyViewModel> Survey { get; set; }
     }
 }

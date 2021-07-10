@@ -64,5 +64,23 @@
             public const int MinNameLength = 3;
             public const int MaxNameLength = 100;
         }
+
+        public class Survey
+        {
+            public const int MinNameLength = 5;
+            public const int MaxNameLength = 150;
+
+        }
+
+        public class SurveyQuestion
+        {
+            public const int MinNameLength = 5;
+            public const int MaxQuestionLength = 100;
+        }
+
+        public class SurveyAnswer
+        {
+            public const int MaxTextLength = 50;
+        }
     }
 }

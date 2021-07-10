@@ -17,6 +17,8 @@
         [MaxLength(DataConstants.Resource.MaxNameLength)]
         public string Name { get; set; }
 
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
+
         [Required]
         public ResourceType ResourceType { get; set; }
         [Required]

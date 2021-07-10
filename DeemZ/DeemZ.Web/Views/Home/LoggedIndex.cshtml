@@ -14,7 +14,7 @@
                         @foreach (var course in Model.Courses)
                         {
                             <li class="info-item">
-                                <a href="./Course/ViewCourse?courseId=@course.Id">
+                                <a asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@course.Id">
                                     @course.Name
                                     <span class="arrow-right">
                                         <i class="fas fa-play"></i>
@@ -36,16 +36,18 @@
             </div>
         </div>
         <div class="card-holder">
-            <div class="card-header capitalize">My Homework</div>
+            <div class="card-header capitalize">My Surveys</div>
             <div class="card-info">
                 <ul>
-                    <li>
-                        <a href="~/media/logo.png">logo</a>
+                    <li class="info-item">
+                        <a asp-action="Take" asp-controller="Survey" asp-route-surveyId="asd">
+                            Survey name here
+                        </a>
                     </li>
                 </ul>
             </div>
             <div class="card-links">
-                <input class="primary-btn base-btn mb-2" value="All homeworks" />
+                <a href="#" class="primary-btn base-btn mb-2">All surveys</a>
             </div>
         </div>
         <div class="card-holder">
@@ -58,7 +60,7 @@
                 </ul>
             </div>
             <div class="card-links">
-                <input class="primary-btn base-btn mb-2" value="All resouces" />
+                <a href="#" class="primary-btn base-btn mb-2">All resources</a>
             </div>
         </div>
     </div>

@@ -27,7 +27,7 @@
 
 
         //Gets user's given id courses
-        public IEnumerable<T> GetCurrentCoursesByUserId<T>(string id, bool isPaid = true)
+        public IEnumerable<T> GetUserCurrentCourses<T>(string id, bool isPaid = true)
          => context.UserCourses
                 .Where(
                     x => x.User.Id == id &&
@@ -49,5 +49,9 @@
                 .ThenInclude(x => x.ResourceType)
                 .Select(x => mapper.Map<T>(x))
                 .FirstOrDefault();
+
+        public bool IsUserSignUpForThisCourse(string uid, string cid)
+            => context.UserCourses
+                .Any(x => x.UserId == uid && x.CourseId == cid && x.IsPaid == true);
     }
 }

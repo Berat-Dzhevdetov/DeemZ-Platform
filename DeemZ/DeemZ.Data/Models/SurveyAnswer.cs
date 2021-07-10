@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class InformativeMessage
+    public class SurveyAnswer
     {
         [Key]
         [Required]
@@ -11,13 +11,8 @@
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        public string Title { get; set; }
-
-        [Required]
-        public string Description { get; set; }
-
-        public DateTime ShowFrom { get; set; } = DateTime.Now;
-        public DateTime ShowTo { get; set; } = DateTime.Now.AddDays(7);
+        [MaxLength(DataConstants.SurveyAnswer.MaxTextLength)]
+        public string Text { get; set; }
 
     }
 }

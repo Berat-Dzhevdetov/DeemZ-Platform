@@ -363,6 +363,7 @@ svg:not(:root) {
     display: inline-block;
     line-height: 100%;
     background-color: #ffa000;
+    outline: none;
     border: 2px solid transparent;
 }
 
@@ -665,7 +666,9 @@ span.lecture-number::after {
         margin-left: 0;
         padding-bottom: 10px;
     }
-
+    .logged-user-index .cards .card-holder {
+        padding: 1rem 0;
+    }
     .guest-users-container .benefits-section-container {
         flex-direction: column;
     }
@@ -723,9 +726,7 @@ span.lecture-number::after {
 }
 
 @media only screen and (max-width: 350px) {
-    .logged-user-index .cards .card-holder {
-        padding: 1rem 0;
-    }
+    
 
     .form .image-holder div h1 {
         width: 70%;
