@@ -4,14 +4,16 @@ using DeemZ.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeemZ.Data.Migrations
 {
     [DbContext(typeof(DeemZDbContext))]
-    partial class DeemZDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210710163232_MadeMappingTable")]
+    partial class MadeMappingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -538,7 +540,7 @@ namespace DeemZ.Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Surveys");
+                    b.ToTable("Survey");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.SurveyAnswer", b =>
@@ -559,7 +561,7 @@ namespace DeemZ.Data.Migrations
 
                     b.HasIndex("SurveyQuestionId");
 
-                    b.ToTable("SurveyAnswers");
+                    b.ToTable("SurveyAnswer");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.SurveyQuestion", b =>
@@ -581,7 +583,7 @@ namespace DeemZ.Data.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("SurveyQuestions");
+                    b.ToTable("SurveyQuestion");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.UserCourse", b =>
@@ -907,7 +909,7 @@ namespace DeemZ.Data.Migrations
             modelBuilder.Entity("DeemZ.Data.Models.Survey", b =>
                 {
                     b.HasOne("DeemZ.Data.Models.Course", "Course")
-                        .WithMany("Surveys")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -936,7 +938,7 @@ namespace DeemZ.Data.Migrations
             modelBuilder.Entity("DeemZ.Data.Models.UserCourse", b =>
                 {
                     b.HasOne("DeemZ.Data.Models.Course", "Course")
-                        .WithMany("UserCourses")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1017,10 +1019,6 @@ namespace DeemZ.Data.Migrations
                     b.Navigation("Exams");
 
                     b.Navigation("Lectures");
-
-                    b.Navigation("Surveys");
-
-                    b.Navigation("UserCourses");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Exam", b =>

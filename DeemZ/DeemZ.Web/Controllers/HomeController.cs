@@ -9,16 +9,20 @@
     using DeemZ.Models.ViewModels.Course;
     using DeemZ.Models.ViewModels.User;
     using DeemZ.Services.CourseServices;
+    using DeemZ.Services.SurveyServices;
+    using DeemZ.Models.ViewModels.Survey;
 
     public class HomeController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ICourseService courseService;
+        private readonly ISurveyService serveyService;
 
-        public HomeController(UserManager<ApplicationUser> userManager, ICourseService courseService)
+        public HomeController(UserManager<ApplicationUser> userManager, ICourseService courseService, ISurveyService serveyService)
         {
             this.userManager = userManager;
             this.courseService = courseService;
+            this.serveyService = serveyService;
         }
 
         public async Task<IActionResult> IndexAsync()
@@ -31,7 +35,8 @@
                 var viewModel = new IndexUserViewModel()
                 {
                     Credits = courseService.GetCreditsByUserId(user.Id),
-                    Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(user.Id,true)
+                    Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(user.Id,true),
+                    Surveys = serveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(user.Id)
                 };
 
                 return this.View("LoggedIndex", viewModel);

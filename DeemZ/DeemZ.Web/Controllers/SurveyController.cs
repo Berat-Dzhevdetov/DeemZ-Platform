@@ -1,15 +1,26 @@
 ﻿namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using DeemZ.Services;
+    using DeemZ.Services.SurveyServices;
 
     public class SurveyController : Controller
     {
-        public IActionResult Index()
+        private readonly Guard guard;
+        private readonly ISurveyService surveyService;
+
+        public SurveyController(ISurveyService surveyService, Guard guard)
         {
+            this.surveyService = surveyService;
+            this.guard = guard;
+        }
+
+        public IActionResult Take(string surveyId)
+        {
+            if(guard.AgainstNull(surveyId,nameof(surveyId))) return NotFound();
+
+
+
             return View();
         }
     }

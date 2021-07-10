@@ -28,7 +28,10 @@
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<InformativeMessage> InformativeMessages { get; set; }
         public DbSet<ApplicationUserExam> ApplicationUserExams { get; set; }
-        
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
+        public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

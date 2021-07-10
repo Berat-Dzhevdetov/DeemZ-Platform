@@ -39,11 +39,23 @@
             <div class="card-header capitalize">My Surveys</div>
             <div class="card-info">
                 <ul>
-                    <li class="info-item">
-                        <a asp-action="Take" asp-controller="Survey" asp-route-surveyId="asd">
-                            Survey name here
-                        </a>
-                    </li>
+                    @if (Model.Surveys.Any())
+                    {
+                        @foreach (var survey in Model.Surveys)
+                        {
+                            <li class="info-item">
+                                <a asp-action="Take" asp-controller="Survey" asp-route-surveyId="@survey.Id">
+                                    @survey.Name
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="info-item">
+                            There are no available surveys at the moment
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="card-links">

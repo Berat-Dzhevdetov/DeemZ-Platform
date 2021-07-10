@@ -24,6 +24,7 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        public ICollection<ApplicationUser> Users { get; set; } = new HashSet<ApplicationUser>();
         public ICollection<SurveyQuestion> Questions { get; set; } = new HashSet<SurveyQuestion>();
     }
 }

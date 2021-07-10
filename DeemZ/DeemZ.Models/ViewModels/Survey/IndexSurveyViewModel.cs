@@ -1,8 +1,9 @@
-﻿namespace DeemZ.Models.ViewModels.Homework
+﻿namespace DeemZ.Models.ViewModels.Survey
 {
-    public class IndexHomeworkViewModel
+    public class IndexSurveyViewModel
     {
         public string Id { get; set; }
+
         public string Name { get; set; }
     }
 }

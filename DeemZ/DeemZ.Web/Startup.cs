@@ -13,6 +13,7 @@ namespace DeemZ.Web
     using DeemZ.Services.CourseServices;
     using DeemZ.Services.AutoMapperProfiles;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Services.SurveyServices;
 
     public class Startup
     {
@@ -36,6 +37,7 @@ namespace DeemZ.Web
             services.AddSingleton<Guard>();
 
             services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<ISurveyService, SurveyService>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -45,6 +47,7 @@ namespace DeemZ.Web
                 mc.AddProfile(new ResourceTypeProfile());
                 mc.AddProfile(new DescriptionProfile());
                 mc.AddProfile(new ResourceProfile());
+                mc.AddProfile(new SurveyProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

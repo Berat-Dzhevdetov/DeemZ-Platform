@@ -1,10 +1,9 @@
 ﻿namespace DeemZ.Web.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
     using DeemZ.Models.ViewModels.Course;
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
+    using Microsoft.AspNetCore.Mvc;
 
     public class CourseController : Controller
     {

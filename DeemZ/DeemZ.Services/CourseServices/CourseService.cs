@@ -9,7 +9,7 @@
 
     public class CourseService : ICourseService
     {
-        private DeemZDbContext context;
+        private readonly DeemZDbContext context;
         private readonly IMapper mapper;
 
         public CourseService(DeemZDbContext context, IMapper mapper)
