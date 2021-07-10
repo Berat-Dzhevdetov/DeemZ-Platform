@@ -30,4 +30,10 @@
     <ProjectReference Include="..\DeemZ.Services\DeemZ.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="importCourseData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

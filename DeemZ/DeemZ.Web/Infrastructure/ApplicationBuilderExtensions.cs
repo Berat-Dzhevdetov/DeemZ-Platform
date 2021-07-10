@@ -1,16 +1,21 @@
 ﻿namespace DeemZ.Web.Infrastructure
 {
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+    using System.IO;
+    using System.Linq;
+    using Newtonsoft.Json;
+    using System.Collections.Generic;
+
     using DeemZ.Data;
     using DeemZ.Data.Models;
-    using System.Collections.Generic;
+    using DeemZ.Web.DTO;
     using System;
-    using System.Linq;
 
     public static class ApplicationBuilderExtensions
     {
+
         public static IApplicationBuilder PrepareDatabase(
             this IApplicationBuilder app)
         {
@@ -20,114 +25,86 @@
 
             data.Database.Migrate();
 
-            //CreateResourceTypes(data);
-            //CreateCourses(data);
+            CreateResourceTypes(data);
+            CreateCourses(data);
 
             return app;
         }
 
+        private static void CreateResourceTypes(DeemZDbContext data)
+        {
+            if (data.ResourceTypes.Any()) return;
+            data.ResourceTypes.AddRange(new[]
+            {
+                new ResourceType() { Name= "Youtube link" },
+                new ResourceType() { Name= "Facebook link" },
+                new ResourceType() { Name= "Word file" },
+                new ResourceType() { Name= "Presentation" },
+                new ResourceType() { Name= "Video" },
+                new ResourceType() { Name= "Exam" }
+            });
+
+            data.SaveChanges();
+        }
+
         public static void CreateCourses(DeemZDbContext data)
         {
-            if (data.Courses.Any()) return;
-            var courses = new List<Course>()
-            {
-                new Course()
-                {
-                    Name = "ASP.NET Core - July 2021",
-                    StartDate = DateTime.Parse("04.07.2021 00:00:00"),
-                    EndDate = DateTime.Parse("04.07.2021 23:59:59").AddDays(67),
-                    SignUpStartDate = DateTime.Parse("20.07.2021 00:00:00"),
-                    SignUpEndDate = DateTime.Parse("20.07.2021 23:59:59"),
-                    Lectures = new List<Lecture>()
-                    {
-                        new Lecture()
-                        {
-                            Name = "Resources",
-                            Descriptions = new List<Description>(),
-                            Resources = new List<Resource>()
-                            {
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Youtube link"),
-                                    Path = "https://www.youtube.com/watch?v=qEIy8xEhJTg",
-                                    Name = "Information video for using the DeemZ training system"
-                                },
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Facebook link"),
-                                    Path = "https://www.facebook.com/groups/CsharpWebMay2021",
-                                    Name = "Facebook group"
+            //if (data.Courses.Any()) return;
 
-                                },
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Word file"),
-                                    Path = "/File/View?name=00.CSharp-Web-Basics-Course-Introduction-Project-Assignment-Date-1.docx",
-                                    Name = "Project Assignment - Date 1"
-                                },
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Word file"),
-                                    Path = "/File/View?name=00.CSharp-Web-Basics-Course-Introduction-Project-Assignment-Date-2.docx",
-                                    Name = "Project Assignment - Date 2"
-                                }
-                            }
-                        },
-                        new Lecture()
+            var json = File.ReadAllText("./importCourseData.json");
+
+            var courses = JsonConvert.DeserializeObject<List<CourseImportDataDTO>>(json);
+
+            var dataCourses = new List<Course>();
+
+            foreach (var course in courses)
+            {
+                var newlyCourse = new Course()
+                {
+                    Name = course.Name,
+                    SignUpEndDate = DateTime.Parse(course.SignUpEndDate),
+                    EndDate = DateTime.Parse(course.EndDate),
+                    StartDate = DateTime.Parse(course.StartDate),
+                    SignUpStartDate = DateTime.Parse(course.SignUpStartDate)
+                };
+
+                var lectures = new List<Lecture>();
+
+                foreach (var lecture in course.Lectures)
+                {
+                    var newlyLecture = new Lecture()
+                    {
+                        Name = lecture.Name,
+                        Date = lecture.Date == null ? null : DateTime.Parse(lecture.Date),
+                    };
+
+                    foreach (var description in lecture.Descriptions)
+                    {
+                        newlyLecture.Descriptions.Add(new Description()
                         {
-                            Name = "Course Introduction",
-                            Date = DateTime.Parse("04.07.2021 18:30:00"),
-                            Descriptions = new List<Description>(),
-                            Resources = new List<Resource>()
-                            {
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Presentation"),
-                                    Path = "/File/View?name=00.CSharp-ASP-NET-Core-Course-Introduction.pptx",
-                                    Name = "Course Introduction - Presentation"
-                                },
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Video"),
-                                    Path = "/Course/Video?name=course-introduction-video-asp-dot-net-core-june-2021",
-                                    Name = "Course Introduction - Video"
-                                }
-                            }
-                        },
-                        new Lecture()
-                        {
-                            Name = "Course Introduction",
-                            Date = DateTime.Parse("04.07.2021 18:30:00"),
-                            Descriptions = new List<Description>()
-                            {
-                                new Description()
-                                {
-                                    Name = "ASP.NET Core Overview",
-                                },
-                                new Description()
-                                {
-                                    Name ="Creating our first ASP.NET Core Projects"
-                                }
-                            },
-                            Resources = new List<Resource>()
-                            {
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Presentation"),
-                                    Path = "/File/View?name=00.CSharp-ASP-NET-Core-Course-Introduction.pptx",
-                                    Name = "Course Introduction - Presentation"
-                                },
-                                new Resource()
-                                {
-                                    ResourceType = data.ResourceTypes.FirstOrDefault(x => x.Name == "Video"),
-                                    Path = "/Course/Video?name=course-introduction-video-asp-dot-net-core-june-2021",
-                                    Name = "Course Introduction - Video"
-                                }
-                            }
-                        }
+                            Name = description
+                        });
                     }
-                },
-            };
+
+                    foreach (var resource in lecture.Resources)
+                    {
+                        newlyLecture.Resources.Add(new Resource()
+                        {
+                            Name = resource.Name,
+                            Path = resource.Path,
+                            ResourceTypeId = data.ResourceTypes.FirstOrDefault(x => x.Name == resource.ResourceType).Id
+                        });
+                    }
+                    lectures.Add(newlyLecture);
+                }
+
+                newlyCourse.Lectures = lectures;
+
+                dataCourses.Add(newlyCourse);
+            }
+
+            data.Courses.AddRange(dataCourses);
+            data.SaveChanges();
         }
     }
 }

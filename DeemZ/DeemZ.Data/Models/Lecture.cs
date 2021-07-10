@@ -14,7 +14,6 @@
         [Required]
         public string Name { get; set; }
 
-        [Required]
         public DateTime? Date { get; set; }
 
         public ICollection<Description> Descriptions { get; set; } = new HashSet<Description>();
