@@ -4,6 +4,29 @@
 @model IndexUserViewModel
 
 <div class="logged-user-index">
+    @if (Model.SignUpCourses.Any())
+    {
+        <div class="infromations">
+            <div class="information">
+                <h2>Registration session for upcoming courses</h2>
+                <div>
+                    We would like to remind you that you are currently enrolling in courses.
+                    If you want to enroll in one of the following courses on the following dates:
+                    <ul>
+                        @foreach (var course in Model.SignUpCourses)
+                        {
+                            <li>
+                                <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@course.Id">
+                                    @course.Name - from @course.SignUpStartDate to @course.SignUpEndDate (including)
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    Just click the link and then click the sign up button in the bottom of the page
+                </div>
+            </div>
+        </div>
+    }
     <div class="cards">
         <div class="card-holder">
             <div class="card-header capitalize">Мy courses</div>

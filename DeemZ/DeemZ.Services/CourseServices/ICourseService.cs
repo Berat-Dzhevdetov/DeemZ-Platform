@@ -1,6 +1,5 @@
 ﻿namespace DeemZ.Services.CourseServices
 {
-    using DeemZ.Data.Models;
     using System.Collections.Generic;
 
     public interface ICourseService
@@ -10,5 +9,6 @@
         T GetCourseById<T>(string id);
         bool IsUserSignUpForThisCourse(string uid,string cid);
         IEnumerable<T> GetCoursesResources<T>(string uid);
+        IEnumerable<T> GetCoursesForSignUp<T>();
     }
 }

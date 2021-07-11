@@ -38,8 +38,10 @@
                     Credits = courseService.GetCreditsByUserId(user.Id),
                     Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(user.Id, true),
                     Surveys = serveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(user.Id),
-                    Resources = courseService.GetCoursesResources<IndexResourceViewModel>(user.Id)
+                    Resources = courseService.GetCoursesResources<IndexResourceViewModel>(user.Id),
+                    SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
                 };
+                ;
                 return this.View("LoggedIndex", viewModel);
             }
             return View();

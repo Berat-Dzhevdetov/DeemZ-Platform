@@ -1,7 +1,6 @@
 ﻿namespace DeemZ.Services.SurveyServices
 {
     using AutoMapper;
-    using System;
     using System.Collections.Generic;
     using DeemZ.Data;
     using System.Linq;

@@ -9,8 +9,8 @@
     {
         public int Credits { get; set; }
         public IEnumerable<IndexCourseViewModel> Courses { get; set; }
-
         public IEnumerable<IndexSurveyViewModel> Surveys { get; set; }
         public IEnumerable<IndexResourceViewModel> Resources { get; set; }
+        public IEnumerable<IndexSignUpForCourseViewModel> SignUpCourses { get; set; }
     }
 }

@@ -6,8 +6,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using DeemZ.Data;
-    using DeemZ.Data.Models;
-    using DeemZ.Models.ViewModels.Resources;
 
     public class CourseService : ICourseService
     {
@@ -32,10 +30,10 @@
         public IEnumerable<T> GetUserCurrentCourses<T>(string uid, bool isPaid = true)
          => context.UserCourses
                 .Where(
-                    x => x.User.Id == uid &&
-                    x.IsPaid == isPaid &&
-                    x.Course.StartDate <= DateTime.Now &&
-                    x.Course.EndDate >= DateTime.Now
+                    x => x.User.Id == uid 
+                    && x.IsPaid == isPaid 
+                    && x.Course.StartDate <= DateTime.Now
+                    && x.Course.EndDate > DateTime.Now
                 )
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x.Course))
@@ -71,5 +69,13 @@
                         && c.IsPaid == true))
                 .Select(x => mapper.Map<T>(x))
                 .ToList();
+
+        public IEnumerable<T> GetCoursesForSignUp<T>()
+            => context.Courses
+            .Where(x =>
+                x.SignUpStartDate <= DateTime.Now
+                && x.SignUpEndDate > DateTime.Now)
+            .Select(x => mapper.Map<T>(x))
+            .ToList();
     }
 }
