@@ -6,6 +6,7 @@
 
     public class DetailsCourseViewModel
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string StartDate { get; set; }
 

@@ -32,7 +32,6 @@
                 .Where(
                     x => x.User.Id == uid 
                     && x.IsPaid == isPaid 
-                    && x.Course.StartDate <= DateTime.Now
                     && x.Course.EndDate > DateTime.Now
                 )
                 .Include(x => x.Course)

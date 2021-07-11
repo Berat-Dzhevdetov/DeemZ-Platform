@@ -540,6 +540,13 @@ input[type=checkbox] {
         }
 }
 
+.course .sign-up-for-course{
+    background: var(--regal-blue);
+    width: 100%;
+    padding: 2rem 4rem;
+
+}
+
 .course .course-heading {
     width: 100%;
     height: 100%;
