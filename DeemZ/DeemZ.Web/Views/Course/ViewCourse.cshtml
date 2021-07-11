@@ -81,4 +81,11 @@
             }
         </ul>
     </div>
+    @if (Model.SignUpStartDate <= DateTime.Now && Model.SignUpEndDate > DateTime.Now && !Model.IsUserSignUpForThisCourse)
+    {
+
+        <div class="sign-up-for-course">
+            bo
+        </div>
+    }
 </div>

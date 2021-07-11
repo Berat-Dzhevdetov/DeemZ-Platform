@@ -6,19 +6,23 @@
 <div class="logged-user-index">
     @if (Model.SignUpCourses.Any())
     {
-        <div class="infromations">
+        <div class="informations">
+            <div class="close">
+                X
+            </div>
             <div class="information">
-                <h2>Registration session for upcoming courses</h2>
+                <h2 class="orange-text">Registration session for upcoming courses</h2>
                 <div>
                     We would like to remind you that you are currently enrolling in courses.
                     If you want to enroll in one of the following courses on the following dates:
-                    <ul>
+                    <ul class="no-bullets">
                         @foreach (var course in Model.SignUpCourses)
                         {
                             <li>
                                 <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@course.Id">
-                                    @course.Name - from @course.SignUpStartDate to @course.SignUpEndDate (including)
+                                    @course.Name 
                                 </a>
+                                 - from @course.SignUpStartDate to @course.SignUpEndDate (including)
                             </li>
                         }
                     </ul>

@@ -14,7 +14,9 @@
 
             CreateMap<Course, DetailsCourseViewModel>()
                 .ForMember(x => x.Lectures, o => o.MapFrom(src => src.Lectures))
-                .ForMember(x => x.Credits, o => o.MapFrom(src => src.Credits));
+                .ForMember(x => x.Credits, o => o.MapFrom(src => src.Credits))
+                .ForMember(x => x.SignUpStartDate, o => o.MapFrom(src => src.SignUpStartDate))
+                .ForMember(x => x.SignUpEndDate, o => o.MapFrom(src => src.SignUpEndDate));
 
             CreateMap<Course, IndexSignUpForCourseViewModel>()
                 .ForMember(x => x.SignUpStartDate, o => o.MapFrom(src => src.SignUpStartDate.ToString("dd/MM/yyyy")))

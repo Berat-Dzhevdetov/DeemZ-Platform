@@ -19,7 +19,7 @@ document.querySelectorAll('div.flex.clickable').forEach(div => {
                 let div = li.querySelector('div.flex.justify-content-between.clickable');
                 div.click();
             }
-        })
+        });
         let div = e.currentTarget;
 
         div.parentNode.classList.toggle('clicked-lecture');
@@ -30,5 +30,10 @@ document.querySelectorAll('div.flex.clickable').forEach(div => {
 
 
         $(this).next(".lecture-description").first().slideToggle(300);
-    })
+    });
+});
+
+document.querySelector('.close').addEventListener('click', function(e) {
+    let parentDiv = e.currentTarget.parentNode;
+    $(parentDiv).slideUp(300);
 })

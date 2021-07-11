@@ -6,6 +6,7 @@ for details on configuring this project to bundle and minify static web assets. 
     --regal-blue: #234465;
     --orange: #FFA000;
     --cyan: #44a9f8;
+    --dark-orange: #CB7D00;
 }
 
 * {
@@ -336,6 +337,25 @@ svg:not(:root) {
                 .logged-user-index .card-info ul li a {
                     display: block;
                 }
+
+    .logged-user-index .informations {
+        background: #ffefd3;
+        border-top: 5px solid #c87d00;
+        position: relative;
+        padding: 2rem 6rem;
+    }
+
+    .logged-user-index .informations .information h2.orange-text{
+        width: 97%;
+    }
+
+    .logged-user-index .informations .information div ul.no-bullets {
+        margin-left: 2rem;
+    }
+
+    .orange-text{
+        color: var(--dark-orange);
+    }
 
     .logged-user-index .card-holder .card-info .info-item {
         word-wrap: break-word;
@@ -700,6 +720,10 @@ span.lecture-number::after {
         display: flex !important;
         flex-direction: column !important;
 
+    }
+
+    .logged-user-index .informations {
+        padding: 2rem 3rem;
     }
 }
 
