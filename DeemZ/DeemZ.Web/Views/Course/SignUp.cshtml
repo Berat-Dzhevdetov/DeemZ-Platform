@@ -1,0 +1,30 @@
+﻿@model SignUpCourseFormModel
+@{ 
+ViewData["Title"] = "Sign up for course";
+}
+
+
+<div class="form gray-background mt-4 round-bottom pb-4">
+    <form method="post">
+        <div class="image-holder">
+            <img src="~/media/sign-up-for-course-background.jpg" />
+            <div>
+                <h1>@ViewData["Title"]</h1>
+            </div>
+        </div>
+        <div class="p-3">
+            <div class="form-group">
+                <div class="inner-addon">
+                    <input asp-for="@Model.CreditCard" placeholder="Credit card number" type="text">
+                    <i class="fab fa-cc-visa"></i>
+                    <span asp-validation-for="@Model.CreditCard" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <ul class="no-bullets">
+            <li>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </li>
+        </ul>
+    </form>
+</div>

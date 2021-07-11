@@ -7,6 +7,8 @@
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using DeemZ.Models.FormModels.Course;
 
     public class CourseController : Controller
     {
@@ -39,6 +41,22 @@
             
 
             return View(course);
+        }
+
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult SignUp(SignUpCourseFormModel signUp)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(signUp);
+            }
+            return View();
         }
     }
 }
