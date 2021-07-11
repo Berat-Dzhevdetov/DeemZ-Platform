@@ -43,20 +43,48 @@
             return View(course);
         }
 
-        public IActionResult SignUp()
+        public IActionResult SignUp(string courseId)
         {
-            return View();
+            if (guard.AgainstNull(courseId)) return NotFound();
+
+            var course = courseService.DoesTheCourseExist(courseId);
+
+            if (course == null) return NotFound();
+
+            var signUpModel = new SignUpCourseFormModel()
+            {
+                Id = course.Id,
+                CourseName = course.Name,
+                Price = course.Price
+            };
+
+            return View(signUpModel);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult SignUp(SignUpCourseFormModel signUp)
+        public async Task<IActionResult> SignUpAsync(SignUpCourseFormModel signUp)
         {
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
+
+            var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, signUp.Id);
+
+            string redirectLink = $"ViewCourse";
+
+            if (isUserSignUpForThisCourse) return RedirectToAction(redirectLink, new { courseId = signUp.Id });
+
             if (!ModelState.IsValid)
             {
                 return View(signUp);
             }
-            return View();
+
+            var course = courseService.DoesTheCourseExist(signUp.Id);
+
+            if (course == null) return BadRequest();
+
+            courseService.SignUserToCourse(user.Id, course.Id);
+
+            return RedirectToAction(redirectLink, new { courseId = signUp.Id });
         }
     }
 }

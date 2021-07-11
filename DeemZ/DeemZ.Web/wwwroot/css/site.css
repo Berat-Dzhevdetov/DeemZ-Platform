@@ -45,6 +45,11 @@ for details on configuring this project to bundle and minify static web assets. 
     border-radius: 50%;
 }
 
+input:read-only {
+    background: #ccc;
+    color: #6c757d;
+}
+
 .privacy-policy ul {
     margin-left: 3rem;
 }

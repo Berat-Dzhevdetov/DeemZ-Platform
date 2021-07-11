@@ -35,7 +35,7 @@
 
                 var viewModel = new IndexUserViewModel()
                 {
-                    Credits = courseService.GetCreditsByUserId(user.Id),
+                    Credits = courseService.GetUserCredits(user.Id),
                     Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(user.Id, true),
                     Surveys = serveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(user.Id),
                     Resources = courseService.GetCoursesResources<IndexResourceViewModel>(user.Id),

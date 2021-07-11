@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using DeemZ.Data;
+    using DeemZ.Data.Models;
 
     public class CourseService : ICourseService
     {
@@ -18,7 +19,7 @@
             this.mapper = mapper;
         }
 
-        public int GetCreditsByUserId(string id)
+        public int GetUserCredits(string id)
             => context
                .Users
                .Include(x => x.Exams)
@@ -30,8 +31,8 @@
         public IEnumerable<T> GetUserCurrentCourses<T>(string uid, bool isPaid = true)
          => context.UserCourses
                 .Where(
-                    x => x.User.Id == uid 
-                    && x.IsPaid == isPaid 
+                    x => x.User.Id == uid
+                    && x.IsPaid == isPaid
                     && x.Course.EndDate > DateTime.Now
                 )
                 .Include(x => x.Course)
@@ -76,5 +77,24 @@
                 && x.SignUpEndDate > DateTime.Now)
             .Select(x => mapper.Map<T>(x))
             .ToList();
+
+        public Course DoesTheCourseExist(string cid) => context.Courses.FirstOrDefault(x => x.Id == cid);
+
+        public bool SignUserToCourse(string uid, string cid)
+        {
+            var userCourse = new UserCourse()
+            {
+                CourseId = cid,
+                UserId = uid,
+                IsPaid = true,
+                PaidOn = DateTime.Now
+            };
+
+            context.UserCourses.Add(userCourse);
+
+            var changedEntities = context.SaveChanges();
+
+            return changedEntities >= 1 ? true : false;
+        }
     }
 }

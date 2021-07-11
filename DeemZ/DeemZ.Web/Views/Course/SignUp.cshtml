@@ -15,7 +15,26 @@ ViewData["Title"] = "Sign up for course";
         <div class="p-3">
             <div class="form-group">
                 <div class="inner-addon">
-                    <input asp-for="@Model.CreditCard" placeholder="Credit card number" type="text">
+                    <input asp-for="@Model.Id" type="text" readonly hidden />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="inner-addon">
+                    <input asp-for="@Model.CourseName" placeholder="Course name" readonly type="text" />
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    <span asp-validation-for="@Model.CourseName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="inner-addon">
+                    <input asp-for="@Model.Price" placeholder="Price" type="number" readonly /> 
+                    <i class="fas fa-dollar-sign"></i>
+                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="inner-addon">
+                    <input asp-for="@Model.CreditCard" placeholder="Credit card number" type="text" />
                     <i class="fab fa-cc-visa"></i>
                     <span asp-validation-for="@Model.CreditCard" class="text-danger"></span>
                 </div>
