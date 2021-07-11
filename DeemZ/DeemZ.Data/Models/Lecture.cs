@@ -16,6 +16,9 @@
 
         public DateTime? Date { get; set; }
 
+        public string CourseId { get; set; }
+        public Course Course { get; set; }
+
         public ICollection<Description> Descriptions { get; set; } = new HashSet<Description>();
 
         public ICollection<Resource> Resources { get; set; } = new HashSet<Resource>();

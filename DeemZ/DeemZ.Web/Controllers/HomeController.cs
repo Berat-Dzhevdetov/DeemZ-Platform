@@ -11,6 +11,7 @@
     using DeemZ.Services.CourseServices;
     using DeemZ.Services.SurveyServices;
     using DeemZ.Models.ViewModels.Surveys;
+    using DeemZ.Models.ViewModels.Resources;
 
     public class HomeController : Controller
     {
@@ -35,10 +36,10 @@
                 var viewModel = new IndexUserViewModel()
                 {
                     Credits = courseService.GetCreditsByUserId(user.Id),
-                    Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(user.Id,true),
-                    Surveys = serveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(user.Id)
+                    Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(user.Id, true),
+                    Surveys = serveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(user.Id),
+                    Resources = courseService.GetCoursesResources<IndexResourceViewModel>(user.Id)
                 };
-
                 return this.View("LoggedIndex", viewModel);
             }
             return View();

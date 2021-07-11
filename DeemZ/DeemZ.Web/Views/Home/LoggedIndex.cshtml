@@ -13,7 +13,7 @@
                     {
                         @foreach (var course in Model.Courses)
                         {
-                            <li class="info-item">
+                            <li class="info-item courses">
                                 <a asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@course.Id">
                                     @course.Name
                                     <span class="arrow-right">
@@ -66,9 +66,23 @@
             <div class="card-header capitalize">Мy Resources</div>
             <div class="card-info">
                 <ul>
-                    <li>
-                        <a href="~/media/logo.png">logo</a>
-                    </li>
+                    @if (Model.Resources.Any())
+                    {
+                        @foreach (var resource in Model.Resources)
+                        {
+                            <li class="info-item">
+                                <a asp-action="Show" asp-controller="Resource" asp-route-resourceId="@resource.Id">
+                                    @resource.Name
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="info-item">
+                            There are no available resources at the moment
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="card-links">

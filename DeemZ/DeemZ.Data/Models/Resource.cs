@@ -19,6 +19,9 @@
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
+        public string LectureId { get; set; }
+        public Lecture Lecture { get; set; }
+
         [Required]
         public ResourceType ResourceType { get; set; }
         [Required]

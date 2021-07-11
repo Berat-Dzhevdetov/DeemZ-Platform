@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using DeemZ.Models.ViewModels.Course;
+    using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Models.ViewModels.Surveys;
 
     public class IndexUserViewModel
@@ -10,5 +11,6 @@
         public IEnumerable<IndexCourseViewModel> Courses { get; set; }
 
         public IEnumerable<IndexSurveyViewModel> Surveys { get; set; }
+        public IEnumerable<IndexResourceViewModel> Resources { get; set; }
     }
 }
