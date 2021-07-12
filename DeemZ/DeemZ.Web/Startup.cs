@@ -14,6 +14,7 @@ namespace DeemZ.Web
     using DeemZ.Services.AutoMapperProfiles;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.SurveyServices;
+    using DeemZ.Services.FormService;
 
     public class Startup
     {
@@ -38,6 +39,7 @@ namespace DeemZ.Web
 
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISurveyService, SurveyService>();
+            services.AddTransient<IForumService, ForumService>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -50,6 +52,7 @@ namespace DeemZ.Web
                 mc.AddProfile(new SurveyProfile());
                 mc.AddProfile(new SurveyQuestionProfile());
                 mc.AddProfile(new SurveyAnswerProfile());
+                mc.AddProfile(new ForumProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

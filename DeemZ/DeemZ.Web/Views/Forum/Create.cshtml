@@ -1,0 +1,35 @@
+﻿@{ 
+    ViewData["Title"] = "Add new topic";
+}
+@model CreateForumTopicFormModel
+
+<div class="form gray-background mt-4 round-bottom pb-4">
+    <form method="post">
+        <div class="image-holder">
+            <img src="~/media/create-forum-topic-background.jpg" />
+            <div>
+                <h1>@ViewData["Title"]</h1>
+            </div>
+        </div>
+        <div class="p-3">
+            <div class="form-group">
+                <div class="inner-addon">
+                    <input asp-for="@Model.Title" placeholder="Title" type="text" />
+                    <i class="fas fa-heading" aria-hidden="true"></i>
+                    <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="inner-addon">
+                    <textarea asp-for="@Model.Description" placeholder="Discribe your problem/question here..." rows="4" ></textarea>
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <ul class="no-bullets">
+            <li>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </li>
+        </ul>
+    </form>
+</div>

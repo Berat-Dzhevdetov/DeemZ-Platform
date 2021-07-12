@@ -14,7 +14,8 @@
 
         public class Forum
         {
-            public const int MinTitleLength = 10;
+            public const int MinTitleLength = 5;
+            public const int MaxTitleLength = 30;
             public const int MinDescriptionLength = 50;
         }
 

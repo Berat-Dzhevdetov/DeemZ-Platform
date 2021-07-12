@@ -74,10 +74,7 @@
 
             if (isUserSignUpForThisCourse) return RedirectToAction(redirectLink, new { courseId = courseId });
 
-            if (!ModelState.IsValid)
-            {
-                return View(signUp);
-            }
+            if (!ModelState.IsValid) return View(signUp);
 
             var course = courseService.DoesTheCourseExist(courseId);
 

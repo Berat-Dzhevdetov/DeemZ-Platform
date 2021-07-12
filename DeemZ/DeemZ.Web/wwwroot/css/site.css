@@ -69,7 +69,10 @@ ul.no-bullets {
 .flex-direction-column {
     flex-direction: column;
 }
-
+textarea {
+    resize: none;
+    width: 100%;
+}
 .arrow-right {
     float: right;
     background: var(--orange);
