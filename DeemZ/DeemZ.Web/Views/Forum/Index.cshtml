@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Forum";
+}
+
+<div class="forum-holder">
+    <div class="forum-heading">
+        <h1>Welcome to @ViewData["Title"] where you can ask questions that excite you.</h1>
+        <h3>Click <a asp-controller="Forum" asp-action="Add">here</a> to add new topic</h3>
+    </div>
+    <form class="form" method="get">
+        <div class="inner-addon solid-border">
+            <i id="search-icon" class="fas fa-search right-position clickable poiner-events-auto" aria-hidden="true"></i>
+            <input name="Search" class="padding-left-20px padding-right-60px" placeholder="Search" type="text">
+        </div>
+        <input type="submit" hidden id="forum-search" />
+    </form>
+    <div class="topics-holder flex">
+        <div class="topic flex">
+            <img src="~/media/anonymous-picture.jpg" />
+            <div>
+                <div class="topic-heading">
+                    <h2>Кода не ми тръгва agsamdeknb fajhiksb fkjasbf askj  bf</h2>
+                </div>
+                <div class="topic-information">
+                    Здравейте кода не ми тръгва ,ако може някой да ми помогнеj io sodhfa osif a
+                    aieofhnalknef ioahjn dklabsuofhiaow nfjkahle fmnkaslgfllllllehuio ajkdfa
+                    w  fjnkalnehfialknsdfaoejflkjjan w  fpioa wfnoa sio fiaos fnlkaefalk
+                </div>
+            </div>
+        </div>
+        <div class="topic flex">
+            <img src="~/media/anonymous-picture.jpg" />
+            <div>
+                <div class="topic-heading">
+                    <h2>Кода не ми тръгва</h2>
+                </div>
+                <div class="topic-information">
+                    Здравейте кода не ми тръгва ,ако може някой да ми помогнеj io sodhfa osif a
+                    aieofhnalknef ioahjn dklabsuofhiaow nfjkahle fmnkaslgfllllllehuio ajkdfa
+                    w  fjnkalnehfialknsdfaoejflkjjan w  fpioa wfnoa sio fiaos fnlkaefalk
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

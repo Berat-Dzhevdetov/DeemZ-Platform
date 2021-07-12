@@ -24,7 +24,7 @@
         public string UserId { get; set; }
 
         [Required]
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }

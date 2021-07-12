@@ -53,7 +53,6 @@
 
             var signUpModel = new SignUpCourseFormModel()
             {
-                Id = course.Id,
                 CourseName = course.Name,
                 Price = course.Price
             };
@@ -63,28 +62,30 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> SignUpAsync(SignUpCourseFormModel signUp)
+        public async Task<IActionResult> SignUpAsync(string courseId,SignUpCourseFormModel signUp)
         {
+            if (guard.AgainstNull(courseId)) return NotFound();
+
             var user = await this.userManager.GetUserAsync(HttpContext.User);
 
-            var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, signUp.Id);
+            var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, courseId);
 
             string redirectLink = $"ViewCourse";
 
-            if (isUserSignUpForThisCourse) return RedirectToAction(redirectLink, new { courseId = signUp.Id });
+            if (isUserSignUpForThisCourse) return RedirectToAction(redirectLink, new { courseId = courseId });
 
             if (!ModelState.IsValid)
             {
                 return View(signUp);
             }
 
-            var course = courseService.DoesTheCourseExist(signUp.Id);
+            var course = courseService.DoesTheCourseExist(courseId);
 
             if (course == null) return BadRequest();
 
             courseService.SignUserToCourse(user.Id, course.Id);
 
-            return RedirectToAction(redirectLink, new { courseId = signUp.Id });
+            return RedirectToAction(redirectLink, new { courseId = courseId });
         }
     }
 }

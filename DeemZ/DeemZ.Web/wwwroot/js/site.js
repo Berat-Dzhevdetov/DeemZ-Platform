@@ -33,7 +33,16 @@ document.querySelectorAll('div.flex.clickable').forEach(div => {
     });
 });
 
-document.querySelector('.close').addEventListener('click', function(e) {
-    let parentDiv = e.currentTarget.parentNode;
-    $(parentDiv).slideUp(300);
+try {
+    document.querySelector('.close').addEventListener('click', function (e) {
+        let parentDiv = e.currentTarget.parentNode;
+        $(parentDiv).slideUp(300);
+    })
+} catch (e) {}
+
+
+document.getElementById('search-icon').addEventListener('click', e => {
+    let parentDiv = e.currentTarget.parentNode.parentNode;
+
+    parentDiv.querySelector('input[type=submit]').click();
 })

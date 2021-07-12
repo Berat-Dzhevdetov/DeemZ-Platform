@@ -10,9 +10,6 @@
         public string CreditCard { get; set; }
 
         [Required]
-        public string Id { get; set; }
-
-        [Required]
         [Display(Name ="Course name")]
         public string CourseName { get; set; }
 
