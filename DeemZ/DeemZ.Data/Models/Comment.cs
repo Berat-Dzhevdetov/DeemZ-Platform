@@ -3,13 +3,8 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Comment
+    public class Comment : BaseModel
     {
-        [Key]
-        [Required]
-        [MaxLength(DataConstants.DefaultIdLength)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-
         [Required]
         public Forum Forum { get; set; }
 

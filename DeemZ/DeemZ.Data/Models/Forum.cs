@@ -3,13 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    public class Forum
+    public class Forum : BaseModel
     {
-        [Key]
-        [Required]
-        [MaxLength(DataConstants.DefaultIdLength)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-
         [Required]
         [MaxLength(DataConstants.Forum.MaxTitleLength)]
         public string Title { get; set; }

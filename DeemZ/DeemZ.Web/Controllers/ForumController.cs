@@ -4,7 +4,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
-    using System.Linq;
     using DeemZ.Services;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
@@ -71,6 +70,7 @@
             viewModel.CurrentPage = page;
             viewModel.NextPage = page >= allPages ? null : page + 1;
             viewModel.PreviousPage = page <= 1 ? null : page - 1;
+            viewModel.MaxPages = allPages;
 
             return viewModel;
         }

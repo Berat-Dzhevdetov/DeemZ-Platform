@@ -1,16 +1,10 @@
 ﻿namespace DeemZ.Data.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class SurveyQuestion
+    public class SurveyQuestion : BaseModel
     {
-        [Key]
-        [Required]
-        [MaxLength(DataConstants.DefaultIdLength)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-
         [Required]
         [MaxLength(DataConstants.SurveyQuestion.MaxQuestionLength)]
         public string Question { get; set; }

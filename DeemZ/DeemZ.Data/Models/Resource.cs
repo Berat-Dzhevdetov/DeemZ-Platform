@@ -3,13 +3,8 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Resource
+    public class Resource : BaseModel
     {
-        [Key]
-        [Required]
-        [MaxLength(DataConstants.DefaultIdLength)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-
         [Required]
         public string Path { get; set; }
 
