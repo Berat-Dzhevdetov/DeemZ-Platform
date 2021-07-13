@@ -1,6 +1,5 @@
 ﻿namespace DeemZ.Models.FormModels.Forum
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
     using DeemZ.Data;
 

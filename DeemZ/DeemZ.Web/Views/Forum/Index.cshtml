@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Forum";
 }
+@model AllForumTopicsViewModel
+
 
 <div class="forum-holder">
     <div class="forum-heading">
@@ -15,31 +17,21 @@
         <input type="submit" hidden id="forum-search" />
     </form>
     <div class="topics-holder flex">
-        <div class="topic flex">
-            <img src="~/media/anonymous-picture.jpg" />
-            <div>
-                <div class="topic-heading">
-                    <h2>Кода не ми тръгва agsamdeknb fajhiksb fkjasbf askj  bf</h2>
-                </div>
-                <div class="topic-information">
-                    Здравейте кода не ми тръгва ,ако може някой да ми помогнеj io sodhfa osif a
-                    aieofhnalknef ioahjn dklabsuofhiaow nfjkahle fmnkaslgfllllllehuio ajkdfa
-                    w  fjnkalnehfialknsdfaoejflkjjan w  fpioa wfnoa sio fiaos fnlkaefalk
-                </div>
+        @foreach (var topic in Model.Topics)
+        {
+            <div class="topic flex">
+                <img src="@(topic.UserProfileImgUrl == null ? "~/media/anonymous-picture.jpg" : topic.UserProfileImgUrl)" />
+                <a asp-controller="Forum" asp-action="Topic" asp-route-topicId="@topic.Id">
+                    <div>
+                        <div class="topic-heading">
+                            <h2>@topic.Title</h2>
+                        </div>
+                        <div class="topic-information">
+                            @topic.Description
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
-        <div class="topic flex">
-            <img src="~/media/anonymous-picture.jpg" />
-            <div>
-                <div class="topic-heading">
-                    <h2>Кода не ми тръгва</h2>
-                </div>
-                <div class="topic-information">
-                    Здравейте кода не ми тръгва ,ако може някой да ми помогнеj io sodhfa osif a
-                    aieofhnalknef ioahjn dklabsuofhiaow nfjkahle fmnkaslgfllllllehuio ajkdfa
-                    w  fjnkalnehfialknsdfaoejflkjjan w  fpioa wfnoa sio fiaos fnlkaefalk
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>

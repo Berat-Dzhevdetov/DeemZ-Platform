@@ -3,17 +3,17 @@
     using AutoMapper;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using DeemZ.Models.ViewModels.Forum;
 
     public class ForumProfile : Profile
     {
         public ForumProfile()
         {
             CreateMap<CreateForumTopicFormModel, Forum>();
+
+            CreateMap<Forum, ForumTopicsViewModel>()
+                .ForMember(x => x.UserProfileImgUrl, o => o.MapFrom(src => src.User.ProfileImgUrl));
+
         }
     }
 }

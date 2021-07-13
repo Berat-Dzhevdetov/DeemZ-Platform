@@ -11,11 +11,10 @@
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(DataConstants.Forum.MinTitleLength)]
+        [MaxLength(DataConstants.Forum.MaxTitleLength)]
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(DataConstants.Forum.MinDescriptionLength)]
         public string Description { get; set; }
 
         [Required]

@@ -14,7 +14,7 @@ namespace DeemZ.Web
     using DeemZ.Services.AutoMapperProfiles;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.SurveyServices;
-    using DeemZ.Services.FormService;
+    using DeemZ.Services.ForumService;
 
     public class Startup
     {

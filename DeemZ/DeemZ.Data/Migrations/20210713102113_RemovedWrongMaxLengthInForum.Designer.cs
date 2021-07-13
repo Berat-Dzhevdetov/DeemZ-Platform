@@ -4,14 +4,16 @@ using DeemZ.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeemZ.Data.Migrations
 {
     [DbContext(typeof(DeemZDbContext))]
-    partial class DeemZDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210713102113_RemovedWrongMaxLengthInForum")]
+    partial class RemovedWrongMaxLengthInForum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,9 +100,6 @@ namespace DeemZ.Data.Migrations
 
                     b.Property<bool>("PrivacyConfirm")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ProfileImgUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

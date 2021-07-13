@@ -10,6 +10,7 @@
             public const int MinLengthForNames = 3;
             public const int MaxLengthForNames = 25;
             public const string UsernameRegex = @"^[a-zA-Z]([._]?[a-zA-Z0-9]+)+$";
+            public const string DefaultProfilePictureUrl = "~/media/anonymous-picture.jpg";
         }
 
         public class Forum
