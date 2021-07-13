@@ -39,8 +39,7 @@
 
         public IEnumerable<T> GetAllTopics<T>(int page = 1, int quantity = 10)
             => GetAllTopics<T>()
-                .Skip(page - 1 * quantity)
-                .Take(quantity)
+                .Paging(page, quantity)
                 .ToList();
 
         public T GetTopicById<T>(string tid)
@@ -52,5 +51,13 @@
         }
 
         public int Count() => context.Forums.Count();
+
+        public IEnumerable<T> GetTopicsByTitleName<T>(string title, int page = 1, int quantity = 10)
+            => context.Forums
+                .Include(x => x.User)
+                .Where(x => x.Title.Contains(title))
+                .Select(x => mapper.Map<T>(x))
+                .Paging(page, quantity)
+                .ToList();
     }
 }

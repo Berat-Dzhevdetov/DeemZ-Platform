@@ -10,6 +10,7 @@
     using DeemZ.Services.ForumService;
     using DeemZ.Models.ViewModels.Forum;
     using System;
+    using System.Collections.Generic;
 
     public class ForumController : Controller
     {
@@ -24,7 +25,7 @@
             this.guard = guard;
         }
 
-        public IActionResult Index(int page, int quantity)
+        public IActionResult Index(int page, int quantity,string Search)
         {
             if (guard.AgainstNull(page, nameof(page))) page = 1;
             if (guard.AgainstNull(quantity, nameof(quantity))) quantity = 10;
@@ -35,11 +36,20 @@
 
             if (page <= 0 || page > allPages) page = 1;
 
-            var models = forumService.GetAllTopics<ForumTopicsViewModel>(page);
+            IEnumerable<ForumTopicsViewModel> models = null;
+
+            if (guard.AgainstNull(Search, nameof(Search)))
+            {
+                models = forumService.GetAllTopics<ForumTopicsViewModel>(page, quantity);
+            }
+            else
+            {
+                models = forumService.GetTopicsByTitleName<ForumTopicsViewModel>(Search,page,quantity);
+            }
 
             var viewModel = new AllForumTopicsViewModel()
             {
-                Topics = models,
+                Topics = models
             };
 
             viewModel = AdjustPages(viewModel, page, allPages);

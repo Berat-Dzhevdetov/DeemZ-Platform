@@ -17,6 +17,25 @@ for details on configuring this project to bundle and minify static web assets. 
     box-sizing: border-box;
 }
 
+.pages {
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
+    .pages .page-number {
+        border: 1px solid #ccc;
+        padding: 0.6rem;
+        width: auto;
+        text-align: center;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+        .pages .page-number a {
+            display: block;
+        }
+
 /* width */
 ::-webkit-scrollbar {
     width: 7px;
@@ -69,10 +88,12 @@ ul.no-bullets {
 .flex-direction-column {
     flex-direction: column;
 }
+
 textarea {
     resize: none;
     width: 100%;
 }
+
 .arrow-right {
     float: right;
     background: var(--orange);
@@ -159,7 +180,7 @@ body {
     margin-bottom: 60px;
 }
 
-.solid-border{
+.solid-border {
     border: 1px solid #ccc;
 }
 
@@ -338,8 +359,8 @@ svg:not(:root) {
         .logged-user-index .card-info ul {
             list-style-type: none;
             max-height: 300px;
-            overflow:auto;
-            margin-bottom:0;
+            overflow: auto;
+            margin-bottom: 0;
         }
 
             .logged-user-index .card-info ul li {
@@ -357,42 +378,42 @@ svg:not(:root) {
         padding: 2rem 6rem;
     }
 
-    .logged-user-index .informations .information h2.orange-text{
-        width: 97%;
-    }
+        .logged-user-index .informations .information h2.orange-text {
+            width: 97%;
+        }
 
-    .logged-user-index .informations .information div ul.no-bullets {
-        margin-left: 2rem;
-    }
+        .logged-user-index .informations .information div ul.no-bullets {
+            margin-left: 2rem;
+        }
 
-    .orange-text{
-        color: var(--dark-orange);
-    }
+.orange-text {
+    color: var(--dark-orange);
+}
 
-    .logged-user-index .card-holder .card-info .info-item {
-        word-wrap: break-word;
-        padding: 20px 0 18px 0;
-        border-bottom: 1px solid #ccc;
-        margin: 0 20px 0 20px;
-    }
+.logged-user-index .card-holder .card-info .info-item {
+    word-wrap: break-word;
+    padding: 20px 0 18px 0;
+    border-bottom: 1px solid #ccc;
+    margin: 0 20px 0 20px;
+}
 
-    .logged-user-index .card-links {
-        color: #fff;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        text-align: center;
-        font-weight: 700;
-        background: #fff;
-    }
+.logged-user-index .card-links {
+    color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
+    font-weight: 700;
+    background: #fff;
+}
 
-    .logged-user-index .credits {
-        padding: 0.5rem;
-    }
+.logged-user-index .credits {
+    padding: 0.5rem;
+}
 
-    .logged-user-index .cards {
-        display: flex;
-        flex-direction: row;
-    }
+.logged-user-index .cards {
+    display: flex;
+    flex-direction: row;
+}
 
 .base-btn {
     display: inline-block;
@@ -465,7 +486,7 @@ svg:not(:root) {
     left: 5px;
 }
 
-i.poiner-events-auto{
+i.poiner-events-auto {
     pointer-events: auto;
 }
 
@@ -474,7 +495,7 @@ i.poiner-events-auto{
     left: auto !important;
 }
 
-.padding-left-20px{
+.padding-left-20px {
     padding-left: 20px !important;
 }
 
@@ -569,11 +590,10 @@ input[type=checkbox] {
         }
 }
 
-.course .sign-up-for-course{
+.course .sign-up-for-course {
     background: var(--regal-blue);
     width: 100%;
     padding: 2rem 4rem;
-
 }
 
 .course .course-heading {
@@ -642,6 +662,7 @@ input[type=checkbox] {
 .course .course-heading .course-info .course-info .start-date {
     margin: 1.5rem
 }
+
 .course .course-heading .course-info .course-info .credits {
     margin: 1.5rem
 }
@@ -697,32 +718,35 @@ span.lecture-number::after {
     color: rgb(178,178,175);
 }
 
-.survey{
+.survey {
     margin: 2rem;
 }
+
     .survey .question-list .question {
         border: 1px solid #000;
         box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     }
+
     .survey .question-list ul {
         margin-left: 3rem;
     }
+
     .survey .question-list .question-header {
         font-weight: 500;
         font-size: 20px;
         padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     }
 
-.forum-holder{
+.forum-holder {
     padding: 3rem;
 }
 
-    .forum-holder .forum-heading{
+    .forum-holder .forum-heading {
         text-align: center;
     }
 
-    .forum-holder .topics-holder{
-        flex-direction:column;
+    .forum-holder .topics-holder {
+        flex-direction: column;
     }
 
     .forum-holder .topics-holder {
@@ -731,21 +755,21 @@ span.lecture-number::after {
         padding: 2rem;
     }
 
-    .forum-holder .topics-holder .topic{
-        flex-direction: row;
-        padding: 2rem;
-        border: 1px solid #ccc;
-        margin-bottom: 1.5rem;
-    }
-
-        .forum-holder .topics-holder .topic img{
-            width:150px;
-            height: 150px;
-            margin-right: 1.5rem;
-            border-radius: 50%;
+        .forum-holder .topics-holder .topic {
+            flex-direction: row;
+            padding: 2rem;
+            border: 1px solid #ccc;
+            margin-bottom: 1.5rem;
         }
 
-.topic-heading{
+            .forum-holder .topics-holder .topic img {
+                width: 150px;
+                height: 150px;
+                margin-right: 1.5rem;
+                border-radius: 50%;
+            }
+
+.topic-heading {
     text-wrap: normal;
 }
 
@@ -777,9 +801,11 @@ span.lecture-number::after {
         margin-left: 0;
         padding-bottom: 10px;
     }
+
     .logged-user-index .cards .card-holder {
         padding: 1rem 0;
     }
+
     .guest-users-container .benefits-section-container {
         flex-direction: column;
     }
@@ -791,7 +817,6 @@ span.lecture-number::after {
     .course .course-subjects .course-list {
         display: flex !important;
         flex-direction: column !important;
-
     }
 
     .logged-user-index .informations {
@@ -807,20 +832,22 @@ span.lecture-number::after {
     .course .course-subjects {
         margin: 0;
         margin-bottom: 3.5rem;
-        padding:0;
+        padding: 0;
     }
 
         .course .course-subjects .course-list {
             padding-bottom: 2rem;
         }
-            .course .course-subjects .subjects {
+
+        .course .course-subjects .subjects {
             margin: 0;
             padding: 1rem;
         }
 
-        .course-heading{
-            padding: 1.5rem !important;
-        }
+    .course-heading {
+        padding: 1.5rem !important;
+    }
+
     .course .course-heading .course-info .course-info .start-date {
         margin: 0.5em;
     }
@@ -841,7 +868,7 @@ span.lecture-number::after {
 }
 
 @media only screen and (max-width: 350px) {
-    
+
 
     .form .image-holder div h1 {
         width: 70%;

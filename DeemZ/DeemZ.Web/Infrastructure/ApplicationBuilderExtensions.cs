@@ -1,5 +1,6 @@
 ﻿namespace DeemZ.Web.Infrastructure
 {
+    using System;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,6 @@
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Web.DTO;
-    using System;
 
     public static class ApplicationBuilderExtensions
     {
