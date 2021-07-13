@@ -6,6 +6,7 @@
         public int CurrentPage { get; set; }
         public int? PreviousPage { get; set; }
         public int? NextPage { get; set; }
+        public int MaxPages { get; set; }
 
         public IEnumerable<ForumTopicsViewModel> Topics { get; set; }
     }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeemZ.Data.Migrations
 {
     [DbContext(typeof(DeemZDbContext))]
-    [Migration("20210710163232_MadeMappingTable")]
-    partial class MadeMappingTable
+    [Migration("20210713135353_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace DeemZ.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ApplicationUserSurvey", b =>
-                {
-                    b.Property<string>("SurveysId")
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("SurveysId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ApplicationUserSurvey");
-                });
 
             modelBuilder.Entity("DeemZ.Data.Models.Answer", b =>
                 {
@@ -85,6 +70,10 @@ namespace DeemZ.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("ImgUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(25)
@@ -160,6 +149,21 @@ namespace DeemZ.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("ApplicationUserExams");
+                });
+
+            modelBuilder.Entity("DeemZ.Data.Models.ApplicationUserSurvey", b =>
+                {
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SurveyId")
+                        .HasColumnType("nvarchar(40)");
+
+                    b.HasKey("ApplicationUserId", "SurveyId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("ApplicationUserSurvey");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Area", b =>
@@ -349,13 +353,12 @@ namespace DeemZ.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -540,13 +543,19 @@ namespace DeemZ.Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Survey");
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.SurveyAnswer", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("ApplicationUserSurveyApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserSurveySurveyId")
                         .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("SurveyQuestionId")
@@ -561,7 +570,9 @@ namespace DeemZ.Data.Migrations
 
                     b.HasIndex("SurveyQuestionId");
 
-                    b.ToTable("SurveyAnswer");
+                    b.HasIndex("ApplicationUserSurveyApplicationUserId", "ApplicationUserSurveySurveyId");
+
+                    b.ToTable("SurveyAnswers");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.SurveyQuestion", b =>
@@ -583,7 +594,7 @@ namespace DeemZ.Data.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("SurveyQuestion");
+                    b.ToTable("SurveyQuestions");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.UserCourse", b =>
@@ -742,21 +753,6 @@ namespace DeemZ.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ApplicationUserSurvey", b =>
-                {
-                    b.HasOne("DeemZ.Data.Models.Survey", null)
-                        .WithMany()
-                        .HasForeignKey("SurveysId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DeemZ.Data.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DeemZ.Data.Models.Answer", b =>
                 {
                     b.HasOne("DeemZ.Data.Models.Question", "Question")
@@ -794,6 +790,25 @@ namespace DeemZ.Data.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Exam");
+                });
+
+            modelBuilder.Entity("DeemZ.Data.Models.ApplicationUserSurvey", b =>
+                {
+                    b.HasOne("DeemZ.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Surveys")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DeemZ.Data.Models.Survey", "Survey")
+                        .WithMany("Users")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Area", b =>
@@ -866,9 +881,11 @@ namespace DeemZ.Data.Migrations
 
             modelBuilder.Entity("DeemZ.Data.Models.Lecture", b =>
                 {
-                    b.HasOne("DeemZ.Data.Models.Course", null)
+                    b.HasOne("DeemZ.Data.Models.Course", "Course")
                         .WithMany("Lectures")
                         .HasForeignKey("CourseId");
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Question", b =>
@@ -893,7 +910,7 @@ namespace DeemZ.Data.Migrations
 
             modelBuilder.Entity("DeemZ.Data.Models.Resource", b =>
                 {
-                    b.HasOne("DeemZ.Data.Models.Lecture", null)
+                    b.HasOne("DeemZ.Data.Models.Lecture", "Lecture")
                         .WithMany("Resources")
                         .HasForeignKey("LectureId");
 
@@ -903,13 +920,15 @@ namespace DeemZ.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Lecture");
+
                     b.Navigation("ResourceType");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Survey", b =>
                 {
                     b.HasOne("DeemZ.Data.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Surveys")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -922,6 +941,10 @@ namespace DeemZ.Data.Migrations
                     b.HasOne("DeemZ.Data.Models.SurveyQuestion", null)
                         .WithMany("Answers")
                         .HasForeignKey("SurveyQuestionId");
+
+                    b.HasOne("DeemZ.Data.Models.ApplicationUserSurvey", null)
+                        .WithMany("Answers")
+                        .HasForeignKey("ApplicationUserSurveyApplicationUserId", "ApplicationUserSurveySurveyId");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.SurveyQuestion", b =>
@@ -938,7 +961,7 @@ namespace DeemZ.Data.Migrations
             modelBuilder.Entity("DeemZ.Data.Models.UserCourse", b =>
                 {
                     b.HasOne("DeemZ.Data.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("UserCourses")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1011,7 +1034,14 @@ namespace DeemZ.Data.Migrations
 
                     b.Navigation("Reports");
 
+                    b.Navigation("Surveys");
+
                     b.Navigation("UserCourses");
+                });
+
+            modelBuilder.Entity("DeemZ.Data.Models.ApplicationUserSurvey", b =>
+                {
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Course", b =>
@@ -1019,6 +1049,10 @@ namespace DeemZ.Data.Migrations
                     b.Navigation("Exams");
 
                     b.Navigation("Lectures");
+
+                    b.Navigation("Surveys");
+
+                    b.Navigation("UserCourses");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.Exam", b =>
@@ -1048,6 +1082,8 @@ namespace DeemZ.Data.Migrations
             modelBuilder.Entity("DeemZ.Data.Models.Survey", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.SurveyQuestion", b =>

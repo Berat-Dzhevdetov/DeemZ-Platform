@@ -17,7 +17,8 @@
         public City City { get; set; }
         public string CityId { get; set; }
 
-        public string ProfileImgUrl { get; set; } = DataConstants.User.DefaultProfilePictureUrl;
+        [Required]
+        public string ImgUrl { get; set; } = DataConstants.User.DefaultProfilePictureUrl;
 
         public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
         public ICollection<UserCourse> UserCourses { get; set; } = new HashSet<UserCourse>();

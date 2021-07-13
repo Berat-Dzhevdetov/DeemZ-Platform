@@ -32,6 +32,7 @@
 
         public IEnumerable<T> GetAllTopics<T>()
             => context.Forums
+                .Include(x => x.User)
                 .OrderBy(x => x.CreatedOn)
                 .Select(x => mapper.Map<T>(x))
                 .ToList();

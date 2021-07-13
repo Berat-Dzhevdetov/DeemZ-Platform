@@ -69,6 +69,10 @@ namespace DeemZ.Data.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<string>("ImgUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
@@ -98,9 +102,6 @@ namespace DeemZ.Data.Migrations
 
                     b.Property<bool>("PrivacyConfirm")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ProfileImgUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

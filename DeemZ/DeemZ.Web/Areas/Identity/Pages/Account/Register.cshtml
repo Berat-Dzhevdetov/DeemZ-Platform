@@ -41,6 +41,7 @@
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
             </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <ul class="no-bullets">
                 <li>
                     <input type="checkbox" asp-for="Input.PrivacyConfirm" />
@@ -48,7 +49,7 @@
                     <span asp-validation-for="Input.PrivacyConfirm" class="text-danger"></span>
                 </li>
             </ul>
-        <button type="submit" class="btn btn-primary">Sign up</button>
+            <button type="submit" class="btn btn-primary">Sign up</button>
         </div>
     </form>
 

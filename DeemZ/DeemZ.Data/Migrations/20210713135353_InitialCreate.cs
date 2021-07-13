@@ -39,10 +39,10 @@ namespace DeemZ.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Credits = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Credits = table.Column<int>(type: "int", nullable: false),
                     SignUpStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SignUpEndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -148,7 +148,7 @@ namespace DeemZ.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CourseId = table.Column<string>(type: "nvarchar(40)", nullable: true)
                 },
                 constraints: table =>
@@ -160,6 +160,28 @@ namespace DeemZ.Data.Migrations
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Surveys",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(40)", nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Surveys", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Surveys_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,8 +249,10 @@ namespace DeemZ.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ResourceTypeId = table.Column<string>(type: "nvarchar(40)", nullable: false),
-                    LectureId = table.Column<string>(type: "nvarchar(40)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LectureId = table.Column<string>(type: "nvarchar(40)", nullable: true),
+                    ResourceTypeId = table.Column<string>(type: "nvarchar(40)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,13 +272,34 @@ namespace DeemZ.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SurveyQuestions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Question = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SurveyId = table.Column<string>(type: "nvarchar(40)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveyQuestions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SurveyQuestions_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    PrivacyConfirm = table.Column<bool>(type: "bit", nullable: false),
                     CityId = table.Column<string>(type: "nvarchar(40)", nullable: true),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -302,25 +347,51 @@ namespace DeemZ.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUserExam",
+                name: "ApplicationUserExams",
                 columns: table => new
                 {
-                    ExamsId = table.Column<string>(type: "nvarchar(40)", nullable: false),
-                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ExamId = table.Column<string>(type: "nvarchar(40)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EarnedCredits = table.Column<int>(type: "int", nullable: false),
+                    EarnedPoints = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUserExam", x => new { x.ExamsId, x.UsersId });
+                    table.PrimaryKey("PK_ApplicationUserExams", x => new { x.ExamId, x.ApplicationUserId });
                     table.ForeignKey(
-                        name: "FK_ApplicationUserExam_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_ApplicationUserExams_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ApplicationUserExam_Exams_ExamsId",
-                        column: x => x.ExamsId,
+                        name: "FK_ApplicationUserExams_Exams_ExamId",
+                        column: x => x.ExamId,
                         principalTable: "Exams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUserSurvey",
+                columns: table => new
+                {
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SurveyId = table.Column<string>(type: "nvarchar(40)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUserSurvey", x => new { x.ApplicationUserId, x.SurveyId });
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserSurvey_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserSurvey_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -415,8 +486,8 @@ namespace DeemZ.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -456,7 +527,6 @@ namespace DeemZ.Data.Migrations
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CourseId = table.Column<string>(type: "nvarchar(40)", nullable: false),
-                    EarnedCredits = table.Column<int>(type: "int", nullable: false),
                     PaidOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsPaid = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -475,6 +545,33 @@ namespace DeemZ.Data.Migrations
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SurveyAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ApplicationUserSurveyApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ApplicationUserSurveySurveyId = table.Column<string>(type: "nvarchar(40)", nullable: true),
+                    SurveyQuestionId = table.Column<string>(type: "nvarchar(40)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveyAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SurveyAnswers_ApplicationUserSurvey_ApplicationUserSurveyApplicationUserId_ApplicationUserSurveySurveyId",
+                        columns: x => new { x.ApplicationUserSurveyApplicationUserId, x.ApplicationUserSurveySurveyId },
+                        principalTable: "ApplicationUserSurvey",
+                        principalColumns: new[] { "ApplicationUserId", "SurveyId" },
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SurveyAnswers_SurveyQuestions_SurveyQuestionId",
+                        column: x => x.SurveyQuestionId,
+                        principalTable: "SurveyQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -510,9 +607,14 @@ namespace DeemZ.Data.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserExam_UsersId",
-                table: "ApplicationUserExam",
-                column: "UsersId");
+                name: "IX_ApplicationUserExams_ApplicationUserId",
+                table: "ApplicationUserExams",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserSurvey_SurveyId",
+                table: "ApplicationUserSurvey",
+                column: "SurveyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Areas_CountryId",
@@ -619,6 +721,26 @@ namespace DeemZ.Data.Migrations
                 column: "ResourceTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SurveyAnswers_ApplicationUserSurveyApplicationUserId_ApplicationUserSurveySurveyId",
+                table: "SurveyAnswers",
+                columns: new[] { "ApplicationUserSurveyApplicationUserId", "ApplicationUserSurveySurveyId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyAnswers_SurveyQuestionId",
+                table: "SurveyAnswers",
+                column: "SurveyQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SurveyQuestions_SurveyId",
+                table: "SurveyQuestions",
+                column: "SurveyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Surveys_CourseId",
+                table: "Surveys",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserCourses_UserId",
                 table: "UserCourses",
                 column: "UserId");
@@ -630,7 +752,7 @@ namespace DeemZ.Data.Migrations
                 name: "Answers");
 
             migrationBuilder.DropTable(
-                name: "ApplicationUserExam");
+                name: "ApplicationUserExams");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -663,6 +785,9 @@ namespace DeemZ.Data.Migrations
                 name: "Resources");
 
             migrationBuilder.DropTable(
+                name: "SurveyAnswers");
+
+            migrationBuilder.DropTable(
                 name: "UserCourses");
 
             migrationBuilder.DropTable(
@@ -681,16 +806,25 @@ namespace DeemZ.Data.Migrations
                 name: "ResourceTypes");
 
             migrationBuilder.DropTable(
+                name: "ApplicationUserSurvey");
+
+            migrationBuilder.DropTable(
+                name: "SurveyQuestions");
+
+            migrationBuilder.DropTable(
                 name: "Exams");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "Surveys");
 
             migrationBuilder.DropTable(
                 name: "Cities");
+
+            migrationBuilder.DropTable(
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Areas");

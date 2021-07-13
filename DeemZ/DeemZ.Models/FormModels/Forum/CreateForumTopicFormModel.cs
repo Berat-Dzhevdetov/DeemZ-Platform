@@ -15,7 +15,7 @@
         [Required]
         [StringLength(
             int.MaxValue,
-            ErrorMessage = "{0} should be between at least {2} letters",
+            ErrorMessage = "{0} should be at least {2} letters",
             MinimumLength = DataConstants.Forum.MinDescriptionLength)]
         public string Description { get; set; }
 

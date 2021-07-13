@@ -20,7 +20,7 @@
         @foreach (var topic in Model.Topics)
         {
             <div class="topic flex">
-                <img src="@(topic.UserProfileImgUrl == null ? "~/media/anonymous-picture.jpg" : topic.UserProfileImgUrl)" />
+                <img src="@topic.UserProfileImgUrl" />
                 <a asp-controller="Forum" asp-action="Topic" asp-route-topicId="@topic.Id">
                     <div>
                         <div class="topic-heading">
