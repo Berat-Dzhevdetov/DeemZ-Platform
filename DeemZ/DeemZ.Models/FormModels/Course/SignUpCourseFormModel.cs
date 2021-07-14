@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     public class SignUpCourseFormModel
     {
+        public string Id { get; set; }
         [Required]
         [StringLength(16,MinimumLength = 8,ErrorMessage = "{0} number should be between {2} and {1} digits")]
         [Display(Name = "Credit card")]

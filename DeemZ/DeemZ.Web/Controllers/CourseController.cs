@@ -47,17 +47,11 @@
         {
             if (guard.AgainstNull(courseId)) return NotFound();
 
-            var course = courseService.DoesTheCourseExist(courseId);
+            var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
 
             if (course == null) return NotFound();
 
-            var signUpModel = new SignUpCourseFormModel()
-            {
-                CourseName = course.Name,
-                Price = course.Price
-            };
-
-            return View(signUpModel);
+            return View(course);
         }
 
         [Authorize]
@@ -76,7 +70,7 @@
 
             if (!ModelState.IsValid) return View(signUp);
 
-            var course = courseService.DoesTheCourseExist(courseId);
+            var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
 
             if (course == null) return BadRequest();
 

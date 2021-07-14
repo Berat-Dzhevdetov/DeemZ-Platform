@@ -78,8 +78,6 @@
             .Select(x => mapper.Map<T>(x))
             .ToList();
 
-        public Course DoesTheCourseExist(string cid) => context.Courses.FirstOrDefault(x => x.Id == cid);
-
         public bool SignUserToCourse(string uid, string cid)
         {
             var userCourse = new UserCourse()

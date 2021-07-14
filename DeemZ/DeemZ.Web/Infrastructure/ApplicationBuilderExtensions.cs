@@ -1,17 +1,16 @@
 ﻿namespace DeemZ.Web.Infrastructure
 {
-    using System;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
-    using System.IO;
-    using System.Linq;
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
-
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Web.DTO;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
     public static class ApplicationBuilderExtensions
     {
@@ -47,6 +46,7 @@
             data.SaveChanges();
         }
 
+        
         public static void CreateCourses(DeemZDbContext data)
         {
             if (data.Courses.Any()) return;

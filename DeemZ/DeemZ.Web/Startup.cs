@@ -1,20 +1,14 @@
 namespace DeemZ.Web
 {
+    using DeemZ.Data;
+    using DeemZ.Data.Models;
+    using DeemZ.Web.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using AutoMapper;
-    using DeemZ.Data;
-    using DeemZ.Data.Models;
-    using DeemZ.Services;
-    using DeemZ.Services.CourseServices;
-    using DeemZ.Services.AutoMapperProfiles;
-    using DeemZ.Web.Infrastructure;
-    using DeemZ.Services.SurveyServices;
-    using DeemZ.Services.ForumService;
 
     public class Startup
     {
@@ -43,28 +37,8 @@ namespace DeemZ.Web
                 })
                 .AddEntityFrameworkStores<DeemZDbContext>();
 
-            services.AddSingleton<Guard>();
-
-            services.AddTransient<ICourseService, CourseService>();
-            services.AddTransient<ISurveyService, SurveyService>();
-            services.AddTransient<IForumService, ForumService>();
-
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new UserProfile());
-                mc.AddProfile(new CourseProfile());
-                mc.AddProfile(new LectureProfile());
-                mc.AddProfile(new ResourceTypeProfile());
-                mc.AddProfile(new DescriptionProfile());
-                mc.AddProfile(new ResourceProfile());
-                mc.AddProfile(new SurveyProfile());
-                mc.AddProfile(new SurveyQuestionProfile());
-                mc.AddProfile(new SurveyAnswerProfile());
-                mc.AddProfile(new ForumProfile());
-            });
-
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            services.AddMapper();
+            services.AddCustomServices();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
