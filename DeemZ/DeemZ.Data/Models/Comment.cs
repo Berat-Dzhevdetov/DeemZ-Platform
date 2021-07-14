@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Comment : BaseModel
@@ -16,9 +17,6 @@
 
         [Required]
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
-
-        public Comment АnswerТо { get; set; }
-        public string АnswerТоId { get; set; }
 
         [Required]
         public ApplicationUser User { get; set; }

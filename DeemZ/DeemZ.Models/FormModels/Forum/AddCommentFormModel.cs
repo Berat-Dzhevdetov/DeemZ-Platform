@@ -11,6 +11,5 @@
                 ErrorMessage = "{0} should be at least {2} letters",
                 MinimumLength = DataConstants.Comment.MinTextLength)]
         public string Text { get; set; }
-        public string AnswerToId { get; set; }
     }
 }

@@ -1,16 +1,17 @@
 ﻿namespace DeemZ.Web.Controllers
 {
+    using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.Forum;
+    using DeemZ.Models.Shared;
+    using DeemZ.Models.ViewModels.Forum;
+    using DeemZ.Services;
+    using DeemZ.Services.ForumService;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
     using System;
     using System.Collections.Generic;
-    using DeemZ.Services;
-    using DeemZ.Data.Models;
-    using DeemZ.Models.FormModels.Forum;
-    using DeemZ.Services.ForumService;
-    using DeemZ.Models.ViewModels.Forum;
+    using System.Threading.Tasks;
 
     public class ForumController : Controller
     {
@@ -81,7 +82,9 @@
 
             var topic = forumService.GetTopicById<TopicViewModel>(topicId);
 
-            var viewModelTest = new ViewModelTest();
+            if (topic == null) return NotFound();
+
+            var viewModelTest = new ViewAndFormModelForTopics();
 
             viewModelTest.ViewModel = topic;
 
@@ -90,14 +93,14 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> PostCommentAsync(string topicId, ViewModelTest model)
+        public async Task<IActionResult> PostCommentAsync(string topicId, ViewAndFormModelForTopics model)
         {
             if (guard.AgainstNull(topicId, nameof(topicId))) return NotFound();
 
             if (!ModelState.IsValid)
             {
                 model.ViewModel = forumService.GetTopicById<TopicViewModel>(topicId);
-                View(nameof(Topic), model);
+                return View(nameof(Topic), model);
             }
 
             var user = await this.userManager.GetUserAsync(HttpContext.User);

@@ -23,10 +23,11 @@
             CreateMap<Comment, TopicCommentsViewModel>()
                 .ForMember(x => x.UserProfileImg, o => o.MapFrom(src => src.Forum.User.ImgUrl))
                 .ForMember(x => x.Username, o => o.MapFrom(src => src.Forum.User.UserName))
-                .ForMember(x => x.Answers, o => o.MapFrom(src => src.АnswerТоId));
+                .ForMember(x => x.Description, o => o.MapFrom(src => src.Text));
 
             CreateMap<AddCommentFormModel, Comment>()
                 .ForMember(x => x.CreatedOn, o => o.MapFrom(x => DateTime.Now));
+
         }
     }
 }

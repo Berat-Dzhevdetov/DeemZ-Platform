@@ -1,5 +1,6 @@
 ﻿namespace DeemZ.Models.ViewModels.Forum
 {
+    using System;
     using System.Collections.Generic;
     public class TopicCommentsViewModel
     {
@@ -7,6 +8,7 @@
         public string Username { get; set; }
         public string UserProfileImg { get; set; }
         public string Description { get; set; }
+        public DateTime CreatedOn { get; set; }
         public ICollection<TopicCommentsViewModel> Answers { get; set; }
     }
 }

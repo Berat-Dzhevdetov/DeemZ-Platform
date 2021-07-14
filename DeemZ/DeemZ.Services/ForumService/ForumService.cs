@@ -47,6 +47,7 @@
             var topic = context.Forums
                 .Include(x => x.Comments)
                 .Include(x => x.User)
+                .OrderBy(x => x.CreatedOn)
                 .FirstOrDefault(x => x.Id == tid);
 
             return mapper.Map<T>(topic);
@@ -61,6 +62,9 @@
                 .Select(x => mapper.Map<T>(x))
                 .Paging(page, quantity)
                 .ToList();
+
+        public Comment GetCommentById(string cid)
+            => context.Comments.FirstOrDefault(x => x.Id == cid);
 
         public void CreateComment(AddCommentFormModel model, string tid, string uid)
         {

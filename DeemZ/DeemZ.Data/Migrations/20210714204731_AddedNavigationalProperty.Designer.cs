@@ -4,14 +4,16 @@ using DeemZ.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeemZ.Data.Migrations
 {
     [DbContext(typeof(DeemZDbContext))]
-    partial class DeemZDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210714204731_AddedNavigationalProperty")]
+    partial class AddedNavigationalProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,6 +219,9 @@ namespace DeemZ.Data.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<string>("AnswerToCommentId")
+                        .HasColumnType("nvarchar(40)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -233,6 +238,8 @@ namespace DeemZ.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnswerToCommentId");
 
                     b.HasIndex("ForumId");
 
@@ -843,6 +850,10 @@ namespace DeemZ.Data.Migrations
 
             modelBuilder.Entity("DeemZ.Data.Models.Comment", b =>
                 {
+                    b.HasOne("DeemZ.Data.Models.Comment", "AnswerToComment")
+                        .WithMany("Answers")
+                        .HasForeignKey("AnswerToCommentId");
+
                     b.HasOne("DeemZ.Data.Models.Forum", "Forum")
                         .WithMany("Comments")
                         .HasForeignKey("ForumId")
@@ -854,6 +865,8 @@ namespace DeemZ.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AnswerToComment");
 
                     b.Navigation("Forum");
 
@@ -1054,6 +1067,11 @@ namespace DeemZ.Data.Migrations
                 });
 
             modelBuilder.Entity("DeemZ.Data.Models.ApplicationUserSurvey", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("DeemZ.Data.Models.Comment", b =>
                 {
                     b.Navigation("Answers");
                 });
