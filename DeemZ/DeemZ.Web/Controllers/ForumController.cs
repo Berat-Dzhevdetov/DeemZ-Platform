@@ -25,7 +25,7 @@
             this.guard = guard;
         }
 
-        public IActionResult Index(int page, int quantity,string Search)
+        public IActionResult Index(int page, int quantity, string Search)
         {
             if (guard.AgainstNull(page, nameof(page))) page = 1;
             if (guard.AgainstNull(quantity, nameof(quantity))) quantity = 10;
@@ -44,7 +44,7 @@
             }
             else
             {
-                models = forumService.GetTopicsByTitleName<ForumTopicsViewModel>(Search,page,quantity);
+                models = forumService.GetTopicsByTitleName<ForumTopicsViewModel>(Search, page, quantity);
             }
 
             var viewModel = new AllForumTopicsViewModel()
@@ -81,16 +81,30 @@
 
             var topic = forumService.GetTopicById<TopicViewModel>(topicId);
 
-            return View(topic);
+            var viewModelTest = new ViewModelTest();
+
+            viewModelTest.ViewModel = topic;
+
+            return View(viewModelTest);
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult PostComment(string topicId, string text)
+        public async Task<IActionResult> PostCommentAsync(string topicId, ViewModelTest model)
         {
-            var topic = forumService.GetTopicById<TopicViewModel>(topicId);
+            if (guard.AgainstNull(topicId, nameof(topicId))) return NotFound();
 
-            if (!ModelState.IsValid) return View(nameof(Topic), new { topic, text });
+            if (!ModelState.IsValid)
+            {
+                model.ViewModel = forumService.GetTopicById<TopicViewModel>(topicId);
+                View(nameof(Topic), model);
+            }
+
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
+
+            forumService.CreateComment(model.FormModel, topicId, user.Id);
+
+            model.ViewModel = forumService.GetTopicById<TopicViewModel>(topicId);
 
             return RedirectToAction(nameof(Topic), new { topicId = topicId });
         }

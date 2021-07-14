@@ -11,5 +11,6 @@
         T GetTopicById<T>(string tid);
         int Count();
         IEnumerable<T> GetTopicsByTitleName<T>(string title, int page = 1, int quantity = 10);
+        void CreateComment(AddCommentFormModel model, string tid, string uid);
     }
 }

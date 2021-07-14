@@ -4,6 +4,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
     using DeemZ.Models.ViewModels.Forum;
+    using System;
 
     public class ForumProfile : Profile
     {
@@ -19,12 +20,13 @@
                 .ForMember(x => x.Username, o => o.MapFrom(src => src.User.UserName))
                 .ForMember(x => x.Comments, o => o.MapFrom(src => src.Comments));
 
-            CreateMap<Comment, TopicMainComments>()
+            CreateMap<Comment, TopicCommentsViewModel>()
                 .ForMember(x => x.UserProfileImg, o => o.MapFrom(src => src.Forum.User.ImgUrl))
                 .ForMember(x => x.Username, o => o.MapFrom(src => src.Forum.User.UserName))
                 .ForMember(x => x.Answers, o => o.MapFrom(src => src.АnswerТоId));
 
-            CreateMap<AddMainCommentFormModel, Comment>();
+            CreateMap<AddCommentFormModel, Comment>()
+                .ForMember(x => x.CreatedOn, o => o.MapFrom(x => DateTime.Now));
         }
     }
 }

@@ -57,9 +57,20 @@
         public IEnumerable<T> GetTopicsByTitleName<T>(string title, int page = 1, int quantity = 10)
             => context.Forums
                 .Include(x => x.User)
-                .Where(x => x.Title.Contains(title))
+                .Where(x => x.Title.ToLower().Contains(title.ToLower()))
                 .Select(x => mapper.Map<T>(x))
                 .Paging(page, quantity)
                 .ToList();
+
+        public void CreateComment(AddCommentFormModel model, string tid, string uid)
+        {
+            var comment = mapper.Map<Comment>(model);
+
+            comment.UserId = uid;
+            comment.ForumId = tid;
+
+            context.Comments.Add(comment);
+            context.SaveChanges();
+        }
     }
 }

@@ -19,5 +19,10 @@
 
         public Comment АnswerТо { get; set; }
         public string АnswerТоId { get; set; }
+
+        [Required]
+        public ApplicationUser User { get; set; }
+        [Required]
+        public string UserId { get; set; }
     }
 }
