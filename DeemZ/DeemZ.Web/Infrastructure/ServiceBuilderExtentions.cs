@@ -3,6 +3,10 @@
     using AutoMapper;
     using Microsoft.Extensions.DependencyInjection;
     using DeemZ.Services.AutoMapperProfiles;
+    using DeemZ.Services;
+    using DeemZ.Services.CourseServices;
+    using DeemZ.Services.SurveyServices;
+    using DeemZ.Services.ForumService;
 
     public static class ServiceBuilderExtentions
     {

@@ -33,11 +33,13 @@
                 .Where(
                     x => x.User.Id == uid
                     && x.IsPaid == isPaid
-                    && x.Course.EndDate > DateTime.Now
+                    //&& x.Course.EndDate > DateTime.Now
                 )
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x.Course))
                 .ToList();
+
+
 
         public T GetCourseById<T>(string uid)
             => context.Courses

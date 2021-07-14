@@ -41,7 +41,7 @@
                     Resources = courseService.GetCoursesResources<IndexResourceViewModel>(user.Id),
                     SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
                 };
-                ;
+                
                 return this.View("LoggedIndex", viewModel);
             }
             return View();

@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.Course;
     using DeemZ.Models.ViewModels.Course;
 
     public class CourseProfile : Profile
@@ -21,6 +22,9 @@
             CreateMap<Course, IndexSignUpForCourseViewModel>()
                 .ForMember(x => x.SignUpStartDate, o => o.MapFrom(src => src.SignUpStartDate.ToString("dd/MM/yyyy")))
                 .ForMember(x => x.SignUpEndDate, o => o.MapFrom(src => src.SignUpEndDate.ToString("dd/MM/yyyy")));
+
+            CreateMap<Course, SignUpCourseFormModel>()
+                .ForMember(x => x.CourseName, o => o.MapFrom(src => src.Name));
         }
     }
 }

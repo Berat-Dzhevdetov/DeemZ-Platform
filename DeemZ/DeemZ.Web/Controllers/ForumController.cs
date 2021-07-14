@@ -4,13 +4,13 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using System;
+    using System.Collections.Generic;
     using DeemZ.Services;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
     using DeemZ.Services.ForumService;
     using DeemZ.Models.ViewModels.Forum;
-    using System;
-    using System.Collections.Generic;
 
     public class ForumController : Controller
     {
@@ -72,7 +72,27 @@
 
             var topicId = forumService.CreateTopic(topic, user.Id);
 
-            return RedirectToAction("Topic", new { topicId = topicId });
+            return RedirectToAction(nameof(Topic), new { topicId = topicId });
+        }
+
+        public IActionResult Topic(string topicId)
+        {
+            if (guard.AgainstNull(topicId, nameof(topicId))) return NotFound();
+
+            var topic = forumService.GetTopicById<TopicViewModel>(topicId);
+
+            return View(topic);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult PostComment(string topicId, string text)
+        {
+            var topic = forumService.GetTopicById<TopicViewModel>(topicId);
+
+            if (!ModelState.IsValid) return View(nameof(Topic), new { topic, text });
+
+            return RedirectToAction(nameof(Topic), new { topicId = topicId });
         }
 
         private AllForumTopicsViewModel AdjustPages(AllForumTopicsViewModel viewModel, int page, int allPages)

@@ -62,9 +62,9 @@
 
             var user = await this.userManager.GetUserAsync(HttpContext.User);
 
-            var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, courseId);
+            var redirectLink = "ViewCourse";
 
-            string redirectLink = $"ViewCourse";
+            var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, courseId);
 
             if (isUserSignUpForThisCourse) return RedirectToAction(redirectLink, new { courseId = courseId });
 

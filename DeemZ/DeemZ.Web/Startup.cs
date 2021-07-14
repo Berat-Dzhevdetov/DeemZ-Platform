@@ -1,14 +1,14 @@
 namespace DeemZ.Web
 {
-    using DeemZ.Data;
-    using DeemZ.Data.Models;
-    using DeemZ.Web.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using DeemZ.Data;
+    using DeemZ.Data.Models;
+    using DeemZ.Web.Infrastructure;
 
     public class Startup
     {
@@ -34,6 +34,7 @@ namespace DeemZ.Web
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequiredLength = 6;
+                    options.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<DeemZDbContext>();
 

@@ -1,0 +1,54 @@
+﻿@model TopicViewModel
+@{
+    var formModel = new AddMainCommentFormModel();
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="forum-holder">
+    <div class="topics-holder flex">
+        <div class="topic flex">
+            <img src="@Model.UserProfileImg" />
+            <div>
+                <div class="topic-heading">
+                    <p class="small custom-text-muted">From: @Model.Username</p>
+                    <h2>@Model.Title</h2>
+                </div>
+                <div class="topic-information">
+                    @Model.Description
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="comments-holder">
+        <h3 class="text-center">Comments seciton</h3>
+
+        <form method="post" asp-action="PostComment" asp-route-topicId="@Model.Id">
+            <input  asp-for="@formModel.Text" />
+            <span asp-validation-for="@formModel.Text"></span>
+            <input type="submit" value="Submit"/>
+        </form>
+
+        @if (Model.Comments.Any())
+        {
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="comment">
+                    <div class="main-comment">
+                    </div>
+                    <div class="answers">
+                        @foreach (var answer in comment.Answers)
+                        {
+                            <div class="answer">
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h3 class="text-center">There are no comments yet. Be the first to comment</h3>
+        }
+    </div>
+</div>

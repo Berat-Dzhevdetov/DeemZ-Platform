@@ -45,6 +45,8 @@
         public T GetTopicById<T>(string tid)
         {
             var topic = context.Forums
+                .Include(x => x.Comments)
+                .Include(x => x.User)
                 .FirstOrDefault(x => x.Id == tid);
 
             return mapper.Map<T>(topic);
