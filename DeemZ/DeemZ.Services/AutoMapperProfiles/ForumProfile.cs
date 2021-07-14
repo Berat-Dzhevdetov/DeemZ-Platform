@@ -13,7 +13,8 @@
             CreateMap<CreateForumTopicFormModel, Forum>();
 
             CreateMap<Forum, ForumTopicsViewModel>()
-                .ForMember(x => x.UserProfileImgUrl, o => o.MapFrom(src => src.User.ImgUrl));
+                .ForMember(x => x.UserProfileImgUrl, o => o.MapFrom(src => src.User.ImgUrl))
+                .ForMember(x => x.Username, o => o.MapFrom(src => src.User.UserName));
 
             CreateMap<Forum, TopicViewModel>()
                 .ForMember(x => x.UserProfileImg, o => o.MapFrom(src => src.User.ImgUrl))

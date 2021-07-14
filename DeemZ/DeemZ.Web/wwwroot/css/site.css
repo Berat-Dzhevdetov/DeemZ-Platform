@@ -822,11 +822,32 @@ span.lecture-number::after {
     .logged-user-index .informations {
         padding: 2rem 3rem;
     }
+
+    .forum-holder{
+        padding:0;
+    }
 }
 
 @media only screen and (max-width: 550px) {
     .course .course-heading {
         flex-direction: column !important;
+    }
+
+    .forum-holder .topics-holder .topic{
+        padding:0;
+    }
+
+        .forum-holder .topics-holder .topic img {
+            width: 100px;
+            height: 100px;
+            margin:0;
+        }
+    .forum-holder .topics-holder{
+        padding: 0;
+    }
+
+    .topics-holder {
+        padding: 0;
     }
 
     .course .course-subjects {
