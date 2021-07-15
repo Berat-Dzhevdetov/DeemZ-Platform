@@ -1,0 +1,118 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --white: #fff;
+    --very-dark-gray: #121212;
+    --very-dark-gray-lighter: #181818;
+}
+
+.flex {
+    display: flex;
+}
+
+.left {
+    width: 20%;
+    background-color: var(--very-dark-gray);
+    color: var(--white);
+    height: 100vh;
+}
+
+.right {
+    height: 100%;
+    width: 80%;
+    height: 100vh;
+    background: var(--very-dark-gray-lighter);
+}
+
+.admin-link {
+    padding: 1rem;
+}
+
+.logo img {
+    padding: 1rem 1rem 0rem 1rem;
+    width: 100%;
+    height: 100px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+.card::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    background-size: cover;
+}
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    padding: 41px 30px;
+    position: relative;
+    background: #3B76EF;
+}
+
+    .card h4 {
+        font-size: 17px;
+        margin-bottom: 0;
+        font-weight: 700;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        color: #fff;
+        margin-bottom: 12px;
+    }
+
+    .card h3 {
+        font-size: 30px;
+        line-height: 40px;
+        margin-bottom: 0;
+        font-weight: 900;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        color: #fff;
+        margin-bottom: 7px;
+    }
+
+
+
+.number {
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.user-card {
+    background-color: #3B76EF;
+}
+
+.this-month-money-card {
+    background-color: #63C7FF;
+}
+
+.this-month-user-card {
+    background: #A66DD4;
+}
+
+.total-courses-card {
+    background: #6DD4B1;
+}
