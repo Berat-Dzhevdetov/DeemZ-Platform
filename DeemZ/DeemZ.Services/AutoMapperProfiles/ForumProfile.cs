@@ -27,7 +27,7 @@
                 .ForMember(x => x.Description, o => o.MapFrom(src => src.Text));
 
             CreateMap<AddCommentFormModel, Comment>()
-                .ForMember(x => x.CreatedOn, o => o.MapFrom(x => DateTime.Now));
+                .ForMember(x => x.CreatedOn, o => o.MapFrom(x => DateTime.UtcNow));
 
         }
     }

@@ -6,7 +6,9 @@
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
     using DeemZ.Services.SurveyServices;
-    using DeemZ.Services.ForumService;
+    using DeemZ.Services.ForumServices;
+    using DeemZ.Services.LectureServices;
+    using DeemZ.Services.ReportService;
 
     public static class ServiceBuilderExtentions
     {
@@ -24,6 +26,7 @@
                 mc.AddProfile(new SurveyQuestionProfile());
                 mc.AddProfile(new SurveyAnswerProfile());
                 mc.AddProfile(new ForumProfile());
+                mc.AddProfile(new ReportProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -37,6 +40,8 @@
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISurveyService, SurveyService>();
             services.AddTransient<IForumService, ForumService>();
+            services.AddTransient<ILectureService, LectureService>();
+            services.AddTransient<IReportService, ReportService>();
         }
     }
 }

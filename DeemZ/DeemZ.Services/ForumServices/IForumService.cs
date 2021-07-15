@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Services.ForumService
+﻿namespace DeemZ.Services.ForumServices
 {
     using DeemZ.Models.FormModels.Forum;
     using System.Collections.Generic;

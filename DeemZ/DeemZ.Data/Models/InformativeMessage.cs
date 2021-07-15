@@ -11,8 +11,8 @@
         [Required]
         public string Description { get; set; }
 
-        public DateTime ShowFrom { get; set; } = DateTime.Now;
-        public DateTime ShowTo { get; set; } = DateTime.Now.AddDays(7);
+        public DateTime ShowFrom { get; set; } = DateTime.UtcNow;
+        public DateTime ShowTo { get; set; } = DateTime.UtcNow.AddDays(7);
 
     }
 }

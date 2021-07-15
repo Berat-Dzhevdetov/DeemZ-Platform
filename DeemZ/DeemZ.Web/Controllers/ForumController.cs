@@ -5,7 +5,7 @@
     using DeemZ.Models.Shared;
     using DeemZ.Models.ViewModels.Forum;
     using DeemZ.Services;
-    using DeemZ.Services.ForumService;
+    using DeemZ.Services.ForumServices;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;

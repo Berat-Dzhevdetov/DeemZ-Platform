@@ -33,7 +33,7 @@
                 .Where(
                     x => x.User.Id == uid
                     && x.IsPaid == isPaid
-                    && x.Course.EndDate > DateTime.Now
+                    && x.Course.EndDate > DateTime.UtcNow
                 )
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x.Course))
@@ -66,8 +66,8 @@
                     x.Lecture.Course.UserCourses.Any(c =>
                         c.UserId == uid
                         && c.CourseId == x.Lecture.CourseId
-                        && c.Course.StartDate <= DateTime.Now
-                        && c.Course.EndDate >= DateTime.Now
+                        && c.Course.StartDate <= DateTime.UtcNow
+                        && c.Course.EndDate >= DateTime.UtcNow
                         && c.IsPaid == true))
                 .Select(x => mapper.Map<T>(x))
                 .ToList();
@@ -75,8 +75,8 @@
         public IEnumerable<T> GetCoursesForSignUp<T>()
             => context.Courses
             .Where(x =>
-                x.SignUpStartDate <= DateTime.Now
-                && x.SignUpEndDate > DateTime.Now)
+                x.SignUpStartDate <= DateTime.UtcNow
+                && x.SignUpEndDate > DateTime.UtcNow)
             .Select(x => mapper.Map<T>(x))
             .ToList();
 
@@ -87,7 +87,7 @@
                 CourseId = cid,
                 UserId = uid,
                 IsPaid = true,
-                PaidOn = DateTime.Now
+                PaidOn = DateTime.UtcNow
             };
 
             context.UserCourses.Add(userCourse);

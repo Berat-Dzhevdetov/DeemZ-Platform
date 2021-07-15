@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Services.ForumService
+﻿namespace DeemZ.Services.ForumServices
 {
     using AutoMapper;
     using System.Collections.Generic;

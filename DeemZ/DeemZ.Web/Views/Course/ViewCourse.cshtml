@@ -74,6 +74,9 @@
                                         This lecture has no resources
                                     </li>
                                 }
+                                <li class="small">
+                                    <a class="text-muted" asp-action="Add" asp-controller="Report" asp-route-lectureId="@currentLecture.Id">Report issue with resources or lecture</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -81,7 +84,7 @@
             }
         </ul>
     </div>
-    @if (Model.SignUpStartDate <= DateTime.Now && Model.SignUpEndDate > DateTime.Now && !Model.IsUserSignUpForThisCourse)
+    @if (Model.SignUpStartDate <= DateTime.UtcNow.ToLocalTime() && Model.SignUpEndDate > DateTime.UtcNow.ToLocalTime() && !Model.IsUserSignUpForThisCourse)
     {
 
         <div class="sign-up-for-course white-text text-center">
