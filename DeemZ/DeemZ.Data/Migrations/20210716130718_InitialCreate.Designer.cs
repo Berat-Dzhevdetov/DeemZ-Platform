@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeemZ.Data.Migrations
 {
     [DbContext(typeof(DeemZDbContext))]
-    [Migration("20210714204731_AddedNavigationalProperty")]
-    partial class AddedNavigationalProperty
+    [Migration("20210716130718_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,9 @@ namespace DeemZ.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -219,9 +222,6 @@ namespace DeemZ.Data.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<string>("AnswerToCommentId")
-                        .HasColumnType("nvarchar(40)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -238,8 +238,6 @@ namespace DeemZ.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AnswerToCommentId");
 
                     b.HasIndex("ForumId");
 
@@ -462,15 +460,24 @@ namespace DeemZ.Data.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("IssueDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LectureId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LectureId");
 
                     b.HasIndex("UserId");
 
@@ -850,10 +857,6 @@ namespace DeemZ.Data.Migrations
 
             modelBuilder.Entity("DeemZ.Data.Models.Comment", b =>
                 {
-                    b.HasOne("DeemZ.Data.Models.Comment", "AnswerToComment")
-                        .WithMany("Answers")
-                        .HasForeignKey("AnswerToCommentId");
-
                     b.HasOne("DeemZ.Data.Models.Forum", "Forum")
                         .WithMany("Comments")
                         .HasForeignKey("ForumId")
@@ -865,8 +868,6 @@ namespace DeemZ.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AnswerToComment");
 
                     b.Navigation("Forum");
 
@@ -922,11 +923,19 @@ namespace DeemZ.Data.Migrations
 
             modelBuilder.Entity("DeemZ.Data.Models.Report", b =>
                 {
+                    b.HasOne("DeemZ.Data.Models.Lecture", "Lecture")
+                        .WithMany("Reports")
+                        .HasForeignKey("LectureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DeemZ.Data.Models.ApplicationUser", "User")
                         .WithMany("Reports")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Lecture");
 
                     b.Navigation("User");
                 });
@@ -1071,11 +1080,6 @@ namespace DeemZ.Data.Migrations
                     b.Navigation("Answers");
                 });
 
-            modelBuilder.Entity("DeemZ.Data.Models.Comment", b =>
-                {
-                    b.Navigation("Answers");
-                });
-
             modelBuilder.Entity("DeemZ.Data.Models.Course", b =>
                 {
                     b.Navigation("Exams");
@@ -1102,6 +1106,8 @@ namespace DeemZ.Data.Migrations
             modelBuilder.Entity("DeemZ.Data.Models.Lecture", b =>
                 {
                     b.Navigation("Descriptions");
+
+                    b.Navigation("Reports");
 
                     b.Navigation("Resources");
                 });

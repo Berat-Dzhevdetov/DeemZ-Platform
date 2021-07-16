@@ -3,6 +3,9 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using DeemZ.Data.Models;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System;
 
     public class DeemZDbContext : IdentityDbContext<ApplicationUser>
     {

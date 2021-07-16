@@ -298,6 +298,7 @@ namespace DeemZ.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     PrivacyConfirm = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CityId = table.Column<string>(type: "nvarchar(40)", nullable: true),
                     ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -333,11 +334,18 @@ namespace DeemZ.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuestionId = table.Column<string>(type: "nvarchar(40)", nullable: false),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false)
+                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
@@ -508,7 +516,9 @@ namespace DeemZ.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IssueDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IssueDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LectureId = table.Column<string>(type: "nvarchar(40)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -517,6 +527,12 @@ namespace DeemZ.Data.Migrations
                         name: "FK_Reports_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reports_Lectures_LectureId",
+                        column: x => x.LectureId,
+                        principalTable: "Lectures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -582,24 +598,29 @@ namespace DeemZ.Data.Migrations
                     ForumId = table.Column<string>(type: "nvarchar(40)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    АnswerТоId = table.Column<string>(type: "nvarchar(40)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Comments_АnswerТоId",
-                        column: x => x.АnswerТоId,
-                        principalTable: "Comments",
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Comments_Forums_ForumId",
                         column: x => x.ForumId,
                         principalTable: "Forums",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_ApplicationUserId",
+                table: "Answers",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
@@ -676,9 +697,9 @@ namespace DeemZ.Data.Migrations
                 column: "ForumId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_АnswerТоId",
+                name: "IX_Comments_UserId",
                 table: "Comments",
-                column: "АnswerТоId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Descriptions_LectureId",
@@ -704,6 +725,11 @@ namespace DeemZ.Data.Migrations
                 name: "IX_Questions_ExamId",
                 table: "Questions",
                 column: "ExamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_LectureId",
+                table: "Reports",
+                column: "LectureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reports_UserId",

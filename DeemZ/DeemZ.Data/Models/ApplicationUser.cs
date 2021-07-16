@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Data.Models
 {
     using Microsoft.AspNetCore.Identity;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -13,6 +14,9 @@
         public string LastName { get; set; }
 
         public bool PrivacyConfirm { get; set; }
+
+        [Required]
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
         public City City { get; set; }
         public string CityId { get; set; }

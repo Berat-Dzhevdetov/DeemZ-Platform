@@ -2,23 +2,25 @@
     ViewData["Title"] = "Dashboard";
     Layout = "_AdminPanelLayout";
 }
+@model DeemZ.Models.ViewModels.Administration.AdministrationIndexViewModel
+ 
 <div class="container-fluid">
     <div class="cards">
         <div class="card user-card">
             <h4>Total users</h4>
-            <h3>13451351</h3>
+            <h3>@Model.UsersCount</h3>
         </div>
         <div class="card this-month-money-card">
             <h4>This month earned money</h4>
-            <h3>$13451351</h3>
+            <h3>$@Model.MoneyEarnedThisMonth</h3>
         </div>
         <div class="card total-courses-card">
             <h4>Total courses</h4>
-            <h3>13451351</h3>
+            <h3>@Model.TotalCourses</h3>
         </div>
         <div class="card this-month-user-card">
             <h4>This month sign up users</h4>
-            <h3>200</h3>
+            <h3>@Model.UsersSignedUpThisMonth</h3>
         </div>
     </div>
 </div>
