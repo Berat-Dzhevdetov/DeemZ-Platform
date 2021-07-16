@@ -25,7 +25,7 @@
         <form method="post" class="text-center" asp-action="PostComment" asp-route-topicId="@Model.ViewModel.Id">
             <textarea asp-for="@Model.FormModel.Text" rows="4" placeholder="Your anwer here..."></textarea>
             <span asp-validation-for="@Model.FormModel.Text" class="small text-danger"></span>
-            <input type="submit" value="Submit" class="btn btn-primary m-4"/>
+            <input type="submit" value="Submit" class="btn btn-primary m-4" />
         </form>
         @if (Model.ViewModel.Comments.Any())
         {
@@ -50,3 +50,7 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,6 +1,6 @@
 ﻿@model SignUpCourseFormModel
-@{ 
-ViewData["Title"] = "Sign up for course";
+@{
+    ViewData["Title"] = "Sign up for course";
 }
 
 
@@ -22,7 +22,7 @@ ViewData["Title"] = "Sign up for course";
             </div>
             <div class="form-group">
                 <div class="inner-addon">
-                    <input asp-for="@Model.Price" placeholder="Price" type="number" readonly /> 
+                    <input asp-for="@Model.Price" placeholder="Price" type="number" readonly />
                     <i class="fas fa-dollar-sign"></i>
                     <span asp-validation-for="@Model.Price" class="text-danger"></span>
                 </div>
@@ -42,3 +42,7 @@ ViewData["Title"] = "Sign up for course";
         </ul>
     </form>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
