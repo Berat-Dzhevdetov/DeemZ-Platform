@@ -3,6 +3,7 @@
     using AutoMapper;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Course;
+    using DeemZ.Models.ViewModels.Administration;
     using DeemZ.Models.ViewModels.Course;
 
     public class CourseProfile : Profile
@@ -25,6 +26,11 @@
 
             CreateMap<Course, SignUpCourseFormModel>()
                 .ForMember(x => x.CourseName, o => o.MapFrom(src => src.Name));
+
+            CreateMap<Course, CoursesViewModel>()
+                .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate))
+                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate));
+
         }
     }
 }

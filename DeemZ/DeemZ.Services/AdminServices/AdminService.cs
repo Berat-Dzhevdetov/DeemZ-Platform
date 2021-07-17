@@ -7,6 +7,7 @@
     using DeemZ.Data;
     using DeemZ.Models.ViewModels.Administration;
     using DeemZ.Services.CourseServices;
+    using Microsoft.EntityFrameworkCore;
 
     public class AdminService : IAdminService
     {
@@ -22,7 +23,12 @@
         }
 
         public IEnumerable<T> GetUserCourses<T>(int page = 1, int quantity = 20)
-            => courseService.GetCourses<T>().Paging(page, quantity).ToList();
+            => context.UserCourses
+                .Include(x => x.Course)
+                .Include(x => x.User)
+                .Select(x => mapper.Map<T>(x))
+                .Paging(page, quantity)
+                .ToList();
 
         public AdministrationIndexViewModel GetIndexPageInfo()
         {
@@ -45,5 +51,11 @@
 
         public int GetUserCoursesCount()
             => courseService.GetUserCoursesCount();
+
+        public int GetUserSignUpForCourse(string cid)
+            => context.UserCourses
+                .GroupBy(x => x.CourseId)
+                .Select(x => x.Count())
+                .First();
     }
 }

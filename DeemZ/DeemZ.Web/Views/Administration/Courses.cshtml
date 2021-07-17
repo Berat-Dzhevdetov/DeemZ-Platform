@@ -1,0 +1,60 @@
+﻿@model DeemZ.Models.ViewModels.Administration.AdministrationCoursesViewModel
+@{
+    Layout = "_AdminPanelLayout";
+    ViewData["Title"] = "Courses";
+}
+
+<div class="container-fluid">
+    <div class="text-center mt-5">
+        <a asp-controller="Course" asp-action="Add" class="btn btn-success">Add Course</a>
+    </div>
+    <table class="table table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Course Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Credits</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var userCourse in Model.Courses)
+            {
+            <tr>
+                <td>@userCourse.Name</td>
+                <td>@userCourse.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+                <td>@userCourse.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+                <td>@userCourse.Credits</td>
+                <td>@userCourse.Price</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Courses" asp-route-page="@Model.PreviousPage">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Courses" asp-route-page="@i">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Courses" asp-route-page="@Model.NextPage">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
+</div>

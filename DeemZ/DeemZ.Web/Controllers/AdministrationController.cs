@@ -4,6 +4,9 @@
     using Microsoft.AspNetCore.Mvc;
     using DeemZ.Services.AdminServices;
     using DeemZ.Models.ViewModels.Administration;
+    using System.Linq;
+    using System.Collections.Generic;
+    using System;
 
     [Authorize]
     public class AdministrationController : Controller
@@ -19,7 +22,7 @@
         {
             var viewModel = adminService.GetIndexPageInfo();
 
-            var allPages = adminService.GetUserCoursesCount();
+            var allPages = (int)Math.Ceiling(adminService.GetUserCoursesCount() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
 
@@ -30,7 +33,25 @@
             return View(viewModel);
         }
 
-        private AdministrationIndexViewModel AdjustPages(AdministrationIndexViewModel viewModel, int page, int allPages)
+        public IActionResult Courses(int page = 1, int quantity = 20)
+        {
+            var viewModel = new AdministrationCoursesViewModel();
+
+            var allPages = (int)Math.Ceiling(adminService.GetUserCoursesCount() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel.Courses = (List<CoursesViewModel>)adminService.GetUserCourses<CoursesViewModel>(page, quantity);
+
+            viewModel.Courses = viewModel.Courses.Distinct().ToList();
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
+        private T AdjustPages<T>(T viewModel, int page, int allPages)
+            where T : PagingBaseModel
         {
             viewModel.CurrentPage = page;
             viewModel.NextPage = page >= allPages ? null : page + 1;
