@@ -1,27 +1,23 @@
 ﻿namespace DeemZ.Web.Controllers
 {
-    using DeemZ.Data.Models;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Collections.Generic;
     using DeemZ.Models.FormModels.Forum;
     using DeemZ.Models.Shared;
     using DeemZ.Models.ViewModels.Forum;
     using DeemZ.Services;
     using DeemZ.Services.ForumServices;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using DeemZ.Web.Infrastructure;
 
     public class ForumController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IForumService forumService;
         private readonly Guard guard;
 
-        public ForumController(UserManager<ApplicationUser> userManager, IForumService forumService, Guard guard)
+        public ForumController(IForumService forumService, Guard guard)
         {
-            this.userManager = userManager;
             this.forumService = forumService;
             this.guard = guard;
         }
@@ -65,13 +61,13 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateForumTopicFormModel topic)
+        public IActionResult Create(CreateForumTopicFormModel topic)
         {
             if (!ModelState.IsValid) return View(topic);
 
-            var user = await this.userManager.GetUserAsync(HttpContext.User);
+            var userId = User.GetId();
 
-            var topicId = forumService.CreateTopic(topic, user.Id);
+            var topicId = forumService.CreateTopic(topic, userId);
 
             return RedirectToAction(nameof(Topic), new { topicId = topicId });
         }
@@ -93,7 +89,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> PostCommentAsync(string topicId, ViewAndFormModelForTopics model)
+        public IActionResult PostComment(string topicId, ViewAndFormModelForTopics model)
         {
             if (guard.AgainstNull(topicId, nameof(topicId))) return NotFound();
 
@@ -103,9 +99,9 @@
                 return View(nameof(Topic), model);
             }
 
-            var user = await this.userManager.GetUserAsync(HttpContext.User);
+            var userId = User.GetId();
 
-            forumService.CreateComment(model.FormModel, topicId, user.Id);
+            forumService.CreateComment(model.FormModel, topicId, userId);
 
             model.ViewModel = forumService.GetTopicById<TopicViewModel>(topicId);
 

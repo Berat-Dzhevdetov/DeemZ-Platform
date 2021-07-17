@@ -6,24 +6,22 @@
     using DeemZ.Models.ViewModels.Course;
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Models.FormModels.Course;
+    using DeemZ.Web.Infrastructure;
 
     public class CourseController : Controller
     {
         private readonly Guard guard;
         private readonly ICourseService courseService;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public CourseController(Guard guard, ICourseService courseService, UserManager<ApplicationUser> userManager)
+        public CourseController(Guard guard, ICourseService courseService)
         {
             this.guard = guard;
             this.courseService = courseService;
-            this.userManager = userManager;
         }
 
-        public async Task<IActionResult> ViewCourse(string courseId)
+        public IActionResult ViewCourse(string courseId)
         {
             if (guard.AgainstNull(courseId)) return NotFound();
 
@@ -31,12 +29,12 @@
 
             if (course == null) return NotFound();
 
-            var user = await this.userManager.GetUserAsync(HttpContext.User);
+            var userId = User.GetId();
 
-            if (user == null) course.IsUserSignUpForThisCourse = false;
+            if (userId == null) course.IsUserSignUpForThisCourse = false;
             else
             {
-                course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, courseId);
+                course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
             }
             
 
@@ -56,13 +54,13 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> SignUpAsync(string courseId,SignUpCourseFormModel signUp)
+        public IActionResult SignUp(string courseId,SignUpCourseFormModel signUp)
         {
             if (guard.AgainstNull(courseId)) return NotFound();
 
-            var user = await this.userManager.GetUserAsync(HttpContext.User);
+            var userId = User.GetId();
 
-            var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, courseId);
+            var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
             if (isUserSignUpForThisCourse) return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
 
@@ -72,7 +70,7 @@
 
             if (course == null) return BadRequest();
 
-            courseService.SignUserToCourse(user.Id, course.Id);
+            courseService.SignUserToCourse(userId, course.Id);
 
             return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }

@@ -39,7 +39,7 @@
                     <td>@userCourse.UserName</td>
                     <td>@userCourse.CourseName</td>
                     <td>@userCourse.IsPaid</td>
-                    <td>@userCourse.SignUpOn.ToLocalTime()</td>
+                    <td>@userCourse.PaidOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
                 </tr>
             }
         </tbody>

@@ -8,6 +8,6 @@
         public string UserName { get; set; }
         public string CourseName { get; set; }
         public bool IsPaid { get; set; }
-        public DateTime SignUpOn { get; set; }
+        public DateTime PaidOn { get; set; }
     }
 }

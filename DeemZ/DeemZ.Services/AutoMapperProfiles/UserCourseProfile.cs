@@ -10,7 +10,6 @@
         {
             CreateMap<UserCourse, UserCoursesViewModel>()
                 .ForMember(x => x.CourseName, o => o.MapFrom(src => src.Course.Name))
-                .ForMember(x => x.SignUpOn, o => o.MapFrom(src => src.PaidOn))
                 .ForMember(x => x.UserName, o => o.MapFrom(src => src.User.UserName));
         }
     }
