@@ -57,5 +57,8 @@
                 .GroupBy(x => x.CourseId)
                 .Select(x => x.Count())
                 .First();
+
+        public int GetUserSignedUpForCourse(string cid)
+            => context.UserCourses.Count(x => x.CourseId == cid);
     }
 }

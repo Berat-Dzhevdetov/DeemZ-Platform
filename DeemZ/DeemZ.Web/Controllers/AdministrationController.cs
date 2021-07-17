@@ -45,6 +45,11 @@
 
             viewModel.Courses = viewModel.Courses.Distinct().ToList();
 
+            foreach (var course in viewModel.Courses)
+            {
+                course.SignedUpUsers = adminService.GetUserSignedUpForCourse(course.Id);
+            }
+
             viewModel = AdjustPages(viewModel, page, allPages);
 
             return View(viewModel);

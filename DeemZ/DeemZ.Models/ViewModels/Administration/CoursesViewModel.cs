@@ -10,6 +10,7 @@
         public DateTime EndDate { get; set; }
         public int Credits { get; set; }
         public decimal Price { get; set; }
+        public int SignedUpUsers { get; set; }
 
         public override bool Equals(object obj)
         {
