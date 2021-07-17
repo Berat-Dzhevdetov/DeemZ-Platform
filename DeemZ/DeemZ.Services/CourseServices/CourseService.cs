@@ -100,5 +100,7 @@
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x))
                 .ToList();
+
+        public int GetUserCoursesCount() => context.UserCourses.Count();
     }
 }

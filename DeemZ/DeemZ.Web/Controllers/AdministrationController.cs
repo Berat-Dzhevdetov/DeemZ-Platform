@@ -15,12 +15,29 @@
             this.adminService = adminService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1,int quantity = 20)
         {
             var viewModel = adminService.GetIndexPageInfo();
-            viewModel.UserCourses = adminService.GetUserCourses<UserCoursesViewModel>();
-            
+
+            var allPages = adminService.GetUserCoursesCount();
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel.UserCourses = adminService.GetUserCourses<UserCoursesViewModel>(page,quantity);
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
             return View(viewModel);
+        }
+
+        private AdministrationIndexViewModel AdjustPages(AdministrationIndexViewModel viewModel, int page, int allPages)
+        {
+            viewModel.CurrentPage = page;
+            viewModel.NextPage = page >= allPages ? null : page + 1;
+            viewModel.PreviousPage = page <= 1 ? null : page - 1;
+            viewModel.MaxPages = allPages;
+
+            return viewModel;
         }
     }
 }

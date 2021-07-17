@@ -22,13 +22,8 @@
             this.guard = guard;
         }
 
-        public IActionResult Index(int page, int quantity, string Search)
+        public IActionResult Index(string Search,int page = 1, int quantity = 10)
         {
-            if (guard.AgainstNull(page, nameof(page))) page = 1;
-            if (guard.AgainstNull(quantity, nameof(quantity))) quantity = 10;
-
-            if (quantity <= 0) quantity = 10;
-
             var allPages = (int)Math.Ceiling(forumService.Count() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;

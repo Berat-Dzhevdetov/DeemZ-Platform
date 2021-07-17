@@ -8,5 +8,10 @@
         public int TotalCourses { get; set; }
         public int UsersSignedUpThisMonth { get; set; }
         public IEnumerable<UserCoursesViewModel> UserCourses { get; set; }
+
+        public int CurrentPage { get; set; }
+        public int? NextPage { get; set; }
+        public int? PreviousPage { get; set; }
+        public int MaxPages { get; set; }
     }
 }

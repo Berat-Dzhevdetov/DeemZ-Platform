@@ -116,3 +116,22 @@
 .total-courses-card {
     background: #6DD4B1;
 }
+
+.pages {
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
+    .pages .page-number {
+        border: 1px solid #ccc;
+        padding: 0.6rem;
+        width: auto;
+        text-align: center;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+        .pages .page-number a {
+            display: block;
+        }

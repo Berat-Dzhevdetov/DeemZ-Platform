@@ -42,5 +42,8 @@
         private decimal GetLastMonthMoneyEarned(DateTime prevsDate)
             => context.UserCourses.Where(x => x.PaidOn >= prevsDate)
                 .Sum(x => x.Course.Price);
+
+        public int GetUserCoursesCount()
+            => courseService.GetUserCoursesCount();
     }
 }
