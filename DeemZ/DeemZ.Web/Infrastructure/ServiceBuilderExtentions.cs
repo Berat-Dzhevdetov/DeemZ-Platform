@@ -28,6 +28,7 @@
                 mc.AddProfile(new SurveyAnswerProfile());
                 mc.AddProfile(new ForumProfile());
                 mc.AddProfile(new ReportProfile());
+                mc.AddProfile(new UserCourseProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

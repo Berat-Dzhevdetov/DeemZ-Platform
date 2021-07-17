@@ -10,6 +10,8 @@
         bool IsUserSignUpForThisCourse(string uid,string cid);
         IEnumerable<T> GetCoursesResources<T>(string uid);
         IEnumerable<T> GetCoursesForSignUp<T>();
-        bool SignUserToCourse(string uid, string cid);
+        void SignUserToCourse(string uid, string cid);
+
+        IEnumerable<T> GetCourses<T>();
     }
 }

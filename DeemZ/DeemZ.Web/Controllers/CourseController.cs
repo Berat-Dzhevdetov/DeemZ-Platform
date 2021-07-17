@@ -23,7 +23,7 @@
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> ViewCourseAsync(string courseId)
+        public async Task<IActionResult> ViewCourse(string courseId)
         {
             if (guard.AgainstNull(courseId)) return NotFound();
 
@@ -62,11 +62,9 @@
 
             var user = await this.userManager.GetUserAsync(HttpContext.User);
 
-            var redirectLink = "ViewCourse";
-
             var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(user.Id, courseId);
 
-            if (isUserSignUpForThisCourse) return RedirectToAction(redirectLink, new { courseId = courseId });
+            if (isUserSignUpForThisCourse) return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
 
             if (!ModelState.IsValid) return View(signUp);
 
@@ -76,7 +74,7 @@
 
             courseService.SignUserToCourse(user.Id, course.Id);
 
-            return RedirectToAction(redirectLink, new { courseId = courseId });
+            return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }
     }
 }

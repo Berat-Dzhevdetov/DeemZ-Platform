@@ -80,7 +80,7 @@
             .Select(x => mapper.Map<T>(x))
             .ToList();
 
-        public bool SignUserToCourse(string uid, string cid)
+        public void SignUserToCourse(string uid, string cid)
         {
             var userCourse = new UserCourse()
             {
@@ -91,10 +91,14 @@
             };
 
             context.UserCourses.Add(userCourse);
-
-            var changedEntities = context.SaveChanges();
-
-            return changedEntities >= 1 ? true : false;
+            context.SaveChanges();
         }
+
+        public IEnumerable<T> GetCourses<T>()
+            => context.UserCourses
+                .Include(x => x.User)
+                .Include(x => x.Course)
+                .Select(x => mapper.Map<T>(x))
+                .ToList();
     }
 }
