@@ -74,5 +74,11 @@
 
             return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }
+
+        [Authorize]
+        public IActionResult Add()
+        {
+            return View();
+        }
     }
 }

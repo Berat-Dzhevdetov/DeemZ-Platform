@@ -33,7 +33,12 @@
         public class Course
         {
             public const int MinNameLength = 5;
+            public const int MaxNameLength = 100;
             public const decimal DefaultPrice = 220m;
+            public const int MinCredits = 1;
+            public const int MaxCredits = 15;
+            public const decimal MinMoney = 220m;
+            public const decimal MaxMoney = 440m;
         }
 
         public class Lecture
