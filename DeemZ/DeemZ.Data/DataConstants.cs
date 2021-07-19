@@ -37,7 +37,7 @@
             public const decimal DefaultPrice = 220m;
             public const int MinCredits = 1;
             public const int MaxCredits = 15;
-            public const decimal MinMoney = 220m;
+            public const decimal MinMoney = 50m;
             public const decimal MaxMoney = 440m;
         }
 

@@ -42,9 +42,9 @@
 
 
 
-        public T GetCourseById<T>(string uid)
-            => context.Courses
-                .Where(x => x.Id == uid)
+        public T GetCourseById<T>(string cid)
+        => context.Courses
+                .Where(x => x.Id == cid)
                 .Include(x => x.Lectures)
                 .ThenInclude(x => x.Descriptions)
                 .Include(c => c.Lectures)
@@ -112,6 +112,25 @@
             context.SaveChanges();
 
             return newlyCourse.Id;
+        }
+
+        public void EditCourseById(EditCourseFormModel course, string courseId)
+        {
+            var courseToEdit = this.GetCourseById<Course>(courseId);
+            context.Attach(courseToEdit);
+
+            var properties = course.GetType().GetProperties();
+
+            var typeOfCourse = courseToEdit.GetType();
+
+            foreach (var property in properties)
+            {
+                typeOfCourse
+                    .GetProperty(property.Name)
+                    .SetValue(courseToEdit, property.GetValue(course));
+            }
+
+            context.SaveChanges();
         }
     }
 }

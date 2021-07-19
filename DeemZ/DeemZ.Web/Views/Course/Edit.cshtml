@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "_AdminPanelLayOut";
+    ViewData["Title"] = "Edit Course";
+}
+@model DeemZ.Models.FormModels.Course.EditCourseFormModel
+
+<div class="container-fluid">
+    <form method="post" class="mt-4">
+        <div class="form-group text-center">
+            <h2 class="text-light">@ViewData["Title"]</h2>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Name"></label>
+            <input placeholder="@Model.Name" class="form-control" asp-for="Name" />
+            <span asp-validation-for="Name" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="StartDate"></label>
+            <input class="form-control" placeholder="@Model.StartDate" asp-for="StartDate" />
+            <span asp-validation-for="StartDate" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="EndDate"></label>
+            <input class="form-control" placeholder="@Model.EndDate" asp-for="EndDate" />
+            <span asp-validation-for="EndDate" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Price"></label>
+            <input placeholder="@Model.Price" class="form-control" asp-for="Price" />
+            <span asp-validation-for="Price" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Credits"></label>
+            <input placeholder="@Model.Credits" class="form-control" asp-for="Credits" />
+            <span asp-validation-for="Credits" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="SignUpStartDate"></label>
+            <input class="form-control" placeholder="@Model.SignUpStartDate" asp-for="SignUpStartDate" />
+            <span asp-validation-for="SignUpStartDate" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="SignUpEndDate"></label>
+            <input class="form-control" placeholder="@Model.SignUpEndDate" asp-for="SignUpEndDate" />
+            <span asp-validation-for="SignUpEndDate" class="small text-danger"></span>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
+        </div>
+    </form>
+</div>

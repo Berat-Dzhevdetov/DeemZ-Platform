@@ -17,18 +17,20 @@
                 <th scope="col">Credits</th>
                 <th scope="col">Price</th>
                 <th scope="col">Signed Up Users</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var userCourse in Model.Courses)
+            @foreach (var course in Model.Courses)
             {
             <tr>
-                <td>@userCourse.Name</td>
-                <td>@userCourse.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
-                <td>@userCourse.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
-                <td>@userCourse.Credits</td>
-                <td>@userCourse.Price</td>
-                <td>@userCourse.SignedUpUsers</td>
+                <td>@course.Name</td>
+                <td>@course.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+                <td>@course.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+                <td>@course.Credits</td>
+                <td>@course.Price</td>
+                <td>@course.SignedUpUsers</td>
+                <td><a class="btn btn-success" asp-controller="Course" asp-action="Edit" asp-route-courseId="@course.Id">Edit</a></td>
             </tr>
             }
         </tbody>
