@@ -11,35 +11,41 @@
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="flex">
+    <div class="flex page-holder">
         <div class="left">
             <div class="logo clickable">
                 <a asp-action="Index" asp-controller="Home">
                     <img src="~/media/logo.png" alt="DeemZ Logo" />
                 </a>
             </div>
-            <div class="admin-link">
-                <i class="fas fa-chart-line"></i>
-                <a class="text-white" asp-controller="Administration" asp-action="Index">Dashboard</a>
+            <div class="mobile-dropdown clickable">
+                <span class="text-light">Show links</span>
+                <i class="fas fa-arrow-down"></i>
             </div>
-            <div class="admin-link">
-                <i class="fas fa-laptop-code"></i>
-                <a class="text-white" asp-controller="Administration" asp-action="Courses">Courses</a>
-            </div>
-            <div class="admin-link">
-                Dashboard
-            </div>
-            <div class="admin-link">
-                Dashboard
-            </div>
-            <div class="admin-link">
-                Dashboard
-            </div>
-            <div class="admin-link">
-                Dashboard
-            </div>
-            <div class="admin-link">
-                Dashboard
+            <div class="links-holder">
+                <div class="admin-link">
+                    <i class="fas fa-chart-line"></i>
+                    <a class="text-white" asp-controller="Administration" asp-action="Index">Dashboard</a>
+                </div>
+                <div class="admin-link">
+                    <i class="fas fa-laptop-code"></i>
+                    <a class="text-white" asp-controller="Administration" asp-action="Courses">Courses</a>
+                </div>
+                <div class="admin-link">
+                    Dashboard
+                </div>
+                <div class="admin-link">
+                    Dashboard
+                </div>
+                <div class="admin-link">
+                    Dashboard
+                </div>
+                <div class="admin-link">
+                    Dashboard
+                </div>
+                <div class="admin-link">
+                    Dashboard
+                </div>
             </div>
         </div>
         <div class="right">
