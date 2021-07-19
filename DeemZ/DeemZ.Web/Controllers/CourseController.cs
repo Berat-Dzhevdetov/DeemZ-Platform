@@ -36,7 +36,7 @@
             {
                 course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
             }
-            
+
 
             return View(course);
         }
@@ -54,7 +54,7 @@
 
         [Authorize]
         [HttpPost]
-        public IActionResult SignUp(string courseId,SignUpCourseFormModel signUp)
+        public IActionResult SignUp(string courseId, SignUpCourseFormModel signUp)
         {
             if (guard.AgainstNull(courseId)) return NotFound();
 
@@ -79,6 +79,19 @@
         public IActionResult Add()
         {
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Add(AddCourseFormModel course)
+        {
+            if (!ModelState.IsValid) return View();
+
+            var courseId = courseService.CreateCourse(course);
+
+            if (course.Redirect) return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
+
+            return RedirectToAction(nameof(AdministrationController.Courses),"Administration");
         }
     }
 }

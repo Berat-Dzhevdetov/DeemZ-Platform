@@ -39,11 +39,11 @@
 
             var allPages = (int)Math.Ceiling(adminService.GetUserCoursesCount() / (quantity * 1.0));
 
+            var a = adminService.GetUserCoursesCount();
+
             if (page <= 0 || page > allPages) page = 1;
 
-            viewModel.Courses = (List<CoursesViewModel>)adminService.GetUserCourses<CoursesViewModel>(page, quantity);
-
-            viewModel.Courses = viewModel.Courses.Distinct().ToList();
+            viewModel.Courses = (List<CoursesViewModel>)adminService.GetAllCourses<CoursesViewModel>(page, quantity);
 
             foreach (var course in viewModel.Courses)
             {

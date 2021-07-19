@@ -44,8 +44,12 @@
             <input class="form-control" asp-for="SignUpEndDate" />
             <span asp-validation-for="SignUpEndDate" class="small text-danger"></span>
         </div>
+        <div class="form-group">
+            <input asp-for="Redirect" />
+            <label class="text-light">Refer me to the course page</label>
+        </div>
         <div class="form-group text-center">
-            <input type="submit" class="btn btn-primary" value="@ViewData["Title"]"/>
+            <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
         </div>
     </form>
 </div>

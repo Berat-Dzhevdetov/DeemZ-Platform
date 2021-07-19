@@ -31,6 +31,8 @@
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate))
                 .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate));
 
+            CreateMap<AddCourseFormModel, Course>();
+
         }
     }
 }

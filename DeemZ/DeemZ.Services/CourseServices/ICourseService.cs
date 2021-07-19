@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Services.CourseServices
 {
     using System.Collections.Generic;
+    using DeemZ.Models.FormModels.Course;
 
     public interface ICourseService
     {
@@ -13,5 +14,6 @@
         void SignUserToCourse(string uid, string cid);
         IEnumerable<T> GetCourses<T>();
         int GetUserCoursesCount();
+        string CreateCourse(AddCourseFormModel course);
     }
 }

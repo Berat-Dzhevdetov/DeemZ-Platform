@@ -7,6 +7,7 @@
     using System.Linq;
     using DeemZ.Data;
     using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.Course;
 
     public class CourseService : ICourseService
     {
@@ -102,5 +103,15 @@
                 .ToList();
 
         public int GetUserCoursesCount() => context.UserCourses.Count();
+
+        public string CreateCourse(AddCourseFormModel course)
+        {
+            var newlyCourse = mapper.Map<Course>(course);
+
+            context.Courses.Add(newlyCourse);
+            context.SaveChanges();
+
+            return newlyCourse.Id;
+        }
     }
 }

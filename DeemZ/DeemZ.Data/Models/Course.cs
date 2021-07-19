@@ -7,6 +7,7 @@
     public class Course : BaseModel
     {
         [Required]
+        [MaxLength(DataConstants.Course.MaxNameLength)]
         public string Name { get; set; }
 
         [Required]
@@ -14,6 +15,7 @@
 
         [Required]
         public DateTime EndDate { get; set; }
+
         public decimal Price { get; set; } = DataConstants.Course.DefaultPrice;
 
         public int Credits { get; set; }

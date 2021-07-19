@@ -22,11 +22,33 @@
 }
 
 .right {
-    height: 100%;
     width: 80%;
     height: 100vh;
     background: var(--very-dark-gray-lighter);
+    min-height: 100vh;
+    overflow-y: auto;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 15px;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 
 .admin-link {
     padding: 1rem;

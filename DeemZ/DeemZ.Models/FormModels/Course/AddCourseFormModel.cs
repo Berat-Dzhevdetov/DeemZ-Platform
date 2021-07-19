@@ -12,7 +12,7 @@
             MinimumLength = MinNameLength)]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Enter date")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
@@ -32,5 +32,7 @@
         [Required]
         [Display(Name = "End Sign Up Date")]
         public DateTime SignUpEndDate { get; set; } = DateTime.UtcNow.AddDays(14);
+
+        public bool Redirect { get; set; }
     }
 }
