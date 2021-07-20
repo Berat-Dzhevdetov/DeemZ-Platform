@@ -57,22 +57,6 @@
             => context.UserCourses
                 .Any(x => x.UserId == uid && x.CourseId == cid && x.IsPaid == true);
 
-        public IEnumerable<T> GetCoursesResources<T>(string uid)
-            => context.Resources
-                .Include(x => x.Lecture)
-                .ThenInclude(x => x.Course)
-                .ThenInclude(x => x.UserCourses)
-                .OrderBy(x => x.CreatedOn)
-                .Where(x =>
-                    x.Lecture.Course.UserCourses.Any(c =>
-                        c.UserId == uid
-                        && c.CourseId == x.Lecture.CourseId
-                        && c.Course.StartDate <= DateTime.UtcNow
-                        && c.Course.EndDate >= DateTime.UtcNow
-                        && c.IsPaid == true))
-                .Select(x => mapper.Map<T>(x))
-                .ToList();
-
         public IEnumerable<T> GetCoursesForSignUp<T>()
             => context.Courses
             .Where(x =>
@@ -132,5 +116,8 @@
 
             context.SaveChanges();
         }
+
+        public bool GetCourseById(string id)
+            => context.Courses.Any(x => x.Id == id);
     }
 }

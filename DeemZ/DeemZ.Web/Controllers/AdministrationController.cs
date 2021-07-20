@@ -2,20 +2,30 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using DeemZ.Services.AdminServices;
-    using DeemZ.Models.ViewModels.Administration;
-    using System.Linq;
     using System.Collections.Generic;
     using System;
+    using System.Linq;
+    using DeemZ.Services.AdminServices;
+    using DeemZ.Models.ViewModels.Administration;
+    using DeemZ.Services;
+    using DeemZ.Services.ResourceService;
+    using DeemZ.Services.CourseServices;
+    using DeemZ.Models.ViewModels.Resources;
 
     [Authorize]
     public class AdministrationController : Controller
     {
         private readonly IAdminService adminService;
+        private readonly IResourceService resourceService;
+        private readonly ICourseService courseService;
+        private readonly Guard guard;
 
-        public AdministrationController(IAdminService adminService)
+        public AdministrationController(IAdminService adminService, Guard guard, IResourceService resourceService, ICourseService courseService)
         {
             this.adminService = adminService;
+            this.guard = guard;
+            this.resourceService = resourceService;
+            this.courseService = courseService;
         }
 
         public IActionResult Index(int page = 1,int quantity = 20)
@@ -49,6 +59,29 @@
             }
 
             viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
+        public IActionResult Resources(string courseId,int page = 1,int quantity = 20)
+        {
+            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
+
+            if (!courseService.GetCourseById(courseId)) return NotFound();
+
+            var resources = (List<IndexResourceViewModel>)resourceService.GetCourseRecourses<IndexResourceViewModel>(courseId);
+
+            var allPages = (int)Math.Ceiling(resources.Count / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            var viewModel = new ResourcesForCourseViewModel();
+
+            viewModel.Recourses = resources.Paging(page,quantity).ToList();
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            viewModel.CourseId = courseId;
 
             return View(viewModel);
         }

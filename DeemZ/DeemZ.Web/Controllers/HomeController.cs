@@ -1,9 +1,7 @@
 ﻿namespace DeemZ.App.Controllers
 {
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
-    using DeemZ.Data.Models;
     using DeemZ.Models;
     using DeemZ.Models.ViewModels.Course;
     using DeemZ.Models.ViewModels.User;
@@ -12,16 +10,19 @@
     using DeemZ.Models.ViewModels.Surveys;
     using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Services.ResourceService;
 
     public class HomeController : Controller
     {
         private readonly ICourseService courseService;
         private readonly ISurveyService serveyService;
+        private readonly IResourceService resourceService;
 
-        public HomeController(ICourseService courseService, ISurveyService serveyService)
+        public HomeController(ICourseService courseService, ISurveyService serveyService, IResourceService resourceService)
         {
             this.courseService = courseService;
             this.serveyService = serveyService;
+            this.resourceService = resourceService;
         }
 
         public IActionResult Index()
@@ -36,7 +37,7 @@
                     Credits = courseService.GetUserCredits(userId),
                     Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(userId, true),
                     Surveys = serveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId),
-                    Resources = courseService.GetCoursesResources<IndexResourceViewModel>(userId),
+                    Resources = resourceService.GetUserResources<IndexResourceViewModel>(userId),
                     SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
                 };
                 

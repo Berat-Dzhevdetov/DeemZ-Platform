@@ -1,0 +1,11 @@
+﻿namespace DeemZ.Models.ViewModels.Administration
+{
+    using System.Collections.Generic;
+    using DeemZ.Models.ViewModels.Resources;
+
+    public class ResourcesForCourseViewModel : PagingBaseModel
+    {
+        public List<IndexResourceViewModel> Recourses { get; set; }
+        public string CourseId { get; set; }
+    }
+}

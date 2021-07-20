@@ -225,4 +225,7 @@ form {
         width: 100%;
         overflow-x: auto!important;
     }
+    form{
+        width:90%;
+    }
 }

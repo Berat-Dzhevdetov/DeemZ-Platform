@@ -23,15 +23,27 @@
         <tbody>
             @foreach (var course in Model.Courses)
             {
-            <tr>
-                <td>@course.Name</td>
-                <td>@course.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
-                <td>@course.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
-                <td>@course.Credits</td>
-                <td>@course.Price</td>
-                <td>@course.SignedUpUsers</td>
-                <td><a class="btn btn-success" asp-controller="Course" asp-action="Edit" asp-route-courseId="@course.Id">Edit</a></td>
-            </tr>
+                <tr>
+                    <td>@course.Name</td>
+                    <td>@course.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+                    <td>@course.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+                    <td>@course.Credits</td>
+                    <td>@course.Price</td>
+                    <td>@course.SignedUpUsers</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-controller="Course" asp-action="Edit" asp-route-courseId="@course.Id">Edit</a>
+                                <a class="dropdown-item" asp-controller="Administration" asp-action="Resources" asp-route-courseId="@course.Id">Recourses</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

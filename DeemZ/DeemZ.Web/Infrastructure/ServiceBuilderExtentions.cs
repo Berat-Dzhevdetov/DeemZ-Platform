@@ -10,6 +10,7 @@
     using DeemZ.Services.LectureServices;
     using DeemZ.Services.ReportService;
     using DeemZ.Services.AdminServices;
+    using DeemZ.Services.ResourceService;
 
     public static class ServiceBuilderExtentions
     {
@@ -45,6 +46,7 @@
             services.AddTransient<ILectureService, LectureService>();
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IAdminService, AdminService>();
+            services.AddTransient<IResourceService, ResourceService>();
         }
     }
 }
