@@ -6,6 +6,6 @@
     public class ResourcesForCourseViewModel : PagingBaseModel
     {
         public List<IndexResourceViewModel> Recourses { get; set; }
-        public string CourseId { get; set; }
+        public string LectureId { get; set; }
     }
 }

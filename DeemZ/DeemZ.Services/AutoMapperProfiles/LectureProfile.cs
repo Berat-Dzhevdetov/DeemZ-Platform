@@ -13,6 +13,10 @@
                 .ForMember(x => x.Resourses, o => o.MapFrom(src => src.Resources));
 
             CreateMap<Lecture, AddReportFormModel>();
+
+            CreateMap<Lecture, LectureBasicInformationViewModel>()
+                .ForMember(x => x.Name, o => o.MapFrom(src => src.Name))
+                .ForMember(x => x.Id, o => o.MapFrom(src => src.Id));
         }
     }
 }

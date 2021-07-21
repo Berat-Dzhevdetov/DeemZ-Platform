@@ -16,5 +16,6 @@
         int GetUserCoursesCount();
         string CreateCourse(AddCourseFormModel course);
         void EditCourseById(EditCourseFormModel course, string courseId);
+        IEnumerable<T> GetLectureResourcesById<T>(string lid);
     }
 }

@@ -2,7 +2,9 @@
 {
     using AutoMapper;
     using System.Linq;
+    using System.Collections.Generic;
     using DeemZ.Data;
+    using Microsoft.EntityFrameworkCore;
 
     public class LectureService : ILectureService
     {
@@ -21,5 +23,12 @@
 
             return mapper.Map<T>(lecture);
         }
+
+        public IEnumerable<T> GetLecturesByCourseId<T>(string cid)
+            => context.Lectures
+                .Include(x => x.Course)
+                .Where(x => x.CourseId == cid)
+                .Select(x => mapper.Map<T>(x))
+                .ToList();
     }
 }

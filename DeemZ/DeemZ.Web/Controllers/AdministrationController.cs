@@ -11,6 +11,8 @@
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.ViewModels.Resources;
+    using DeemZ.Services.LectureServices;
+    using DeemZ.Models.ViewModels.Lectures;
 
     [Authorize]
     public class AdministrationController : Controller
@@ -18,17 +20,19 @@
         private readonly IAdminService adminService;
         private readonly IResourceService resourceService;
         private readonly ICourseService courseService;
+        private readonly ILectureService lectureService;
         private readonly Guard guard;
 
-        public AdministrationController(IAdminService adminService, Guard guard, IResourceService resourceService, ICourseService courseService)
+        public AdministrationController(IAdminService adminService, Guard guard, IResourceService resourceService, ICourseService courseService, ILectureService lectureService)
         {
             this.adminService = adminService;
             this.guard = guard;
             this.resourceService = resourceService;
             this.courseService = courseService;
+            this.lectureService = lectureService;
         }
 
-        public IActionResult Index(int page = 1,int quantity = 20)
+        public IActionResult Index(int page = 1, int quantity = 20)
         {
             var viewModel = adminService.GetIndexPageInfo();
 
@@ -36,7 +40,7 @@
 
             if (page <= 0 || page > allPages) page = 1;
 
-            viewModel.UserCourses = adminService.GetUserCourses<UserCoursesViewModel>(page,quantity);
+            viewModel.UserCourses = adminService.GetUserCourses<UserCoursesViewModel>(page, quantity);
 
             viewModel = AdjustPages(viewModel, page, allPages);
 
@@ -63,7 +67,7 @@
             return View(viewModel);
         }
 
-        public IActionResult Resources(string courseId,int page = 1,int quantity = 20)
+        public IActionResult Resources(string courseId, int page = 1, int quantity = 20)
         {
             if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
 
@@ -77,11 +81,34 @@
 
             var viewModel = new ResourcesForCourseViewModel();
 
-            viewModel.Recourses = resources.Paging(page,quantity).ToList();
+            viewModel.Recourses = resources.Paging(page, quantity).ToList();
 
             viewModel = AdjustPages(viewModel, page, allPages);
 
+            viewModel.LectureId = courseId;
+
+            return View(viewModel);
+        }
+
+        public IActionResult Lectures(string courseId, int page = 1, int quantity = 20)
+        {
+            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
+
+            if (!courseService.GetCourseById(courseId)) return NotFound();
+
+            var lectures = (List<LectureBasicInformationViewModel>)lectureService.GetLecturesByCourseId<LectureBasicInformationViewModel>(courseId);
+
+            var allPages = (int)Math.Ceiling(lectures.Count / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            var viewModel = new IndexLecturesViewModel();
+
             viewModel.CourseId = courseId;
+
+            viewModel.Lectures = lectures.Paging(page, quantity).ToList();
+
+            viewModel = AdjustPages(viewModel, page, allPages);
 
             return View(viewModel);
         }
