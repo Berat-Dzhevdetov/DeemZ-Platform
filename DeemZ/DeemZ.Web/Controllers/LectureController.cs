@@ -6,6 +6,7 @@
     using DeemZ.Services.LectureServices;
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.FormModels.Lecture;
+    using DeemZ.Models.FormModels.Description;
 
     //For Admins only
     [Authorize]
@@ -42,7 +43,30 @@
 
             lectureService.AddLectureToCourse(courseId,lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), "AdministrationController", new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Lectures), "Administration", new { courseId });
+        }
+
+        public IActionResult Edit(string lectureId)
+        {
+            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
+
+            var formModel = lectureService.GetLectureById<EditLectureFormModel>(lectureId);
+
+            if (formModel == null) return NotFound();
+
+            formModel.Descriptions = lectureService.GetLectureDescriptions<EditDescriptionFormModel>(lectureId);
+
+            return View(formModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string lectureId,EditLectureFormModel lecture)
+        {
+            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
+
+            if (!courseService.GetCourseById(lectureId)) return NotFound();
+
+            return View();
         }
     }
 }

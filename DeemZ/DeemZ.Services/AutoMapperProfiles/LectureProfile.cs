@@ -20,6 +20,10 @@
                 .ForMember(x => x.Id, o => o.MapFrom(src => src.Id));
 
             CreateMap<AddLectureFormModel, Lecture>();
+
+            CreateMap<Lecture, EditLectureFormModel>()
+                .ForMember(x => x.Name, o => o.MapFrom(src => src.Name))
+                .ForMember(x => x.Date, o => o.MapFrom(src => src.Date));
         }
     }
 }

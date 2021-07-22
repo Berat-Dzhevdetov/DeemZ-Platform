@@ -36,10 +36,20 @@
 
         public T GetLectureById<T>(string lid)
         {
-            var lecture = context.Lectures.FirstOrDefault(x => x.Id == lid);
+            var lecture = context.Lectures
+                .FirstOrDefault(x => x.Id == lid);
 
             return mapper.Map<T>(lecture);
         }
+
+        public bool GetLectureById(string lid)
+            => context.Lectures.Any(x => x.Id == lid);
+
+        public IEnumerable<T> GetLectureDescriptions<T>(string lid)
+            => context.Descriptions
+                .Where(x => x.LectureId == lid)
+                .Select(x => mapper.Map<T>(x))
+                .ToList();
 
         public IEnumerable<T> GetLecturesByCourseId<T>(string cid)
             => context.Lectures

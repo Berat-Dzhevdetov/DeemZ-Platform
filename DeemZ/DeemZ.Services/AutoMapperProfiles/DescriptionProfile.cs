@@ -13,6 +13,10 @@
                 .ForMember(x => x.Name, o => o.MapFrom(src => src.Name));
 
             CreateMap<AddDescriptionFormModel, Description>();
+
+            CreateMap<Description, EditDescriptionFormModel>()
+                .ForMember(x => x.Id, o => o.MapFrom(src => src.Id))
+                .ForMember(x => x.Name, o => o.MapFrom(src => src.Name));
         }
     }
 }

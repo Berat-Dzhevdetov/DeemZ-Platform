@@ -5,7 +5,9 @@
     public interface ILectureService
     {
         T GetLectureById<T>(string lid);
+        bool GetLectureById(string lid);
         IEnumerable<T> GetLecturesByCourseId<T>(string cid);
         void AddLectureToCourse(string courseId,AddLectureFormModel lecture);
+        IEnumerable<T> GetLectureDescriptions<T>(string lid);
     }
 }

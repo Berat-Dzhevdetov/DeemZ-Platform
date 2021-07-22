@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Web", "DeemZ.Web\Deem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Services", "DeemZ.Services\DeemZ.Services.csproj", "{C5F56027-05DF-461E-81CA-A1A8FBBF22FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeemZ.Models", "DeemZ.Models\DeemZ.Models.csproj", "{050F0813-549B-4525-99FF-3DFB570E8E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeemZ.Models", "DeemZ.Models\DeemZ.Models.csproj", "{050F0813-549B-4525-99FF-3DFB570E8E80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
