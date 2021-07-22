@@ -9,6 +9,7 @@ namespace DeemZ.Web
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Web.Infrastructure;
+    using Microsoft.AspNetCore.Mvc;
 
     public class Startup
     {
@@ -41,7 +42,10 @@ namespace DeemZ.Web
             services.AddMapper();
             services.AddCustomServices();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
             services.AddRazorPages();
         }
 

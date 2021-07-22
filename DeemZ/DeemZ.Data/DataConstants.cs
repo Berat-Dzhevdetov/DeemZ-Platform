@@ -44,11 +44,14 @@
         public class Lecture
         {
             public const int MinNameLength = 5;
+            public const int MaxNameLength = 100;
+
         }
 
         public class Description
         {
             public const int MinNameLength = 3;
+            public const int MaxNameLength = 40;
         }
 
         public class Exam

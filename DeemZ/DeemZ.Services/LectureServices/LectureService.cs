@@ -5,6 +5,8 @@
     using System.Collections.Generic;
     using DeemZ.Data;
     using Microsoft.EntityFrameworkCore;
+    using DeemZ.Models.FormModels.Lecture;
+    using DeemZ.Data.Models;
 
     public class LectureService : ILectureService
     {
@@ -15,6 +17,21 @@
         {
             this.context = context;
             this.mapper = mapper;
+        }
+
+        public void AddLectureToCourse(string courseId, AddLectureFormModel lecture)
+        {
+            var newlyLecture = mapper.Map<Lecture>(lecture);
+            newlyLecture.CourseId = courseId;
+
+            foreach (var description in lecture.Descriptions)
+            {
+                var newlyDescription = mapper.Map<Description>(description);
+                newlyDescription.LectureId = newlyLecture.Id;
+            }
+
+            context.Lectures.Add(newlyLecture);
+            context.SaveChanges();
         }
 
         public T GetLectureById<T>(string lid)

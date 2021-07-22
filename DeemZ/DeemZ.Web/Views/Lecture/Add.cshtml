@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_AdminPanelLayOut";
+    ViewData["Title"] = "Add Lecture";
+}
+@model DeemZ.Models.FormModels.Lecture.AddLectureFormModel
+
+<div class="container-fluid">
+    <form method="post" class="mt-4">
+        <div class="form-group text-center">
+            <h2 class="text-light">@ViewData["Title"]</h2>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Name"></label>
+            <input placeholder="Refleciton" class="form-control" asp-for="Name" />
+            <span asp-validation-for="Name" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Date"></label>
+            <input class="form-control" asp-for="Date" />
+            <span asp-validation-for="Date" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input class="form-control btn btn-success" value="Add Description" id="add-description" type="submit" />
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        let index = 0;
+        document.getElementById('add-description').addEventListener('click', function (e) {
+            e.preventDefault();
+            let parentDiv = e.currentTarget.parentNode;
+
+            let html = `<div class="form-group">
+                    <input class="form-control" required minLength="3" maxLength="40" name="Descriptions[${index}].Name" />
+                </div>`;
+
+            $(html).insertBefore(parentDiv);
+            index++;
+        })
+    </script>
+} 

@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Models.FormModels.Reports;
     using DeemZ.Models.ViewModels.Lectures;
 
@@ -17,6 +18,8 @@
             CreateMap<Lecture, LectureBasicInformationViewModel>()
                 .ForMember(x => x.Name, o => o.MapFrom(src => src.Name))
                 .ForMember(x => x.Id, o => o.MapFrom(src => src.Id));
+
+            CreateMap<AddLectureFormModel, Lecture>();
         }
     }
 }

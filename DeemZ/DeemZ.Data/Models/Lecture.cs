@@ -7,6 +7,7 @@
     public class Lecture : BaseModel
     {
         [Required]
+        [MaxLength(DataConstants.Lecture.MaxNameLength)]
         public string Name { get; set; }
 
         public DateTime? Date { get; set; }
