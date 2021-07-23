@@ -24,7 +24,7 @@
             @foreach (var course in Model.Courses)
             {
                 <tr>
-                    <td>@course.Name</td>
+                    <td><a class="text-light" asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@course.Id" >@course.Name</a></td>
                     <td>@course.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
                     <td>@course.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
                     <td>@course.Credits</td>

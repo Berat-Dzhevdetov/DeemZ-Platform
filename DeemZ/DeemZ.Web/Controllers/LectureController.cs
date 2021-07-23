@@ -64,9 +64,11 @@
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
 
-            if (!courseService.GetCourseById(lectureId)) return NotFound();
+            if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
-            return View();
+            lectureService.EditLectureById(lectureId,lecture);
+
+            return RedirectToAction(nameof(AdministrationController.Lectures), "Administration", new { courseId = lecture.CourseId });
         }
     }
 }

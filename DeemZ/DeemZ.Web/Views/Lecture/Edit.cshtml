@@ -9,6 +9,7 @@
         <div class="form-group text-center">
             <h2 class="text-light">@ViewData["Title"]</h2>
         </div>
+        <input hidden readonly asp-for="CourseId" />
         <div class="form-group">
             <label class="text-light" asp-for="Name"></label>
             <input placeholder="Refleciton" class="form-control" asp-for="Name" />
@@ -19,10 +20,12 @@
             <input class="form-control" asp-for="Date" />
             <span asp-validation-for="Date" class="small text-danger"></span>
         </div>
-        @foreach (var description in Model.Descriptions)
+        @for (int i = 0; i < Model.Descriptions.Count(); i++)
         {
+            var description = Model.Descriptions.ToArray()[i];
             <div class="form-group">
-                <input class="form-control" asp-for="@description.Name" />
+                <input class="form-control" value="@description.Id" name="Descriptions[@i].Id" hidden readonly />
+                <input class="form-control" value="@description.Name" name="Descriptions[@i].Name" />
             </div>
         }
         <div class="form-group">
@@ -36,7 +39,7 @@
 
 @section Scripts{
     <script>
-        let index = 0;
+        let index = @Model.Descriptions.Count();
         document.getElementById('add-description').addEventListener('click', function (e) {
             e.preventDefault();
             let parentDiv = e.currentTarget.parentNode;

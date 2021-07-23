@@ -9,5 +9,6 @@
         IEnumerable<T> GetLecturesByCourseId<T>(string cid);
         void AddLectureToCourse(string courseId,AddLectureFormModel lecture);
         IEnumerable<T> GetLectureDescriptions<T>(string lid);
+        void EditLectureById(string lectureId, EditLectureFormModel lecture);
     }
 }

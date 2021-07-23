@@ -7,6 +7,8 @@
     using Microsoft.EntityFrameworkCore;
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.Description;
+    using System;
 
     public class LectureService : ILectureService
     {
@@ -33,6 +35,40 @@
             context.Lectures.Add(newlyLecture);
             context.SaveChanges();
         }
+
+        public void EditLectureById(string lectureId, EditLectureFormModel lecture)
+        {
+            var lectureToEdit = GetLectureById<Lecture>(lectureId);
+
+            lectureToEdit.Name = lecture.Name;
+            lectureToEdit.Date = lecture.Date;
+
+            for (int i = 0; i < lecture.Descriptions.Count(); i++)
+            {
+                var (id, name) = GetDescriptionIdAndName(lecture.Descriptions.ToList()[i]);
+                var description = GetDescriptionById(id);
+                if (description == null)
+                {
+                    description = mapper.Map<Description>(lecture.Descriptions.ToList()[i]);
+                    description.LectureId = lectureId;
+                    description.Id = Guid.NewGuid().ToString();
+                    context.Descriptions.Add(description);
+                }
+                description.Name = name;
+                context.SaveChanges();
+            }
+            context.SaveChanges();
+        }
+
+        private (string id,string name) GetDescriptionIdAndName(EditDescriptionFormModel model)
+        {
+            var id = model.Id;
+            var name = model.Name;
+            return (id, name);
+        }
+
+        private Description GetDescriptionById(string did)
+            => context.Descriptions.Find(did);
 
         public T GetLectureById<T>(string lid)
         {
