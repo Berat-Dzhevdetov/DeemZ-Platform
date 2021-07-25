@@ -8,7 +8,7 @@
     <title>@ViewData["Title"] - DeemZ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -26,9 +26,16 @@
                         <li class="nav-item">
                             <a class="nav-link white-text" asp-area="" asp-controller="Forum" asp-action="Index">Forum</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link white-text" asp-area="" asp-controller="Administration" asp-action="Index">Administration</a>
-                        </li>
+                        @using DeemZ.Web.Infrastructure;
+                        @{
+                            var isAdmin = User.IsAdmin();
+                            if (isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link white-text" asp-area="" asp-controller="Administration" asp-action="Index">Administration</a>
+                                </li>
+                            }
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
