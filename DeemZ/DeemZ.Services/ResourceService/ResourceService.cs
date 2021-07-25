@@ -18,16 +18,6 @@
             this.mapper = mapper;
         }
 
-        public IEnumerable<T> GetCourseRecourses<T>(string cid)
-            => context.Resources
-                .Include(x => x.Lecture)
-                .ThenInclude(x => x.Course)
-                .Where(x => x.Lecture.CourseId == cid)
-                .OrderBy(x => x.CreatedOn)
-                .Select(x => mapper.Map<T>(x))
-                .ToList();
-                
-
         public IEnumerable<T> GetUserResources<T>(string uid)
             => context.Resources
                 .Include(x => x.Lecture)

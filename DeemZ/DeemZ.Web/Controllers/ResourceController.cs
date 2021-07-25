@@ -5,27 +5,28 @@
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
     using DeemZ.Services.ResourceService;
+    using DeemZ.Services.LectureServices;
 
     //For Admin only
     [Authorize]
     public class ResourceController : Controller
     {
         private readonly Guard guard;
-        private readonly ICourseService courseService;
+        private readonly ILectureService lectureService;
         private readonly IResourceService resourceService;
 
-        public ResourceController(ICourseService courseService, Guard guard, IResourceService resourceService)
+        public ResourceController(Guard guard, ILectureService lectureService, IResourceService resourceService)
         {
-            this.courseService = courseService;
+            this.lectureService = lectureService;
             this.guard = guard;
             this.resourceService = resourceService;
         }
 
-        public IActionResult Add(string cid)
+        public IActionResult Add(string lectureId)
         {
-            if (guard.AgainstNull(cid, nameof(cid))) return BadRequest();
+            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
 
-            if (courseService.GetCourseById(cid)) return NotFound();
+            if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
             return View();
         }

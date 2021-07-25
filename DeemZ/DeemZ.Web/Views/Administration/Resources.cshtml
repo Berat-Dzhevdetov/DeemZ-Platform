@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "Resources";
     Layout = "_AdminPanelLayout";
 }
 @model DeemZ.Models.ViewModels.Administration.ResourcesForCourseViewModel
@@ -26,9 +26,9 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-controller="Course" asp-action="Edit" asp-route-courseId="@resource.LectureId">Edit</a>
+                                <a class="dropdown-item" asp-controller="Resource" asp-action="Edit" asp-route-courseId="@resource.Id">Edit</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
+                                <a class="dropdown-item" asp-controller="Resource" asp-action="Delete" asp-route-courseId="@resource.Id">Delete</a>
                             </div>
                         </div>
                     </td>

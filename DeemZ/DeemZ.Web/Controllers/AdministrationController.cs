@@ -18,16 +18,14 @@
     public class AdministrationController : Controller
     {
         private readonly IAdminService adminService;
-        private readonly IResourceService resourceService;
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
         private readonly Guard guard;
 
-        public AdministrationController(IAdminService adminService, Guard guard, IResourceService resourceService, ICourseService courseService, ILectureService lectureService)
+        public AdministrationController(IAdminService adminService, Guard guard, ICourseService courseService, ILectureService lectureService)
         {
             this.adminService = adminService;
             this.guard = guard;
-            this.resourceService = resourceService;
             this.courseService = courseService;
             this.lectureService = lectureService;
         }
@@ -67,15 +65,15 @@
             return View(viewModel);
         }
 
-        public IActionResult Resources(string courseId, int page = 1, int quantity = 20)
+        public IActionResult Resources(string lectureId, int page = 1, int quantity = 20)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
+            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
 
-            if (!courseService.GetCourseById(courseId)) return NotFound();
+            if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
-            var resources = (List<IndexResourceViewModel>)resourceService.GetCourseRecourses<IndexResourceViewModel>(courseId);
+            var resources = lectureService.GetLectureResourcesById<IndexResourceViewModel>(lectureId);
 
-            var allPages = (int)Math.Ceiling(resources.Count / (quantity * 1.0));
+            var allPages = (int)Math.Ceiling(resources.Count() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
 
@@ -85,7 +83,7 @@
 
             viewModel = AdjustPages(viewModel, page, allPages);
 
-            viewModel.LectureId = courseId;
+            viewModel.LectureId = lectureId;
 
             return View(viewModel);
         }
@@ -96,9 +94,9 @@
 
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
-            var lectures = (List<LectureBasicInformationViewModel>)lectureService.GetLecturesByCourseId<LectureBasicInformationViewModel>(courseId);
+            var lectures = lectureService.GetLecturesByCourseId<LectureBasicInformationViewModel>(courseId);
 
-            var allPages = (int)Math.Ceiling(lectures.Count / (quantity * 1.0));
+            var allPages = (int)Math.Ceiling(lectures.Count() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
 

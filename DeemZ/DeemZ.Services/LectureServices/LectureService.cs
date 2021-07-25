@@ -37,9 +37,8 @@
         }
 
         public IEnumerable<T> GetLectureResourcesById<T>(string lid)
-            => context.Lectures
-                .Where(x => x.Id == lid)
-                .Include(x => x.Resources)
+            => context.Resources
+                .Where(x => x.LectureId == lid)
                 .Select(x => mapper.Map<T>(x))
                 .ToList();
 
