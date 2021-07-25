@@ -9,26 +9,27 @@
     using Microsoft.AspNetCore.Identity;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
+    using DeemZ.Web.Infrastructure;
 
     public class SurveyController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly Guard guard;
         private readonly ISurveyService surveyService;
 
-        public SurveyController(ISurveyService surveyService, Guard guard, UserManager<ApplicationUser> userManager)
+        public SurveyController(ISurveyService surveyService, Guard guard)
         {
             this.surveyService = surveyService;
             this.guard = guard;
-            this.userManager = userManager;
         }
 
         [Authorize]
-        public async Task<IActionResult> TakeAsync(string surveyId)
+        public IActionResult Take(string surveyId)
         {
-            if(guard.AgainstNull(surveyId,nameof(surveyId))) return NotFound();
+            if (guard.AgainstNull(surveyId, nameof(surveyId))) return NotFound();
 
-            if (!await CheckIfUserHavePermissionToThisSurveyAsync(surveyId)) return Unauthorized();
+            var userId = User.GetId();
+
+            if (CheckIfUserHavePermissionToThisSurvey(userId,surveyId)) return Unauthorized();
 
             var survey = surveyService.GetSurveyById<TakeSurveyViewModel>(surveyId);
 
@@ -39,13 +40,15 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> TakeAsync(IFormCollection answers)
+        public IActionResult Take(IFormCollection answers)
         {
             if (guard.AgainstNull(answers)) return NotFound();
 
             var surveyId = answers["surveyId"].ToString();
 
-            if (!await CheckIfUserHavePermissionToThisSurveyAsync(surveyId)) return Unauthorized();
+            var userId = User.GetId();
+
+            if (CheckIfUserHavePermissionToThisSurvey(userId, surveyId)) return Unauthorized();
 
             var survey = surveyService.GetSurveyById<TakeSurveyViewModel>(surveyId);
 
@@ -55,20 +58,15 @@
 
             foreach (var questionId in questionsIds)
             {
-
+                //todo:
             }
 
             return View();
         }
 
-        private async Task<bool> CheckIfUserHavePermissionToThisSurveyAsync(string surveyId)
+        private bool CheckIfUserHavePermissionToThisSurvey(string uid, string surveyId)
         {
-            var user = await this.userManager.GetUserAsync(HttpContext.User);
-
-            var doesThisUserHavePermissionToTakeTheSurvey = surveyService.DoesTheUserHavePermissionToSurvey(user.Id, surveyId);
-
-            if (!doesThisUserHavePermissionToTakeTheSurvey) return false;
-            return true;
+            return surveyService.DoesTheUserHavePermissionToSurvey(uid, surveyId);
         }
     }
 }

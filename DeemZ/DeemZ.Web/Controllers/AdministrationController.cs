@@ -8,13 +8,14 @@
     using DeemZ.Services.AdminServices;
     using DeemZ.Models.ViewModels.Administration;
     using DeemZ.Services;
-    using DeemZ.Services.ResourceService;
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.ViewModels.Lectures;
 
-    [Authorize]
+    using static Constants;
+
+    [Authorize(Roles = AdminRoleName)]
     public class AdministrationController : Controller
     {
         private readonly IAdminService adminService;

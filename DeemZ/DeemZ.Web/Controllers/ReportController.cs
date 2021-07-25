@@ -3,12 +3,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using System.Threading.Tasks;
     using DeemZ.Data.Models;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Reports;
     using DeemZ.Services;
     using DeemZ.Services.ReportService;
+    using DeemZ.Web.Infrastructure;
 
     public class ReportController : Controller
     {
@@ -38,7 +38,7 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddAsync(AddReportFormModel formModel)
+        public IActionResult Add(AddReportFormModel formModel)
         {
             if (!ModelState.IsValid) return View(formModel);
 
@@ -46,9 +46,9 @@
 
             if (lecture == null) return NotFound();
 
-            var user = await userManager.GetUserAsync(HttpContext.User);
+            var userId = User.GetId();
 
-            reportService.AddReport(formModel, user.Id);
+            reportService.AddReport(formModel, userId);
 
             return RedirectToAction("Index", "Home");
         }

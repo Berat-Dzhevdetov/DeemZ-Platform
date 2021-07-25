@@ -10,6 +10,8 @@
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Lecture;
 
+    using static Constants;
+
     public class CourseController : Controller
     {
         private readonly Guard guard;
@@ -77,14 +79,13 @@
             return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }
 
-        //for admin only
-        [Authorize]
+        [Authorize(Roles = AdminRoleName)]
         public IActionResult Add()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = AdminRoleName)]
         [HttpPost]
         public IActionResult Add(AddCourseFormModel course)
         {
@@ -114,6 +115,7 @@
         }
 
         [Authorize]
+        [Authorize(Roles = AdminRoleName)]
         public IActionResult Edit(string courseId)
         {
             if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
@@ -125,7 +127,7 @@
             return View(course);
         }
 
-        [Authorize]
+        [Authorize(Roles = AdminRoleName)]
         [HttpPost]
         public IActionResult Edit(string courseId, EditCourseFormModel course)
         {
@@ -136,7 +138,7 @@
             return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
         }
 
-        [Authorize]
+        [Authorize(Roles = AdminRoleName)]
         public IActionResult Delete(string courseId)
         {
             if (guard.AgainstNull(courseId)) return BadRequest();

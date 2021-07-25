@@ -8,8 +8,9 @@
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Models.FormModels.Description;
 
-    //For Admins only
-    //[Authorize]
+    using static Constants;
+
+    [Authorize(Roles = AdminRoleName)]
     public class LectureController : Controller
     {
         private readonly Guard guard;

@@ -3,12 +3,12 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using DeemZ.Services;
-    using DeemZ.Services.CourseServices;
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.LectureServices;
 
-    //For Admin only
-    [Authorize]
+    using static Constants;
+
+    [Authorize(Roles = AdminRoleName)]
     public class ResourceController : Controller
     {
         private readonly Guard guard;
