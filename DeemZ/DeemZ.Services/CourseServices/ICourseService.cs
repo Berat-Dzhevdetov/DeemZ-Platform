@@ -7,15 +7,15 @@
     {
         int GetUserCredits(string uid);
         IEnumerable<T> GetUserCurrentCourses<T>(string uid,bool isPaid = true);
-        T GetCourseById<T>(string id);
-        bool GetCourseById(string id);
+        T GetCourseById<T>(string cid);
+        bool GetCourseById(string cid);
         bool IsUserSignUpForThisCourse(string uid,string cid);
         IEnumerable<T> GetCoursesForSignUp<T>();
         void SignUserToCourse(string uid, string cid);
         IEnumerable<T> GetCourses<T>();
         int GetUserCoursesCount();
         string CreateCourse(AddCourseFormModel course);
-        void EditCourseById(EditCourseFormModel course, string courseId);
-        IEnumerable<T> GetLectureResourcesById<T>(string lid);
+        void EditCourseById(EditCourseFormModel course, string cid);
+        void DeleteCourse(string cid);
     }
 }

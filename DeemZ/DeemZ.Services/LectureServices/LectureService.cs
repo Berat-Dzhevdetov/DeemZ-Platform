@@ -3,12 +3,11 @@
     using AutoMapper;
     using System.Linq;
     using System.Collections.Generic;
-    using DeemZ.Data;
     using Microsoft.EntityFrameworkCore;
+    using DeemZ.Data;
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Description;
-    using System;
 
     public class LectureService : ILectureService
     {
@@ -36,6 +35,13 @@
             context.Lectures.Add(newlyLecture);
             context.SaveChanges();
         }
+
+        public IEnumerable<T> GetLectureResourcesById<T>(string lid)
+            => context.Lectures
+                .Where(x => x.Id == lid)
+                .Include(x => x.Resources)
+                .Select(x => mapper.Map<T>(x))
+                .ToList();
 
         public void EditLectureById(string lectureId, EditLectureFormModel lecture)
         {

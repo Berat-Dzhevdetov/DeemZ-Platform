@@ -120,11 +120,12 @@
         public bool GetCourseById(string id)
             => context.Courses.Any(x => x.Id == id);
 
-        public IEnumerable<T> GetLectureResourcesById<T>(string lid)
-            => context.Lectures
-                .Where(x => x.Id == lid)
-                .Include(x => x.Resources)
-                .Select(x => mapper.Map<T>(x))
-                .ToList();
+        public void DeleteCourse(string cid)
+        {
+            var courseToDelete = GetCourseById<Course>(cid);
+
+            context.Courses.Remove(courseToDelete);
+            context.SaveChanges();
+        }
     }
 }

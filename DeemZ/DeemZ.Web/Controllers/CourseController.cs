@@ -135,5 +135,17 @@
 
             return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
         }
+
+        [Authorize]
+        public IActionResult Delete(string courseId)
+        {
+            if (guard.AgainstNull(courseId)) return BadRequest();
+
+            if (!courseService.GetCourseById(courseId)) return NotFound();
+
+            courseService.DeleteCourse(courseId);
+
+            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
+        }
     }
 }
