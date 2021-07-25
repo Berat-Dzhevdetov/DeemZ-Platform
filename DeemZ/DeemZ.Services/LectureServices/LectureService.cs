@@ -30,8 +30,7 @@
             {
                 if (description.Name.Trim().Length < 3) continue;
 
-                var newlyDescription = mapper.Map<Description>(description);
-                newlyDescription.LectureId = newlyLecture.Id;
+                CreateDescription(description.Name, newlyLecture.Id);
             }
 
             context.Lectures.Add(newlyLecture);
@@ -45,21 +44,33 @@
             lectureToEdit.Name = lecture.Name;
             lectureToEdit.Date = lecture.Date;
 
-            for (int i = 0; i < lecture.Descriptions.Count(); i++)
+            for (int i = 0; i < lecture.Descriptions.Count; i++)
             {
-                var (id, name) = GetDescriptionIdAndName(lecture.Descriptions.ToList()[i]);
+                var (id, name) = GetDescriptionIdAndName(lecture.Descriptions[i]);
                 var description = GetDescriptionById(id);
                 if (description == null)
                 {
-                    description = mapper.Map<Description>(lecture.Descriptions.ToList()[i]);
-                    description.LectureId = lectureId;
-                    description.Id = Guid.NewGuid().ToString();
-                    context.Descriptions.Add(description);
+                    description = CreateDescription(name , lectureId);
                 }
                 description.Name = name;
                 context.SaveChanges();
             }
+
             context.SaveChanges();
+        }
+
+        private Description CreateDescription(string name, string lectureId)
+        {
+            var descripiton = new Description()
+            {
+                Name = name,
+                LectureId = lectureId
+            };
+
+            context.Descriptions.Add(descripiton);
+
+            context.SaveChanges();
+            return descripiton;
         }
 
         private (string id,string name) GetDescriptionIdAndName(EditDescriptionFormModel model)
