@@ -8,5 +8,7 @@
 
     public class AddResourceFormModel
     {
+        public string Name { get; set; }
+
     }
 }

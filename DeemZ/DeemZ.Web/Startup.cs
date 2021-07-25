@@ -6,10 +6,11 @@ namespace DeemZ.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Web.Infrastructure;
-    using Microsoft.AspNetCore.Mvc;
 
     public class Startup
     {
@@ -37,6 +38,7 @@ namespace DeemZ.Web
                     options.Password.RequiredLength = 6;
                     options.User.RequireUniqueEmail = true;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DeemZDbContext>();
 
             services.AddMapper();

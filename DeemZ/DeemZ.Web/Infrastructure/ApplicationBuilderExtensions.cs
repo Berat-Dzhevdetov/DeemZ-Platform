@@ -4,6 +4,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Web.DTO;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
@@ -11,6 +12,8 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
+    using static Constants;
 
     public static class ApplicationBuilderExtensions
     {
@@ -18,37 +21,78 @@
         public static IApplicationBuilder PrepareDatabase(
             this IApplicationBuilder app)
         {
-            using var scopedServices = app.ApplicationServices.CreateScope();
+            using var serviceScope = app.ApplicationServices.CreateScope();
 
-            var data = scopedServices.ServiceProvider.GetService<DeemZDbContext>();
+            var services = serviceScope.ServiceProvider;
 
-            data.Database.Migrate();
-
-            CreateResourceTypes(data);
-            CreateCourses(data);
+            MigrateDatabase(services);
+            SeedRoles(services);
+            CreateResourceTypes(services);
+            CreateCourses(services);
 
             return app;
         }
 
-        private static void CreateResourceTypes(DeemZDbContext data)
+        private static void MigrateDatabase(IServiceProvider services)
         {
+            var data = services.GetRequiredService<DeemZDbContext>();
+
+            data.Database.Migrate();
+        }
+
+        private static void CreateResourceTypes(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<DeemZDbContext>();
+
             if (data.ResourceTypes.Any()) return;
             data.ResourceTypes.AddRange(new[]
             {
-                new ResourceType() { Name= "Youtube link" },
-                new ResourceType() { Name= "Facebook link" },
-                new ResourceType() { Name= "Word file" },
-                new ResourceType() { Name= "Presentation" },
-                new ResourceType() { Name= "Video" },
-                new ResourceType() { Name= "Exam" }
+                new ResourceType() { Name = "Youtube link" },
+                new ResourceType() { Name = "Facebook link" },
+                new ResourceType() { Name = "Word file" },
+                new ResourceType() { Name = "Presentation" },
+                new ResourceType() { Name = "Video" },
+                new ResourceType() { Name = "Exam" }
             });
 
             data.SaveChanges();
         }
 
-        
-        public static void CreateCourses(DeemZDbContext data)
+        private static void SeedRoles(IServiceProvider services)
         {
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            Task.Run(async () =>
+            {
+                if (await roleManager.RoleExistsAsync(AdminRoleName))
+                    return;
+
+                var role = new IdentityRole { Name = AdminRoleName };
+
+                await roleManager.CreateAsync(role);
+
+                var adminPass = "admin12";
+
+                var user = new ApplicationUser()
+                {
+                    Email = "admin@deemz.com",
+                    UserName = "admin",
+                    EmailConfirmed = true,
+                };
+
+                await userManager.CreateAsync(user, adminPass);
+
+                await userManager.AddToRoleAsync(user, role.Name);
+            })
+            .GetAwaiter()
+            .GetResult();
+        }
+
+        private static void CreateCourses(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<DeemZDbContext>();
+
             if (data.Courses.Any()) return;
 
             var json = File.ReadAllText("./importCourseData.json");
