@@ -28,7 +28,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-controller="Lecture" asp-action="Edit" asp-route-lectureId="@lecture.Id">Edit</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
+                                <a class="dropdown-item text-danger" asp-controller="Lecture" asp-action="Delete" asp-route-lectureId="@lecture.Id">Delete</a>
                             </div>
                         </div>
                     </td>

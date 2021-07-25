@@ -124,5 +124,13 @@
             context.Descriptions.Remove(description);
             context.SaveChanges();
         }
+
+        public void DeleteLecture(string lid)
+        {
+            var lecture = GetLectureById<Lecture>(lid);
+
+            context.Lectures.Remove(lecture);
+            context.SaveChanges();
+        }
     }
 }

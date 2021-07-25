@@ -12,5 +12,6 @@
         void EditLectureById(string lectureId, EditLectureFormModel lecture);
         void DeleteDescription(string did);
         IEnumerable<T> GetLectureResourcesById<T>(string lid);
+        void DeleteLecture(string lid);
     }
 }
