@@ -9,7 +9,7 @@
     using DeemZ.Models.FormModels.Description;
 
     //For Admins only
-    [Authorize]
+    //[Authorize]
     public class LectureController : Controller
     {
         private readonly Guard guard;
@@ -41,7 +41,7 @@
 
             if (!ModelState.IsValid) return View(lecture);
 
-            lectureService.AddLectureToCourse(courseId,lecture);
+            lectureService.AddLectureToCourse(courseId, lecture);
 
             return RedirectToAction(nameof(AdministrationController.Lectures), "Administration", new { courseId });
         }
@@ -60,15 +60,24 @@
         }
 
         [HttpPost]
-        public IActionResult Edit(string lectureId,EditLectureFormModel lecture)
+        public IActionResult Edit(string lectureId, EditLectureFormModel lecture)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
 
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
-            lectureService.EditLectureById(lectureId,lecture);
+            lectureService.EditLectureById(lectureId, lecture);
 
             return RedirectToAction(nameof(AdministrationController.Lectures), "Administration", new { courseId = lecture.CourseId });
+        }
+
+        [IgnoreAntiforgeryToken]
+        [HttpPost]
+        public ActionResult DeleteDescription(string did)
+        {
+            if (guard.AgainstNull(did, nameof(did))) return Json(new { status = 400, message = "The given id was null" });
+            lectureService.DeleteDescription(did);
+            return Json(new { status = 200, message = "The description was successfully deleted" });
         }
     }
 }

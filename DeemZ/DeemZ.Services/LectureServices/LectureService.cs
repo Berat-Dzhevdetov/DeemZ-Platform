@@ -28,6 +28,8 @@
 
             foreach (var description in lecture.Descriptions)
             {
+                if (description.Name.Trim().Length < 3) continue;
+
                 var newlyDescription = mapper.Map<Description>(description);
                 newlyDescription.LectureId = newlyLecture.Id;
             }
@@ -93,5 +95,15 @@
                 .Where(x => x.CourseId == cid)
                 .Select(x => mapper.Map<T>(x))
                 .ToList();
+
+        public void DeleteDescription(string did)
+        {
+            var description = GetDescriptionById(did);
+
+            if (description == null) return;
+
+            context.Descriptions.Remove(description);
+            context.SaveChanges();
+        }
     }
 }

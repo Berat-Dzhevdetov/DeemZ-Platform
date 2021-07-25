@@ -171,7 +171,12 @@ form {
     margin: 0 auto;
 }
 
-
+.remove-description {
+    position: absolute;
+    top: 18%;
+    right: 2%;
+    color: #8b0000;
+}
 
 @media only screen and (max-width: 800px) {
     .card {

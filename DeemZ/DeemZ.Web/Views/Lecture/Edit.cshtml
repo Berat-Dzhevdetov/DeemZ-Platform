@@ -23,9 +23,10 @@
         @for (int i = 0; i < Model.Descriptions.Count(); i++)
         {
             var description = Model.Descriptions.ToArray()[i];
-            <div class="form-group">
+            <div class="form-group position-relative">
                 <input class="form-control" value="@description.Id" name="Descriptions[@i].Id" hidden readonly />
                 <input class="form-control" value="@description.Name" name="Descriptions[@i].Name" />
+                <div data-key="@description.Id" class="close remove-description clickable">X</div>
             </div>
         }
         <div class="form-group">
@@ -50,6 +51,32 @@
 
             $(html).insertBefore(parentDiv);
             index++;
+        })
+
+        document.querySelectorAll('.remove-description').forEach(el => {
+            el.addEventListener('click', e => {
+                let closeDiv = e.currentTarget;
+                let id = closeDiv.getAttribute('data-key');
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteDescription", "Lecture")',
+                    data: {
+                        did : id
+                    },
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (result) {
+                        if (result.status == 200) {
+                            closeDiv.parentNode.remove();
+                        } else {
+                            console.log(result);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err.status);
+                    }
+                });
+            })
         })
     </script>
 } 
