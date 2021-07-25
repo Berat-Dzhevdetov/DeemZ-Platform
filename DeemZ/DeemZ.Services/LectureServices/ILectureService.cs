@@ -8,7 +8,7 @@
         bool GetLectureById(string lid);
         IEnumerable<T> GetLecturesByCourseId<T>(string cid);
         void AddLectureToCourse(string courseId,AddLectureFormModel lecture);
-        IEnumerable<T> GetLectureDescriptions<T>(string lid);
+        List<T> GetLectureDescriptions<T>(string lid);
         void EditLectureById(string lectureId, EditLectureFormModel lecture);
         void DeleteDescription(string did);
     }

@@ -19,6 +19,6 @@
 
         public string CourseId { get; set; }
 
-        public IEnumerable<EditDescriptionFormModel> Descriptions { get; set; }
+        public List<EditDescriptionFormModel> Descriptions { get; set; }
     }
 }

@@ -17,6 +17,6 @@
 
         public DateTime? Date { get; set; }
 
-        public IEnumerable<AddDescriptionFormModel> Descriptions { get; set; }
+        public IEnumerable<AddDescriptionFormModel> Descriptions { get; set; } = new List<AddDescriptionFormModel>();
     }
 }

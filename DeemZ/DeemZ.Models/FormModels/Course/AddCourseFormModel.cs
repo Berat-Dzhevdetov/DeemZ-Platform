@@ -34,5 +34,6 @@
         public DateTime SignUpEndDate { get; set; } = DateTime.UtcNow.AddDays(14);
 
         public bool Redirect { get; set; }
+        public bool BasicLectures { get; set; }
     }
 }

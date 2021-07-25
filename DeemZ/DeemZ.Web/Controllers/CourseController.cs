@@ -7,21 +7,25 @@
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Services.LectureServices;
+    using DeemZ.Models.FormModels.Lecture;
 
     public class CourseController : Controller
     {
         private readonly Guard guard;
         private readonly ICourseService courseService;
+        private readonly ILectureService lectureService;
 
-        public CourseController(Guard guard, ICourseService courseService)
+        public CourseController(Guard guard, ICourseService courseService, ILectureService lectureService)
         {
             this.guard = guard;
             this.courseService = courseService;
+            this.lectureService = lectureService;
         }
 
         public IActionResult ViewCourse(string courseId)
         {
-            if (guard.AgainstNull(courseId,nameof(courseId))) return BadRequest();
+            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
 
             var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
 
@@ -88,9 +92,25 @@
 
             var courseId = courseService.CreateCourse(course);
 
-            if (course.Redirect) return RedirectToAction(nameof(ViewCourse), new { courseId });
+            if (course.BasicLectures)
+            {
+                var basicLecturesNames = new string[] { "Resources", "Course Introduciton" };
 
-            return RedirectToAction(nameof(AdministrationController.Courses),"Administration");
+                for (int i = 0; i < basicLecturesNames.Length; i++)
+                {
+                    var lecture = new AddLectureFormModel
+                    {
+                        Date = course.StartDate.AddSeconds(i),
+                        Name = basicLecturesNames[i]
+                    };
+
+                    lectureService.AddLectureToCourse(courseId, lecture);
+                }
+            }
+
+            if (course.Redirect) return RedirectToAction(nameof(ViewCourse), new { courseId });
+            
+            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
         }
 
         [Authorize]
@@ -107,13 +127,13 @@
 
         [Authorize]
         [HttpPost]
-        public IActionResult Edit(string courseId,EditCourseFormModel course)
+        public IActionResult Edit(string courseId, EditCourseFormModel course)
         {
             if (!ModelState.IsValid) return View(course);
 
-            courseService.EditCourseById(course,courseId);
+            courseService.EditCourseById(course, courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses),"Administration");
+            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
         }
     }
 }

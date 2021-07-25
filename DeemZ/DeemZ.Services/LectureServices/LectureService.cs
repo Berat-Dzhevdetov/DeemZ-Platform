@@ -50,6 +50,8 @@
                 var description = GetDescriptionById(id);
                 if (description == null)
                 {
+                    if (name.Trim().Length < 3) continue;
+
                     description = CreateDescription(name , lectureId);
                 }
                 description.Name = name;
@@ -94,7 +96,7 @@
         public bool GetLectureById(string lid)
             => context.Lectures.Any(x => x.Id == lid);
 
-        public IEnumerable<T> GetLectureDescriptions<T>(string lid)
+        public List<T> GetLectureDescriptions<T>(string lid)
             => context.Descriptions
                 .Where(x => x.LectureId == lid)
                 .Select(x => mapper.Map<T>(x))
