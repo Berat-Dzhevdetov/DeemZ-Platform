@@ -73,6 +73,7 @@
         {
             public const int MinNameLength = 3;
             public const int MaxNameLength = 100;
+            public const int PathMinLength = 30; 
         }
 
         public class Survey

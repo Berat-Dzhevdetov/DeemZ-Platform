@@ -4,5 +4,7 @@
     public interface IResourceService
     {
         IEnumerable<T> GetUserResources<T>(string uid);
+
+        IEnumerable<T> GetResourceTypes<T>();
     }
 }

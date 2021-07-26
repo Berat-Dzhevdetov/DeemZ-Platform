@@ -5,6 +5,7 @@
     using DeemZ.Services;
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.LectureServices;
+    using DeemZ.Models.FormModels.Resource;
 
     using static Constants;
 
@@ -28,7 +29,31 @@
 
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
-            return View();
+            var formModel = new AddResourceFormModel();
+
+            formModel.ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>();
+
+            return View(formModel);
+        }
+
+        [HttpPost]
+        public IActionResult Add(string lectureId, AddResourceFormModel resource)
+        {
+            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
+
+            if (!ModelState.IsValid)
+            {
+                resource.ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>();
+                return View(resource);
+            }
+
+            if (!lectureService.GetLectureById(lectureId)) return NotFound();
+
+            var formModel = new AddResourceFormModel();
+
+            formModel.ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>();
+
+            return View(formModel);
         }
     }
 }

@@ -18,6 +18,11 @@
             this.mapper = mapper;
         }
 
+        public IEnumerable<T> GetResourceTypes<T>()
+            => context.ResourceTypes
+                .Select(x => mapper.Map<T>(x))
+                .ToList();
+
         public IEnumerable<T> GetUserResources<T>(string uid)
             => context.Resources
                 .Include(x => x.Lecture)

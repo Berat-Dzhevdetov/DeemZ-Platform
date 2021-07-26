@@ -11,8 +11,23 @@
         </div>
         <div class="form-group">
             <label class="text-light" asp-for="Name"></label>
-            <input placeholder="ASP.NET Core - July @DateTime.Now.Year" class="form-control" asp-for="Name" />
+            <input placeholder="Lecture by Ivo Kenov" class="form-control" asp-for="Name" />
             <span asp-validation-for="Name" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="ResourceTypeId"></label>
+            <select asp-for="ResourceTypeId" class="form-control">
+                @foreach (var resourceType in Model.ResourceTypes)
+                {
+                    <option value="@resourceType.Id">@resourceType.Name</option>
+                }
+            </select>
+            <span asp-validation-for="ResourceTypeId" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Path"></label>
+            <input placeholder="https://example.com" class="form-control" asp-for="Path" />
+            <span asp-validation-for="Path" class="small text-danger"></span>
         </div>
         <div class="form-group text-center">
             <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
