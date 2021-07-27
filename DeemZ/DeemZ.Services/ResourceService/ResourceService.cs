@@ -20,13 +20,13 @@
             this.mapper = mapper;
         }
 
-        public bool IsValidResourceType(string id)
-            => context.ResourceTypes.Any(x => x.Id == id);
+        public bool IsValidResourceType(string rtid)
+            => context.ResourceTypes.Any(x => x.Id == rtid);
 
-        public void AddResourceToLecture(string lectureId, AddResourceFormModel resource)
+        public void AddResourceToLecture(string lid, AddResourceFormModel resource)
         {
             var newlyResource = mapper.Map<Resource>(resource);
-            newlyResource.LectureId = lectureId;
+            newlyResource.LectureId = lid;
 
             context.Resources.Add(newlyResource);
             context.SaveChanges();
@@ -52,5 +52,22 @@
                         && c.IsPaid == true))
                 .Select(x => mapper.Map<T>(x))
                 .ToList();
+
+        public bool DoesUserHavePermissionToThisResource(string rid, string uid)
+            => context.Resources
+                .Where(x => x.Id == rid)
+                .Include(x => x.Lecture)
+                .ThenInclude(x => x.Course)
+                .ThenInclude(x => x.UserCourses)
+                .Any(x => x.Lecture.Course.UserCourses.Any(x => x.UserId == uid && x.IsPaid == true));
+
+        public T GetResourceById<T>(string rid)
+        {
+            var resource = context.Resources
+                .Include(x => x.ResourceType)
+                .FirstOrDefault(x => x.Id == rid);
+
+            return mapper.Map<T>(resource);
+        }
     }
 }

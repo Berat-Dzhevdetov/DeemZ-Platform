@@ -1,5 +1,6 @@
 ﻿namespace DeemZ.Web.Controllers
 {
+    using System;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Models.FormModels.Course;
@@ -35,12 +36,24 @@
 
             var userId = User.GetId();
 
-            if (userId == null) course.IsUserSignUpForThisCourse = false;
+            if (userId == null)
+            {
+                course.IsUserSignUpForThisCourse = false;
+            }
             else
             {
                 course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
             }
 
+            foreach (var lecture in course.Lectures)
+            {
+                foreach (var resource in lecture.Resourses)
+                {
+                    Uri uriResult;
+                    resource.IsRemote = Uri.TryCreate(resource.Path, UriKind.Absolute, out uriResult)
+                        && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                }
+            }
 
             return View(course);
         }
@@ -80,10 +93,8 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
-        public IActionResult Add()
-        {
-            return View();
-        }
+        public IActionResult Add() => View();
+
 
         [Authorize(Roles = AdminRoleName)]
         [HttpPost]

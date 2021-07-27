@@ -4,6 +4,8 @@
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string ResourceType { get; set; }
+        public string Path { get; set; }
+        public string ResourceTypeIcon { get; set; }
+        public bool IsRemote { get; set; }
     }
 }

@@ -11,8 +11,8 @@
         {
             CreateMap<Resource, DetailsResourseViewModel>()
                 .ForMember(x => x.Id, o => o.MapFrom(src => src.Id))
-                .ForMember(x => x.Name, o => o.MapFrom(src => src.Name))
-                .ForMember(x => x.ResourceType, o => o.MapFrom(src => src.ResourceType));
+                .ForMember(x => x.Name, o => o.MapFrom(src => src.Name));
+
             CreateMap<Resource, IndexResourceViewModel>()
                 .ForMember(x => x.Id, o => o.MapFrom(src => src.Id))
                 .ForMember(x => x.Name, o => o.MapFrom(src => src.Name));

@@ -22,7 +22,6 @@
                 mc.AddProfile(new UserProfile());
                 mc.AddProfile(new CourseProfile());
                 mc.AddProfile(new LectureProfile());
-                mc.AddProfile(new ResourceTypeProfile());
                 mc.AddProfile(new DescriptionProfile());
                 mc.AddProfile(new ResourceProfile());
                 mc.AddProfile(new SurveyProfile());

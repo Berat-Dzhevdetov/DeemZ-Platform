@@ -8,8 +8,12 @@
 
         IEnumerable<T> GetResourceTypes<T>();
 
-        void AddResourceToLecture(string lectureId, AddResourceFormModel resource);
+        void AddResourceToLecture(string lid, AddResourceFormModel resource);
 
-        bool IsValidResourceType(string id);
+        bool IsValidResourceType(string rtid);
+
+        bool DoesUserHavePermissionToThisResource(string rid, string uid);
+
+        T GetResourceById<T>(string rid);
     }
 }

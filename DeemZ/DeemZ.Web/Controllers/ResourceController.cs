@@ -9,10 +9,11 @@
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Resource;
     using DeemZ.Services.CloudinaryServices;
+    using DeemZ.Web.Infrastructure;
+    using DeemZ.Models.ViewModels.Resources;
 
     using static Constants;
 
-    [Authorize(Roles = AdminRoleName)]
     public class ResourceController : Controller
     {
         private readonly Guard guard;
@@ -28,6 +29,7 @@
             this.fileService = cloudinaryService;
         }
 
+        [Authorize(Roles = AdminRoleName)]
         public IActionResult Add(string lectureId)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
@@ -42,6 +44,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Add(string lectureId, AddResourceFormModel resource,IFormFile file)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
@@ -72,6 +75,20 @@
             resourceService.AddResourceToLecture(lectureId, resource);
 
             return RedirectToAction(nameof(AdministrationController.Resources), "Administration", new { lectureId });
+        }
+
+        [Authorize]
+        public IActionResult ViewResource(string resourceId)
+        {
+            if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
+
+            var userId = this.User.GetId();
+
+            if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
+
+            var resource = resourceService.GetResourceById<DetailsResourseViewModel>(resourceId);
+
+            return View(resource);
         }
     }
 }
