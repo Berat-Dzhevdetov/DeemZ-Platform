@@ -3,6 +3,7 @@
     using AutoMapper;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Resource;
+    using DeemZ.Models.ServiceModels.Resource;
     using DeemZ.Models.ViewModels.Resources;
 
     public class ResourceProfile : Profile
@@ -20,6 +21,8 @@
             CreateMap<ResourceType, ResourceTypeFormModel>();
 
             CreateMap<AddResourceFormModel, Resource>();
+
+            CreateMap<Resource, ResourceServiceModel>();
         }
     }
 }

@@ -94,5 +94,23 @@
 
             return View(resource);
         }
+
+        [Authorize]
+        public IActionResult Download(string resourceId)
+        {
+            if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
+
+            if (!resourceService.GetResourceById(resourceId)) return NotFound();
+
+            var userId = this.User.GetId();
+
+            if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
+
+            (byte[] bytes, string contentType, string downloadName) = fileService.GetFileBytesByResourceId(resourceId);
+
+            this.Response.Headers.Add("Content-Disposition", "attachment");
+
+            return File(bytes, contentType, downloadName);
+        }
     }
 }

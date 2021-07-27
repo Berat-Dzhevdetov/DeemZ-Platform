@@ -13,5 +13,6 @@
         bool CheckIfFileIsImage(IFormFile file);
         Task<string> UploadFile(IFormFile file, string path = null);
 
+        (byte[] fileContents, string contentType,string downloadName) GetFileBytesByResourceId(string rid);
     }
 }

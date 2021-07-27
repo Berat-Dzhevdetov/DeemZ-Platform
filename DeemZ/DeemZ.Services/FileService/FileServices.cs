@@ -6,7 +6,8 @@
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
-    using DeemZ.Data;
+    using DeemZ.Services.ResourceService;
+    using DeemZ.Models.ServiceModels.Resource;
 
     public class FileServices : IFileServices
     {
@@ -17,15 +18,15 @@
         private string presentationsFolder = "presentations";
         private string wordsFolder = "word_files";
         private const int defaultSizeOfFile = 2097152; // 2 MB
-        private readonly DeemZDbContext context;
+        private readonly IResourceService resourceService;
 
 
-        public FileServices(DeemZDbContext context)
+        public FileServices(IResourceService resourceService)
         {
             cloudinarySetup = new Secret.CloudinarySetup();
             cloudinary = new Cloudinary(cloudinarySetup.Account);
             cloudinary.Api.Secure = true;
-            this.context = context;
+            this.resourceService = resourceService;
         }
 
         public bool CheckIfFileIsUnderMB(IFormFile file, int mb = defaultSizeOfFile)
@@ -36,6 +37,9 @@
 
         private string GetFileExtension(IFormFile file)
             => Path.GetExtension(file.FileName).TrimStart('.');
+
+        private string GetFileExtension(string file)
+            => Path.GetExtension(file).TrimStart('.');
 
         public bool IsAllowedFile(IFormFile file)
             => FormFileExtensions.IsPdf(file.FileName) || FormFileExtensions.IsWord(file.FileName);
@@ -62,11 +66,7 @@
         {
             if (!(path == "official_value" && IsAllowedFile(file)))
             {
-                Uri uriResult;
-                bool result = Uri.TryCreate(path, UriKind.Absolute, out uriResult)
-                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-
-                if (result) return "url";
+                if (IsUrl(path)) return "url";
                 return null;
             }
 
@@ -95,6 +95,48 @@
             {
                 File.Delete(path);
             }
+        }
+
+        public (byte[] fileContents, string contentType,string downloadName) GetFileBytesByResourceId(string rid)
+        {
+            var resource = resourceService.GetResourceById<ResourceServiceModel>(rid);
+
+            if (IsUrl(resource.Path)) return (new byte[0], null, resource.Name);
+
+            var bytes = GetFileAsBytes(resource.Path);
+
+            var extension = GetFileExtension(resource.Path);
+
+            var contentType = "";
+
+            if (extension == "doc") contentType = "application/msword";
+            else if (extension == "docx") contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            else if (extension == "pdf") contentType = "application/pdf";
+
+            return (bytes, contentType,resource.Name + "." + extension);
+        }
+
+        private byte[] GetFileAsBytes(string file)
+        {
+            var path = documentsFolder;
+
+            var fileName = Path.GetFileName(file);
+
+            var extension = GetFileExtension(file);
+
+            if (extension == "doc" || extension == "docx") path = Path.Combine(path, wordsFolder);
+            else if (extension == "pdf") path = Path.Combine(path, presentationsFolder);
+
+            path = Path.Combine(path, fileName);
+
+            return File.ReadAllBytes(path);
+        }
+
+        private bool IsUrl(string path)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(path, UriKind.Absolute, out uriResult)
+                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
     }
 }
