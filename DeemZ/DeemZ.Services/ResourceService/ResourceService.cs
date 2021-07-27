@@ -1,11 +1,13 @@
 ﻿namespace DeemZ.Services.ResourceService
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AutoMapper;
-    using DeemZ.Data;
+    using System.Linq;
+    using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
+    using DeemZ.Data;
+    using DeemZ.Models.FormModels.Resource;
+    using DeemZ.Data.Models;
 
     public class ResourceService : IResourceService
     {
@@ -16,6 +18,18 @@
         {
             this.context = context;
             this.mapper = mapper;
+        }
+
+        public bool IsValidResourceType(string id)
+            => context.ResourceTypes.Any(x => x.Id == id);
+
+        public void AddResourceToLecture(string lectureId, AddResourceFormModel resource)
+        {
+            var newlyResource = mapper.Map<Resource>(resource);
+            newlyResource.LectureId = lectureId;
+
+            context.Resources.Add(newlyResource);
+            context.SaveChanges();
         }
 
         public IEnumerable<T> GetResourceTypes<T>()

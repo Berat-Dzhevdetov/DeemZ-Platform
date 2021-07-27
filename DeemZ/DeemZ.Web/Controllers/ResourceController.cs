@@ -2,10 +2,13 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Http;
+    using System.Threading.Tasks;
     using DeemZ.Services;
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Resource;
+    using DeemZ.Services.CloudinaryServices;
 
     using static Constants;
 
@@ -15,12 +18,14 @@
         private readonly Guard guard;
         private readonly ILectureService lectureService;
         private readonly IResourceService resourceService;
+        private readonly IFileServices fileService;
 
-        public ResourceController(Guard guard, ILectureService lectureService, IResourceService resourceService)
+        public ResourceController(Guard guard, ILectureService lectureService, IResourceService resourceService, IFileServices cloudinaryService)
         {
             this.lectureService = lectureService;
             this.guard = guard;
             this.resourceService = resourceService;
+            this.fileService = cloudinaryService;
         }
 
         public IActionResult Add(string lectureId)
@@ -37,9 +42,11 @@
         }
 
         [HttpPost]
-        public IActionResult Add(string lectureId, AddResourceFormModel resource)
+        public async Task<IActionResult> Add(string lectureId, AddResourceFormModel resource,IFormFile file)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
+
+            if (!resourceService.IsValidResourceType(resource.ResourceTypeId)) ModelState.AddModelError("ResourceTypes", "Invalid resource type");
 
             if (!ModelState.IsValid)
             {
@@ -49,11 +56,22 @@
 
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
-            var formModel = new AddResourceFormModel();
+            //trying to upload the file to the file system
+            var path = await fileService.UploadFile(file, resource.Path);
 
-            formModel.ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>();
+            if (path == null)
+            {
+                ModelState.AddModelError("Path", "An error occurred while uploading file");
+                return View(resource);
+            }
+            else if (path != "url")
+            {
+                resource.Path = path;
+            }
 
-            return View(formModel);
+            resourceService.AddResourceToLecture(lectureId, resource);
+
+            return RedirectToAction(nameof(AdministrationController.Resources), "Administration", new { lectureId });
         }
     }
 }

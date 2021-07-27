@@ -11,6 +11,7 @@
     using DeemZ.Services.ReportService;
     using DeemZ.Services.AdminServices;
     using DeemZ.Services.ResourceService;
+    using DeemZ.Services.CloudinaryServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -47,6 +48,7 @@
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IResourceService, ResourceService>();
+            services.AddTransient<IFileServices, FileServices>();
         }
     }
 }

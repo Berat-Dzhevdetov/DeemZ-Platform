@@ -5,7 +5,7 @@
 @model DeemZ.Models.FormModels.Resource.AddResourceFormModel
 
 <div class="container-fluid">
-    <form method="post" class="mt-4">
+    <form method="post" class="mt-4" enctype="multipart/form-data">
         <div class="form-group text-center">
             <h2 class="text-light">@ViewData["Title"]</h2>
         </div>
@@ -19,16 +19,21 @@
             <select asp-for="ResourceTypeId" class="form-control">
                 @foreach (var resourceType in Model.ResourceTypes)
                 {
-                    <option value="@resourceType.Id">@resourceType.Name</option>
+                    <option data-info="@resourceType.NeedFileUploadInput" value="@resourceType.Id">@resourceType.Name</option>
                 }
             </select>
             <span asp-validation-for="ResourceTypeId" class="small text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="form-group-path">
             <label class="text-light" asp-for="Path"></label>
             <input placeholder="https://example.com" class="form-control" asp-for="Path" />
             <span asp-validation-for="Path" class="small text-danger"></span>
         </div>
+
+        <div id="file">
+
+        </div>
+
         <div class="form-group text-center">
             <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
         </div>
@@ -37,4 +42,24 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('ResourceTypeId').addEventListener('change', function (e) {
+            let currentTargetValue = e.currentTarget.value;
+
+            let needFileUploadInput = document.querySelector(`option[value="${currentTargetValue}"]`).getAttribute('data-info');
+
+            if (needFileUploadInput.toLocaleLowerCase() === "true") {
+                let html = `<div class="form-group" id="form-group-file">
+                                    <input class="form-control" type="file" name="file" />
+                                </div>`;
+                document.getElementById('form-group-path').style.display = 'none';
+                document.getElementById('Path').value = 'official_value';
+                document.getElementById('file').innerHTML = html;
+            } else {
+                document.getElementById('form-group-path').style.display = 'block';
+                document.getElementById('Path').value = '';
+                document.getElementById('form-group-file').remove();
+            }
+        })
+    </script>
 }

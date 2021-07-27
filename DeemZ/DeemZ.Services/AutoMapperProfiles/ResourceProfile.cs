@@ -18,6 +18,8 @@
                 .ForMember(x => x.Name, o => o.MapFrom(src => src.Name));
 
             CreateMap<ResourceType, ResourceTypeFormModel>();
+
+            CreateMap<AddResourceFormModel, Resource>();
         }
     }
 }
