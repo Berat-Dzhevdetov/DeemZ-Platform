@@ -7,5 +7,8 @@
         public string Path { get; set; }
         public string ResourceTypeIcon { get; set; }
         public bool IsRemote { get; set; }
+        public string LectureName { get; set; }
+        public string LectureCourseName { get; set; }
+        public string LectureCourseId { get; set; }
     }
 }

@@ -36,4 +36,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\documents\word_files\" />
+    <Folder Include="wwwroot\documents\presentations\" />
+  </ItemGroup>
+
 </Project>

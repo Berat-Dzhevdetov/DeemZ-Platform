@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Services.CloudinaryServices
+﻿namespace DeemZ.Services.FileService
 {
     using System;
     using System.IO;
@@ -13,7 +13,7 @@
         private Secret.CloudinarySetup cloudinarySetup;
         private Cloudinary cloudinary;
         private string tempFolder = Path.Combine("bin", "Debug", "net5.0", "temp");
-        private string documentsFolder = Path.Combine("bin", "Debug", "net5.0", "documents");
+        private string documentsFolder = Path.Combine("wwwroot", "documents");
         private string presentationsFolder = "presentations";
         private string wordsFolder = "word_files";
         private const int defaultSizeOfFile = 2097152; // 2 MB
@@ -56,8 +56,6 @@
 
             return cloudinary.Upload(uploadParams);
         }
-
-        
 
         //Uploads file to the file system
         public async Task<string> UploadFile(IFormFile file, string path = null)

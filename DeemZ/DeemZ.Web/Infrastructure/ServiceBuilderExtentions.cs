@@ -11,7 +11,7 @@
     using DeemZ.Services.ReportService;
     using DeemZ.Services.AdminServices;
     using DeemZ.Services.ResourceService;
-    using DeemZ.Services.CloudinaryServices;
+    using DeemZ.Services.FileService;
 
     public static class ServiceBuilderExtentions
     {

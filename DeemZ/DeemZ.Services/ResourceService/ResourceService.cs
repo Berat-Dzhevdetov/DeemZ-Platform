@@ -65,9 +65,14 @@
         {
             var resource = context.Resources
                 .Include(x => x.ResourceType)
+                .Include(x => x.Lecture)
+                .ThenInclude(x => x.Course)
                 .FirstOrDefault(x => x.Id == rid);
 
             return mapper.Map<T>(resource);
         }
+
+        public bool GetResourceById(string rid)
+            => context.Resources.Any(x => x.Id == rid);
     }
 }

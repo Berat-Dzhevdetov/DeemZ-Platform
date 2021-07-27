@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Services.CloudinaryServices
+﻿namespace DeemZ.Services.FileService
 {
     using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;

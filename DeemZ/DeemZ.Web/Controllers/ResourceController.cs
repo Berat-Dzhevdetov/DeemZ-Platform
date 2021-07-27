@@ -8,7 +8,7 @@
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Resource;
-    using DeemZ.Services.CloudinaryServices;
+    using DeemZ.Services.FileService;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.Resources;
 
@@ -82,11 +82,15 @@
         {
             if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
 
+            if (!resourceService.GetResourceById(resourceId)) return NotFound();
+
             var userId = this.User.GetId();
 
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
 
             var resource = resourceService.GetResourceById<DetailsResourseViewModel>(resourceId);
+
+            resource.Path = resource.Path.ReplaceAll('\\', '/');
 
             return View(resource);
         }

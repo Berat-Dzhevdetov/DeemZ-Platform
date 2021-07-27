@@ -15,5 +15,6 @@
         bool DoesUserHavePermissionToThisResource(string rid, string uid);
 
         T GetResourceById<T>(string rid);
+        bool GetResourceById(string rid);
     }
 }

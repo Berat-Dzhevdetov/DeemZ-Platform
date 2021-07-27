@@ -94,6 +94,15 @@ textarea {
     width: 100%;
 }
 
+iframe{
+    width: 100%;
+    height: 70vh;
+}
+
+.resource {
+    padding: 2rem;
+}
+
 .arrow-right {
     float: right;
     background: var(--orange);
@@ -800,6 +809,10 @@ span.lecture-number::after {
         justify-content: center;
         margin-left: 0;
         padding-bottom: 10px;
+    }
+
+    .resource{
+        padding: 0;
     }
 
     .logged-user-index .cards .card-holder {

@@ -1,3 +1,24 @@
-﻿@{ 
-    ViewData["Title"] = "as";
+﻿@model DeemZ.Models.ViewModels.Resources.DetailsResourseViewModel
+@{
+    ViewData["Title"] = Model.Name;
+
+}
+
+<div class="resource">
+    <iframe id="iframe" width="500" height="500"></iframe>
+    <div>
+        <p>Document for lesson '@Model.LectureName' from the course <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@Model.LectureCourseId">@Model.LectureCourseName</a></p>
+        <p>Download document: <a asp-controller="Resource" asp-action="Download" asp-route-resourceId="@Model.Id">@Model.Name</a></p>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        let googleViewerUrl = "https://drive.google.com/viewerng/viewer?url=";
+        let resourceUrl = window.location.origin + "@Model.Path";
+        console.log(resourceUrl);
+
+        document.getElementById('iframe').src = googleViewerUrl + resourceUrl +"&embedded=true";
+    </script>
 }
