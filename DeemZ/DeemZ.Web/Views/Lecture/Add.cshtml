@@ -36,15 +36,12 @@
             let parentDiv = e.currentTarget.parentNode;
 
             let html = `<div class="form-group">
-                        <input class="form-control" required minLength="3" maxLength="40" name="Descriptions[${index}].Name" />
-                    </div>`;
+                            <input class="form-control" required minLength="3" maxLength="40" name="Descriptions[${index}].Name" />
+                        </div>`;
 
             $(html).insertBefore(parentDiv);
             index++;
         })
     </script>
-}
-
-@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

@@ -16,7 +16,7 @@
 @section Scripts{
     <script>
         let googleViewerUrl = "https://drive.google.com/viewerng/viewer?url=";
-        let resourceUrl = window.location.origin + "@Model.Path";
+        let resourceUrl = "@Model.Path";
         console.log(resourceUrl);
 
         document.getElementById('iframe').src = googleViewerUrl + resourceUrl +"&embedded=true";

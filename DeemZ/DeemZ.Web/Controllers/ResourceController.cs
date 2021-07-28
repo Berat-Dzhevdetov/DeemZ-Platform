@@ -45,7 +45,7 @@
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
-        public async Task<IActionResult> Add(string lectureId, AddResourceFormModel resource,IFormFile file)
+        public IActionResult Add(string lectureId, AddResourceFormModel resource,IFormFile file)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
 
@@ -59,18 +59,16 @@
 
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
-            //trying to upload the file to the file system
-            var path = await fileService.UploadFile(file, resource.Path);
+            //trying to upload the file to the cloud
+            var path = fileService.PreparingFileForUploadAndUploadIt(file, resource.Path);
 
             if (path == null)
             {
                 ModelState.AddModelError("Path", "An error occurred while uploading file");
                 return View(resource);
             }
-            else if (path != "url")
-            {
-                resource.Path = path;
-            }
+
+            resource.Path = path;
 
             resourceService.AddResourceToLecture(lectureId, resource);
 
@@ -89,8 +87,6 @@
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
 
             var resource = resourceService.GetResourceById<DetailsResourseViewModel>(resourceId);
-
-            resource.Path = resource.Path.ReplaceAll('\\', '/');
 
             return View(resource);
         }

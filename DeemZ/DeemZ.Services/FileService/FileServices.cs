@@ -2,10 +2,10 @@
 {
     using System;
     using System.IO;
-    using System.Threading.Tasks;
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
+    using System.Net;
     using DeemZ.Services.ResourceService;
     using DeemZ.Models.ServiceModels.Resource;
 
@@ -13,10 +13,11 @@
     {
         private Secret.CloudinarySetup cloudinarySetup;
         private Cloudinary cloudinary;
-        private string tempFolder = Path.Combine("bin", "Debug", "net5.0", "temp");
-        private string documentsFolder = Path.Combine("wwwroot", "documents");
-        private string presentationsFolder = "presentations";
-        private string wordsFolder = "word_files";
+        private string documentsFolder = "Documents";
+        private string pdfsFiles = "mspdf";
+        private string wordsFolder = "msword";
+        private string videos = "Videos";
+        private string images = "Images";
         private const int defaultSizeOfFile = 2097152; // 2 MB
         private readonly IResourceService resourceService;
 
@@ -41,67 +42,72 @@
         private string GetFileExtension(string file)
             => Path.GetExtension(file).TrimStart('.');
 
-        public bool IsAllowedFile(IFormFile file)
-            => FormFileExtensions.IsPdf(file.FileName) || FormFileExtensions.IsWord(file.FileName);
-
-        public async Task<ImageUploadResult> UploadImage(IFormFile file)
+        public string PreparingFileForUploadAndUploadIt(IFormFile file, string path = null)
         {
-            //Uploading the file to the system file
-            var path = await UploadFile(file);
+            var newFileName = Guid.NewGuid().ToString();
 
-            //Uploading the file to the cloud
-            var uploadParams = new ImageUploadParams()
-            {
-                File = new FileDescription(path)
-            };
-
-            //Deleting the file from the file system
-            DeleteFile(path);
-
-            return cloudinary.Upload(uploadParams);
-        }
-
-        //Uploads file to the file system
-        public async Task<string> UploadFile(IFormFile file, string path = null)
-        {
-            if (!(path == "official_value" && IsAllowedFile(file)))
-            {
-                if (IsUrl(path)) return "url";
-                return null;
-            }
+            string folder = documentsFolder;
 
             var extension = GetFileExtension(file);
 
-            //Create a unique name so that there is no problem with the file system
-            var fileName = Guid.NewGuid().ToString() + "." + extension;
-
-            if (extension == "pdf" && path == "official_value") path = Path.Combine(documentsFolder, presentationsFolder);
-            else if ((extension == "doc" || extension == "docx") && path == "official_value") path = Path.Combine(documentsFolder, wordsFolder);
-            else if (path == "oficial_value" && CheckIfFileIsImage(file)) path = tempFolder;
-
-            path = Path.Combine(path, fileName); 
-
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (extension == "pdf" && path == "official_value")
             {
-                await file.CopyToAsync(stream);
+                folder = $"{documentsFolder}/{pdfsFiles}/";
             }
-            return path;
+            else if ((extension == "doc" || extension == "docx") && path == "official_value")
+            {
+                folder = $"{documentsFolder}/{wordsFolder}/";
+            }
+            else if (extension == "mp4" && path == "official_value")
+            {
+                folder = $"{videos}/";
+            }
+            else if (CheckIfFileIsImage(file))
+            {
+                folder = $"{images}/";
+            }
+
+            return UploadFileToCloud(file, folder, newFileName, extension);
         }
 
-        //Deletes file from the file system
-        private void DeleteFile(string path)
+        private string UploadFileToCloud(IFormFile file, string folder, string newFileName, string extension)
         {
-            if (File.Exists(path))
+            byte[] fileBytes;
+            UploadResult uploadResult = null;
+
+            using (var memoryStream = new MemoryStream())
             {
-                File.Delete(path);
+                file.CopyTo(memoryStream);
+                fileBytes = memoryStream.ToArray();
             }
+
+            using (var memoryStream = new MemoryStream(fileBytes))
+            {
+                RawUploadParams uploadParams = new RawUploadParams
+                {
+                    Folder = folder,
+                    File = new FileDescription(newFileName + "." + extension,memoryStream),
+                    PublicId = newFileName
+                };
+
+                uploadResult = cloudinary.Upload(uploadParams);
+            }
+
+            //if (uploadResult.Error.Message != null) return uploadResult.Error.Message;
+
+            return uploadResult?.SecureUrl.AbsoluteUri;
         }
 
-        public (byte[] fileContents, string contentType,string downloadName) GetFileBytesByResourceId(string rid)
+        public void DeleteFile(string publicId)
+        {
+            var deletionParams = new DeletionParams(publicId);
+            
+            cloudinary.Destroy(deletionParams);
+        }
+
+        public (byte[] fileContents, string contentType, string downloadName) GetFileBytesByResourceId(string rid)
         {
             var resource = resourceService.GetResourceById<ResourceServiceModel>(rid);
-
-            if (IsUrl(resource.Path)) return (new byte[0], null, resource.Name);
 
             var bytes = GetFileAsBytes(resource.Path);
 
@@ -113,30 +119,13 @@
             else if (extension == "docx") contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
             else if (extension == "pdf") contentType = "application/pdf";
 
-            return (bytes, contentType,resource.Name + "." + extension);
+            return (bytes, contentType, resource.Name + "." + extension);
         }
 
         private byte[] GetFileAsBytes(string file)
         {
-            var path = documentsFolder;
-
-            var fileName = Path.GetFileName(file);
-
-            var extension = GetFileExtension(file);
-
-            if (extension == "doc" || extension == "docx") path = Path.Combine(path, wordsFolder);
-            else if (extension == "pdf") path = Path.Combine(path, presentationsFolder);
-
-            path = Path.Combine(path, fileName);
-
-            return File.ReadAllBytes(path);
-        }
-
-        private bool IsUrl(string path)
-        {
-            Uri uriResult;
-            return Uri.TryCreate(path, UriKind.Absolute, out uriResult)
-                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+            var webClient = new WebClient();
+            return webClient.DownloadData(file);
         }
     }
 }

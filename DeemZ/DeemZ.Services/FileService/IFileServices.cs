@@ -1,18 +1,15 @@
 ﻿namespace DeemZ.Services.FileService
 {
-    using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
-    using System.Threading.Tasks;
 
     public interface IFileServices
     {
         private const int defaultSizeOfFile = 2097152; // 2 MB
 
-        Task<ImageUploadResult> UploadImage(IFormFile file);
         bool CheckIfFileIsUnderMB(IFormFile file, int mb = defaultSizeOfFile);
         bool CheckIfFileIsImage(IFormFile file);
-        Task<string> UploadFile(IFormFile file, string path = null);
-
-        (byte[] fileContents, string contentType,string downloadName) GetFileBytesByResourceId(string rid);
+        string PreparingFileForUploadAndUploadIt(IFormFile file, string path = null);
+        void DeleteFile(string publicId);
+        (byte[] fileContents, string contentType, string downloadName) GetFileBytesByResourceId(string rid);
     }
 }

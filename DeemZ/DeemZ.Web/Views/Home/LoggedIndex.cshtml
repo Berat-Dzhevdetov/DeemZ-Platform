@@ -98,7 +98,7 @@
                         @foreach (var resource in Model.Resources)
                         {
                             <li class="info-item">
-                                <a asp-action="Show" asp-controller="Resource" asp-route-resourceId="@resource.Id">
+                                <a asp-action="ViewResource" asp-controller="Resource" asp-route-resourceId="@resource.Id">
                                     @resource.Name
                                 </a>
                             </li>
