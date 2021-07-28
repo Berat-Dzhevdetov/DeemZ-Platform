@@ -20,9 +20,9 @@
                         {
                             <li>
                                 <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@course.Id">
-                                    @course.Name 
+                                    @course.Name
                                 </a>
-                                 - from @course.SignUpStartDate to @course.SignUpEndDate (including)
+                                - from @course.SignUpStartDate to @course.SignUpEndDate (including)
                             </li>
                         }
                     </ul>
@@ -98,9 +98,20 @@
                         @foreach (var resource in Model.Resources)
                         {
                             <li class="info-item">
-                                <a asp-action="ViewResource" asp-controller="Resource" asp-route-resourceId="@resource.Id">
-                                    @resource.Name
-                                </a>
+                                @if (resource.ResourceTypeIsRemote)
+                                {
+                                    <a href="@resource.Path" target="_blank">
+                                        @Html.Raw(resource.ResourceTypeIcon) @resource.Name <br />
+                                        <span class="custom-text-muted">By course @resource.LectureCourseName</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Resource" asp-action="ViewResource" asp-route-resourceId="@resource.Id">
+                                        @Html.Raw(resource.ResourceTypeIcon) @resource.Name<br />
+                                        <span class="custom-text-muted">By course @resource.LectureCourseName</span>
+                                    </a>
+                                }
                             </li>
                         }
                     }

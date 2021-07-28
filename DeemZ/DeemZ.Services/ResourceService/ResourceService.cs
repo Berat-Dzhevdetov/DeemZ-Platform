@@ -42,10 +42,11 @@
 
         public IEnumerable<T> GetUserResources<T>(string uid)
             => context.Resources
+                .Include(x => x.ResourceType)
                 .Include(x => x.Lecture)
                 .ThenInclude(x => x.Course)
                 .ThenInclude(x => x.UserCourses)
-                .OrderBy(x => x.CreatedOn)
+                .OrderByDescending(x => x.CreatedOn)
                 .Where(x =>
                     x.Lecture.Course.UserCourses.Any(c =>
                         c.UserId == uid
