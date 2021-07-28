@@ -14,6 +14,8 @@
                 .ForMember(x => x.Id, o => o.MapFrom(src => src.Id))
                 .ForMember(x => x.Name, o => o.MapFrom(src => src.Name));
 
+            CreateMap<Resource, BasicDetailsResourseViewModel>();
+
             CreateMap<Resource, IndexResourceViewModel>()
                 .ForMember(x => x.Id, o => o.MapFrom(src => src.Id))
                 .ForMember(x => x.Name, o => o.MapFrom(src => src.Name));

@@ -45,16 +45,6 @@
                 course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
             }
 
-            foreach (var lecture in course.Lectures)
-            {
-                foreach (var resource in lecture.Resourses)
-                {
-                    Uri uriResult;
-                    resource.IsRemote = Uri.TryCreate(resource.Path, UriKind.Absolute, out uriResult)
-                        && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-                }
-            }
-
             return View(course);
         }
 

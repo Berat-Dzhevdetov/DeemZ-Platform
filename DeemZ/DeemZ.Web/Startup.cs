@@ -11,6 +11,7 @@ namespace DeemZ.Web
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Web.Infrastructure;
+    using Microsoft.AspNetCore.Http.Features;
 
     public class Startup
     {
@@ -66,6 +67,8 @@ namespace DeemZ.Web
                     .UseHsts();
             }
 
+            
+
             app.UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseRouting()
@@ -78,6 +81,7 @@ namespace DeemZ.Web
                             pattern: "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
+
         }
     }
 }

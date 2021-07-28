@@ -11,6 +11,10 @@ namespace DeemZ.Web
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
-                    webBuilder.UseStartup<Startup>());
+                    webBuilder.UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Limits.MaxRequestBodySize = long.MaxValue;
+                }));
     }
 }

@@ -61,20 +61,12 @@
                                 {
                                     foreach (var resource in currentLecture.Resourses)
                                     {
-                                <li>
-                                    @if (resource.IsRemote == true)
-                                    {
-                                        <a href="@resource.Path" target="_blank">
-                                            @Html.Raw(resource.ResourceTypeIcon) @resource.Name
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-controller="Resource" asp-action="ViewResource" asp-route-resourceId="@resource.Id">
-                                            @Html.Raw(resource.ResourceTypeIcon) @resource.Name
-                                        </a>
-                                    }
-                                </li>
+                                        <li>
+
+                                            <a asp-controller="Resource" asp-action="ViewResource" asp-route-resourceId="@resource.Id">
+                                                @Html.Raw(resource.ResourceTypeIcon) @resource.Name
+                                            </a>
+                                        </li>
                                     }
                                 }
                                 else

@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Http;
-    using System.Threading.Tasks;
     using DeemZ.Services;
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.LectureServices;
@@ -21,12 +20,12 @@
         private readonly IResourceService resourceService;
         private readonly IFileServices fileService;
 
-        public ResourceController(Guard guard, ILectureService lectureService, IResourceService resourceService, IFileServices cloudinaryService)
+        public ResourceController(Guard guard, ILectureService lectureService, IResourceService resourceService, IFileServices fileService)
         {
             this.lectureService = lectureService;
             this.guard = guard;
             this.resourceService = resourceService;
-            this.fileService = cloudinaryService;
+            this.fileService = fileService;
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -45,6 +44,9 @@
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
+        [DisableRequestSizeLimit,
+                 RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,
+                 ValueLengthLimit = int.MaxValue)]
         public IActionResult Add(string lectureId, AddResourceFormModel resource,IFormFile file)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
@@ -87,6 +89,10 @@
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
 
             var resource = resourceService.GetResourceById<DetailsResourseViewModel>(resourceId);
+
+            ViewBag.IsVideo = false;
+
+            if (resource.ResourceTypeName == "Video") ViewBag.IsVideo = true;
 
             return View(resource);
         }

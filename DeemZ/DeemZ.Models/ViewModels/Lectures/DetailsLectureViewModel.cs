@@ -10,6 +10,6 @@
         public string Name { get; set; }
 
         public List<DetailsDescriptionViewModel> Descriptions { get; set; }
-        public List<DetailsResourseViewModel> Resourses { get; set; }
+        public List<BasicDetailsResourseViewModel> Resourses { get; set; }
     }
 }
