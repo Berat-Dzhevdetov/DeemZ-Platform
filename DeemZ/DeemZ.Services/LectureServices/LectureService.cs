@@ -35,6 +35,7 @@
         public IEnumerable<T> GetLectureResourcesById<T>(string lid)
             => context.Resources
                 .Where(x => x.LectureId == lid)
+                .OrderByDescending(x => x.CreatedOn)
                 .Select(x => mapper.Map<T>(x))
                 .ToList();
 
@@ -103,6 +104,7 @@
 
         public IEnumerable<T> GetLecturesByCourseId<T>(string cid)
             => context.Lectures
+                .OrderByDescending(x => x.Date)
                 .Include(x => x.Course)
                 .Where(x => x.CourseId == cid)
                 .Select(x => mapper.Map<T>(x))

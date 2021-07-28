@@ -32,7 +32,7 @@
 
         public IEnumerable<T> GetAllCourses<T>(int page = 1, int quantity = 20)
              => context.Courses
-                .OrderBy(x => x.StartDate)
+                .OrderByDescending(x => x.StartDate)
                 .Select(x => mapper.Map<T>(x))
                 .Paging(page, quantity)
                 .ToList();
