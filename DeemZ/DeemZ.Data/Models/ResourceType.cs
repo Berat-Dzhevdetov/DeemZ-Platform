@@ -15,5 +15,7 @@
         [Required]
         [MaxLength(MaxIconLength)]
         public string Icon { get; set; }
+
+        public bool IsRemote { get; set; }
     }
 }

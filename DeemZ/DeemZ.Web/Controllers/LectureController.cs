@@ -72,6 +72,18 @@
             return RedirectToAction(nameof(AdministrationController.Lectures), "Administration", new { courseId = lecture.CourseId });
         }
 
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult Delete(string lectureId)
+        {
+            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
+
+            if (!lectureService.GetLectureById(lectureId)) return NotFound();
+
+            lectureService.DeleteLecture(lectureId);
+
+            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
+        }
+
         [IgnoreAntiforgeryToken]
         [HttpPost]
         public ActionResult DeleteDescription(string did)

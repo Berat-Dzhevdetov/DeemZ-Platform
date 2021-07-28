@@ -61,16 +61,20 @@
 
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
+            string path = string.Empty;
+
+            if(file != null)
+            {
+                path = fileService.PreparingFileForUploadAndUploadIt(file, resource.Path);
+                resource.Path = path;
+            }
             //trying to upload the file to the cloud
-            var path = fileService.PreparingFileForUploadAndUploadIt(file, resource.Path);
 
             if (path == null)
             {
                 ModelState.AddModelError("Path", "An error occurred while uploading file");
                 return View(resource);
             }
-
-            resource.Path = path;
 
             resourceService.AddResourceToLecture(lectureId, resource);
 
@@ -89,6 +93,8 @@
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
 
             var resource = resourceService.GetResourceById<DetailsResourseViewModel>(resourceId);
+
+            if (resource.IsRemote) return NotFound();
 
             ViewBag.IsVideo = false;
 

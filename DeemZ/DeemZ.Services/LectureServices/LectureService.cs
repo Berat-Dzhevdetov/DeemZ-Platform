@@ -8,16 +8,19 @@
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Description;
+    using DeemZ.Services.ResourceService;
 
     public class LectureService : ILectureService
     {
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
+        private readonly IResourceService resourceService;
 
-        public LectureService(DeemZDbContext context, IMapper mapper)
+        public LectureService(DeemZDbContext context, IMapper mapper, IResourceService resourceService)
         {
             this.context = context;
             this.mapper = mapper;
+            this.resourceService = resourceService;
         }
 
         public void AddLectureToCourse(string courseId, AddLectureFormModel lecture)
@@ -25,14 +28,20 @@
             var newlyLecture = mapper.Map<Lecture>(lecture);
             newlyLecture.CourseId = courseId;
 
+            context.Lectures.Add(newlyLecture);
+            context.SaveChanges();
+
             foreach (var description in lecture.Descriptions)
             {
                 if (description.Name.Trim().Length < 3) continue;
 
-                CreateDescription(description.Name, newlyLecture.Id);
+                var newDescripition = CreateDescription(description.Name, newlyLecture.Id);
+
+                context.Descriptions.Add(newDescripition);
+
+                context.SaveChanges();
             }
 
-            context.Lectures.Add(newlyLecture);
             context.SaveChanges();
         }
 
@@ -58,6 +67,7 @@
                     if (name.Trim().Length < 3) continue;
 
                     description = CreateDescription(name , lectureId);
+                    context.Descriptions.Add(description);
                 }
                 description.Name = name;
                 context.SaveChanges();
@@ -74,9 +84,6 @@
                 LectureId = lectureId
             };
 
-            context.Descriptions.Add(descripiton);
-
-            context.SaveChanges();
             return descripiton;
         }
 
@@ -128,8 +135,21 @@
         {
             var lecture = GetLectureById<Lecture>(lid);
 
+            resourceService.DeleteLectureResoureces(lid);
+            DeleteAllDescription(lid);
+
             context.Lectures.Remove(lecture);
             context.SaveChanges();
+        }
+
+        public void DeleteAllDescription(string lid)
+        {
+            var descriptions = GetLectureDescriptions<Description>(lid);
+
+            foreach (var description in descriptions)
+            {
+                DeleteDescription(description.Id);
+            }
         }
     }
 }

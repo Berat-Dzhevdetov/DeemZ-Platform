@@ -8,6 +8,7 @@
     using System.Net;
     using DeemZ.Services.ResourceService;
     using DeemZ.Models.ServiceModels.Resource;
+    using DeemZ.Data;
 
     public class FileServices : IFileServices
     {
@@ -19,15 +20,14 @@
         private string videos = "Videos";
         private string images = "Images";
         private const int defaultSizeOfFile = 2097152; // 2 MB
-        private readonly IResourceService resourceService;
+        private readonly DeemZDbContext context;
 
-
-        public FileServices(IResourceService resourceService)
+        public FileServices(DeemZDbContext context)
         {
             cloudinarySetup = new Secret.CloudinarySetup();
             cloudinary = new Cloudinary(cloudinarySetup.Account);
             cloudinary.Api.Secure = true;
-            this.resourceService = resourceService;
+            this.context = context;
         }
 
         public bool CheckIfFileIsUnderMB(IFormFile file, int mb = defaultSizeOfFile)
@@ -107,7 +107,7 @@
 
         public (byte[] fileContents, string contentType, string downloadName) GetFileBytesByResourceId(string rid)
         {
-            var resource = resourceService.GetResourceById<ResourceServiceModel>(rid);
+            var resource = context.Resources.Find(rid);
 
             var bytes = GetFileAsBytes(resource.Path);
 

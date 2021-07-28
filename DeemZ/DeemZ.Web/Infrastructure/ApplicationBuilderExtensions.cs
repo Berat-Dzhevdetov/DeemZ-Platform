@@ -47,8 +47,8 @@
             if (data.ResourceTypes.Any()) return;
             data.ResourceTypes.AddRange(new[]
             {
-                new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>" },
-                new ResourceType() { Name = "Facebook link", Icon = "<i class=\"fab fa-facebook\"></i>" },
+                new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>", IsRemote = true },
+                new ResourceType() { Name = "Facebook link", Icon = "<i class=\"fab fa-facebook\"></i>", IsRemote = true },
                 new ResourceType() { Name = "Word file", Icon = "<i class=\"fas fa-file-word\"></i>" },
                 new ResourceType() { Name = "Presentation", Icon = "<i class=\"fas fa-file-powerpoint\"></i>" },
                 new ResourceType() { Name = "Video", Icon = "<i class=\"fas fa-video\"></i>" }

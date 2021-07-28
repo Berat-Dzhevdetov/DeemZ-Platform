@@ -10,5 +10,6 @@
         public string LectureCourseName { get; set; }
         public string LectureCourseId { get; set; }
         public string ResourceTypeName { get; set; }
+        public bool IsRemote { get; set; }
     }
 }

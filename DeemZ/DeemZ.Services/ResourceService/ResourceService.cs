@@ -8,16 +8,19 @@
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Resource;
     using DeemZ.Data.Models;
+    using DeemZ.Services.FileService;
 
     public class ResourceService : IResourceService
     {
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
+        private readonly IFileServices fileService;
 
-        public ResourceService(DeemZDbContext context, IMapper mapper)
+        public ResourceService(DeemZDbContext context, IMapper mapper, IFileServices fileService)
         {
             this.context = context;
             this.mapper = mapper;
+            this.fileService = fileService;
         }
 
         public bool IsValidResourceType(string rtid)
@@ -74,5 +77,19 @@
 
         public bool GetResourceById(string rid)
             => context.Resources.Any(x => x.Id == rid);
+
+        public void DeleteLectureResoureces(string lid)
+        {
+            var resources = context.Resources.Where(x => x.LectureId == lid).Include(x => x.ResourceType).ToList();
+
+            foreach (var resource in resources)
+            {
+                if(!resource.ResourceType.IsRemote)  fileService.DeleteFile(resource.Name);
+
+                context.Resources.Remove(resource);
+            }
+
+            context.SaveChanges();
+        }
     }
 }
