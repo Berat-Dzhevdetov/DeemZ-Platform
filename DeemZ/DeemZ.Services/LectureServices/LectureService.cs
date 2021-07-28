@@ -30,19 +30,6 @@
 
             context.Lectures.Add(newlyLecture);
             context.SaveChanges();
-
-            foreach (var description in lecture.Descriptions)
-            {
-                if (description.Name.Trim().Length < 3) continue;
-
-                var newDescripition = CreateDescription(description.Name, newlyLecture.Id);
-
-                context.Descriptions.Add(newDescripition);
-
-                context.SaveChanges();
-            }
-
-            context.SaveChanges();
         }
 
         public IEnumerable<T> GetLectureResourcesById<T>(string lid)
