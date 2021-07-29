@@ -12,6 +12,7 @@
     using DeemZ.Services.AdminServices;
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.FileService;
+    using DeemZ.Services.UserServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -48,6 +49,7 @@
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IResourceService, ResourceService>();
             services.AddTransient<IFileServices, FileServices>();
+            services.AddTransient<IUserService, UserService>();
         }
     }
 }

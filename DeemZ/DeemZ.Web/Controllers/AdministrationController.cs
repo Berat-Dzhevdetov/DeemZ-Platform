@@ -12,23 +12,27 @@
     using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.ViewModels.Lectures;
+    using DeemZ.Services.UserServices;
+    using DeemZ.Models.ViewModels.User;
 
     using static Constants;
 
     [Authorize(Roles = AdminRoleName)]
     public class AdministrationController : Controller
     {
+        private readonly Guard guard;
         private readonly IAdminService adminService;
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
-        private readonly Guard guard;
+        private readonly IUserService userService;
 
-        public AdministrationController(IAdminService adminService, Guard guard, ICourseService courseService, ILectureService lectureService)
+        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService)
         {
-            this.adminService = adminService;
             this.guard = guard;
+            this.adminService = adminService;
             this.courseService = courseService;
             this.lectureService = lectureService;
+            this.userService = userService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
@@ -108,6 +112,28 @@
             viewModel.Lectures = lectures.Paging(page, quantity).ToList();
 
             viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
+        public IActionResult Users(int page = 1, int quantity = 20)
+        {
+            var viewModel = new AdmistrationUsersViewModel();
+
+            var users = userService.GetAllUsers<BasicUserInformationViewModel>(page,quantity);
+
+            var allPages = (int)Math.Ceiling(users.Count() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel.Users = users;
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            foreach(var user in viewModel.Users)
+            {
+                user.TakenCoursesCount = userService.GetUserTakenCourses(user.Id);
+            }
 
             return View(viewModel);
         }
