@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
+    using AutoMapper.QueryableExtensions;
     using DeemZ.Data;
     using DeemZ.Models.ViewModels.Administration;
     using DeemZ.Services.CourseServices;
@@ -26,14 +27,14 @@
             => context.UserCourses
                 .Include(x => x.Course)
                 .Include(x => x.User)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .Paging(page, quantity)
                 .ToList();
 
         public IEnumerable<T> GetAllCourses<T>(int page = 1, int quantity = 20)
              => context.Courses
                 .OrderByDescending(x => x.StartDate)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .Paging(page, quantity)
                 .ToList();
 

@@ -2,9 +2,10 @@
 {
     using AutoMapper;
     using System.Collections.Generic;
-    using DeemZ.Data;
+    using AutoMapper.QueryableExtensions;
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
+    using DeemZ.Data;
 
     public class SurveyService : ISurveyService
     {
@@ -31,7 +32,7 @@
             .Include(x => x.Questions)
             .ThenInclude(x => x.Answers)
             .Where(x => x.Id == sid && x.IsPublic == isPublic)
-            .Select(x => mapper.Map<T>(x))
+            .ProjectTo<T>(mapper.ConfigurationProvider)
             .FirstOrDefault();
 
         public IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid)
@@ -41,7 +42,7 @@
                 .Include(x => x.Course)
                 .ThenInclude(x => x.UserCourses)
                 .Include(x => x.Users)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
     }
 }

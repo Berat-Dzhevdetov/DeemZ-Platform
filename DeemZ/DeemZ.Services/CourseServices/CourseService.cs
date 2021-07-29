@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper.QueryableExtensions;
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Course;
@@ -50,7 +51,7 @@
                 .Include(c => c.Lectures)
                 .ThenInclude(x => x.Resources)
                 .ThenInclude(x => x.ResourceType)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .FirstOrDefault();
 
         public bool IsUserSignUpForThisCourse(string uid, string cid)
@@ -62,7 +63,7 @@
             .Where(x =>
                 x.SignUpStartDate <= DateTime.UtcNow
                 && x.SignUpEndDate > DateTime.UtcNow)
-            .Select(x => mapper.Map<T>(x))
+            .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
 
         public void SignUserToCourse(string uid, string cid)
@@ -83,7 +84,7 @@
             => context.UserCourses
                 .Include(x => x.User)
                 .Include(x => x.Course)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
         public int GetUserCoursesCount() => context.UserCourses.Count();

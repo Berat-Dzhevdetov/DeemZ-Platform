@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
+    using AutoMapper.QueryableExtensions;
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Data.Models;
@@ -36,7 +37,7 @@
             => context.Resources
                 .Where(x => x.LectureId == lid)
                 .OrderByDescending(x => x.CreatedOn)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
         public void EditLectureById(string lectureId, EditLectureFormModel lecture)
@@ -99,7 +100,7 @@
         public List<T> GetLectureDescriptions<T>(string lid)
             => context.Descriptions
                 .Where(x => x.LectureId == lid)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
         public IEnumerable<T> GetLecturesByCourseId<T>(string cid)
@@ -107,7 +108,7 @@
                 .OrderByDescending(x => x.Date)
                 .Include(x => x.Course)
                 .Where(x => x.CourseId == cid)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
         public void DeleteDescription(string did)

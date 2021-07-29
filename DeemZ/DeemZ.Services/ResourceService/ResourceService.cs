@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
+    using AutoMapper.QueryableExtensions;
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Resource;
     using DeemZ.Data.Models;
@@ -37,7 +38,7 @@
 
         public IEnumerable<T> GetResourceTypes<T>()
             => context.ResourceTypes
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
         public IEnumerable<T> GetUserResources<T>(string uid)
@@ -54,7 +55,7 @@
                         && c.Course.StartDate <= DateTime.UtcNow
                         && c.Course.EndDate >= DateTime.UtcNow
                         && c.IsPaid == true))
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
         public bool DoesUserHavePermissionToThisResource(string rid, string uid)

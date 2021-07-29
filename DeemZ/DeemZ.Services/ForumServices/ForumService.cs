@@ -2,11 +2,12 @@
 {
     using AutoMapper;
     using System.Collections.Generic;
+    using System.Linq;
+    using AutoMapper.QueryableExtensions;
+    using Microsoft.EntityFrameworkCore;
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
 
     public class ForumService : IForumService
     {
@@ -34,7 +35,7 @@
             => context.Forums
                 .Include(x => x.User)
                 .OrderBy(x => x.CreatedOn)
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
         public IEnumerable<T> GetAllTopics<T>(int page = 1, int quantity = 10)
@@ -59,7 +60,7 @@
             => context.Forums
                 .Include(x => x.User)
                 .Where(x => x.Title.ToLower().Contains(title.ToLower()))
-                .Select(x => mapper.Map<T>(x))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .Paging(page, quantity)
                 .ToList();
 
