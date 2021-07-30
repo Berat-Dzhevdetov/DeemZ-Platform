@@ -74,9 +74,9 @@
 
             if (!report) return NotFound();
 
-            reportService.DeleteReport(reportId);
+            reportService.Delete(reportId);
 
-            return View(report);
+            return RedirectToAction(nameof(AdministrationController.Reports),"Administration");
         }
     }
 }
