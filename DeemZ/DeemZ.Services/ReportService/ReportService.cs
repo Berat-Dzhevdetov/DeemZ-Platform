@@ -30,6 +30,17 @@
             context.SaveChanges();
         }
 
+        public T GetReportById<T>(string id)
+        {
+            var report = context.Reports
+                .Include(x => x.Lecture)
+                .Include(x => x.User)
+                .FirstOrDefault(x => x.Id == id);
+
+            return mapper.Map<T>(report);
+        }
+            
+
         public IEnumerable<T> GetReports<T>(int page = 1, int quantity = 20)
             => context.Reports
                 .Include(x => x.Lecture)

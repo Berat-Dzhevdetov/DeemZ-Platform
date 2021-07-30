@@ -1,6 +1,5 @@
 ﻿namespace DeemZ.Web.Controllers
 {
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Data.Models;
@@ -9,17 +8,18 @@
     using DeemZ.Services;
     using DeemZ.Services.ReportService;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Models.ViewModels.Reports;
+
+    using static Constants;
 
     public class ReportController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly ILectureService lectureService;
         private readonly IReportService reportService;
         private readonly Guard guard;
 
-        public ReportController(UserManager<ApplicationUser> userManager, ILectureService lectureService, Guard guard, IReportService reportService)
+        public ReportController(ILectureService lectureService, Guard guard, IReportService reportService)
         {
-            this.userManager = userManager;
             this.lectureService = lectureService;
             this.guard = guard;
             this.reportService = reportService;
@@ -36,7 +36,6 @@
             return View(model);
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult Add(AddReportFormModel formModel)
         {
@@ -51,6 +50,18 @@
             reportService.AddReport(formModel, userId);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult Preview(string reportId)
+        {
+            if (guard.AgainstNull(guard, nameof(guard))) return BadRequest();
+
+            var report = reportService.GetReportById<PreviewReportViewModel>(reportId);
+
+            if (report == null) return NotFound();
+
+            return View(report);
         }
     }
 }

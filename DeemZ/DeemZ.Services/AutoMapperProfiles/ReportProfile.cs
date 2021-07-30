@@ -13,6 +13,8 @@
                 .ForMember(x => x.LectureId, o => o.MapFrom(src => src.Id));
 
             CreateMap<Report, ReportViewReport>();
+
+            CreateMap<Report, PreviewReportViewModel>();
         }
     }
 }

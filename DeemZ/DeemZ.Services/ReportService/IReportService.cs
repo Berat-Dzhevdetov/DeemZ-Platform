@@ -8,5 +8,7 @@
         void AddReport(AddReportFormModel model, string uid);
 
         IEnumerable<T> GetReports<T>(int page = 1, int quantity = 20);
+
+        T GetReportById<T>(string id);
     }
 }
