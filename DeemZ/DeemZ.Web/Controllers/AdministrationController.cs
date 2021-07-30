@@ -14,8 +14,10 @@
     using DeemZ.Models.ViewModels.Lectures;
     using DeemZ.Services.UserServices;
     using DeemZ.Models.ViewModels.User;
+    using DeemZ.Services.ReportService;
 
     using static Constants;
+    using DeemZ.Models.ViewModels.Reports;
 
     [Authorize(Roles = AdminRoleName)]
     public class AdministrationController : Controller
@@ -25,14 +27,16 @@
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
         private readonly IUserService userService;
+        private readonly IReportService reportService;
 
-        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService)
+        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService)
         {
             this.guard = guard;
             this.adminService = adminService;
             this.courseService = courseService;
             this.lectureService = lectureService;
             this.userService = userService;
+            this.reportService = reportService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
@@ -134,6 +138,21 @@
             {
                 user.TakenCoursesCount = userService.GetUserTakenCourses(user.Id);
             }
+
+            return View(viewModel);
+        }
+
+        public IActionResult Reports(int page = 1, int quantity = 20)
+        {
+            var viewModel = new AdministrationReportViewModel();
+
+            viewModel.Reports = reportService.GetReports<ReportViewReport>(page,quantity);
+
+            var allPages = (int)Math.Ceiling(viewModel.Reports.Count() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel = AdjustPages(viewModel,page,allPages);
 
             return View(viewModel);
         }
