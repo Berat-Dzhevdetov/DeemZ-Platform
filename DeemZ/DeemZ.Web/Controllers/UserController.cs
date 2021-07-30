@@ -25,7 +25,7 @@
         {
             if (guard.AgainstNull(userId, nameof(userId))) return BadRequest();
 
-            var user = await userService.GetUserById<EditUserFormModel>(userId);
+            var user = userService.GetUserById<EditUserFormModel>(userId);
 
             if (user == null) return NotFound();
 

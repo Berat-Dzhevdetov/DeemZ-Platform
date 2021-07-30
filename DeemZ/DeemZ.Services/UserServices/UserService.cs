@@ -28,7 +28,7 @@
         //If the given role doesn't exists it will create it automatically
         public async Task AddUserToRole(string userId, string role)
         {
-            var user = await GetUserById<ApplicationUser>(userId);
+            var user = GetUserById<ApplicationUser>(userId);
 
             if (!await roleManager.RoleExistsAsync(role)) await roleManager.CreateAsync(new IdentityRole { Name = role });
 
@@ -39,22 +39,29 @@
 
         public async Task RemoveUserFromRole(string userId, string role)
         {
-            var user = await GetUserById<ApplicationUser>(userId);
+            var user = GetUserById<ApplicationUser>(userId);
 
             await userManager.RemoveFromRoleAsync(user, role);
 
             context.SaveChanges();
-        }
+        }   
 
         public async Task EditUser(string userId, EditUserFormModel user)
         {
-            var userToEdit = await GetUserById<ApplicationUser>(userId);
+            var userToEdit = GetUserById<ApplicationUser>(userId);
 
             context.Attach(userToEdit);
 
-            userToEdit = mapper.Map<ApplicationUser>(user);
 
-            context.SaveChanges();
+            userToEdit.FirstName = user.FirstName;
+            userToEdit.LastName = user.LastName;
+            userToEdit.UserName = user.UserName;
+            userToEdit.Email = user.Email;
+            userToEdit.EmailConfirmed = user.EmailConfirmed;
+            userToEdit.LockoutEnd = user.LockoutEndDateUtc;
+            userToEdit.PhoneNumber = user.PhoneNumber;
+
+            await context.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetAllUsers<T>(int page = 1, int quantity = 20)
@@ -63,9 +70,9 @@
                 .ToList()
                 .Paging(page, quantity);
 
-        public async Task<T> GetUserById<T>(string uid)
+        public T GetUserById<T>(string uid)
         {
-            var user = await userManager.FindByIdAsync(uid);
+            var user = context.Users.FirstOrDefault(x => x.Id == uid);
 
             return mapper.Map<T>(user);
         }
@@ -76,7 +83,7 @@
 
         public async Task<bool> IsInRole(string userId, string role)
         {
-            var user = await GetUserById<ApplicationUser>(userId);
+            var user = GetUserById<ApplicationUser>(userId);
 
             return await userManager.IsInRoleAsync(user, role);
         }

@@ -5,9 +5,6 @@
     using DeemZ.Services.SurveyServices;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Models.ViewModels.Surveys;
-    using DeemZ.Data.Models;
-    using Microsoft.AspNetCore.Identity;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using DeemZ.Web.Infrastructure;
 
