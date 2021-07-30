@@ -6,9 +6,9 @@
     {
         public class CloudinarySetup
         {
-            private const string cloudName = "dlquhyz0t";
-            private const string key = "797481621562733";
-            private const string secretKey = "c6QXlIqUFFcUzPzYdm3QCtfg1f8";
+            private const string cloudName = "";
+            private const string key = "";
+            private const string secretKey = "";
             private Account account;
 
             public CloudinarySetup()
