@@ -6,8 +6,6 @@
     using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
     using System.Net;
-    using DeemZ.Services.ResourceService;
-    using DeemZ.Models.ServiceModels.Resource;
     using DeemZ.Data;
 
     public class FileServices : IFileServices
@@ -46,26 +44,20 @@
         {
             var newFileName = Guid.NewGuid().ToString();
 
-            string folder = documentsFolder;
+            string folder = string.Empty;
 
             var extension = GetFileExtension(file);
 
             if (extension == "pdf" && path == "official_value")
-            {
                 folder = $"{documentsFolder}/{pdfsFiles}/";
-            }
             else if ((extension == "doc" || extension == "docx") && path == "official_value")
-            {
                 folder = $"{documentsFolder}/{wordsFolder}/";
-            }
             else if (extension == "mp4" && path == "official_value")
-            {
                 folder = $"{videos}/";
-            }
             else if (CheckIfFileIsImage(file))
-            {
                 folder = $"{images}/";
-            }
+            else
+                return null;
 
             return UploadFileToCloud(file, folder, newFileName, extension);
         }
@@ -109,7 +101,7 @@
         {
             var resource = context.Resources.Find(rid);
 
-            var bytes = GetFileAsBytes(resource.Path);
+            var bytes = GetCloudFileAsBytes(resource.Path);
 
             var extension = GetFileExtension(resource.Path);
 
@@ -122,7 +114,7 @@
             return (bytes, contentType, resource.Name + "." + extension);
         }
 
-        private byte[] GetFileAsBytes(string file)
+        private byte[] GetCloudFileAsBytes(string file)
         {
             var webClient = new WebClient();
             return webClient.DownloadData(file);

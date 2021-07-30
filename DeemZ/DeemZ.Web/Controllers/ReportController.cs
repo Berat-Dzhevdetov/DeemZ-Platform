@@ -63,5 +63,20 @@
 
             return View(report);
         }
+
+        [Authorize(Roles = AdminRoleName)]
+        [HttpPost]
+        public IActionResult Delete(string reportId)
+        {
+            if (guard.AgainstNull(guard, nameof(guard))) return BadRequest();
+
+            var report = reportService.GetReportById(reportId);
+
+            if (!report) return NotFound();
+
+            reportService.DeleteReport(reportId);
+
+            return View(report);
+        }
     }
 }

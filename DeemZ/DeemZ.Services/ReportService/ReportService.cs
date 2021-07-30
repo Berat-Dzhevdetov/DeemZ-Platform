@@ -39,7 +39,17 @@
 
             return mapper.Map<T>(report);
         }
-            
+
+        public bool GetReportById(string id)
+            => context.Reports.Any(x => x.Id == id);
+
+        public void Delete(string id)
+        {
+            var report = GetReportById<Report>(id);
+
+            context.Reports.Remove(report);
+            context.SaveChanges();
+        }
 
         public IEnumerable<T> GetReports<T>(int page = 1, int quantity = 20)
             => context.Reports
