@@ -94,13 +94,17 @@ textarea {
     width: 100%;
 }
 
-iframe{
+iframe,object{
     width: 100%;
     height: 70vh;
 }
 
 .resource {
     padding: 2rem;
+}
+
+.resource-holder{
+    background:#ccc;
 }
 
 .arrow-right {

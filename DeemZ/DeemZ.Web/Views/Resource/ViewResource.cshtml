@@ -5,7 +5,12 @@
 }
 
 <div class="resource">
-    <iframe src="@Model.Path" id="iframe" width="500" height="500" alt="If the resource is not loading please try to refresh the page."></iframe>
+    <div class="resource-holder">
+        <object id="iframe1" data="@Model.Path" type="application/pdf">
+            <embed id="iframe" src="@Model.Path" type="application/pdf" />
+        </object>
+    </div>
+
     <div>
         <p>Document for lesson '@Model.LectureName' from the course <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@Model.LectureCourseId">@Model.LectureCourseName</a></p>
         <p>Download document: <a asp-controller="Resource" asp-action="Download" asp-route-resourceId="@Model.Id">@Model.Name</a></p>
@@ -19,9 +24,10 @@
         <script>
         let googleViewerUrl = "https://drive.google.com/viewerng/viewer?url=";
         let resourceUrl = "@Model.Path";
-        console.log(resourceUrl);
 
         document.getElementById('iframe').src = googleViewerUrl + resourceUrl +"&embedded=true";
+        document.getElementById('iframe1').data = googleViewerUrl + resourceUrl + "&embedded=true";
+
         </script>
     }
 }

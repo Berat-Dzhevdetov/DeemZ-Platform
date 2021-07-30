@@ -100,6 +100,8 @@
 
             if (resource.ResourceTypeName == "Video") ViewBag.IsVideo = true;
 
+            this.Response.Headers.Add("Content-Type", "text/html");
+
             return View(resource);
         }
 
