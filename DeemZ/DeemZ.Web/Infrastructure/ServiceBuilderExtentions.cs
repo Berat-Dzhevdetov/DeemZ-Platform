@@ -13,6 +13,7 @@
     using DeemZ.Services.ResourceService;
     using DeemZ.Services.FileService;
     using DeemZ.Services.UserServices;
+    using DeemZ.Services.ExamServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -31,6 +32,7 @@
                 mc.AddProfile(new ForumProfile());
                 mc.AddProfile(new ReportProfile());
                 mc.AddProfile(new UserCourseProfile());
+                mc.AddProfile(new ExamProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -50,6 +52,7 @@
             services.AddTransient<IResourceService, ResourceService>();
             services.AddTransient<IFileServices, FileServices>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IExamService, ExamService>();
         }
     }
 }

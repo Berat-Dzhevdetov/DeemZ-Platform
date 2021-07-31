@@ -15,9 +15,11 @@
     using DeemZ.Services.UserServices;
     using DeemZ.Models.ViewModels.User;
     using DeemZ.Services.ReportService;
+    using DeemZ.Models.ViewModels.Reports;
+    using DeemZ.Models.ViewModels.Exams;
+    using DeemZ.Services.ExamServices;
 
     using static Constants;
-    using DeemZ.Models.ViewModels.Reports;
 
     [Authorize(Roles = AdminRoleName)]
     public class AdministrationController : Controller
@@ -28,8 +30,9 @@
         private readonly ILectureService lectureService;
         private readonly IUserService userService;
         private readonly IReportService reportService;
+        private readonly IExamService examService;
 
-        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService)
+        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService)
         {
             this.guard = guard;
             this.adminService = adminService;
@@ -37,6 +40,7 @@
             this.lectureService = lectureService;
             this.userService = userService;
             this.reportService = reportService;
+            this.examService = examService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
@@ -153,6 +157,21 @@
             if (page <= 0 || page > allPages) page = 1;
 
             viewModel = AdjustPages(viewModel,page,allPages);
+
+            return View(viewModel);
+        }
+
+        public IActionResult Exams(string courseId)
+        {
+            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
+
+            if (!courseService.GetCourseById(courseId)) return NotFound();
+
+            var viewModel = new AdministrationExamsViewModel();
+
+            viewModel.CourseId = courseId;
+
+            viewModel.Exams = examService.GetExamsByCourseId<BasicExamInfoViewModel>(courseId);
 
             return View(viewModel);
         }
