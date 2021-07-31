@@ -22,11 +22,12 @@
                                 <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@course.Id">
                                     @course.Name
                                 </a>
-                                - from @course.SignUpStartDate to @course.SignUpEndDate (including)
+                                - from @course.SignUpStartDate.ToLocalTime().ToString("dd.MM.yyyy") to @course.SignUpEndDate.ToLocalTime().ToString("dd.MM.yyyy")
                             </li>
                         }
                     </ul>
-                    Just click the link and then click the link in the bottom of the page
+                    To date is including for all courses!
+                    Just click the link and then click the link in the bottom of the page.
                 </div>
             </div>
         </div>

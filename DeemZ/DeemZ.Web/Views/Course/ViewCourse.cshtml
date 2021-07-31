@@ -10,7 +10,7 @@
             <div class="course-info flex flex-row custom-text-muted">
                 <div class="start-date">
                     <img src="https://softuni.bg/Content/images/icons/play-icon.svg" />
-                    Start date: @Model.StartDate
+                    Start date: @Model.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
                 </div>
                 <div class="credits">
                     <img src="https://softuni.bg/Content/images/icons/timeline-icon.svg" />

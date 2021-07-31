@@ -21,8 +21,8 @@
                 .ForMember(x => x.SignUpEndDate, o => o.MapFrom(src => src.SignUpEndDate));
 
             CreateMap<Course, IndexSignUpForCourseViewModel>()
-                .ForMember(x => x.SignUpStartDate, o => o.MapFrom(src => src.SignUpStartDate.ToString("dd/MM/yyyy")))
-                .ForMember(x => x.SignUpEndDate, o => o.MapFrom(src => src.SignUpEndDate.ToString("dd/MM/yyyy")));
+                .ForMember(x => x.SignUpStartDate, o => o.MapFrom(src => src.SignUpStartDate))
+                .ForMember(x => x.SignUpEndDate, o => o.MapFrom(src => src.SignUpEndDate));
 
             CreateMap<Course, SignUpCourseFormModel>()
                 .ForMember(x => x.CourseName, o => o.MapFrom(src => src.Name));
@@ -31,7 +31,12 @@
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate))
                 .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate));
 
-            CreateMap<AddCourseFormModel, Course>();
+            CreateMap<AddCourseFormModel, Course>()
+                .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToUniversalTime()))
+                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToUniversalTime()))
+                .ForMember(x => x.SignUpStartDate, o => o.MapFrom(src => src.SignUpStartDate.ToUniversalTime()))
+                .ForMember(x => x.SignUpEndDate, o => o.MapFrom(src => src.SignUpEndDate.ToUniversalTime()));
+
             CreateMap<Course, EditCourseFormModel>();
         }
     }
