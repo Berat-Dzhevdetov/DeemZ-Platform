@@ -1,8 +1,9 @@
 ﻿namespace DeemZ.Services.UserServices
 {
-    using DeemZ.Models.FormModels.User;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using DeemZ.Models.FormModels.User;
+    using DeemZ.Models.ViewModels.User;
 
     public interface IUserService
     {
@@ -15,5 +16,6 @@
         Task RemoveUserFromRole(string userId, string role);
         bool IsEmailFree(string uid, string email);
         bool IsUsernameFree(string uid, string userName);
+        IndexUserViewModel GetIndexInformaiton(string uid);
     }
 }

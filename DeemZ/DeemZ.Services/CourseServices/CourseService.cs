@@ -9,16 +9,20 @@
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Course;
+    using DeemZ.Models.FormModels.Lecture;
+    using DeemZ.Services.LectureServices;
 
     public class CourseService : ICourseService
     {
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
+        private readonly ILectureService lectureService;
 
-        public CourseService(DeemZDbContext context, IMapper mapper)
+        public CourseService(DeemZDbContext context, IMapper mapper, ILectureService lectureService)
         {
             this.context = context;
             this.mapper = mapper;
+            this.lectureService = lectureService;
         }
 
         public int GetUserCredits(string id)
@@ -127,6 +131,22 @@
 
             context.Courses.Remove(courseToDelete);
             context.SaveChanges();
+        }
+
+        public void CreateBasicsLectures(string courseId, AddCourseFormModel course)
+        {
+            var basicLecturesNames = new string[] { "Course Introduciton", "Resources" };
+
+            for (int i = 0; i < basicLecturesNames.Length; i++)
+            {
+                var lecture = new AddLectureFormModel
+                {
+                    Date = course.StartDate.AddSeconds(i),
+                    Name = basicLecturesNames[i]
+                };
+
+                lectureService.AddLectureToCourse(courseId, lecture);
+            }
         }
     }
 }

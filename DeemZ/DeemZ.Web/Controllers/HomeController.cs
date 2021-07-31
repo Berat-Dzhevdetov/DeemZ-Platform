@@ -1,28 +1,18 @@
 ﻿namespace DeemZ.App.Controllers
 {
+    using DeemZ.Web.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using DeemZ.Models;
-    using DeemZ.Models.ViewModels.Course;
-    using DeemZ.Models.ViewModels.User;
-    using DeemZ.Services.CourseServices;
-    using DeemZ.Services.SurveyServices;
-    using DeemZ.Models.ViewModels.Surveys;
-    using DeemZ.Models.ViewModels.Resources;
-    using DeemZ.Web.Infrastructure;
-    using DeemZ.Services.ResourceService;
+    using DeemZ.Services.UserServices;
 
     public class HomeController : Controller
     {
-        private readonly ICourseService courseService;
-        private readonly ISurveyService serveyService;
-        private readonly IResourceService resourceService;
+        private readonly IUserService userService;
 
-        public HomeController(ICourseService courseService, ISurveyService serveyService, IResourceService resourceService)
+        public HomeController(IUserService userService)
         {
-            this.courseService = courseService;
-            this.serveyService = serveyService;
-            this.resourceService = resourceService;
+            this.userService = userService;
         }
 
         public IActionResult Index()
@@ -32,16 +22,9 @@
             {
                 var userId = User.GetId();
 
-                var viewModel = new IndexUserViewModel()
-                {
-                    Credits = courseService.GetUserCredits(userId),
-                    Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(userId, true),
-                    Surveys = serveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId),
-                    Resources = resourceService.GetUserResources<IndexResourceViewModel>(userId),
-                    SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
-                };
+                var viewModel = userService.GetIndexInformaiton(userId);
                 
-                return this.View("LoggedIndex", viewModel);
+                return View("LoggedIndex", viewModel);
             }
             return View();
         }

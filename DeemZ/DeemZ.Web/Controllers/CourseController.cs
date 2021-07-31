@@ -1,6 +1,5 @@
 ﻿namespace DeemZ.Web.Controllers
 {
-    using System;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Models.FormModels.Course;
@@ -9,7 +8,6 @@
     using DeemZ.Services.CourseServices;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.LectureServices;
-    using DeemZ.Models.FormModels.Lecture;
 
     using static Constants;
 
@@ -36,14 +34,8 @@
 
             var userId = User.GetId();
 
-            if (userId == null)
-            {
-                course.IsUserSignUpForThisCourse = false;
-            }
-            else
-            {
-                course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
-            }
+            if (userId == null) course.IsUserSignUpForThisCourse = false;
+            else course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
             return View(course);
         }
@@ -94,24 +86,10 @@
 
             var courseId = courseService.CreateCourse(course);
 
-            if (course.BasicLectures)
-            {
-                var basicLecturesNames = new string[] { "Resources", "Course Introduciton" };
-
-                for (int i = 0; i < basicLecturesNames.Length; i++)
-                {
-                    var lecture = new AddLectureFormModel
-                    {
-                        Date = course.StartDate.AddSeconds(i),
-                        Name = basicLecturesNames[i]
-                    };
-
-                    lectureService.AddLectureToCourse(courseId, lecture);
-                }
-            }
+            if (course.BasicLectures) courseService.CreateBasicsLectures(courseId,course);
 
             if (course.Redirect) return RedirectToAction(nameof(ViewCourse), new { courseId });
-            
+
             return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
         }
 
