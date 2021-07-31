@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "_AdminPanelLayOut";
+    ViewData["Title"] = "Add Exam";
+}
+@model DeemZ.Models.FormModels.Exam.AddExamFormModel
+
+<div class="container-fluid">
+    <form method="post" class="mt-4">
+        <div class="form-group text-center">
+            <h2 class="text-light">@ViewData["Title"]</h2>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Name"></label>
+            <input placeholder="ASP.NET Core - July @DateTime.Now.Year Exam" class="form-control" asp-for="Name" />
+            <span asp-validation-for="Name" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Password"></label>
+            <input class="form-control" asp-for="Password" />
+            <span asp-validation-for="Password" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="StartDate"></label>
+            <input class="form-control" asp-for="StartDate" />
+            <span asp-validation-for="StartDate" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="EndDate"></label>
+            <input class="form-control" asp-for="EndDate" />
+            <span asp-validation-for="EndDate" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="ShuffleQuestions" checked/>
+            <label class="text-light" asp-for="ShuffleQuestions"></label>
+        </div>
+        <div class="form-group">
+            <input asp-for="ShuffleAnswers" checked/>
+            <label class="text-light" asp-for="ShuffleAnswers"></label>
+        </div>
+        <div class="form-group">
+            <input asp-for="IsPublic" />
+            <label class="text-light" asp-for="IsPublic"></label>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

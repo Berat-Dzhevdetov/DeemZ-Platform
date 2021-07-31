@@ -3,9 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using static DataConstants.Exam;
+
     public class Exam : BaseModel
     {
         [Required]
+        [MaxLength(MaxNameLength)]
         public string Name { get; set; }
 
         [Required]
@@ -19,9 +23,12 @@
         [Required]
         public string CourseId { get; set; }
 
-        public int MaxPoints { get; set; }
+        public bool ShuffleQuestions { get; set; } = true;
+
+        public bool ShuffleAnswers { get; set; } = true;
 
         [Required]
+        [MaxLength(MaxPasswordLength)]
         public string Password { get; set; }
 
         public bool IsPublic { get; set; } = false;

@@ -57,6 +57,10 @@
         public class Exam
         {
             public const int MinNameLength = 5;
+            public const int MaxNameLength = 100;
+            public const int MinPoints = 10;
+            public const int MinPasswordLength = 5;
+            public const int MaxPasswordLength = 15;
         }
 
         public class Question
