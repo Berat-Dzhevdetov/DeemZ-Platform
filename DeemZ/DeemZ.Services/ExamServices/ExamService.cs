@@ -5,6 +5,8 @@
     using DeemZ.Data;
     using System.Linq;
     using AutoMapper.QueryableExtensions;
+    using DeemZ.Models.FormModels.Exam;
+    using DeemZ.Data.Models;
 
     public class ExamService : IExamService
     {
@@ -15,6 +17,15 @@
         {
             this.context = context;
             this.mapper = mapper;
+        }
+
+        public void CreateExam(string courseId, AddExamFormModel exam)
+        {
+            var newlyExam = mapper.Map<Exam>(exam);
+            newlyExam.CourseId = courseId;
+
+            context.Exams.Add(newlyExam);
+            context.SaveChanges();
         }
 
         public IEnumerable<T> GetExamsByCourseId<T>(string cid)

@@ -5,6 +5,7 @@
     using DeemZ.Services;
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.CourseServices;
+    using DeemZ.Models.FormModels.Exam;
 
     using static Constants;
 
@@ -30,6 +31,21 @@
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult Add(string courseId, AddExamFormModel exam)
+        {
+            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
+
+            if (!courseService.GetCourseById(courseId)) return NotFound();
+
+            if (!ModelState.IsValid) return View(exam);
+
+            examService.CreateExam(courseId, exam);
+
+            return RedirectToAction(nameof(AdministrationController.Exams), "Administration", new { courseId });
         }
     }
 }
