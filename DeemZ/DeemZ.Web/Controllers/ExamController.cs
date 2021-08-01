@@ -47,5 +47,32 @@
 
             return RedirectToAction(nameof(AdministrationController.Exams), "Administration", new { courseId });
         }
+
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult Edit(string examId)
+        {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
+            if (!examService.GetExamById(examId)) return NotFound();
+
+            var exam = examService.GetExamById<AddExamFormModel>(examId);
+
+            return View(exam);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult Edit(string examId, AddExamFormModel exam)
+        {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
+            if (!examService.GetExamById(examId)) return NotFound();
+
+            if (!ModelState.IsValid) return View(exam);
+
+            var courseId = examService.EditExam(examId, exam);
+
+            return RedirectToAction(nameof(AdministrationController.Exams), "Administration", new { courseId });
+        }
     }
 }

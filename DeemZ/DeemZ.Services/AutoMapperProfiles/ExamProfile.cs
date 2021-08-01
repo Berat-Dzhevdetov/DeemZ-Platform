@@ -13,7 +13,10 @@
 
             CreateMap<AddExamFormModel, Exam>()
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToUniversalTime()))
-                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToUniversalTime()));
+                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToUniversalTime()))
+                .ReverseMap()
+                .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToLocalTime()))
+                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToLocalTime()));
         }
     }
 }
