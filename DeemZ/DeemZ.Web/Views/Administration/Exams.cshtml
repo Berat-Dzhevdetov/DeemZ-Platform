@@ -14,7 +14,6 @@
                 <th scope="col">Name</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
-                <th scope="col">Max Points</th>
                 <th scope="col">Is Public</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -26,7 +25,6 @@
                     <td><a class="text-light" asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@exam.Id">@exam.Name</a></td>
                     <td>@exam.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
                     <td>@exam.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
-                    <td>@exam.MaxPoints</td>
                     <td>@exam.IsPublic</td>
                     <td>
                         <div class="btn-group">
@@ -35,7 +33,7 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-controller="Exam" asp-action="Edit" asp-route-examId="@exam.Id">Edit</a>
-                                <a class="dropdown-item" asp-controller="Question" asp-action="Add" asp-route-examId="@exam.Id">Add Question</a>
+                                <a class="dropdown-item" asp-controller="Administration" asp-action="Questions" asp-route-examId="@exam.Id">Questions</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" asp-controller="Exam" asp-action="Delete" asp-route-examId="@exam.Id">Delete</a>
                             </div>

@@ -14,6 +14,7 @@
     using DeemZ.Services.FileService;
     using DeemZ.Services.UserServices;
     using DeemZ.Services.ExamServices;
+    using DeemZ.Services.Question;
 
     public static class ServiceBuilderExtentions
     {
@@ -27,8 +28,6 @@
                 mc.AddProfile(new DescriptionProfile());
                 mc.AddProfile(new ResourceProfile());
                 mc.AddProfile(new SurveyProfile());
-                mc.AddProfile(new SurveyQuestionProfile());
-                mc.AddProfile(new SurveyAnswerProfile());
                 mc.AddProfile(new ForumProfile());
                 mc.AddProfile(new ReportProfile());
                 mc.AddProfile(new UserCourseProfile());
@@ -53,6 +52,7 @@
             services.AddTransient<IFileServices, FileServices>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IExamService, ExamService>();
+            services.AddTransient<IQuestionService, QuestionService>();
         }
     }
 }

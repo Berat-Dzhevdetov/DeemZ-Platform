@@ -18,6 +18,7 @@
     using DeemZ.Models.ViewModels.Reports;
     using DeemZ.Models.ViewModels.Exams;
     using DeemZ.Services.ExamServices;
+    using DeemZ.Services.Question;
 
     using static Constants;
 
@@ -31,8 +32,9 @@
         private readonly IUserService userService;
         private readonly IReportService reportService;
         private readonly IExamService examService;
+        private readonly IQuestionService questionService;
 
-        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService)
+        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService)
         {
             this.guard = guard;
             this.adminService = adminService;
@@ -41,6 +43,7 @@
             this.userService = userService;
             this.reportService = reportService;
             this.examService = examService;
+            this.questionService = questionService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
@@ -172,6 +175,21 @@
             viewModel.CourseId = courseId;
 
             viewModel.Exams = examService.GetExamsByCourseId<BasicExamInfoViewModel>(courseId);
+
+            return View(viewModel);
+        }
+
+        public IActionResult Questions(string examId)
+        {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
+            if (!examService.GetExamById(examId)) return NotFound();
+
+            var viewModel = new AdministrationQuetionsViewModel();
+
+            viewModel.ExamId = examId;
+
+            viewModel.Questions = questionService.GetQuestionsByExamId<QuetionsViewModel>(examId);
 
             return View(viewModel);
         }

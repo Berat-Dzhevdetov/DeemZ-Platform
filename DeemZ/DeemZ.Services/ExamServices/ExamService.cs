@@ -37,7 +37,7 @@
 
             context.SaveChanges();
 
-            return context.Exams.Where(x => x.Id == examId).Select(x => x.Id).FirstOrDefault();
+            return context.Exams.Where(x => x.Id == examId).Select(x => x.CourseId).FirstOrDefault();
         }
 
         public bool GetExamById(string eid)
@@ -52,6 +52,7 @@
 
         public IEnumerable<T> GetExamsByCourseId<T>(string cid)
             => context.Exams
+                .Include(x => x.Questions)
                 .Where(x => x.CourseId == cid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();

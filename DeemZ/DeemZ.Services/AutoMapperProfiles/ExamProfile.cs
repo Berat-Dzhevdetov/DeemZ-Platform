@@ -17,6 +17,12 @@
                 .ReverseMap()
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToLocalTime()))
                 .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToLocalTime()));
+
+            CreateMap<Question, QuetionsViewModel>();
+
+            CreateMap<AddQuestionFormModel, Question>();
+
+            CreateMap<AddAnswerFormModel, Answer>();
         }
     }
 }

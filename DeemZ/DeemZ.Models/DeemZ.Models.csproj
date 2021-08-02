@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DeemZ.Data\DeemZ.Data.csproj" />
+    <ProjectReference Include="..\DeemZ.Global\DeemZ.Global.csproj" />
   </ItemGroup>
 
 </Project>

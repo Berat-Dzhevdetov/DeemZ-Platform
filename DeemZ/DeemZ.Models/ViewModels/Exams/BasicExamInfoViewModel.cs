@@ -12,8 +12,6 @@
 
         public DateTime EndDate { get; set; }
 
-        public int MaxPoints { get; set; }
-
         public bool IsPublic { get; set; } = false;
     }
 }

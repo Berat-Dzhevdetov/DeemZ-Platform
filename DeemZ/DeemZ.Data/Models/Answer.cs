@@ -3,10 +3,13 @@
     using System.ComponentModel.DataAnnotations;
     using DeemZ.Data;
 
+    using static Data.DataConstants.Answer;
+
     public class Answer : BaseModel
     {
 
         [Required]
+        [MaxLength(MaxTextLength)]
         public string Text { get; set; }
 
         [Required]

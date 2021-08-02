@@ -1,0 +1,70 @@
+﻿@model DeemZ.Models.ViewModels.Administration.AdministrationQuetionsViewModel
+@{
+    Layout = "_AdminPanelLayout";
+    ViewData["Title"] = "Questions for exam";
+}
+
+<div class="container-fluid">
+    <div class="text-center mt-5">
+        <a asp-controller="Question" asp-action="Add" asp-route-examId="@Model.ExamId" class="btn btn-success">Add Question</a>
+        <p class="text-light">@Model.ExamName</p>
+    </div>
+    <table class="table table-striped table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Text</th>
+                <th scope="col">Points</th>
+                <th scope="col">Answers count</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.Questions)
+            {
+                <tr>
+                    <td>@question.Text</td>
+                    <td>@question.Points</td>
+                    <td>@question.AnswersCount</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-controller="Question" asp-action="Edit" asp-route-courseId="@question.Id">Edit</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" asp-controller="Question" asp-action="Delete" asp-route-courseId="@question.Id">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Questions" asp-route-page="@Model.PreviousPage">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Questions" asp-route-page="@i">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Questions" asp-route-page="@Model.NextPage">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
+</div>

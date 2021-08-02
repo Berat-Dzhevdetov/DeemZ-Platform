@@ -61,16 +61,22 @@
             public const int MinPoints = 10;
             public const int MinPasswordLength = 5;
             public const int MaxPasswordLength = 15;
+            public const int AtLeastCountQuestions = 5;
         }
 
         public class Question
         {
             public const int MinTextLength = 10;
+            public const int MaxTextLength = 100;
+            public const int MinPoints = 1;
+            public const int MaxPoints = 5;
+            public const int AtLeastCountAnswers = 2;
         }
 
         public class Answer
         {
-            public const int MinAnswerLength = 5;
+            public const int MinTextLength = 5;
+            public const int MaxTextLength = 100;
         }
 
         public class Resource
