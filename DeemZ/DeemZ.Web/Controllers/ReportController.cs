@@ -55,7 +55,7 @@
         [Authorize(Roles = AdminRoleName)]
         public IActionResult Preview(string reportId)
         {
-            if (guard.AgainstNull(guard, nameof(guard))) return BadRequest();
+            if (guard.AgainstNull(reportId, nameof(reportId))) return BadRequest();
 
             var report = reportService.GetReportById<PreviewReportViewModel>(reportId);
 
@@ -68,7 +68,7 @@
         [HttpPost]
         public IActionResult Delete(string reportId)
         {
-            if (guard.AgainstNull(guard, nameof(guard))) return BadRequest();
+            if (guard.AgainstNull(reportId, nameof(reportId))) return BadRequest();
 
             var report = reportService.GetReportById(reportId);
 

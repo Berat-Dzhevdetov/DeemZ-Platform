@@ -5,8 +5,10 @@
 
     public interface IQuestionService
     {
-        IEnumerable<T> GetQuestionsByExamId<T>(string examId);
+        IEnumerable<T> GetQuestionsByExamId<T>(string eid);
         string ValidateQuestionFormModel(AddQuestionFormModel question);
-        void AddQuestionToExam(string examId, AddQuestionFormModel question);
+        void AddQuestionToExam(string eid, AddQuestionFormModel question);
+        bool GetQuestionById(string qid);
+        string Delete(string qid);
     }
 }

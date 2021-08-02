@@ -2,7 +2,6 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using System.Linq;
     using DeemZ.Services;
     using DeemZ.Services.Question;
     using DeemZ.Services.ExamServices;
@@ -26,7 +25,7 @@
 
         public IActionResult Add(string examId)
         {
-            if (guard.AgainstNull(guard, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
 
             if (!examService.GetExamById(examId)) return NotFound();
 
@@ -36,7 +35,7 @@
         [HttpPost]
         public IActionResult Add(string examId, AddQuestionFormModel question)
         {
-            if (guard.AgainstNull(guard, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
 
             if (!examService.GetExamById(examId)) return NotFound();
 
@@ -48,7 +47,18 @@
 
             questionService.AddQuestionToExam(examId, question);
 
-            return RedirectToAction(nameof(AdministrationController.Questions),"Administraiton", new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), "Administration", new { examId });
+        }
+
+        public IActionResult Delete(string questionId)
+        {
+            if (guard.AgainstNull(questionId, nameof(questionId))) return BadRequest();
+
+            if (!questionService.GetQuestionById(questionId)) return NotFound();
+
+            var examId = questionService.Delete(questionId);
+
+            return RedirectToAction(nameof(AdministrationController.Questions), "Administration", new { examId });
         }
     }
 }

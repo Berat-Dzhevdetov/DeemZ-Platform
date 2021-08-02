@@ -75,7 +75,7 @@
 
         public class Answer
         {
-            public const int MinTextLength = 5;
+            public const int MinTextLength = 3;
             public const int MaxTextLength = 100;
         }
 
