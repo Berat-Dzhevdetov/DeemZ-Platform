@@ -14,7 +14,7 @@ document.querySelectorAll('div.flex.clickable').forEach(div => {
         document.querySelectorAll('li.clicked-lecture').forEach(li => {
             let id = li.getAttribute('data-number');
             let currentTargetId = e.currentTarget.parentNode.getAttribute('data-number');
-
+            
             if (currentTargetId != id) {
                 let div = li.querySelector('div.flex.justify-content-between.clickable');
                 div.click();
@@ -34,15 +34,9 @@ document.querySelectorAll('div.flex.clickable').forEach(div => {
 });
 
 try {
-    document.querySelector('.close').addEventListener('click', function (e) {
-        let parentDiv = e.currentTarget.parentNode;
-        $(parentDiv).slideUp(300);
+    document.getElementById('search-icon').addEventListener('click', e => {
+        let parentDiv = e.currentTarget.parentNode.parentNode;
+
+        parentDiv.querySelector('input[type=submit]').click();
     })
-} catch (e) {}
-
-
-document.getElementById('search-icon').addEventListener('click', e => {
-    let parentDiv = e.currentTarget.parentNode.parentNode;
-
-    parentDiv.querySelector('input[type=submit]').click();
-})
+} catch (e) { }
