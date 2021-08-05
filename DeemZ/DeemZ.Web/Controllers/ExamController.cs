@@ -51,7 +51,11 @@
 
             var exam = examService.GetExamById<BasicExamInfoViewModel>(examId);
 
-            if (password != exam.Password && !isUserAdmin) return View("Password");
+            if (password != exam.Password && !isUserAdmin)
+            {
+                ViewBag.PasswordValidation = "Wrong password";
+                return View("Password");
+            }
 
             return View(exam);
         }
