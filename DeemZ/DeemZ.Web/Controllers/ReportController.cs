@@ -2,7 +2,6 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using DeemZ.Data.Models;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Reports;
     using DeemZ.Services;

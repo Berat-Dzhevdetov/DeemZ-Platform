@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using DeemZ.Global.Attributes;
 
     using static Data.DataConstants.Question;
 

@@ -11,7 +11,6 @@ namespace DeemZ.Web
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Web.Infrastructure;
-    using Microsoft.AspNetCore.Http.Features;
 
     public class Startup
     {

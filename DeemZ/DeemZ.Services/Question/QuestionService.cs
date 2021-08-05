@@ -8,7 +8,6 @@
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Exam;
-    using System;
 
     public class QuestionService : IQuestionService
     {

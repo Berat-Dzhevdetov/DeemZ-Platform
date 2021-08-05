@@ -2,12 +2,14 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
     using DeemZ.Services;
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.Exams;
+    using DeemZ.Services.UserServices;
 
     using static DeemZ.Global.WebConstants.Constants;
 
@@ -17,16 +19,18 @@
         private readonly Guard guard;
         private readonly IExamService examService;
         private readonly ICourseService courseService;
+        private readonly IUserService userService;
 
-        public ExamController(Guard guard, IExamService examService, ICourseService courseService)
+        public ExamController(Guard guard, IExamService examService, ICourseService courseService, IUserService userService)
         {
             this.guard = guard;
             this.examService = examService;
             this.courseService = courseService;
+            this.userService = userService;
         }
 
         [Authorize]
-        public IActionResult Take(string examId, string password)
+        public async Task<IActionResult> Take(string examId, string password)
         {
             if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
 
@@ -34,15 +38,20 @@
 
             var userId = User.GetId();
 
-            if (!examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
+            var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
 
-            ViewBag.ExamId = examId;
+            if (!isUserAdmin)
+            {
+                if (!examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
 
-            if (guard.AgainstNull(password, nameof(password))) return View("Password");
+                ViewBag.ExamId = examId;
+
+                if (guard.AgainstNull(password, nameof(password))) return View("Password");
+            }
 
             var exam = examService.GetExamById<BasicExamInfoViewModel>(examId);
 
-            if(password != exam.Password) return View("Password");
+            if (password != exam.Password && !isUserAdmin) return View("Password");
 
             return View(exam);
         }

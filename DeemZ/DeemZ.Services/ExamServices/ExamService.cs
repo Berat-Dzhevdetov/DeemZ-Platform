@@ -30,17 +30,18 @@
         }
 
         public bool DoesTheUserHavePermissionToExam(string uid, string eid)
-            => true;
+            => context.Courses
+                .Any(x => x.Exams.Any(x => x.Id == eid) && x.UserCourses.Any(x => x.IsPaid && x.UserId == uid));
 
-        public string EditExam(string examId, AddExamFormModel exam)
+        public string EditExam(string eid, AddExamFormModel exam)
         {
-            var examToEdit = GetExamById<Exam>(examId);
+            var examToEdit = GetExamById<Exam>(eid);
 
             examToEdit = mapper.Map<Exam>(exam);
 
             context.SaveChanges();
 
-            return context.Exams.Where(x => x.Id == examId).Select(x => x.CourseId).FirstOrDefault();
+            return context.Exams.Where(x => x.Id == eid).Select(x => x.CourseId).FirstOrDefault();
         }
 
         public bool GetExamById(string eid)
