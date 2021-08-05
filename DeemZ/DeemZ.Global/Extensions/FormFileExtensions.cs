@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Services
+﻿namespace DeemZ.Global.Extensions
 {
     using Microsoft.AspNetCore.Http;
     using System;

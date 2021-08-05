@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Http;
     using System.Net;
     using DeemZ.Data;
+    using DeemZ.Global.Extensions;
 
     public class FileServices : IFileServices
     {

@@ -75,7 +75,7 @@
 
             reportService.Delete(reportId);
 
-            return RedirectToAction(nameof(AdministrationController.Reports),"Administration");
+            return RedirectToAction(nameof(AdministrationController.Reports), AdministrationControllerName);
         }
     }
 }

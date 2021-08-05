@@ -16,6 +16,7 @@
     using DeemZ.Models.ViewModels.Surveys;
     using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Services.ResourceService;
+    using DeemZ.Global.Extensions;
 
     public class UserService : IUserService
     {

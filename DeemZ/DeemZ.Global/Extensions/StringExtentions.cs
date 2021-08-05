@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Web.Infrastructure
+﻿namespace DeemZ.Global.Extensions
 {
     public static class StringExtentions
     {

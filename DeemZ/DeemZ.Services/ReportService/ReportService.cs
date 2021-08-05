@@ -8,6 +8,7 @@
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Reports;
+    using DeemZ.Global.Extensions;
 
     public class ReportService : IReportService
     {

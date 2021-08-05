@@ -8,10 +8,10 @@
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Web.Infrastructure;
-    using DeemZ.Models.ViewModels.Exams;
     using DeemZ.Services.UserServices;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using DeemZ.Global.Extensions;
 
     [Authorize]
     public class ExamController : Controller
@@ -20,6 +20,10 @@
         private readonly IExamService examService;
         private readonly ICourseService courseService;
         private readonly IUserService userService;
+
+        private const string IsPasswordProvidedKey = "IsPasswordProvided";
+        private const string PasswordIsRequired = "Password is required";
+        private const string WrongPassword = "Wrong password";
 
         public ExamController(Guard guard, IExamService examService, ICourseService courseService, IUserService userService)
         {
@@ -30,7 +34,7 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Take(string examId, string password)
+        public async Task<IActionResult> Access(string examId)
         {
             if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
 
@@ -40,22 +44,70 @@
 
             var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
 
-            if (!isUserAdmin)
+            if (isUserAdmin)
             {
-                if (!examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
-
-                ViewBag.ExamId = examId;
-
-                if (guard.AgainstNull(password, nameof(password))) return View("Password");
+                TempData[IsPasswordProvidedKey] = true;
+                return RedirectToAction(nameof(ExamController.Take), new { examId });
             }
 
-            var exam = examService.GetExamById<BasicExamInfoViewModel>(examId);
+            if (!isUserAdmin && !examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
 
-            if (password != exam.Password && !isUserAdmin)
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Access(string examId, string password)
+        {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
+            if (!examService.GetExamById(examId)) return NotFound();
+
+            if (guard.AgainstNull(password, nameof(password)))
             {
-                ViewBag.PasswordValidation = "Wrong password";
-                return View("Password");
+                ViewBag.PasswordValidation = PasswordIsRequired;
+                return View();
             }
+
+            var userId = User.GetId();
+
+            if (!examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
+
+            var isProvidedPasswordRight = examService.IsProvidedPasswordRight(examId, password);
+
+            if (!isProvidedPasswordRight)
+            {
+                ViewBag.PasswordValidation = WrongPassword;
+                return View();
+            }
+
+            TempData[IsPasswordProvidedKey] = true;
+
+            return RedirectToAction(nameof(ExamController.Take), new { examId });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Take(string examId)
+        {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
+            if (!examService.GetExamById(examId)) return NotFound();
+
+            bool isPasswordProvided = TempData[IsPasswordProvidedKey] is bool;
+
+            if (!isPasswordProvided) return RedirectToAction(nameof(ExamController.Access), new { examId });
+
+            var exam = examService.GetExamById<TakeExamFormModel>(examId);
+
+            var userId = User.GetId();
+
+            var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
+
+            if (!exam.IsPublic && !isUserAdmin) return BadRequest();
+
+            if (exam.ShuffleQuestions) exam.Questions.Shuffle();
+
+            if (exam.ShuffleAnswers) exam.Questions.ForEach(x => x.Answers.Shuffle());
 
             return View(exam);
         }
@@ -82,7 +134,7 @@
 
             examService.CreateExam(courseId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), "Administration", new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Exams), AdministrationControllerName, new { courseId });
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -109,7 +161,7 @@
 
             var courseId = examService.EditExam(examId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), "Administration", new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Exams), AdministrationControllerName, new { courseId });
         }
     }
 }

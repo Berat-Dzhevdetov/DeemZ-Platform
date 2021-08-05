@@ -44,7 +44,7 @@
 
             lectureService.AddLectureToCourse(courseId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), "Administration", new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Lectures), AdministrationControllerName, new { courseId });
         }
 
         public IActionResult Edit(string lectureId)
@@ -69,7 +69,7 @@
 
             lectureService.EditLectureById(lectureId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), "Administration", new { courseId = lecture.CourseId });
+            return RedirectToAction(nameof(AdministrationController.Lectures), AdministrationControllerName, new { courseId = lecture.CourseId });
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -81,7 +81,7 @@
 
             lectureService.DeleteLecture(lectureId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
+            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
         }
 
         [IgnoreAntiforgeryToken]

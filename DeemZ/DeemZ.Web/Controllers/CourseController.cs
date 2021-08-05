@@ -90,7 +90,7 @@
 
             if (course.Redirect) return RedirectToAction(nameof(ViewCourse), new { courseId });
 
-            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
+            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
         }
 
         [Authorize]
@@ -114,7 +114,7 @@
 
             courseService.EditCourseById(course, courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
+            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -126,7 +126,7 @@
 
             courseService.DeleteCourse(courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), "Administration");
+            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
         }
     }
 }

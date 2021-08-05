@@ -8,6 +8,7 @@
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
+    using DeemZ.Global.Extensions;
 
     public class ForumService : IForumService
     {

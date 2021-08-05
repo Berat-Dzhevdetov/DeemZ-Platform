@@ -90,7 +90,7 @@
                     </div>
                 </li>
             }
-            @foreach(var exam in Model.Exams)
+            @foreach (var exam in Model.Exams)
             {
                 index++;
                 <li data-number="@exam.Id" class="flex flex-column">
@@ -106,12 +106,9 @@
                             <h2>Resourses</h2>
                             <ul class="no-bullets">
                                 <li>
-                                    <a asp-controller="Exam" asp-action="Take" asp-route-examId="@exam.Id">
+                                    <a asp-controller="Exam" asp-action="Access" asp-route-examId="@exam.Id">
                                         <i class="fas fa-chalkboard-teacher"></i> @exam.Name
                                     </a>
-                                </li>
-                                <li>
-                                    This lecture has no resources
                                 </li>
                             </ul>
                         </div>

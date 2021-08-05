@@ -31,7 +31,8 @@
 
         public bool DoesTheUserHavePermissionToExam(string uid, string eid)
             => context.Courses
-                .Any(x => x.Exams.Any(x => x.Id == eid) && x.UserCourses.Any(x => x.IsPaid && x.UserId == uid));
+                .Any(x => x.Exams.Any(x => x.Id == eid)
+                && x.UserCourses.Any(x => x.IsPaid && x.UserId == uid));
 
         public string EditExam(string eid, AddExamFormModel exam)
         {
@@ -49,7 +50,10 @@
 
         public T GetExamById<T>(string eid)
         {
-            var exam = context.Exams.FirstOrDefault(x => x.Id == eid);
+            var exam = context.Exams
+                .Include(x => x.Questions)
+                .ThenInclude(x => x.Answers)
+                .FirstOrDefault(x => x.Id == eid);
 
             return mapper.Map<T>(exam);
         }
@@ -60,5 +64,9 @@
                 .Where(x => x.CourseId == cid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
+
+        public bool IsProvidedPasswordRight(string eid, string password)
+            => context.Exams
+                .Any(x => x.Password == password && x.Id == eid);
     }
 }

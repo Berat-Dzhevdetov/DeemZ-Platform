@@ -23,6 +23,14 @@
             CreateMap<AddQuestionFormModel, Question>();
 
             CreateMap<AddAnswerFormModel, Answer>();
+
+            CreateMap<Exam, TakeExamFormModel>()
+                .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToUniversalTime()))
+                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToUniversalTime()));
+
+            CreateMap<Question, TakeExamQuestionFormModel>();
+
+            CreateMap<Answer, TakeExamQuestionAnswerFormModel>();
         }
     }
 }

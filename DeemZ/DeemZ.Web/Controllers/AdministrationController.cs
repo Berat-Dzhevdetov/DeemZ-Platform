@@ -19,6 +19,7 @@
     using DeemZ.Models.ViewModels.Exams;
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.Question;
+    using DeemZ.Global.Extensions;
 
     using static DeemZ.Global.WebConstants.Constants;
 

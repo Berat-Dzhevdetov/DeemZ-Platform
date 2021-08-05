@@ -11,6 +11,7 @@
     using DeemZ.Models.ViewModels.Administration;
     using DeemZ.Services.CourseServices;
     using DeemZ.Services.UserServices;
+    using DeemZ.Global.Extensions;
 
     using static DeemZ.Global.WebConstants.Constants;
 

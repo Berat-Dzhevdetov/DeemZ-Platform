@@ -47,7 +47,7 @@
 
             questionService.AddQuestionToExam(examId, question);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), "Administration", new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), AdministrationControllerName, new { examId });
         }
 
         public IActionResult Delete(string questionId)
@@ -58,7 +58,7 @@
 
             var examId = questionService.Delete(questionId);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), "Administration", new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), AdministrationControllerName, new { examId });
         }
     }
 }

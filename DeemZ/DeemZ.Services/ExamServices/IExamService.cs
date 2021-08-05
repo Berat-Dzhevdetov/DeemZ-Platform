@@ -9,7 +9,8 @@
         void CreateExam(string cid, AddExamFormModel exam);
         bool GetExamById(string eid);
         T GetExamById<T>(string eid);
-        string EditExam(string examId, AddExamFormModel exam);
+        string EditExam(string eid, AddExamFormModel exam);
         bool DoesTheUserHavePermissionToExam(string uid, string eid);
+        bool IsProvidedPasswordRight(string eid, string password);
     }
 }
