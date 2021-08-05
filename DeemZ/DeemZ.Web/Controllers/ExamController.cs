@@ -6,8 +6,10 @@
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.FormModels.Exam;
+    using DeemZ.Web.Infrastructure;
+    using DeemZ.Models.ViewModels.Exams;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize]
     public class ExamController : Controller
@@ -21,6 +23,28 @@
             this.guard = guard;
             this.examService = examService;
             this.courseService = courseService;
+        }
+
+        [Authorize]
+        public IActionResult Take(string examId, string password)
+        {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
+            if (!examService.GetExamById(examId)) return NotFound();
+
+            var userId = User.GetId();
+
+            if (!examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
+
+            ViewBag.ExamId = examId;
+
+            if (guard.AgainstNull(password, nameof(password))) return View("Password");
+
+            var exam = examService.GetExamById<BasicExamInfoViewModel>(examId);
+
+            if(password != exam.Password) return View("Password");
+
+            return View(exam);
         }
 
         [Authorize(Roles = AdminRoleName)]

@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Caching.Memory;
     using DeemZ.Services.AutoMapperProfiles;
     using DeemZ.Services;
     using DeemZ.Services.CourseServices;
@@ -41,6 +42,8 @@
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddSingleton<Guard>();
+
+            services.AddTransient<IMemoryCache, MemoryCache>();
 
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISurveyService, SurveyService>();

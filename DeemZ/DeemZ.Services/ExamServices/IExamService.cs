@@ -1,7 +1,8 @@
 ﻿namespace DeemZ.Services.ExamServices
 {
-    using DeemZ.Models.FormModels.Exam;
     using System.Collections.Generic;
+    using DeemZ.Models.FormModels.Exam;
+
     public interface IExamService
     {
         IEnumerable<T> GetExamsByCourseId<T>(string cid);
@@ -9,5 +10,6 @@
         bool GetExamById(string eid);
         T GetExamById<T>(string eid);
         string EditExam(string examId, AddExamFormModel exam);
+        bool DoesTheUserHavePermissionToExam(string uid, string eid);
     }
 }

@@ -2,12 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using DeemZ.Models.ViewModels.Exams;
     using DeemZ.Models.ViewModels.Lectures;
 
     public class DetailsCourseViewModel
     {
         public string Id { get; set; }
+
         public string Name { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public int Credits { get; set; }
@@ -16,6 +19,8 @@
         public DateTime SignUpEndDate { get; set; }
 
         public List<DetailsLectureViewModel> Lectures { get; set; }
+
+        public List<BasicExamInfoViewModel> Exams { get; set; }
 
         public bool IsUserSignUpForThisCourse { get; set; }
 

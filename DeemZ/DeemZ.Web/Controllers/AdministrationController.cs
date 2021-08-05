@@ -20,7 +20,7 @@
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.Question;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize(Roles = AdminRoleName)]
     public class AdministrationController : Controller
@@ -131,7 +131,7 @@
         {
             var viewModel = new AdmistrationUsersViewModel();
 
-            var users = userService.GetAllUsers<BasicUserInformationViewModel>(page,quantity);
+            var users = userService.GetAllUsers<BasicUserInformationViewModel>(page, quantity);
 
             var allPages = (int)Math.Ceiling(users.Count() / (quantity * 1.0));
 
@@ -141,7 +141,7 @@
 
             viewModel = AdjustPages(viewModel, page, allPages);
 
-            foreach(var user in viewModel.Users)
+            foreach (var user in viewModel.Users)
             {
                 user.TakenCoursesCount = userService.GetUserTakenCourses(user.Id);
             }
@@ -153,13 +153,13 @@
         {
             var viewModel = new AdministrationReportViewModel();
 
-            viewModel.Reports = reportService.GetReports<ReportViewReport>(page,quantity);
+            viewModel.Reports = reportService.GetReports<ReportViewReport>(page, quantity);
 
             var allPages = (int)Math.Ceiling(viewModel.Reports.Count() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
 
-            viewModel = AdjustPages(viewModel,page,allPages);
+            viewModel = AdjustPages(viewModel, page, allPages);
 
             return View(viewModel);
         }

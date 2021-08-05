@@ -29,6 +29,9 @@
             context.SaveChanges();
         }
 
+        public bool DoesTheUserHavePermissionToExam(string uid, string eid)
+            => true;
+
         public string EditExam(string examId, AddExamFormModel exam)
         {
             var examToEdit = GetExamById<Exam>(examId);

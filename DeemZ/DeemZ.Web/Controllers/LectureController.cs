@@ -8,7 +8,7 @@
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Models.FormModels.Description;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize(Roles = AdminRoleName)]
     public class LectureController : Controller

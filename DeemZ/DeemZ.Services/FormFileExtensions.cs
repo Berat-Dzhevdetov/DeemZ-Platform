@@ -3,8 +3,6 @@
     using Microsoft.AspNetCore.Http;
     using System;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
 
     public static class FormFileExtensions

@@ -2,7 +2,7 @@
 {
     using System.Security.Claims;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     public static class ClaimsPrincipalExtensions
     {

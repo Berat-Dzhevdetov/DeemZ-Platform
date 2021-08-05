@@ -13,7 +13,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using static Constants;
+
+    using static DeemZ.Global.WebConstants.Constants;
 
     public static class ApplicationBuilderExtensions
     {

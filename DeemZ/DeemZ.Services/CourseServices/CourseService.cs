@@ -50,6 +50,7 @@
         public T GetCourseById<T>(string cid)
         => context.Courses
                 .Where(x => x.Id == cid)
+                .Include(x => x.Exams)
                 .Include(x => x.Lectures)
                 .ThenInclude(x => x.Descriptions)
                 .Include(c => c.Lectures)

@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Web
+﻿namespace DeemZ.Global.WebConstants
 {
     public static class Constants
     {

@@ -85,8 +85,6 @@
                 uploadResult = cloudinary.Upload(uploadParams);
             }
 
-            //if (uploadResult.Error.Message != null) return uploadResult.Error.Message;
-
             return uploadResult?.SecureUrl.AbsoluteUri;
         }
 

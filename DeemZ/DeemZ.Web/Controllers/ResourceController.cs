@@ -11,7 +11,7 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.Resources;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     public class ResourceController : Controller
     {

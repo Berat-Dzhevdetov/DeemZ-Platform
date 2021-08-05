@@ -7,7 +7,7 @@
     using DeemZ.Services.UserServices;
     using DeemZ.Models.FormModels.User;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize(Roles = AdminRoleName)]
     public class UserController : Controller

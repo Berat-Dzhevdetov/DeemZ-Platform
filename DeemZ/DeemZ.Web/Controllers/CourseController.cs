@@ -9,7 +9,7 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.LectureServices;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     public class CourseController : Controller
     {
@@ -28,9 +28,9 @@
         {
             if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
 
-            var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
+            if (!courseService.GetCourseById(courseId)) return NotFound();
 
-            if (course == null) return NotFound();
+            var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
 
             var userId = User.GetId();
 

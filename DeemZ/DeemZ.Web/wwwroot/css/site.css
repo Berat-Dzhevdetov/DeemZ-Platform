@@ -23,6 +23,11 @@ for details on configuring this project to bundle and minify static web assets. 
     justify-content: center;
 }
 
+embed{
+    width: 100%;
+    height: 100%;
+}
+
     .pages .page-number {
         border: 1px solid #ccc;
         padding: 0.6rem;
@@ -813,6 +818,10 @@ span.lecture-number::after {
         justify-content: center;
         margin-left: 0;
         padding-bottom: 10px;
+    }
+
+    .resource-holder {
+        height: 600px;
     }
 
     .resource{

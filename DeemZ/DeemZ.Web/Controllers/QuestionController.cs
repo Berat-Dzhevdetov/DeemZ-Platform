@@ -7,7 +7,7 @@
     using DeemZ.Services.ExamServices;
     using DeemZ.Models.FormModels.Exam;
 
-    using static Constants;
+    using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize(Roles = AdminRoleName)]
     public class QuestionController : Controller
