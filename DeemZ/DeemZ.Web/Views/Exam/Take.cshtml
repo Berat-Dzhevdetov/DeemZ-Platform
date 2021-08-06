@@ -1,1 +1,35 @@
-﻿Hello from take exam view
+﻿@model TakeExamFormModel
+@{
+    ViewData["Title"] = Model.Name;
+    var leftTime = Model.StartDate - Model.EndDate;
+}
+
+<div class="exam-holder">
+    <div class="exam-header">
+        <h2>@Model.Name</h2>
+        Left time: @leftTime
+    </div>
+    <div class="exam-content">
+    <form method="post">
+        @for(int i = 0; i < Model.Questions.Count; i++)
+        {
+            <div class="question">
+                <div class="question-header">
+                    @Model.Questions[i].Text - @Model.Questions[i].Points Point(s)
+                </div>
+                <div class="qustion-list">
+                    @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
+                    {
+                        <div>
+                            <input asp-for="@Model.Questions[i].Answers[j].IsChosen" />
+                            <input asp-for="@Model.Questions[i].Answers[j].Id" readonly hidden />
+                            <label>@Model.Questions[i].Answers[j].Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        <input type="submit" class="btn btn-info" value="Hand over" />
+    </form>
+    </div>
+</div>

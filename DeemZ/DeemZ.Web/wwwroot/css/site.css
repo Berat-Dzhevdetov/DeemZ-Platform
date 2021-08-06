@@ -791,6 +791,24 @@ span.lecture-number::after {
     text-wrap: normal;
 }
 
+.exam-holder {
+    margin: 2rem;
+    padding: 2rem;
+    user-select: none;
+    margin-bottom: 50px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.exam-header{
+    text-align: center;
+}
+
+.question-header{
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
 @media only screen and (max-width: 950px) {
     .guest-users-container .seo-section {
         display: block;

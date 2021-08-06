@@ -12,6 +12,7 @@
 
     using static DeemZ.Global.WebConstants.Constants;
     using DeemZ.Global.Extensions;
+    using DeemZ.App.Controllers;
 
     [Authorize]
     public class ExamController : Controller
@@ -22,6 +23,7 @@
         private readonly IUserService userService;
 
         private const string IsPasswordProvidedKey = "IsPasswordProvided";
+        private const string PassingTheTest = "PassingTheTestKey";
         private const string PasswordIsRequired = "Password is required";
         private const string WrongPassword = "Wrong password";
 
@@ -98,6 +100,33 @@
             if (!isPasswordProvided) return RedirectToAction(nameof(ExamController.Access), new { examId });
 
             var exam = examService.GetExamById<TakeExamFormModel>(examId);
+
+            var userId = User.GetId();
+
+            var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
+
+            if (!exam.IsPublic && !isUserAdmin) return BadRequest();
+
+            if (exam.ShuffleQuestions) exam.Questions.Shuffle();
+
+            if (exam.ShuffleAnswers) exam.Questions.ForEach(x => x.Answers.Shuffle());
+
+            TempData[PassingTheTest] = true;
+
+            return View(exam);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Take(string examId, TakeExamFormModel exam)
+        {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
+            if (!examService.GetExamById(examId)) return NotFound();
+
+            bool passingTheTest = TempData[PassingTheTest] is bool;
+
+            if (!passingTheTest) return RedirectToAction(nameof(HomeController.Index));
 
             var userId = User.GetId();
 
