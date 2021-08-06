@@ -127,7 +127,7 @@
 
             bool passingTheTest = TempData[PassingTheTest] is bool;
 
-            if (!passingTheTest) return RedirectToAction(nameof(HomeController.Index));
+            if (!passingTheTest) return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
 
             var userId = User.GetId();
 
@@ -137,7 +137,8 @@
 
             var points = examService.EvaluateExam(exam);
 
-            return View(exam);
+
+            return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -162,7 +163,7 @@
 
             examService.CreateExam(courseId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), AdministrationControllerName, new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId });
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -189,7 +190,7 @@
 
             var courseId = examService.EditExam(examId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), AdministrationControllerName, new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId });
         }
     }
 }

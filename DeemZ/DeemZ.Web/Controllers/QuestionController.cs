@@ -8,6 +8,7 @@
     using DeemZ.Models.FormModels.Exam;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using DeemZ.Web.Infrastructure;
 
     [Authorize(Roles = AdminRoleName)]
     public class QuestionController : Controller
@@ -47,7 +48,7 @@
 
             questionService.AddQuestionToExam(examId, question);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), AdministrationControllerName, new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId });
         }
 
         public IActionResult Delete(string questionId)
@@ -58,7 +59,7 @@
 
             var examId = questionService.Delete(questionId);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), AdministrationControllerName, new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId });
         }
     }
 }

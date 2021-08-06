@@ -78,7 +78,7 @@
 
             resourceService.AddResourceToLecture(lectureId, resource);
 
-            return RedirectToAction(nameof(AdministrationController.Resources), AdministrationControllerName, new { lectureId });
+            return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { lectureId });
         }
 
         [Authorize]

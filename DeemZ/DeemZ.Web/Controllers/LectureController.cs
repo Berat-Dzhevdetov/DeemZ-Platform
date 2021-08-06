@@ -9,6 +9,7 @@
     using DeemZ.Models.FormModels.Description;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using DeemZ.Web.Infrastructure;
 
     [Authorize(Roles = AdminRoleName)]
     public class LectureController : Controller
@@ -44,7 +45,7 @@
 
             lectureService.AddLectureToCourse(courseId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), AdministrationControllerName, new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId });
         }
 
         public IActionResult Edit(string lectureId)
@@ -69,7 +70,7 @@
 
             lectureService.EditLectureById(lectureId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), AdministrationControllerName, new { courseId = lecture.CourseId });
+            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId = lecture.CourseId });
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -81,7 +82,7 @@
 
             lectureService.DeleteLecture(lectureId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
         }
 
         [IgnoreAntiforgeryToken]

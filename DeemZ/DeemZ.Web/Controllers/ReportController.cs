@@ -10,6 +10,7 @@
     using DeemZ.Models.ViewModels.Reports;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using DeemZ.App.Controllers;
 
     public class ReportController : Controller
     {
@@ -48,7 +49,7 @@
 
             reportService.AddReport(formModel, userId);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -75,7 +76,7 @@
 
             reportService.Delete(reportId);
 
-            return RedirectToAction(nameof(AdministrationController.Reports), AdministrationControllerName);
+            return RedirectToAction(nameof(AdministrationController.Reports), typeof(HomeController).GetControllerName());
         }
     }
 }

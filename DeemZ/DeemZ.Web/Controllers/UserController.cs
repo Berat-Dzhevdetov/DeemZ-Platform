@@ -8,6 +8,7 @@
     using DeemZ.Models.FormModels.User;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using DeemZ.Web.Infrastructure;
 
     [Authorize(Roles = AdminRoleName)]
     public class UserController : Controller
@@ -59,7 +60,7 @@
             else if (!user.IsAdmin && await userService.IsInRole(userId, AdminRoleName))
                 await userService.RemoveUserFromRole(userId, AdminRoleName);
 
-            return RedirectToAction(nameof(AdministrationController.Users), AdministrationControllerName);
+            return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName());
         }
     }
 }

@@ -10,6 +10,7 @@
     using DeemZ.Services.LectureServices;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using static Infrastructure.ControllerExtensions;
 
     public class CourseController : Controller
     {
@@ -90,7 +91,7 @@
 
             if (course.Redirect) return RedirectToAction(nameof(ViewCourse), new { courseId });
 
-            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
         }
 
         [Authorize]
@@ -114,7 +115,7 @@
 
             courseService.EditCourseById(course, courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -126,7 +127,7 @@
 
             courseService.DeleteCourse(courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), AdministrationControllerName);
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
         }
     }
 }
