@@ -809,6 +809,28 @@ span.lecture-number::after {
     margin-bottom: 20px;
 }
 
+#alertBox {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    border: solid 1px black;
+    background-color: #528CE0;
+    padding: 50px;
+    visibility: hidden;
+}
+
+#alertClose {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: black;
+    border: solid 1px white;
+    color: white;
+    width: 1em;
+    text-align: center;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 950px) {
     .guest-users-container .seo-section {
         display: block;

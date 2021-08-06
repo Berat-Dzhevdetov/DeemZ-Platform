@@ -30,9 +30,16 @@
         }
 
         public bool DoesTheUserHavePermissionToExam(string uid, string eid)
-            => context.Courses
+        {
+            var DoesTheUserHavePermissionToExam = context.Courses
                 .Any(x => x.Exams.Any(x => x.Id == eid)
                 && x.UserCourses.Any(x => x.IsPaid && x.UserId == uid));
+
+            var doesUserHaveAlreadyTakeThisExam = context.ApplicationUserExams
+                .Any(x => x.ApplicationUserId == uid && x.ExamId == eid);
+
+            return DoesTheUserHavePermissionToExam && !doesUserHaveAlreadyTakeThisExam;
+        }
 
         public string EditExam(string eid, AddExamFormModel exam)
         {
@@ -43,6 +50,43 @@
             context.SaveChanges();
 
             return context.Exams.Where(x => x.Id == eid).Select(x => x.CourseId).FirstOrDefault();
+        }
+
+        public int EvaluateExam(TakeExamFormModel exam)
+        {
+            if (exam == null) return 0;
+
+            var points = 0;
+
+            foreach (var question in exam.Questions)
+            {
+                if (question.Answers == null || question.Answers.Count(x => x.IsChosen) >= 2 || question.Answers.Count(x => x.IsChosen) <= 0) continue;
+
+                points += CalculatePoints(question.Id, question.Answers.FirstOrDefault(x => x.IsChosen).Id);
+            }
+
+            return points;
+        }
+
+        //Needs question Id and user's answer
+        //checks if the answer is correct and returns the points
+        private int CalculatePoints(string qid, string aid)
+        {
+            if (aid == null || qid == null) return 0;
+
+            var correctAnswer = context.Answers
+                 .Where(x => x.IsCorrect)
+                 .Select(x => new
+                 {
+                     Id = x.Id,
+                     Points = x.Question.Points,
+                     QuestionId = x.QuestionId
+                 })
+                 .FirstOrDefault(x => x.QuestionId == qid);
+
+            if (correctAnswer == null) return 0;
+
+            return aid == correctAnswer.Id ? correctAnswer.Points : 0;
         }
 
         public bool GetExamById(string eid)

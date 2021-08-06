@@ -3,16 +3,17 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using System.Linq;
     using DeemZ.Services;
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.UserServices;
-
-    using static DeemZ.Global.WebConstants.Constants;
     using DeemZ.Global.Extensions;
     using DeemZ.App.Controllers;
+
+    using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize]
     public class ExamController : Controller
@@ -134,9 +135,7 @@
 
             if (!exam.IsPublic && !isUserAdmin) return BadRequest();
 
-            if (exam.ShuffleQuestions) exam.Questions.Shuffle();
-
-            if (exam.ShuffleAnswers) exam.Questions.ForEach(x => x.Answers.Shuffle());
+            var points = examService.EvaluateExam(exam);
 
             return View(exam);
         }
