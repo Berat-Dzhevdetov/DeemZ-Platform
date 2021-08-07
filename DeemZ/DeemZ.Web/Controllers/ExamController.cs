@@ -104,6 +104,9 @@
 
             var exam = examService.GetExamById<TakeExamFormModel>(examId);
 
+            exam.StartDate = exam.StartDate.ToLocalTime();
+            exam.EndDate = exam.EndDate.ToLocalTime();
+
             var userId = User.GetId();
 
             var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
@@ -185,6 +188,9 @@
             if (!examService.GetExamById(examId)) return NotFound();
 
             var exam = examService.GetExamById<AddExamFormModel>(examId);
+
+            exam.StartDate = exam.StartDate.ToLocalTime();
+            exam.EndDate = exam.EndDate.ToLocalTime();
 
             return View(exam);
         }

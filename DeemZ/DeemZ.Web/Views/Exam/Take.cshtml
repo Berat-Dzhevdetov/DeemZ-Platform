@@ -1,17 +1,18 @@
 ﻿@model TakeExamFormModel
 @{
     ViewData["Title"] = Model.Name;
-    var leftTime = Model.StartDate - Model.EndDate;
+    var leftTime = Model.EndDate - DateTime.Now;
 }
 
 <div class="exam-holder">
     <div class="exam-header">
+        @Model.EndDate
         <h2>@Model.Name</h2>
-        Left time: @leftTime
-    <div>
-        <h3 class="text-danger text0">Important!</h3>
-        Please make sure you answer all the questions before passing the test. Please DO NOT reload the page, this may cost you the grade.
-    </div>
+        <h3>Left time: <span id="countdown"></span></h3>
+        <div>
+            <h3 class="text-danger text0">Important!</h3>
+            Please make sure you answer all the questions before passing the test. Please DO NOT reload the page, this may cost you the grade.
+        </div>
     </div>
     <div class="exam-content">
         <form method="post" id="form">
@@ -49,5 +50,48 @@
             if (result == true)
                 document.getElementById('form').submit();
         })
+
+        let end = new Date('@Model.EndDate');
+
+        let _second = 1000;
+        let _minute = _second * 60;
+        let _hour = _minute * 60;
+        let _day = _hour * 24;
+        let timer;
+
+        const countdownDiv = document.getElementById('countdown');
+
+        function showRemaining() {
+            let now = new Date();
+            let distance = end - now;
+
+            countdownDiv.innerHTML = '';
+
+            if (distance < 0) {
+
+                clearInterval(timer);
+                countdownDiv.innerHTML = 'EXPIRED!';
+
+                return;
+            }
+
+            let days = Math.floor(distance / _day);
+            let hours = Math.floor((distance % _day) / _hour);
+            let minutes = Math.floor((distance % _hour) / _minute);
+            let seconds = Math.floor((distance % _minute) / _second);
+
+            if (days <= 9) days = `0${days}`;
+            if (hours <= 9) hours = `0${hours}`;
+            if (minutes <= 9) minutes = `0${minutes}`;
+            if (seconds <= 9) seconds = `0${seconds}`;
+
+            if (minutes <= 4) countdownDiv.style.color = '#dc3545';
+
+            countdownDiv.innerHTML += hours + ':';
+            countdownDiv.innerHTML += minutes + ':';
+            countdownDiv.innerHTML += seconds;
+        }
+
+        timer = setInterval(showRemaining, 1000);
     </script>
 }

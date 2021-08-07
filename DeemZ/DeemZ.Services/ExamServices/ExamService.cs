@@ -5,10 +5,10 @@
     using System.Linq;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Data.Models;
-    using System;
 
     public class ExamService : IExamService
     {
@@ -25,6 +25,9 @@
         {
             var newlyExam = mapper.Map<Exam>(exam);
             newlyExam.CourseId = cid;
+
+            newlyExam.StartDate = newlyExam.StartDate.ToUniversalTime();
+            newlyExam.EndDate = newlyExam.EndDate.ToUniversalTime();
 
             context.Exams.Add(newlyExam);
             context.SaveChanges();
