@@ -33,6 +33,8 @@
 
             var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
 
+            course.StartDate = course.StartDate.ToLocalTime();
+
             var userId = User.GetId();
 
             if (userId == null) course.IsUserSignUpForThisCourse = false;
@@ -100,9 +102,9 @@
         {
             if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
 
-            var course = courseService.GetCourseById<EditCourseFormModel>(courseId);
+            if (!courseService.GetCourseById(courseId)) return NotFound();
 
-            if (course == null) return NotFound();
+            var course = courseService.GetCourseById<EditCourseFormModel>(courseId);
 
             return View(course);
         }
@@ -113,7 +115,7 @@
         {
             if (!ModelState.IsValid) return View(course);
 
-            courseService.EditCourseById(course, courseId);
+            courseService.Edit(course, courseId);
 
             return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
         }

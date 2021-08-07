@@ -1,4 +1,5 @@
 ﻿@model DetailsCourseViewModel
+@using DeemZ.Web.Infrastructure
 @{
     ViewData["Title"] = Model.Name;
     int index = 0;
@@ -82,6 +83,12 @@
                                         This lecture has no resources
                                     </li>
                                 }
+                                @if (lecture.Date != null)
+                                {
+                                    <li class="small">
+                                        Date: @lecture.Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                    </li>
+                                }
                                 <li class="small">
                                     <a class="text-muted" asp-action="Add" asp-controller="Report" asp-route-lectureId="@lecture.Id">Report issue with resources or lecture</a>
                                 </li>
@@ -104,13 +111,27 @@
                     <div class="lecture-description">
                         <div>
                             <h2>Resourses</h2>
-                            <ul class="no-bullets">
-                                <li>
-                                    <a asp-controller="Exam" asp-action="Access" asp-route-examId="@exam.Id">
-                                        <i class="fas fa-chalkboard-teacher"></i> @exam.Name
-                                    </a>
-                                </li>
-                            </ul>
+                            @if (User.IsAdmin() || exam.IsPublic == true)
+                            {
+                                <ul class="no-bullets">
+                                    <li>
+                                        <a asp-controller="Exam" asp-action="Access" asp-route-examId="@exam.Id">
+                                            <i class="fas fa-chalkboard-teacher"></i> @exam.Name
+                                        </a>
+                                    </li>
+                                    <li>
+                                        Date: @exam.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="no-bullets">
+                                    <li>
+                                        There is no exam yet
+                                    </li>
+                                </ul>
+                            }
                         </div>
                     </div>
                 </li>

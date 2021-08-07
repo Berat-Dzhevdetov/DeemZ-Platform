@@ -48,7 +48,8 @@
 
 
         public T GetCourseById<T>(string cid)
-        => context.Courses
+        {
+            var course = context.Courses
                 .Where(x => x.Id == cid)
                 .Include(x => x.Exams)
                 .Include(x => x.Lectures)
@@ -56,8 +57,10 @@
                 .Include(c => c.Lectures)
                 .ThenInclude(x => x.Resources)
                 .ThenInclude(x => x.ResourceType)
-                .ProjectTo<T>(mapper.ConfigurationProvider)
                 .FirstOrDefault();
+                
+            return mapper.Map<T>(course);
+        }
 
         public bool IsUserSignUpForThisCourse(string uid, string cid)
             => context.UserCourses
@@ -104,21 +107,17 @@
             return newlyCourse.Id;
         }
 
-        public void EditCourseById(EditCourseFormModel course, string courseId)
+        public void Edit(EditCourseFormModel course, string courseId)
         {
-            var courseToEdit = this.GetCourseById<Course>(courseId);
-            context.Attach(courseToEdit);
+            var courseToEdit = GetCourseById<Course>(courseId);
 
-            var properties = course.GetType().GetProperties();
-
-            var typeOfCourse = courseToEdit.GetType();
-
-            foreach (var property in properties)
-            {
-                typeOfCourse
-                    .GetProperty(property.Name)
-                    .SetValue(courseToEdit, property.GetValue(course));
-            }
+            courseToEdit.Name = course.Name;
+            courseToEdit.StartDate = course.StartDate.ToUniversalTime();
+            courseToEdit.EndDate = course.EndDate.ToUniversalTime();
+            courseToEdit.Credits = course.Credits;
+            courseToEdit.Price = course.Price;
+            courseToEdit.SignUpStartDate = course.SignUpStartDate.ToUniversalTime();
+            courseToEdit.SignUpEndDate = course.SignUpEndDate.ToUniversalTime();
 
             context.SaveChanges();
         }

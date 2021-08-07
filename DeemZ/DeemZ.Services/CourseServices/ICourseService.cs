@@ -15,7 +15,7 @@
         IEnumerable<T> GetCourses<T>();
         int GetUserCoursesCount();
         string CreateCourse(AddCourseFormModel course);
-        void EditCourseById(EditCourseFormModel course, string cid);
+        void Edit(EditCourseFormModel course, string cid);
         void DeleteCourse(string cid);
         void CreateBasicsLectures(string courseId, AddCourseFormModel course);
     }

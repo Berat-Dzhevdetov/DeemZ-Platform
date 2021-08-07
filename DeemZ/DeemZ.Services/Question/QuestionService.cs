@@ -97,9 +97,6 @@
             var questionToEdit = GetQuestionById<Question>(questionId);
             var examId = questionToEdit.ExamId;
 
-            context.Questions.Attach(questionToEdit);
-
-            questionToEdit.Text = question.Text;
             questionToEdit.Points = question.Points;
 
             questionToEdit.Answers = questionToEdit.Answers.Where(x => x.Text != null).ToList();
