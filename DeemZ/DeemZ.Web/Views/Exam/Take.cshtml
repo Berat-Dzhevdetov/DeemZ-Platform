@@ -1,14 +1,13 @@
 ﻿@model TakeExamFormModel
 @{
     ViewData["Title"] = Model.Name;
-    var leftTime = Model.EndDate - DateTime.Now;
 }
 
 <div class="exam-holder">
     <div class="exam-header">
-        @Model.EndDate
         <h2>@Model.Name</h2>
         <h3>Left time: <span id="countdown"></span></h3>
+        End time: @Model.EndDate
         <div>
             <h3 class="text-danger text0">Important!</h3>
             Please make sure you answer all the questions before passing the test. Please DO NOT reload the page, this may cost you the grade.

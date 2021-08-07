@@ -18,15 +18,20 @@
 
             CreateMap<Question, QuetionsViewModel>();
 
-            CreateMap<AddQuestionFormModel, Question>();
+            CreateMap<AddQuestionFormModel, Question>()
+                .ReverseMap();
 
-            CreateMap<AddAnswerFormModel, Answer>();
+            CreateMap<AddAnswerFormModel, Answer>()
+                .ReverseMap();
 
-            CreateMap<Exam, TakeExamFormModel>();
+            CreateMap<Exam, TakeExamFormModel>()
+                .ReverseMap();
 
-            CreateMap<Question, TakeExamQuestionFormModel>();
+            CreateMap<Question, TakeExamQuestionFormModel>()
+                .ReverseMap();
 
-            CreateMap<Answer, TakeExamQuestionAnswerFormModel>();
+            CreateMap<Answer, TakeExamQuestionAnswerFormModel>()
+                .ReverseMap();
         }
     }
 }

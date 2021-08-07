@@ -61,5 +61,43 @@
 
             return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId });
         }
+
+        public IActionResult Edit(string questionId)
+        {
+            if (guard.AgainstNull(questionId, nameof(questionId))) return BadRequest();
+
+            if (!questionService.GetQuestionById(questionId)) return NotFound();
+
+            var viewModel = questionService.GetQuestionById<AddQuestionFormModel>(questionId);
+
+            int maxQuestionCount = 4;
+            int diff = maxQuestionCount - viewModel.Answers.Count;
+
+
+            for (int i = 0; i < diff; i++)
+            {
+                viewModel.Answers.Add(null);
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string questionId, AddQuestionFormModel question)
+        {
+            if (guard.AgainstNull(questionId, nameof(questionId))) return BadRequest();
+
+            if (!questionService.GetQuestionById(questionId)) return NotFound();
+
+            var error = questionService.ValidateQuestionFormModel(question);
+
+            if (error != null) ModelState.AddModelError("Answers", error);
+
+            if (!ModelState.IsValid) return View(question);
+
+            string examId = questionService.Edit(questionId, question);
+
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId });
+        }
     }
 }

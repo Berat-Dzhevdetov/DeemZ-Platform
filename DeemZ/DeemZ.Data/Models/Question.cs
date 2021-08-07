@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using DeemZ.Global.Attributes;
 
     using static DataConstants.Question;
 
@@ -17,7 +16,6 @@
         public Exam Exam { get; set; }
         public string ExamId { get; set; }
 
-        [EnsureCountElement(AtLeastCountAnswers)]
         public ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
     }
 }

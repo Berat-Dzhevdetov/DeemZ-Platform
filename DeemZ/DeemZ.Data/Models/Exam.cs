@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using DeemZ.Global.Attributes;
 
     using static DataConstants.Exam;
 
@@ -34,7 +33,6 @@
 
         public bool IsPublic { get; set; } = false;
 
-        [EnsureCountElement(AtLeastCountQuestions)]
         public ICollection<Question> Questions { get; set; } = new HashSet<Question>();
 
         public ICollection<ApplicationUserExam> Users { get; set; } = new HashSet<ApplicationUserExam>();
