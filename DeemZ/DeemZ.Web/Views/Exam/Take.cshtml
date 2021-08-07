@@ -8,6 +8,10 @@
     <div class="exam-header">
         <h2>@Model.Name</h2>
         Left time: @leftTime
+    <div>
+        <h3 class="text-danger text0">Important!</h3>
+        Please make sure you answer all the questions before passing the test. Please DO NOT reload the page, this may cost you the grade.
+    </div>
     </div>
     <div class="exam-content">
         <form method="post" id="form">
@@ -27,7 +31,6 @@
                                 <label>@Model.Questions[i].Answers[j].Text</label>
                             </div>
                         }
-                        <span class="small text-danger" asp-validation-for="Questions[i]"></span>
                     </div>
                 </div>
             }

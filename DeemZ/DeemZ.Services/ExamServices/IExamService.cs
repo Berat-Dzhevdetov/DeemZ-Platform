@@ -13,5 +13,6 @@
         bool DoesTheUserHavePermissionToExam(string uid, string eid);
         bool IsProvidedPasswordRight(string eid, string password);
         int EvaluateExam(TakeExamFormModel exam);
+        int SaveUserExam(string uid, int points, string eid);
     }
 }

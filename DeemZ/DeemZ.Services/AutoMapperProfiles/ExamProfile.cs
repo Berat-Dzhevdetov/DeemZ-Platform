@@ -9,14 +9,12 @@
     {
         public ExamProfile()
         {
-            CreateMap<Exam, BasicExamInfoViewModel>();
-
-            CreateMap<AddExamFormModel, Exam>()
-                .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToUniversalTime()))
-                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToUniversalTime()))
-                .ReverseMap()
+            CreateMap<Exam, BasicExamInfoViewModel>()
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToLocalTime()))
                 .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToLocalTime()));
+
+            CreateMap<AddExamFormModel, Exam>()
+                .ReverseMap();
 
             CreateMap<Question, QuetionsViewModel>();
 

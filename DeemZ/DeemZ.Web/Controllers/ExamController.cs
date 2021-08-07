@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
-    using System.Linq;
     using DeemZ.Services;
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.CourseServices;
@@ -14,6 +13,7 @@
     using DeemZ.App.Controllers;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using System;
 
     [Authorize]
     public class ExamController : Controller
@@ -27,6 +27,8 @@
         private const string PassingTheTest = "PassingTheTestKey";
         private const string PasswordIsRequired = "Password is required";
         private const string WrongPassword = "Wrong password";
+        private const string MessageAfterExam = "Congratulations, you have earned {0}/{1} points";
+        private const string LateHandOverExam = "Sorry, but you hand over the exam too late and you officially receive 0 points";
 
         public ExamController(Guard guard, IExamService examService, ICourseService courseService, IUserService userService)
         {
@@ -137,6 +139,15 @@
 
             var points = examService.EvaluateExam(exam);
 
+            var maxPoints = examService.SaveUserExam(userId, points, examId);
+
+            if (maxPoints == -1)
+            {
+                TempData[GlobalMessageKey] = LateHandOverExam;
+                return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
+            }
+
+            TempData[GlobalMessageKey] = string.Format(MessageAfterExam, points, maxPoints);
 
             return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
         }

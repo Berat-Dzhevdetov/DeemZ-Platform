@@ -8,6 +8,7 @@
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Data.Models;
+    using System;
 
     public class ExamService : IExamService
     {
@@ -44,6 +45,9 @@
         public string EditExam(string eid, AddExamFormModel exam)
         {
             var examToEdit = GetExamById<Exam>(eid);
+
+            examToEdit.StartDate = exam.StartDate.ToUniversalTime();
+            examToEdit.EndDate = exam.EndDate.ToUniversalTime();
 
             examToEdit = mapper.Map<Exam>(exam);
 
@@ -95,6 +99,7 @@
         public T GetExamById<T>(string eid)
         {
             var exam = context.Exams
+                .Include(x => x.Course)
                 .Include(x => x.Questions)
                 .ThenInclude(x => x.Answers)
                 .FirstOrDefault(x => x.Id == eid);
@@ -112,5 +117,32 @@
         public bool IsProvidedPasswordRight(string eid, string password)
             => context.Exams
                 .Any(x => x.Password == password && x.Id == eid);
+
+        public int SaveUserExam(string uid, int points, string eid)
+        {
+            var exam = GetExamById<Exam>(eid);
+
+            if (DateTime.Now > exam.EndDate) return -1;
+
+            var maxExamPoints = exam.Questions.Sum(x => x.Points);
+
+            var maxCredits = exam.Course.Credits;
+
+            var earnedPointsInPercentages = points / (maxExamPoints * 1.0);
+            var creditsEarned = (int)Math.Round(maxCredits * earnedPointsInPercentages);
+
+            var userExam = new ApplicationUserExam()
+            {
+                ApplicationUserId = uid,
+                EarnedPoints = points,
+                ExamId = eid,
+                EarnedCredits = creditsEarned
+            };
+
+            context.ApplicationUserExams.Add(userExam);
+            context.SaveChanges();
+
+            return maxExamPoints;
+        }
     }
 }
