@@ -22,7 +22,8 @@
 
             CreateMap<ResourceType, ResourceTypeFormModel>();
 
-            CreateMap<AddResourceFormModel, Resource>();
+            CreateMap<AddResourceFormModel, Resource>()
+                .ReverseMap();
 
             CreateMap<Resource, ResourceServiceModel>();
         }

@@ -93,5 +93,19 @@
 
             context.SaveChanges();
         }
+
+        public string Delete(string resourceId)
+        {
+            var resource = GetResourceById<Resource>(resourceId);
+            var lectureId = resource.LectureId;
+
+
+            if(!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.Name);
+
+            context.Resources.Remove(resource);
+            context.SaveChanges();
+
+            return lectureId;
+        }
     }
 }

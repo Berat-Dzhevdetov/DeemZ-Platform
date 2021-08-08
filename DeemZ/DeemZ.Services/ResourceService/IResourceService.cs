@@ -12,5 +12,6 @@
         T GetResourceById<T>(string rid);
         bool GetResourceById(string rid);
         void DeleteLectureResoureces(string lid);
+        string Delete(string resourceId);
     }
 }

@@ -89,7 +89,7 @@
 
             if (!resourceService.GetResourceById(resourceId)) return NotFound();
 
-            var userId = this.User.GetId();
+            var userId = User.GetId();
 
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
 
@@ -101,7 +101,7 @@
 
             if (resource.ResourceTypeName == "Video") ViewBag.IsVideo = true;
 
-            this.Response.Headers.Add("Content-Type", "text/html");
+            Response.Headers.Add("Content-Type", "text/html");
 
             return View(resource);
         }
@@ -113,15 +113,27 @@
 
             if (!resourceService.GetResourceById(resourceId)) return NotFound();
 
-            var userId = this.User.GetId();
+            var userId = User.GetId();
 
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
 
             (byte[] bytes, string contentType, string downloadName) = fileService.GetFileBytesByResourceId(resourceId);
 
-            this.Response.Headers.Add("Content-Disposition", "attachment");
+            Response.Headers.Add("Content-Disposition", "attachment");
 
             return File(bytes, contentType, downloadName);
+        }
+
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult Delete(string resourceId)
+        {
+            if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
+
+            if (!resourceService.GetResourceById(resourceId)) return NotFound();
+
+            var lectureId = resourceService.Delete(resourceId);
+
+            return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea, lectureId });
         }
     }
 }
