@@ -1,0 +1,34 @@
+﻿@model IEnumerable<DeemZ.Models.ViewModels.Administration.UserCoursesViewModel>
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Is Paid</th>
+            <th scope="col">Paid On</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userCourse in Model)
+        {
+        <tr>
+            <td>@userCourse.UserName</td>
+            <td>@userCourse.CourseName</td>
+            <td>@userCourse.IsPaid</td>
+            <td>@userCourse.PaidOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Actions
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item text-danger" asp-area="" asp-controller="Course" asp-action="DeleteUserFromCourse" asp-route-userCourseId="@userCourse.Id">Delete</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

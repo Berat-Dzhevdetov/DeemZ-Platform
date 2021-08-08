@@ -17,6 +17,7 @@
         string CreateCourse(AddCourseFormModel course);
         void Edit(EditCourseFormModel course, string cid);
         void DeleteCourse(string cid);
-        void CreateBasicsLectures(string courseId, AddCourseFormModel course);
+        void CreateBasicsLectures(string cid, AddCourseFormModel course);
+        IEnumerable<T> GetUserCourses<T>(int page = 1, int quantity = 20);
     }
 }

@@ -11,6 +11,7 @@
     using DeemZ.Models.FormModels.Course;
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Services.LectureServices;
+    using DeemZ.Global.Extensions;
 
     public class CourseService : ICourseService
     {
@@ -148,5 +149,11 @@
                 lectureService.AddLectureToCourse(courseId, lecture);
             }
         }
+
+        public IEnumerable<T> GetUserCourses<T>(int page = 1, int quantity = 20)
+            => context.UserCourses
+                .OrderByDescending(x => x.PaidOn)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .Paging(page, quantity);
     }
 }

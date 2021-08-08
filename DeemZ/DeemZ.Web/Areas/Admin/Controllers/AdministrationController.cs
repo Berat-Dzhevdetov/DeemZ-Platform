@@ -196,6 +196,21 @@
             return View(viewModel);
         }
 
+        public IActionResult UserCourses(int page = 1,int quantity = 20)
+        {
+            var viewModel = new AdministrationUserCoursesViewModel();
+
+            viewModel.UserCourses = courseService.GetUserCourses<UserCoursesViewModel>(page, quantity);
+
+            var allPages = (int)Math.Ceiling(viewModel.UserCourses.Count() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
         private T AdjustPages<T>(T viewModel, int page, int allPages)
             where T : PagingBaseModel
         {

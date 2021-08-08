@@ -23,27 +23,9 @@
             <h3>@Model.UsersSignedUpThisMonth</h3>
         </div>
     </div>
-    <table class="table table-dark">
-        <thead>
-            <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Course Name</th>
-                <th scope="col">Is Paid</th>
-                <th scope="col">Paid On</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var userCourse in Model.UserCourses)
-            {
-                <tr>
-                    <td>@userCourse.UserName</td>
-                    <td>@userCourse.CourseName</td>
-                    <td>@userCourse.IsPaid</td>
-                    <td>@userCourse.PaidOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+    <partial name="_UserCoursePartial" model="Model.UserCourses" />
+
     <div class="pages flex">
         @if (Model.PreviousPage != null)
         {

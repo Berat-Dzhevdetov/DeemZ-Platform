@@ -1,0 +1,41 @@
+﻿@model DeemZ.Models.ViewModels.Administration.AdministrationUserCoursesViewModel
+@{ 
+    ViewData["Title"] = "User courses";
+    Layout = "_AdminPanelLayout";
+}
+
+
+<div class="container-fluid">
+    <div class="text-center mt-5">
+        <a asp-area="" asp-controller="Course" asp-action="AddUserToCourse" class="btn btn-success">Add User to Course</a>
+    </div>
+
+    <partial name="_UserCoursePartial" model="Model.UserCourses" />
+
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="UserCourses" asp-route-page="@Model.PreviousPage">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="UserCourses" asp-route-page="@i">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="UserCourses" asp-route-page="@Model.NextPage">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
+</div>
