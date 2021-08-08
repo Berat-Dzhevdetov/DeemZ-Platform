@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Web.Controllers
+﻿namespace DeemZ.Web.Areas.Administration.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -24,6 +24,7 @@
     using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize(Roles = AdminRoleName)]
+    [Area(AreaNames.AdminArea)]
     public class AdministrationController : Controller
     {
         private readonly Guard guard;

@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="text-center mt-5">
-        <a asp-controller="Course" asp-action="Add" class="btn btn-success">Add Course</a>
+        <a asp-area="" asp-controller="Course" asp-action="Add" class="btn btn-success">Add Course</a>
     </div>
     <table class="table table-striped table-dark mt-4">
         <thead>
@@ -24,7 +24,7 @@
             @foreach (var course in Model.Courses)
             {
                 <tr>
-                    <td><a class="text-light" asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@course.Id" >@course.Name</a></td>
+                    <td><a class="text-light" asp-area="" asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@course.Id">@course.Name</a></td>
                     <td>@course.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
                     <td>@course.EndDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
                     <td>@course.Credits</td>
@@ -36,11 +36,11 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-controller="Course" asp-action="Edit" asp-route-courseId="@course.Id">Edit</a>
-                                <a class="dropdown-item" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@course.Id">Lectures</a>
-                                <a class="dropdown-item" asp-controller="Administration" asp-action="Exams" asp-route-courseId="@course.Id">Exams</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Course" asp-action="Edit" asp-route-courseId="@course.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Administration" asp-action="Exams" asp-route-courseId="@course.Id">Exams</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@course.Id">Lectures</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" asp-controller="Course" asp-action="Delete" asp-route-courseId="@course.Id">Delete</a>
+                                <a class="dropdown-item text-danger" asp-area="" asp-controller="Course" asp-action="Delete" asp-route-courseId="@course.Id">Delete</a>
                             </div>
                         </div>
                     </td>

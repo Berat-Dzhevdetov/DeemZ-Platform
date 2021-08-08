@@ -6,9 +6,10 @@
     using DeemZ.Services;
     using DeemZ.Services.UserServices;
     using DeemZ.Models.FormModels.User;
+    using DeemZ.Web.Infrastructure;
+    using DeemZ.Web.Areas.Administration.Controllers;
 
     using static DeemZ.Global.WebConstants.Constants;
-    using DeemZ.Web.Infrastructure;
 
     [Authorize(Roles = AdminRoleName)]
     public class UserController : Controller

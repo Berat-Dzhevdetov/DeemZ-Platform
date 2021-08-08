@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="text-center mt-5">
-        <a href="/Identity/Account/Register" class="btn btn-success">Add User</a>
+        <a  href="/Identity/Account/Register" class="btn btn-success">Add User</a>
     </div>
     <table class="table table-striped table-dark mt-4">
         <thead>
@@ -30,7 +30,7 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-controller="User" asp-action="Edit" asp-route-userId="@user.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Edit" asp-route-userId="@user.Id">Edit</a>
                             </div>
                         </div>
                     </td>

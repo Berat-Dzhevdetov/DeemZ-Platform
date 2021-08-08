@@ -10,10 +10,9 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.UserServices;
     using DeemZ.Global.Extensions;
-    using DeemZ.App.Controllers;
+    using DeemZ.Web.Areas.Administration.Controllers;
 
     using static DeemZ.Global.WebConstants.Constants;
-    using System;
 
     [Authorize]
     public class ExamController : Controller

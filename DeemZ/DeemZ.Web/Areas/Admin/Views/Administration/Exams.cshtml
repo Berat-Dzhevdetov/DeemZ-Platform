@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="text-center mt-5">
-        <a asp-controller="Exam" asp-action="Add" asp-route-courseId="@Model.CourseId" class="btn btn-success">Add Exam</a>
+        <a asp-area="" asp-controller="Exam" asp-action="Add" asp-route-courseId="@Model.CourseId" class="btn btn-success">Add Exam</a>
     </div>
     <table class="table table-striped table-dark mt-4">
         <thead>
@@ -32,10 +32,10 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-controller="Exam" asp-action="Edit" asp-route-examId="@exam.Id">Edit</a>
-                                <a class="dropdown-item" asp-controller="Administration" asp-action="Questions" asp-route-examId="@exam.Id">Questions</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Exam" asp-action="Edit" asp-route-examId="@exam.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Administration" asp-action="Questions" asp-route-examId="@exam.Id">Questions</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" asp-controller="Exam" asp-action="Delete" asp-route-examId="@exam.Id">Delete</a>
+                                <a class="dropdown-item text-danger" asp-area="" asp-controller="Exam" asp-action="Delete" asp-route-examId="@exam.Id">Delete</a>
                             </div>
                         </div>
                     </td>

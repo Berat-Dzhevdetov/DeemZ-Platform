@@ -8,9 +8,9 @@
     using DeemZ.Services.ReportService;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.Reports;
+    using DeemZ.Web.Areas.Administration.Controllers;
 
     using static DeemZ.Global.WebConstants.Constants;
-    using DeemZ.App.Controllers;
 
     public class ReportController : Controller
     {

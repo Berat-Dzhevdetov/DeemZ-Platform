@@ -1,12 +1,12 @@
-﻿@{
-    ViewData["Title"] = "Resources";
+﻿@model DeemZ.Models.ViewModels.Administration.IndexLecturesViewModel
+@{
+    ViewData["Title"] = "Lectures";
     Layout = "_AdminPanelLayout";
 }
-@model DeemZ.Models.ViewModels.Administration.ResourcesForCourseViewModel
 
 <div class="container-fluid">
     <div class="text-center mt-5">
-        <a asp-controller="Resource" asp-route-lectureId="@Model.LectureId" asp-action="Add" class="btn btn-success">Add Resource</a>
+        <a asp-area="" asp-controller="Lecture" asp-route-courseId="@Model.CourseId" asp-action="Add" class="btn btn-success">Add Lecture</a>
     </div>
     <table class="table table-striped table-dark mt-4">
         <thead>
@@ -16,19 +16,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var resource in Model.Recourses)
+            @foreach (var lecture in Model.Lectures)
             {
                 <tr>
-                    <td>@resource.Name</td>
+                    <td>@lecture.Name</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-controller="Resource" asp-action="Edit" asp-route-courseId="@resource.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Lecture" asp-action="Edit" asp-route-lectureId="@lecture.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Administration" asp-action="Resources" asp-route-lectureId="@lecture.Id">Resources</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-controller="Resource" asp-action="Delete" asp-route-courseId="@resource.Id">Delete</a>
+                                <a class="dropdown-item text-danger" asp-area="" asp-controller="Lecture" asp-action="Delete" asp-route-lectureId="@lecture.Id">Delete</a>
                             </div>
                         </div>
                     </td>
@@ -40,7 +41,7 @@
         @if (Model.PreviousPage != null)
         {
             <div class="page-number">
-                <a class="text-light" asp-controller="Administration" asp-action="Resources" asp-route-lectureId="@Model.LectureId" asp-route-page="@Model.PreviousPage">
+                <a class="text-light" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@Model.CourseId" asp-route-page="@Model.PreviousPage">
                     Last Page
                 </a>
             </div>
@@ -48,7 +49,7 @@
         @for (int i = 1; i <= Model.MaxPages; i++)
         {
             <div class="page-number">
-                <a class="text-light" asp-controller="Administration" asp-action="Resources" asp-route-lectureId="@Model.LectureId" asp-route-page="@i">
+                <a class="text-light" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@Model.CourseId" asp-route-page="@i">
                     @i
                 </a>
             </div>
@@ -56,7 +57,7 @@
         @if (Model.NextPage != null)
         {
             <div class="page-number">
-                <a class="text-light" asp-controller="Administration" asp-action="Resources" asp-route-lectureId="@Model.LectureId" asp-route-page="@Model.NextPage">
+                <a class="text-light" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@Model.CourseId" asp-route-page="@Model.NextPage">
                     Next Page
                 </a>
             </div>

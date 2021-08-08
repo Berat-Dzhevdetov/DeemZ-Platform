@@ -1,4 +1,4 @@
-﻿namespace DeemZ.App.Controllers
+﻿namespace DeemZ.Web.Controllers
 {
     using DeemZ.Web.Infrastructure;
     using Microsoft.AspNetCore.Mvc;

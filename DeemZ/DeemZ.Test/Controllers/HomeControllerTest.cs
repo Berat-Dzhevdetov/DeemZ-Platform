@@ -2,7 +2,7 @@ namespace DeemZ.Test
 {
     using Xunit;
     using MyTested.AspNetCore.Mvc;
-    using DeemZ.App.Controllers;
+    using DeemZ.Web.Controllers;
     using DeemZ.Models.ViewModels.User;
 
     public class HomeControllerTest

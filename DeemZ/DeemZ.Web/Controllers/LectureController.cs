@@ -7,9 +7,10 @@
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Models.FormModels.Description;
+    using DeemZ.Web.Infrastructure;
+    using DeemZ.Web.Areas.Administration.Controllers;
 
     using static DeemZ.Global.WebConstants.Constants;
-    using DeemZ.Web.Infrastructure;
 
     [Authorize(Roles = AdminRoleName)]
     public class LectureController : Controller

@@ -8,9 +8,9 @@
     using DeemZ.Services.CourseServices;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.LectureServices;
+    using DeemZ.Web.Areas.Administration.Controllers;
 
-    using static DeemZ.Global.WebConstants.Constants;
-    using static Infrastructure.ControllerExtensions;
+    using static Global.WebConstants.Constants;
 
     public class CourseController : Controller
     {
@@ -77,26 +77,24 @@
             return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }
 
-        [Authorize(Roles = AdminRoleName)]
         public IActionResult Add() => View();
 
 
-        [Authorize(Roles = AdminRoleName)]
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public IActionResult Add(AddCourseFormModel course)
         {
             if (!ModelState.IsValid) return View(course);
 
             var courseId = courseService.CreateCourse(course);
 
-            if (course.BasicLectures) courseService.CreateBasicsLectures(courseId,course);
+            if (course.BasicLectures) courseService.CreateBasicsLectures(courseId, course);
 
-            if (course.Redirect) return RedirectToAction(nameof(ViewCourse), new { courseId });
+            if (course.Redirect) return RedirectToAction(nameof(Web.Controllers.CourseController.ViewCourse), typeof(CourseController).GetControllerName(), new { courseId });
 
-            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
         }
 
-        [Authorize]
         [Authorize(Roles = AdminRoleName)]
         public IActionResult Edit(string courseId)
         {
@@ -109,15 +107,15 @@
             return View(course);
         }
 
-        [Authorize(Roles = AdminRoleName)]
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public IActionResult Edit(string courseId, EditCourseFormModel course)
         {
             if (!ModelState.IsValid) return View(course);
 
             courseService.Edit(course, courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -129,7 +127,7 @@
 
             courseService.DeleteCourse(courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
         }
     }
 }

@@ -1,35 +1,39 @@
-﻿@{
-    ViewData["Title"] = "Lectures";
+﻿@model DeemZ.Models.ViewModels.Administration.AdministrationQuetionsViewModel
+@{
     Layout = "_AdminPanelLayout";
+    ViewData["Title"] = "Questions for exam";
 }
-@model DeemZ.Models.ViewModels.Administration.IndexLecturesViewModel
 
 <div class="container-fluid">
     <div class="text-center mt-5">
-        <a asp-controller="Lecture" asp-route-courseId="@Model.CourseId" asp-action="Add" class="btn btn-success">Add Lecture</a>
+        <a  asp-area="" asp-controller="Question" asp-action="Add" asp-route-examId="@Model.ExamId" class="btn btn-success">Add Question</a>
+        <p class="text-light">@Model.ExamName</p>
     </div>
     <table class="table table-striped table-dark mt-4">
         <thead>
             <tr>
-                <th scope="col">Resource Name</th>
+                <th scope="col">Text</th>
+                <th scope="col">Points</th>
+                <th scope="col">Answers count</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var lecture in Model.Lectures)
+            @foreach (var question in Model.Questions)
             {
                 <tr>
-                    <td>@lecture.Name</td>
+                    <td>@question.Text</td>
+                    <td>@question.Points</td>
+                    <td>@question.AnswersCount</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-controller="Lecture" asp-action="Edit" asp-route-lectureId="@lecture.Id">Edit</a>
-                                <a class="dropdown-item" asp-controller="Administration" asp-action="Resources" asp-route-lectureId="@lecture.Id">Resources</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Question" asp-action="Edit" asp-route-questionId="@question.Id">Edit</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" asp-controller="Lecture" asp-action="Delete" asp-route-lectureId="@lecture.Id">Delete</a>
+                                <a class="dropdown-item text-danger" asp-area="" asp-controller="Question" asp-action="Delete" asp-route-questionId="@question.Id">Delete</a>
                             </div>
                         </div>
                     </td>
@@ -41,7 +45,7 @@
         @if (Model.PreviousPage != null)
         {
             <div class="page-number">
-                <a class="text-light" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@Model.CourseId" asp-route-page="@Model.PreviousPage">
+                <a class="text-light" asp-controller="Administration" asp-action="Questions" asp-route-page="@Model.PreviousPage">
                     Last Page
                 </a>
             </div>
@@ -49,7 +53,7 @@
         @for (int i = 1; i <= Model.MaxPages; i++)
         {
             <div class="page-number">
-                <a class="text-light" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@Model.CourseId" asp-route-page="@i">
+                <a class="text-light" asp-controller="Administration" asp-action="Questions" asp-route-page="@i">
                     @i
                 </a>
             </div>
@@ -57,7 +61,7 @@
         @if (Model.NextPage != null)
         {
             <div class="page-number">
-                <a class="text-light" asp-controller="Administration" asp-action="Lectures" asp-route-courseId="@Model.CourseId" asp-route-page="@Model.NextPage">
+                <a class="text-light" asp-controller="Administration" asp-action="Questions" asp-route-page="@Model.NextPage">
                     Next Page
                 </a>
             </div>

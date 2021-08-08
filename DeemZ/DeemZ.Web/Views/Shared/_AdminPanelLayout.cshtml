@@ -14,7 +14,7 @@
     <div class="flex page-holder">
         <div class="left">
             <div class="logo clickable">
-                <a asp-action="Index" asp-controller="Home">
+                <a asp-area="" asp-action="Index" asp-controller="Home">
                     <img src="~/media/logo.png" alt="DeemZ Logo" />
                 </a>
             </div>
@@ -25,23 +25,23 @@
             <div class="links-holder">
                 <div class="admin-link">
                     <i class="fas fa-chart-line"></i>
-                    <a class="text-white" asp-controller="Administration" asp-action="Index">Dashboard</a>
+                    <a class="text-white" asp-area="Admin" asp-controller="Administration" asp-action="Index">Dashboard</a>
                 </div>
                 <div class="admin-link">
                     <i class="fas fa-laptop-code"></i>
-                    <a class="text-white" asp-controller="Administration" asp-action="Courses">Courses</a>
+                    <a class="text-white" asp-area="Admin" asp-controller="Administration" asp-action="Courses">Courses</a>
                 </div>
                 <div class="admin-link">
                     <i class="fa fa-user"></i>
-                    <a class="text-white" asp-controller="Administration" asp-action="Users">Users</a>
+                    <a class="text-white" asp-area="Admin" asp-controller="Administration" asp-action="Users">Users</a>
                 </div>
                 <div class="admin-link">
                     <i class="fas fa-bullhorn"></i>
-                    <a class="text-white" asp-controller="Administration" asp-action="Reports">Reports</a>
+                    <a class="text-white" asp-area="Admin" asp-controller="Administration" asp-action="Reports">Reports</a>
                 </div>
                 <div class="admin-link">
                     <i class="fas fa-sign-out-alt"></i>
-                    <a class="text-white" asp-controller="Home" asp-action="Index">Exit</a>
+                    <a class="text-white" asp-area="" asp-controller="Home" asp-action="Index">Exit</a>
                 </div>
             </div>
         </div>

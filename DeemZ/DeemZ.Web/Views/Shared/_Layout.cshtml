@@ -32,7 +32,7 @@
                             if (isAdmin)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link white-text" asp-area="" asp-controller="Administration" asp-action="Index">Administration</a>
+                                    <a class="nav-link white-text" asp-area="Admin" asp-controller="Administration" asp-action="Index">Administration</a>
                                 </li>
                             }
                         }
@@ -45,7 +45,7 @@
     <main role="main" class="pb-3">
         @if (TempData.ContainsKey(DeemZ.Global.WebConstants.Constants.GlobalMessageKey))
         {
-            <div class="alert alert-success text-center" role="alert">
+            <div class="alert alert-info text-center" role="alert">
                 @TempData[DeemZ.Global.WebConstants.Constants.GlobalMessageKey]
             </div>
         }
