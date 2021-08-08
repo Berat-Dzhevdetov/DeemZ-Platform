@@ -46,7 +46,7 @@
 
             lectureService.AddLectureToCourse(courseId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
         }
 
         public IActionResult Edit(string lectureId)
@@ -71,7 +71,7 @@
 
             lectureService.EditLectureById(lectureId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId = lecture.CourseId });
+            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId = lecture.CourseId, area = AreaNames.AdminArea });
         }
 
         [Authorize(Roles = AdminRoleName)]

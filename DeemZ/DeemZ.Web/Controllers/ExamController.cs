@@ -176,7 +176,7 @@
 
             examService.CreateExam(courseId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea  });
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -206,7 +206,7 @@
 
             var courseId = examService.EditExam(examId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId });
+            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
         }
     }
 }

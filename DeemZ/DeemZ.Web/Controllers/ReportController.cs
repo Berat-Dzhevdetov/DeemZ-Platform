@@ -49,6 +49,8 @@
 
             reportService.AddReport(formModel, userId);
 
+            TempData[GlobalMessageKey] = "Your report was successfuly sent!";
+
             return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
         }
 

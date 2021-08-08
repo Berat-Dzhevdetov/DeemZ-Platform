@@ -90,7 +90,7 @@
 
             if (course.BasicLectures) courseService.CreateBasicsLectures(courseId, course);
 
-            if (course.Redirect) return RedirectToAction(nameof(Web.Controllers.CourseController.ViewCourse), typeof(CourseController).GetControllerName(), new { courseId });
+            if (course.Redirect) return RedirectToAction(nameof(CourseController.ViewCourse), typeof(CourseController).GetControllerName(), new { courseId });
 
             return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
         }

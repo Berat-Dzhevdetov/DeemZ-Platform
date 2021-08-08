@@ -49,7 +49,7 @@
 
             questionService.AddQuestionToExam(examId, question);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
         }
 
         public IActionResult Delete(string questionId)
@@ -60,7 +60,7 @@
 
             var examId = questionService.Delete(questionId);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
         }
 
         public IActionResult Edit(string questionId)
@@ -98,7 +98,7 @@
 
             string examId = questionService.Edit(questionId, question);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
         }
     }
 }

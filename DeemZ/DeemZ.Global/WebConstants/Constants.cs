@@ -9,7 +9,6 @@
         public static class AreaNames
         {
             public const string AdminArea = "Admin";
-            public const string AdminCourseArea = "Course";
         }
     }
 }

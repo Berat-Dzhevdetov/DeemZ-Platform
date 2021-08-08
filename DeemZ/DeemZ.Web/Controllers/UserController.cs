@@ -61,7 +61,7 @@
             else if (!user.IsAdmin && await userService.IsInRole(userId, AdminRoleName))
                 await userService.RemoveUserFromRole(userId, AdminRoleName);
 
-            return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName());
+            return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
         }
     }
 }
