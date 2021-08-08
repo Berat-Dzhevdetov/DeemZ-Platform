@@ -117,5 +117,11 @@
                 Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid),
                 SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
             };
+
+        public bool GetUserByUserName(string username)
+         => context.Users.Any(x => x.UserName == username);
+
+        public string GetUserIdByUserName(string username)
+        => context.Users.FirstOrDefault(x => x.UserName == username).Id;
     }
 }

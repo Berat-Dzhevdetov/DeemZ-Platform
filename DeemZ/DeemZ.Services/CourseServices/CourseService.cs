@@ -59,7 +59,7 @@
                 .ThenInclude(x => x.Resources)
                 .ThenInclude(x => x.ResourceType)
                 .FirstOrDefault();
-                
+
             return mapper.Map<T>(course);
         }
 
@@ -75,13 +75,13 @@
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
 
-        public void SignUserToCourse(string uid, string cid)
+        public void SignUserToCourse(string uid, string cid, bool isPaid = true)
         {
             var userCourse = new UserCourse()
             {
                 CourseId = cid,
                 UserId = uid,
-                IsPaid = true,
+                IsPaid = isPaid,
                 PaidOn = DateTime.UtcNow
             };
 
@@ -155,5 +155,11 @@
                 .OrderByDescending(x => x.PaidOn)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .Paging(page, quantity);
+
+        public IEnumerable<KeyValuePair<string, string>> GetCourseByIdAsKeyValuePair(DateTime prevDate)
+            => context.Courses
+                .Where(x => x.SignUpEndDate > prevDate)
+                .ToDictionary(x => x.Id, x => x.Name)
+                .ToList();
     }
 }

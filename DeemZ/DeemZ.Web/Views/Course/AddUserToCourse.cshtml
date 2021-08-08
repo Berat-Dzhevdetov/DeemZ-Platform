@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_AdminPanelLayOut";
+    ViewData["Title"] = "Add User To Course";
+}
+@model DeemZ.Models.FormModels.Course.AddUserToCourseFormModel
+
+<div class="container-fluid">
+    <form method="post" class="mt-4">
+        <div class="form-group text-center">
+            <h2 class="text-light">@ViewData["Title"]</h2>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Username"></label>
+            <input placeholder="ASP.NET Core - July @DateTime.Now.Year" class="form-control" asp-for="Username" />
+            <span asp-validation-for="Username" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="CourseId"></label>
+            <select asp-for="CourseId" class="form-control">
+                @foreach (var (key, value) in Model.Courses)
+                {
+                    <option value="@key">@value</option>
+                }
+            </select>
+            <span asp-validation-for="CourseId" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="IsPaid"></label>
+            <input asp-for="IsPaid" />
+        </div>
+
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

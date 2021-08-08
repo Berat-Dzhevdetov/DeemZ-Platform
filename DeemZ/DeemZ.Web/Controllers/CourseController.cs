@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
+    using System;
     using DeemZ.Models.FormModels.Course;
     using DeemZ.Models.ViewModels.Course;
     using DeemZ.Services;
@@ -9,6 +10,7 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.LectureServices;
     using DeemZ.Web.Areas.Administration.Controllers;
+    using DeemZ.Services.UserServices;
 
     using static Global.WebConstants.Constants;
 
@@ -17,6 +19,7 @@
         private readonly Guard guard;
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
+        private readonly IUserService userService;
 
         public CourseController(Guard guard, ICourseService courseService, ILectureService lectureService)
         {
@@ -128,6 +131,40 @@
             courseService.DeleteCourse(courseId);
 
             return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+        }
+
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult AddUserToCourse()
+        {
+            var model = new AddUserToCourseFormModel();
+
+            var prevDate = DateTime.Now.AddDays(-14);
+
+            model.Courses = courseService.GetCourseByIdAsKeyValuePair(prevDate);
+
+            return View(model);
+        }
+
+        [Authorize(Roles = AdminRoleName)]
+        [HttpPost]
+        public IActionResult AddUserToCourse(AddUserToCourseFormModel model)
+        {
+            if (!courseService.GetCourseById(model.CourseId)) ModelState.AddModelError(nameof(AddUserToCourseFormModel.CourseId), "Invalid course!");
+
+            if (!userService.GetUserByUserName(model.Username)) ModelState.AddModelError(nameof(AddUserToCourseFormModel.Username), "User not found!");
+
+            if (!ModelState.IsValid)
+            {
+                var prevDate = DateTime.Now.AddDays(-14);
+                model.Courses = courseService.GetCourseByIdAsKeyValuePair(prevDate);
+                return View(model);
+            }
+
+            var userId = userService.GetUserIdByUserName(model.Username);
+
+            courseService.SignUserToCourse(userId, model.CourseId, model.IsPaid);
+
+            return RedirectToAction(nameof(AdministrationController.UserCourses),typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
         }
     }
 }

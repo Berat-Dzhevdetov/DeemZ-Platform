@@ -17,5 +17,7 @@
         bool IsEmailFree(string uid, string email);
         bool IsUsernameFree(string uid, string userName);
         IndexUserViewModel GetIndexInformaiton(string uid);
+        bool GetUserByUserName(string username);
+        string GetUserIdByUserName(string username);
     }
 }
