@@ -4,7 +4,7 @@
 
     public interface IFileServices
     {
-        private const int defaultSizeOfFile = 2097152; // 2 MB
+        private const int defaultSizeOfFile = 2; // MB
 
         bool CheckIfFileIsUnderMB(IFormFile file, int mb = defaultSizeOfFile);
         bool CheckIfFileIsImage(IFormFile file);

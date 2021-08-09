@@ -126,5 +126,14 @@
 
         public bool GetUserById(string uid)
             => context.Users.Any(x => x.Id == uid);
+
+        public void SetProfileImg(string id, string url)
+        {
+            var user = GetUserById<ApplicationUser>(id);
+
+            user.ImgUrl = url;
+
+            context.SaveChanges();
+        }
     }
 }

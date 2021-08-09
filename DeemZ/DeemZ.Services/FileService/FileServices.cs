@@ -18,7 +18,7 @@
         private string wordsFolder = "msword";
         private string videos = "Videos";
         private string images = "Images";
-        private const int defaultSizeOfFile = 2097152; // 2 MB
+        private const int defaultSizeOfFile = 2; // MB
         private readonly DeemZDbContext context;
 
         public FileServices(DeemZDbContext context)
@@ -29,6 +29,8 @@
             this.context = context;
         }
 
+        //if file is above given mbs will return true
+        //otherwise false
         public bool CheckIfFileIsUnderMB(IFormFile file, int mb = defaultSizeOfFile)
             => file.Length > (1024 * 1024 * mb);
 

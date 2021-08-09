@@ -20,5 +20,6 @@
         IndexUserViewModel GetIndexInformaiton(string uid);
         bool GetUserByUserName(string username);
         string GetUserIdByUserName(string username);
+        void SetProfileImg(string id, string url);
     }
 }
