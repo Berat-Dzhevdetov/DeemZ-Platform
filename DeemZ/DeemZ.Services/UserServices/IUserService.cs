@@ -17,9 +17,10 @@
         Task RemoveUserFromRole(string uid, string role);
         bool IsEmailFree(string uid, string email);
         bool IsUsernameFree(string uid, string userName);
-        IndexUserViewModel GetIndexInformaiton(string uid);
+        IndexUserViewModel GetIndexInformaiton(string uid, bool isNotAdmin);
         bool GetUserByUserName(string username);
         string GetUserIdByUserName(string username);
-        void SetProfileImg(string id, string url);
+        void SetProfileImg(string id, string url, string publidId);
+        void DeleteUserProfileImg(string userId);
     }
 }

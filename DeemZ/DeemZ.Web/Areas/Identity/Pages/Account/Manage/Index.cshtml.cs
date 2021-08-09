@@ -14,12 +14,12 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IFileServices fileService;
+        private readonly IFileService fileService;
         private readonly IUserService userServices;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IFileServices fileService, IUserService userServices)
+            SignInManager<ApplicationUser> signInManager, IFileService fileService, IUserService userServices)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -100,9 +100,11 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
                     goto afterImg;
                 }
 
-                string url = fileService.PreparingFileForUploadAndUploadIt(Img);
+                userServices.DeleteUserProfileImg(user.Id);
 
-                userServices.SetProfileImg(user.Id, url);
+                (string url,string publicId) = fileService.PreparingFileForUploadAndUploadIt(Img);
+
+                userServices.SetProfileImg(user.Id, url, publicId);
             }
 
         afterImg:;

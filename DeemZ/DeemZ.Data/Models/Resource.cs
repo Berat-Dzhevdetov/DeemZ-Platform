@@ -12,6 +12,9 @@
         [MaxLength(DataConstants.Resource.MaxNameLength)]
         public string Name { get; set; }
 
+        [Required]
+        public string PublicId { get; set; }
+
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
         public string LectureId { get; set; }

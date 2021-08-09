@@ -31,7 +31,8 @@
                .Users
                .Include(x => x.Exams)
                .FirstOrDefault(x => x.Id == id)
-               .Exams.Sum(x => x.EarnedCredits);
+               .Exams
+               .Sum(x => x.EarnedCredits);
 
 
         //Gets user's given id courses
@@ -40,7 +41,7 @@
                 .Where(
                     x => x.User.Id == uid
                     && x.IsPaid == isPaid
-                    && x.Course.EndDate > DateTime.UtcNow
+                    && x.Course.EndDate > DateTime.Now
                 )
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x.Course))

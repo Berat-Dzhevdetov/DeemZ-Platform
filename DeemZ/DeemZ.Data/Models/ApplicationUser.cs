@@ -23,6 +23,7 @@
 
         [Required]
         public string ImgUrl { get; set; } = DataConstants.User.DefaultProfilePictureUrl;
+        public string ImgPublicId { get; set; }
 
         public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
         public ICollection<UserCourse> UserCourses { get; set; } = new HashSet<UserCourse>();

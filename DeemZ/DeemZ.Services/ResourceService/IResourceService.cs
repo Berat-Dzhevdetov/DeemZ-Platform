@@ -6,7 +6,7 @@
     {
         IEnumerable<T> GetUserResources<T>(string uid);
         IEnumerable<T> GetResourceTypes<T>();
-        void AddResourceToLecture(string lid, AddResourceFormModel resource);
+        void AddResourceToLecture(string lid, string publicId, AddResourceFormModel resource);
         bool IsValidResourceType(string rtid);
         bool DoesUserHavePermissionToThisResource(string rid, string uid);
         T GetResourceById<T>(string rid);

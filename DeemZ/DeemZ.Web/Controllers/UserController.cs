@@ -8,28 +8,31 @@
     using DeemZ.Models.FormModels.User;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Web.Areas.Administration.Controllers;
+    using DeemZ.Services.FileService;
 
     using static DeemZ.Global.WebConstants.Constants;
 
-    [Authorize(Roles = AdminRoleName)]
     public class UserController : Controller
     {
         private readonly Guard guard;
         private readonly IUserService userService;
+        private readonly IFileService fileService;
 
-        public UserController(Guard guard, IUserService userService)
+        public UserController(Guard guard, IUserService userService, IFileService fileService)
         {
             this.guard = guard;
             this.userService = userService;
+            this.fileService = fileService;
         }
 
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(string userId)
         {
             if (guard.AgainstNull(userId, nameof(userId))) return BadRequest();
 
-            var user = userService.GetUserById<EditUserFormModel>(userId);
+            if (!userService.GetUserById(userId)) return NotFound();
 
-            if (user == null) return NotFound();
+            var user = userService.GetUserById<EditUserFormModel>(userId);
 
             user.IsAdmin = await userService.IsInRole(userId, AdminRoleName);
 
@@ -37,6 +40,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(string userId, EditUserFormModel user)
         {
             if (guard.AgainstNull(userId, nameof(userId))) return BadRequest();
@@ -62,6 +66,18 @@
                 await userService.RemoveUserFromRole(userId, AdminRoleName);
 
             return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+        }
+
+        [Authorize]
+        public IActionResult DeleteProfilePicture()
+        {
+            var userId = User.GetId();
+
+            userService.DeleteUserProfileImg(userId);
+
+            userService.SetProfileImg(userId, Data.DataConstants.User.DefaultProfilePictureUrl, null);
+
+            return LocalRedirect("/Identity/Account/Manage");
         }
     }
 }

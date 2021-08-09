@@ -12,9 +12,14 @@
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <img id="imgUrl" alt="Profile image" src="@Model.ImgUrl" style="border-radius: 50%; width: 200px; height:200px;" />
+                <img id="imgUrl" alt="Profile image" src="@Model.ImgUrl" class="clickable" style="border-radius: 50%; width: 200px; height:200px;" />
                 <input onchange="previewFile()" id="img" asp-for="Img" class="form-control" style="display: none" />
                 <span asp-validation-for="Img" class="text-danger"></span>
+                @if (Model.ImgUrl != DeemZ.Data.DataConstants.User.DefaultProfilePictureUrl)
+                {
+                    <br />
+                    <a asp-area="" asp-controller="User" asp-action="DeleteProfilePicture" class="btn btn-danger">Delete Picture</a>
+                }
             </div>
             <div class="form-group">
                 <label asp-for="Username"></label>

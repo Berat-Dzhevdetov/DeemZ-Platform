@@ -17,6 +17,7 @@
     using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Services.ResourceService;
     using DeemZ.Global.Extensions;
+    using DeemZ.Services.FileService;
 
     public class UserService : IUserService
     {
@@ -27,8 +28,9 @@
         private readonly ICourseService courseService;
         private readonly ISurveyService surveyService;
         private readonly IResourceService resourceService;
+        private readonly IFileService fileService;
 
-        public UserService(DeemZDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ICourseService courseService, ISurveyService surveyService, IResourceService resourceService)
+        public UserService(DeemZDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ICourseService courseService, ISurveyService surveyService, IResourceService resourceService, IFileService fileService)
         {
             this.context = context;
             this.mapper = mapper;
@@ -37,6 +39,7 @@
             this.courseService = courseService;
             this.surveyService = surveyService;
             this.resourceService = resourceService;
+            this.fileService = fileService;
         }
 
         //If the given role doesn't exists it will create it automatically
@@ -108,11 +111,11 @@
         public bool IsUsernameFree(string uid, string userName)
             => context.Users.Any(x => x.UserName == userName && x.Id != uid);
 
-        public IndexUserViewModel GetIndexInformaiton(string uid)
+        public IndexUserViewModel GetIndexInformaiton(string uid, bool isNotAdmin = true)
             => new IndexUserViewModel()
             {
                 Credits = courseService.GetUserCredits(uid),
-                Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(uid, true),
+                Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(uid, isNotAdmin),
                 Surveys = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(uid),
                 Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid),
                 SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
@@ -127,13 +130,23 @@
         public bool GetUserById(string uid)
             => context.Users.Any(x => x.Id == uid);
 
-        public void SetProfileImg(string id, string url)
+        public void SetProfileImg(string id, string url, string publidId)
         {
             var user = GetUserById<ApplicationUser>(id);
 
             user.ImgUrl = url;
+            user.ImgPublicId = publidId;
 
             context.SaveChanges();
+        }
+
+        public void DeleteUserProfileImg(string userId)
+        {
+            var user = GetUserById<ApplicationUser>(userId);
+
+            if (user.ImgUrl == DataConstants.User.DefaultProfilePictureUrl) return;
+
+            fileService.DeleteFile(user.ImgPublicId);
         }
     }
 }

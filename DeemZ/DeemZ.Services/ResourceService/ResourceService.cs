@@ -15,9 +15,9 @@
     {
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
-        private readonly IFileServices fileService;
+        private readonly IFileService fileService;
 
-        public ResourceService(DeemZDbContext context, IMapper mapper, IFileServices fileService)
+        public ResourceService(DeemZDbContext context, IMapper mapper, IFileService fileService)
         {
             this.context = context;
             this.mapper = mapper;
@@ -27,10 +27,11 @@
         public bool IsValidResourceType(string rtid)
             => context.ResourceTypes.Any(x => x.Id == rtid);
 
-        public void AddResourceToLecture(string lid, AddResourceFormModel resource)
+        public void AddResourceToLecture(string lid, string publicId, AddResourceFormModel resource)
         {
             var newlyResource = mapper.Map<Resource>(resource);
             newlyResource.LectureId = lid;
+            newlyResource.PublicId = publicId;
 
             context.Resources.Add(newlyResource);
             context.SaveChanges();
@@ -100,7 +101,7 @@
             var lectureId = resource.LectureId;
 
 
-            if(!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.Name);
+            if(!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.PublicId);
 
             context.Resources.Remove(resource);
             context.SaveChanges();

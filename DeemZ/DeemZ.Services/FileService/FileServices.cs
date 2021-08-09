@@ -9,12 +9,12 @@
     using DeemZ.Data;
     using DeemZ.Global.Extensions;
 
-    public class FileServices : IFileServices
+    public class FileServices : IFileService
     {
         private Secret.CloudinarySetup cloudinarySetup;
         private Cloudinary cloudinary;
         private string documentsFolder = "Documents";
-        private string pdfsFiles = "mspdf";
+        private string pdfsFiles = "mspptx";
         private string wordsFolder = "msword";
         private string videos = "Videos";
         private string images = "Images";
@@ -43,7 +43,7 @@
         private string GetFileExtension(string file)
             => Path.GetExtension(file).TrimStart('.');
 
-        public string PreparingFileForUploadAndUploadIt(IFormFile file, string path = null)
+        public (string url, string publicId) PreparingFileForUploadAndUploadIt(IFormFile file, string path = null)
         {
             var newFileName = Guid.NewGuid().ToString();
 
@@ -51,7 +51,7 @@
 
             var extension = GetFileExtension(file);
 
-            if (extension == "pdf" && path == "official_value")
+            if (extension == "pptx" && path == "official_value")
                 folder = $"{documentsFolder}/{pdfsFiles}/";
             else if ((extension == "doc" || extension == "docx") && path == "official_value")
                 folder = $"{documentsFolder}/{wordsFolder}/";
@@ -60,9 +60,9 @@
             else if (CheckIfFileIsImage(file))
                 folder = $"{images}/";
             else
-                return null;
+                return (null, null);
 
-            return UploadFileToCloud(file, folder, newFileName, extension);
+            return (UploadFileToCloud(file, folder, newFileName, extension), newFileName);
         }
 
         private string UploadFileToCloud(IFormFile file, string folder, string newFileName, string extension)
@@ -81,7 +81,7 @@
                 RawUploadParams uploadParams = new RawUploadParams
                 {
                     Folder = folder,
-                    File = new FileDescription(newFileName + "." + extension,memoryStream),
+                    File = new FileDescription(newFileName + "." + extension, memoryStream),
                     PublicId = newFileName
                 };
 
@@ -94,7 +94,7 @@
         public void DeleteFile(string publicId)
         {
             var deletionParams = new DeletionParams(publicId);
-            
+
             cloudinary.Destroy(deletionParams);
         }
 

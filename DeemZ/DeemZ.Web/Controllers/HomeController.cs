@@ -1,10 +1,13 @@
 ﻿namespace DeemZ.Web.Controllers
 {
-    using DeemZ.Web.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using System.Threading.Tasks;
     using DeemZ.Models;
+    using DeemZ.Web.Infrastructure;
     using DeemZ.Services.UserServices;
+
+    using static Global.WebConstants.Constants;
 
     public class HomeController : Controller
     {
@@ -15,14 +18,16 @@
             this.userService = userService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
                 var userId = User.GetId();
 
-                var viewModel = userService.GetIndexInformaiton(userId);
+                var isAdmin = await userService.IsInRole(userId, AdminRoleName);
+
+                var viewModel = userService.GetIndexInformaiton(userId, !isAdmin);
                 
                 return View("LoggedIndex", viewModel);
             }
