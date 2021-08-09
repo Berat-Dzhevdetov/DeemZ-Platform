@@ -161,5 +161,16 @@
                 .Where(x => x.SignUpEndDate > prevDate)
                 .ToDictionary(x => x.Id, x => x.Name)
                 .ToList();
+
+        public void DeleteUserFromCourse(string courseId, string userId)
+        {
+            var userCourse = context.UserCourses
+                .FirstOrDefault(x => x.UserId == userId && x.CourseId == courseId);
+
+            if (userCourse == null) return;
+
+            context.UserCourses.Remove(userCourse);
+            context.SaveChanges();
+        }
     }
 }

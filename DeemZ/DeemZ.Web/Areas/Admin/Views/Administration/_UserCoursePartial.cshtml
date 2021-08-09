@@ -24,7 +24,7 @@
                         Actions
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item text-danger" asp-area="" asp-controller="Course" asp-action="DeleteUserFromCourse" asp-route-userCourseId="@userCourse.Id">Delete</a>
+                        <a class="dropdown-item text-danger" asp-area="" asp-controller="Course" asp-action="DeleteUserFromCourse" asp-route-courseId="@userCourse.CourseId" asp-route-userId="@userCourse.UserId">Delete</a>
                     </div>
                 </div>
             </td>

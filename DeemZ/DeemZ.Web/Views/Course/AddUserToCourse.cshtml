@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             <label class="text-light" asp-for="Username"></label>
-            <input placeholder="ASP.NET Core - July @DateTime.Now.Year" class="form-control" asp-for="Username" />
+            <input placeholder="Username" class="form-control" asp-for="Username" />
             <span asp-validation-for="Username" class="small text-danger"></span>
         </div>
         <div class="form-group">
@@ -25,8 +25,8 @@
             <span asp-validation-for="CourseId" class="small text-danger"></span>
         </div>
         <div class="form-group">
-            <label class="text-light" asp-for="IsPaid"></label>
             <input asp-for="IsPaid" />
+            <label class="text-light" asp-for="IsPaid"></label>
         </div>
 
         <div class="form-group text-center">

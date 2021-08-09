@@ -21,11 +21,12 @@
         private readonly ILectureService lectureService;
         private readonly IUserService userService;
 
-        public CourseController(Guard guard, ICourseService courseService, ILectureService lectureService)
+        public CourseController(Guard guard, ICourseService courseService, ILectureService lectureService, IUserService userService)
         {
             this.guard = guard;
             this.courseService = courseService;
             this.lectureService = lectureService;
+            this.userService = userService;
         }
 
         public IActionResult ViewCourse(string courseId)
@@ -165,6 +166,20 @@
             courseService.SignUserToCourse(userId, model.CourseId, model.IsPaid);
 
             return RedirectToAction(nameof(AdministrationController.UserCourses),typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+        }
+
+        [Authorize(Roles = AdminRoleName)]
+        public IActionResult DeleteUserFromCourse(string courseId, string userId)
+        {
+            if (guard.AgainstNull(courseId, nameof(courseId)) ||
+                guard.AgainstNull(userId, nameof(userId))) return BadRequest();
+
+            if (!courseService.GetCourseById(courseId) ||
+                !userService.GetUserById(userId)) return NotFound();
+
+            courseService.DeleteUserFromCourse(courseId, userId);
+
+            return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
         }
     }
 }

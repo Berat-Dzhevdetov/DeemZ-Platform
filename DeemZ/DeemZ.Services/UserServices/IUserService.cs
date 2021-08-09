@@ -10,10 +10,11 @@
         IEnumerable<T> GetAllUsers<T>(int page = 1, int quantity = 20);
         int GetUserTakenCourses(string uid);
         T GetUserById<T>(string uid);
-        Task<bool> IsInRole(string userId, string role);
-        Task EditUser(string userId, EditUserFormModel user);
-        Task AddUserToRole(string userId, string role);
-        Task RemoveUserFromRole(string userId, string role);
+        bool GetUserById(string uid);
+        Task<bool> IsInRole(string uid, string role);
+        Task EditUser(string uid, EditUserFormModel user);
+        Task AddUserToRole(string uid, string role);
+        Task RemoveUserFromRole(string uid, string role);
         bool IsEmailFree(string uid, string email);
         bool IsUsernameFree(string uid, string userName);
         IndexUserViewModel GetIndexInformaiton(string uid);

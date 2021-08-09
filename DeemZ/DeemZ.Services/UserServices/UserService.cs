@@ -119,9 +119,12 @@
             };
 
         public bool GetUserByUserName(string username)
-         => context.Users.Any(x => x.UserName == username);
+            => context.Users.Any(x => x.UserName == username);
 
         public string GetUserIdByUserName(string username)
-        => context.Users.FirstOrDefault(x => x.UserName == username).Id;
+            => context.Users.FirstOrDefault(x => x.UserName == username).Id;
+
+        public bool GetUserById(string uid)
+            => context.Users.Any(x => x.Id == uid);
     }
 }
