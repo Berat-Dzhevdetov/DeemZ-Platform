@@ -2,7 +2,7 @@
 {
     using DeemZ.Data;
     using DeemZ.Data.Models;
-    using DeemZ.Web.DTO;
+    using DeemZ.Models.DTO;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -72,7 +72,7 @@
 
                 await roleManager.CreateAsync(role);
 
-                var adminPass = "admin12";
+                var adminPass = "admin123";
 
                 var user = new ApplicationUser()
                 {
@@ -106,22 +106,26 @@
                 var newlyCourse = new Course()
                 {
                     Name = course.Name,
-                    SignUpEndDate = DateTime.Parse(course.SignUpEndDate),
-                    EndDate = DateTime.Parse(course.EndDate),
-                    StartDate = DateTime.Parse(course.StartDate),
-                    SignUpStartDate = DateTime.Parse(course.SignUpStartDate),
+                    StartDate = DateTime.UtcNow.AddDays(20),
+                    EndDate = DateTime.UtcNow.AddDays(80),
+                    SignUpStartDate = DateTime.UtcNow,
+                    SignUpEndDate = DateTime.UtcNow.AddDays(10),
                     Credits = course.Credits
                 };
 
                 var lectures = new List<Lecture>();
+                
+                var days = 20;
 
                 foreach (var lecture in course.Lectures)
                 {
                     var newlyLecture = new Lecture()
                     {
                         Name = lecture.Name,
-                        Date = lecture.Date == null ? null : DateTime.Parse(lecture.Date),
+                        Date = lecture.Date == null ? null : DateTime.UtcNow.AddDays(days),
                     };
+
+                    days += 3;
 
                     foreach (var description in lecture.Descriptions)
                     {

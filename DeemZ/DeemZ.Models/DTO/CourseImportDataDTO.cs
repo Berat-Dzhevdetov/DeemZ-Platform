@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Web.DTO
+﻿namespace DeemZ.Models.DTO
 {
     using System.Collections.Generic;
 

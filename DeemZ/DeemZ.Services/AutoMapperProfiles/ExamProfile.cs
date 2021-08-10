@@ -32,6 +32,8 @@
 
             CreateMap<Answer, TakeExamQuestionAnswerFormModel>()
                 .ReverseMap();
+
+            CreateMap<Description, Description>();
         }
     }
 }
