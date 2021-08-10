@@ -114,7 +114,7 @@
         }
 
         [Authorize]
-        public IActionResult Download(string resourceId)
+        public async Task<IActionResult> Download(string resourceId)
         {
             if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
 
@@ -122,7 +122,9 @@
 
             var userId = User.GetId();
 
-            if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId)) return Unauthorized();
+            var isAdmin = await userService.IsInRole(userId, AdminRoleName);
+
+            if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId) && !isAdmin) return Unauthorized();
 
             (byte[] bytes, string contentType, string downloadName) = fileService.GetFileBytesByResourceId(resourceId);
 

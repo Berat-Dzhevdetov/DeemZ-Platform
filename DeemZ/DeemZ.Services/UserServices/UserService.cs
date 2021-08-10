@@ -146,7 +146,7 @@
 
             if (user.ImgUrl == DataConstants.User.DefaultProfilePictureUrl) return;
 
-            fileService.DeleteFile(user.ImgPublicId);
+            fileService.DeleteFile(user.ImgPublicId, isImg: true);
         }
     }
 }

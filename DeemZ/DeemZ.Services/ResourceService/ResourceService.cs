@@ -100,8 +100,9 @@
             var resource = GetResourceById<Resource>(resourceId);
             var lectureId = resource.LectureId;
 
+            var isVideo = resource.ResourceType.Name == "Video";
 
-            if(!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.PublicId);
+            if(!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.PublicId, isVideo: isVideo);
 
             context.Resources.Remove(resource);
             context.SaveChanges();

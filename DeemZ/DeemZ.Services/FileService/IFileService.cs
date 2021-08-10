@@ -9,7 +9,7 @@
         bool CheckIfFileIsUnderMB(IFormFile file, int mb = defaultSizeOfFile);
         bool CheckIfFileIsImage(IFormFile file);
         (string url, string publicId) PreparingFileForUploadAndUploadIt(IFormFile file, string path = null);
-        void DeleteFile(string publicId);
+        void DeleteFile(string publicId, bool isImg = false, bool isVideo = false);
         (byte[] fileContents, string contentType, string downloadName) GetFileBytesByResourceId(string rid);
     }
 }

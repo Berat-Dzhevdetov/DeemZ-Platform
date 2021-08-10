@@ -49,20 +49,38 @@
 
             string folder = string.Empty;
 
+            var isExtensionNeeded = false;
+
             var extension = GetFileExtension(file);
 
             if (extension == "pptx" && path == "official_value")
+            {
                 folder = $"{documentsFolder}/{pdfsFiles}/";
+                isExtensionNeeded = true;
+            }
             else if ((extension == "doc" || extension == "docx") && path == "official_value")
+            {
                 folder = $"{documentsFolder}/{wordsFolder}/";
+                isExtensionNeeded = true;
+            }
             else if (extension == "mp4" && path == "official_value")
+            {
                 folder = $"{videos}/";
+            }
             else if (CheckIfFileIsImage(file))
+            {
                 folder = $"{images}/";
+            }
             else
+            {
                 return (null, null);
+            }
 
-            return (UploadFileToCloud(file, folder, newFileName, extension), newFileName);
+            var publicId = $"{folder}{newFileName}";
+
+            publicId += isExtensionNeeded ? extension : string.Empty;
+
+            return (UploadFileToCloud(file, folder, newFileName, extension), publicId);
         }
 
         private string UploadFileToCloud(IFormFile file, string folder, string newFileName, string extension)
@@ -91,11 +109,15 @@
             return uploadResult?.SecureUrl.AbsoluteUri;
         }
 
-        public void DeleteFile(string publicId)
+        public void DeleteFile(string publicId, bool isImg = false, bool isVideo = false)
         {
             var deletionParams = new DeletionParams(publicId);
 
-            cloudinary.Destroy(deletionParams);
+            if (isImg) deletionParams.ResourceType = ResourceType.Image;
+            else if (isVideo) deletionParams.ResourceType = ResourceType.Video;
+            else deletionParams.ResourceType = ResourceType.Raw;
+
+            var results = cloudinary.Destroy(deletionParams);
         }
 
         public (byte[] fileContents, string contentType, string downloadName) GetFileBytesByResourceId(string rid)
@@ -110,7 +132,7 @@
 
             if (extension == "doc") contentType = "application/msword";
             else if (extension == "docx") contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            else if (extension == "pdf") contentType = "application/pdf";
+            else if (extension == "pptx") contentType = "	application/vnd.openxmlformats-officedocument.presentationml.presentation";
 
             return (bytes, contentType, resource.Name + "." + extension);
         }
