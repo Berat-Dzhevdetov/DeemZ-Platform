@@ -31,7 +31,7 @@
 
             var model = new AddReportFormModel()
             {
-                Id = lectureId,
+                LectureId = lectureId,
             };
             return View(model);
         }
@@ -41,7 +41,7 @@
         {
             if (!ModelState.IsValid) return View(formModel);
 
-            var lecture = lectureService.GetLectureById<AddReportFormModel>(formModel.Id);
+            var lecture = lectureService.GetLectureById<AddReportFormModel>(formModel.LectureId);
 
             if (lecture == null) return NotFound();
 

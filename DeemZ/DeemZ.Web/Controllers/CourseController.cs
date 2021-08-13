@@ -81,6 +81,7 @@
             return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }
 
+        [Authorize(Roles = AdminRoleName)]
         public IActionResult Add() => View();
 
 

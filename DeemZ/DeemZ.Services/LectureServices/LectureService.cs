@@ -24,13 +24,15 @@
             this.resourceService = resourceService;
         }
 
-        public void AddLectureToCourse(string courseId, AddLectureFormModel lecture)
+        public string AddLectureToCourse(string courseId, AddLectureFormModel lecture)
         {
             var newlyLecture = mapper.Map<Lecture>(lecture);
             newlyLecture.CourseId = courseId;
 
             context.Lectures.Add(newlyLecture);
             context.SaveChanges();
+
+            return newlyLecture.Id;
         }
 
         public IEnumerable<T> GetLectureResourcesById<T>(string lid)

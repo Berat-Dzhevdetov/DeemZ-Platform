@@ -21,7 +21,7 @@
             this.mapper = mapper;
         }
 
-        public void AddReport(AddReportFormModel model,string uid)
+        public string AddReport(AddReportFormModel model,string uid)
         {
             var report = mapper.Map<Report>(model);
 
@@ -29,6 +29,8 @@
 
             context.Reports.Add(report);
             context.SaveChanges();
+
+            return report.Id;
         }
 
         public T GetReportById<T>(string id)
@@ -54,10 +56,10 @@
 
         public IEnumerable<T> GetReports<T>(int page = 1, int quantity = 20)
             => context.Reports
-                .Include(x => x.Lecture)
-                .Include(x => x.User)
-                .ProjectTo<T>(mapper.ConfigurationProvider)
-                .Paging(page, quantity)
-                .ToList();
+                  .Include(x => x.Lecture)
+                  .Include(x => x.User)
+                  .ProjectTo<T>(mapper.ConfigurationProvider)
+                  .Paging(page, quantity)
+                  .ToList();
     }
 }

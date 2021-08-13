@@ -52,7 +52,7 @@
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IResourceService, ResourceService>();
-            services.AddTransient<IFileService, FileServices>();
+            services.AddTransient<IFileService, FileService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IQuestionService, QuestionService>();

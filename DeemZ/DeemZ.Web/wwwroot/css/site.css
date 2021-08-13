@@ -17,6 +17,19 @@ for details on configuring this project to bundle and minify static web assets. 
     box-sizing: border-box;
 }
 
+.scroll-to-top {
+    right: 30px;
+    bottom: 50px;
+    position: fixed;
+    z-index: 300;
+    transition: opacity .5s;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+}
+
 .pages {
     flex-direction: row;
     align-content: center;

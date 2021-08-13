@@ -9,7 +9,7 @@
     using DeemZ.Data;
     using DeemZ.Global.Extensions;
 
-    public class FileServices : IFileService
+    public class FileService : IFileService
     {
         private Secret.CloudinarySetup cloudinarySetup;
         private Cloudinary cloudinary;
@@ -21,7 +21,7 @@
         private const int defaultSizeOfFile = 2; // MB
         private readonly DeemZDbContext context;
 
-        public FileServices(DeemZDbContext context)
+        public FileService(DeemZDbContext context)
         {
             cloudinarySetup = new Secret.CloudinarySetup();
             cloudinary = new Cloudinary(cloudinarySetup.Account);

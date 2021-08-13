@@ -12,7 +12,8 @@
             MinimumLength = DataConstants.Report.MinDescriptionLength)]
         public string IssueDescription { get; set; }
 
+        //Lecture Id
         [Required]
-        public string Id { get; set; }
+        public string LectureId { get; set; }
     }
 }

@@ -10,11 +10,12 @@
         public ReportProfile()
         {
             CreateMap<AddReportFormModel, Report>()
-                .ForMember(x => x.LectureId, o => o.MapFrom(src => src.Id));
+                .ForMember(x => x.LectureId, o => o.MapFrom(src => src.LectureId));
 
             CreateMap<Report, ReportViewReport>();
 
             CreateMap<Report, PreviewReportViewModel>();
+            CreateMap<Report, Report>();
         }
     }
 }
