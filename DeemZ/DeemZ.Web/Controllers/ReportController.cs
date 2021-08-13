@@ -67,7 +67,6 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
-        [HttpPost]
         public IActionResult Delete(string reportId)
         {
             if (guard.AgainstNull(reportId, nameof(reportId))) return BadRequest();

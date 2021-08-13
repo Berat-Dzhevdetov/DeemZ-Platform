@@ -1,6 +1,10 @@
 ﻿namespace DeemZ.Test.Services
 {
     using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Linq;
+    using Xunit;
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Course;
@@ -13,15 +17,7 @@
     using DeemZ.Services.LectureServices;
     using DeemZ.Services.ReportService;
     using DeemZ.Services.ResourceService;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Xunit;
 
-    //Course => Lecture =>ResourceService=>File Service
     public class ReportServiceTests
     {
         private readonly IReportService reportService;
@@ -33,8 +29,6 @@
         private const string testUserId = "test-user";
         private const string issueDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur efficitur nec magna ac pharetra. Praesent sit amet est felis. Maecenas.";
         private readonly DeemZDbContext context;
-
-        public object AutoMapperConfig { get; }
 
         public ReportServiceTests()
         {
@@ -118,7 +112,7 @@
         }
 
         [Fact]
-        public void DeletingReportShouldRemoveitFromTheDataBase()
+        public void DeletingReportShouldRemoveTtFromTheDataBase()
         {
             //Arange
             var expectedCount = 0;
@@ -143,7 +137,7 @@
                 Id = testUserId,
                 UserName = testUserId,
                 Email = testUserId
-            }).State = EntityState.Detached;
+            });
 
             context.SaveChanges();
 
@@ -155,6 +149,45 @@
             ;
             //Assert
             Assert.Equal(expectedCount, countsInDb);
+        }
+
+
+
+        [Fact]
+        public void GettingReportByIdFromServiceShouldGetTheReport()
+        {
+            //Arange
+            var expectedCount = 2;
+            var couseId = courseService.CreateCourse(new AddCourseFormModel
+            {
+                Name = "Test course 2021",
+                Credits = 15,
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1),
+                SignUpStartDate = DateTime.UtcNow.AddDays(-2),
+                SignUpEndDate = DateTime.UtcNow.AddDays(-1),
+                Price = 220
+            });
+
+            var lectureId = lectureService.AddLectureToCourse(couseId, new AddLectureFormModel
+            {
+                Name = "Very important test"
+            });
+
+            context.Users.Add(new ApplicationUser
+            {
+                Id = testUserId,
+                UserName = testUserId,
+                Email = testUserId
+            });
+
+
+            //Act
+            var reportId = reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
+            var report = reportService.GetReportById<PreviewReportViewModel>(reportId);
+            ;
+            //Assert
+            Assert.NotNull(report);
         }
     }
 }

@@ -15,7 +15,6 @@
             CreateMap<Report, ReportViewReport>();
 
             CreateMap<Report, PreviewReportViewModel>();
-            CreateMap<Report, Report>();
         }
     }
 }
