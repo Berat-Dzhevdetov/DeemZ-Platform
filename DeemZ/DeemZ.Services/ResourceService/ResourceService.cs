@@ -53,8 +53,8 @@
                     x.Lecture.Course.UserCourses.Any(c =>
                         c.UserId == uid
                         && c.CourseId == x.Lecture.CourseId
-                        && c.Course.StartDate <= DateTime.UtcNow
-                        && c.Course.EndDate >= DateTime.UtcNow
+                        && c.Course.StartDate <= DateTime.Now
+                        && c.Course.EndDate >= DateTime.Now
                         && c.IsPaid == true))
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
