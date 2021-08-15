@@ -3,6 +3,7 @@
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using System;
+    using System.Linq;
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Course;
@@ -13,7 +14,8 @@
     using DeemZ.Services.LectureServices;
     using DeemZ.Services.ReportService;
     using DeemZ.Services.ResourceService;
-
+    using DeemZ.Models.FormModels.Resource;
+    using DeemZ.Services.UserServices;
 
     public abstract class BaseTestClass
     {
@@ -23,6 +25,7 @@
         public IResourceService resourceService;
         public IFileService fileService;
         public ICourseService courseService;
+        public IUserService userService;
 
         public const string testUserId = "test-user";
         public const string issueDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur efficitur nec magna ac pharetra. Praesent sit amet est felis. Maecenas.";
@@ -61,6 +64,8 @@
 
             fileService = new FileService(context);
 
+            userService = new UserService(context, mapper, null, null, courseService, null, resourceService, null);
+
             resourceService = new ResourceService(context, mapper, fileService);
 
             lectureService = new LectureService(context, mapper,
@@ -96,6 +101,31 @@
                 Email = testUserId
             });
 
+        public string SeedResourceTypes()
+        {
+            context.ResourceTypes.Add(new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>", IsRemote = true });
+            
+            context.SaveChanges();
 
+            return context.ResourceTypes.First().Id;
+        }
+
+        public string SeedResource()
+        {
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            var resourceTypeId = SeedResourceTypes();
+
+            var resourceToAdd = new AddResourceFormModel
+            {
+                Name = "Test",
+                Path = "Test-path",
+                ResourceTypeId = resourceTypeId
+            };
+
+            return resourceService.AddResourceToLecture(lectureId, testUserId, resourceToAdd);
+        }
     }
 }
