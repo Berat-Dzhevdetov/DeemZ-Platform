@@ -11,7 +11,7 @@
         int GetUserTakenCourses(string uid);
         T GetUserById<T>(string uid);
         bool GetUserById(string uid);
-        Task<bool> IsInRole(string uid, string role);
+        Task<bool> IsInRoleAsync(string uid, string role);
         Task EditUser(string uid, EditUserFormModel user);
         Task AddUserToRole(string uid, string role);
         Task RemoveUserFromRole(string uid, string role);

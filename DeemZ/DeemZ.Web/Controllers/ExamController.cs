@@ -46,7 +46,7 @@
 
             var userId = User.GetId();
 
-            var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
+            var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             if (isUserAdmin)
             {
@@ -108,7 +108,7 @@
 
             var userId = User.GetId();
 
-            var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
+            var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             if (!exam.IsPublic && !isUserAdmin) return BadRequest();
 
@@ -135,7 +135,7 @@
 
             var userId = User.GetId();
 
-            var isUserAdmin = await userService.IsInRole(userId, AdminRoleName);
+            var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             if (!exam.IsPublic && !isUserAdmin) return BadRequest();
 

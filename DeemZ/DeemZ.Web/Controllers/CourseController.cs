@@ -13,6 +13,7 @@
     using DeemZ.Services.UserServices;
 
     using static Global.WebConstants.Constants;
+    using System.Threading.Tasks;
 
     public class CourseController : Controller
     {
@@ -29,7 +30,7 @@
             this.userService = userService;
         }
 
-        public IActionResult ViewCourse(string courseId)
+        public async Task<IActionResult> ViewCourse(string courseId)
         {
             if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
 
@@ -37,34 +38,40 @@
 
             var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
 
-            course.StartDate = course.StartDate.ToLocalTime();
-
             var userId = User.GetId();
 
             if (userId == null) course.IsUserSignUpForThisCourse = false;
+            else if (await userService.IsInRoleAsync(userId, AdminRoleName))  course.IsUserSignUpForThisCourse = true;
             else course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
             return View(course);
         }
 
-        public IActionResult SignUp(string courseId)
+        [Authorize]
+        public async Task<IActionResult> SignUp(string courseId)
         {
             if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
 
-            var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
+            if (!courseService.GetCourseById(courseId)) return NotFound();
 
-            if (course == null) return NotFound();
+            var userId = User.GetId();
+
+            if (await userService.IsInRoleAsync(userId, AdminRoleName)) return Unauthorized();
+
+            var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
 
             return View(course);
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult SignUp(string courseId, SignUpCourseFormModel signUp)
+        public async Task<IActionResult> SignUp(string courseId, SignUpCourseFormModel signUp)
         {
             if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
 
             var userId = User.GetId();
+
+            if (await userService.IsInRoleAsync(userId, AdminRoleName)) return Unauthorized();
 
             var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
@@ -72,9 +79,9 @@
 
             if (!ModelState.IsValid) return View(signUp);
 
-            var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
+            if (!courseService.GetCourseById(courseId)) return BadRequest();
 
-            if (course == null) return BadRequest();
+            var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
 
             courseService.SignUserToCourse(userId, course.Id);
 

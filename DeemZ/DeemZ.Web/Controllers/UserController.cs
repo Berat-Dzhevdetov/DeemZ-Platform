@@ -34,7 +34,7 @@
 
             var user = userService.GetUserById<EditUserFormModel>(userId);
 
-            user.IsAdmin = await userService.IsInRole(userId, AdminRoleName);
+            user.IsAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             return View(user);
         }
@@ -60,9 +60,9 @@
 
             await userService.EditUser(userId, user);
 
-            if (user.IsAdmin && !await userService.IsInRole(userId, AdminRoleName))
+            if (user.IsAdmin && !await userService.IsInRoleAsync(userId, AdminRoleName))
                 await userService.AddUserToRole(userId, AdminRoleName);
-            else if (!user.IsAdmin && await userService.IsInRole(userId, AdminRoleName))
+            else if (!user.IsAdmin && await userService.IsInRoleAsync(userId, AdminRoleName))
                 await userService.RemoveUserFromRole(userId, AdminRoleName);
 
             return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });

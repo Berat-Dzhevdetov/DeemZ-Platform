@@ -25,7 +25,7 @@
             {
                 var userId = User.GetId();
 
-                var isAdmin = await userService.IsInRole(userId, AdminRoleName);
+                var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
                 var viewModel = userService.GetIndexInformaiton(userId, !isAdmin);
                 

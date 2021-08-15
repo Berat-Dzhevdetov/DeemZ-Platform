@@ -73,7 +73,7 @@
         {
             var result = Task.Run(async () =>
             {
-                return await userService.IsInRole(uid, role);
+                return await userService.IsInRoleAsync(uid, role);
             });
             return result.Result;
         }

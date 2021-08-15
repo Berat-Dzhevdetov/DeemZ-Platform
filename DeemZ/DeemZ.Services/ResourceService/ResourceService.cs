@@ -27,7 +27,7 @@
         public bool IsValidResourceType(string rtid)
             => context.ResourceTypes.Any(x => x.Id == rtid);
 
-        public void AddResourceToLecture(string lid, string publicId, AddResourceFormModel resource)
+        public string AddResourceToLecture(string lid, string publicId, AddResourceFormModel resource)
         {
             var newlyResource = mapper.Map<Resource>(resource);
             newlyResource.LectureId = lid;
@@ -35,6 +35,8 @@
 
             context.Resources.Add(newlyResource);
             context.SaveChanges();
+
+            return newlyResource.Id;
         }
 
         public IEnumerable<T> GetResourceTypes<T>()
@@ -42,7 +44,7 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
-        public IEnumerable<T> GetUserResources<T>(string uid)
+        public IEnumerable<T> GetUserResources<T>(string uid, bool isPaid = true)
             => context.Resources
                 .Include(x => x.ResourceType)
                 .Include(x => x.Lecture)
@@ -53,9 +55,8 @@
                     x.Lecture.Course.UserCourses.Any(c =>
                         c.UserId == uid
                         && c.CourseId == x.Lecture.CourseId
-                        && c.Course.StartDate <= DateTime.Now
                         && c.Course.EndDate >= DateTime.Now
-                        && c.IsPaid == true))
+                        && c.IsPaid == isPaid))
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
@@ -87,7 +88,7 @@
 
             foreach (var resource in resources)
             {
-                if(!resource.ResourceType.IsRemote)  fileService.DeleteFile(resource.Name);
+                if (!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.Name);
 
                 context.Resources.Remove(resource);
             }
@@ -102,7 +103,7 @@
 
             var isVideo = resource.ResourceType.Name == "Video";
 
-            if(!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.PublicId, isVideo: isVideo);
+            if (!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.PublicId, isVideo: isVideo);
 
             context.Resources.Remove(resource);
             context.SaveChanges();

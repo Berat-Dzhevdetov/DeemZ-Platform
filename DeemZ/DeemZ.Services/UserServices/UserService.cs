@@ -98,7 +98,7 @@
             => context.UserCourses
                 .Count(x => x.IsPaid == true && x.UserId == uid);
 
-        public async Task<bool> IsInRole(string userId, string role)
+        public async Task<bool> IsInRoleAsync(string userId, string role)
         {
             var user = GetUserById<ApplicationUser>(userId);
 
@@ -117,9 +117,10 @@
                 Credits = courseService.GetUserCredits(uid),
                 Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(uid, isNotAdmin),
                 Surveys = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(uid),
-                Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid),
+                Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid, isNotAdmin),
                 SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
             };
+        
 
         public bool GetUserByUserName(string username)
             => context.Users.Any(x => x.UserName == username);
