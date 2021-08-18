@@ -51,10 +51,10 @@
             var isUsernameFree = userService.IsUsernameFree(userId, user.UserName);
 
             if (isEmailFree)
-                ModelState.AddModelError("Email", "The given email is already taken");
+                ModelState.AddModelError(nameof(EditUserFormModel.Email), "The given email is already taken");
 
             if (isUsernameFree)
-                ModelState.AddModelError("Email", "The given username is already taken");
+                ModelState.AddModelError(nameof(EditUserFormModel.UserName), "The given username is already taken");
 
             if (!ModelState.IsValid) return View(user);
 
