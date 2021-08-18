@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using DeemZ.Models.FormModels.Description;
-
-namespace DeemZ.Test.Services
+﻿namespace DeemZ.Test.Services
 {
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
     using System;
     using System.Linq;
     using DeemZ.Data;
@@ -16,6 +14,7 @@ namespace DeemZ.Test.Services
     using DeemZ.Services.FileService;
     using DeemZ.Services.LectureServices;
     using DeemZ.Services.ReportService;
+    using DeemZ.Models.FormModels.Description;
     using DeemZ.Services.ResourceService;
     using DeemZ.Models.FormModels.Resource;
     using DeemZ.Services.UserServices;
@@ -35,6 +34,7 @@ namespace DeemZ.Test.Services
 
         public const string testUserId = "test-user";
         public const string issueDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur efficitur nec magna ac pharetra. Praesent sit amet est felis. Maecenas.";
+        public const string courseName = "Test course 2021";
         public DeemZDbContext context;
 
 
@@ -85,7 +85,7 @@ namespace DeemZ.Test.Services
         public string SeedCourse()
             => courseService.CreateCourse(new AddCourseFormModel
             {
-                Name = "Test course 2021",
+                Name = courseName,
                 Credits = 15,
                 StartDate = DateTime.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1),

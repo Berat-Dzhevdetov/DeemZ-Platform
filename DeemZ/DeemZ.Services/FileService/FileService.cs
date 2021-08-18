@@ -14,10 +14,10 @@
         private Secret.CloudinarySetup cloudinarySetup;
         private Cloudinary cloudinary;
         private string documentsFolder = "Documents";
-        private string pdfsFiles = "mspptx";
+        private string pdfsFolder = "mspptx";
         private string wordsFolder = "msword";
-        private string videos = "Videos";
-        private string images = "Images";
+        private string videosFolder = "Videos";
+        private string imagesFolder = "Images";
         private const int defaultSizeOfFile = 2; // MB
         private readonly DeemZDbContext context;
 
@@ -55,7 +55,7 @@
 
             if (extension == "pptx" && path == "official_value")
             {
-                folder = $"{documentsFolder}/{pdfsFiles}/";
+                folder = $"{documentsFolder}/{pdfsFolder}/";
                 isExtensionNeeded = true;
             }
             else if ((extension == "doc" || extension == "docx") && path == "official_value")
@@ -65,11 +65,11 @@
             }
             else if (extension == "mp4" && path == "official_value")
             {
-                folder = $"{videos}/";
+                folder = $"{videosFolder}/";
             }
             else if (CheckIfFileIsImage(file))
             {
-                folder = $"{images}/";
+                folder = $"{imagesFolder}/";
             }
             else
             {

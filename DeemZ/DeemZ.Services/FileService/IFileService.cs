@@ -5,7 +5,6 @@
     public interface IFileService
     {
         private const int defaultSizeOfFile = 2; // MB
-
         bool CheckIfFileIsUnderMB(IFormFile file, int mb = defaultSizeOfFile);
         bool CheckIfFileIsImage(IFormFile file);
         (string url, string publicId) PreparingFileForUploadAndUploadIt(IFormFile file, string path = null);
