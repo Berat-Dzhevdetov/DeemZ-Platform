@@ -27,7 +27,7 @@ Download Course Resources | ❌ | ✅ (only if the user has paid for the course)
 Admin Dashboard  | ❌ | ❌ | ✅
 Add Course  | ❌ | ❌ | ✅
 Edit Course  | ❌ | ❌ | ✅
-Delte Course  | ❌ | ❌ | ✅
+Delete Course  | ❌ | ❌ | ✅
 Add Lecture to Course  | ❌ | ❌ | ✅
 Add Exam to Course  | ❌ | ❌ | ✅
 Edit Exam  | ❌ | ❌ | ✅
