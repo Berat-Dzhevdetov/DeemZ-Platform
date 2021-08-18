@@ -78,7 +78,7 @@
 
             if (path == null && publicId == null)
             {
-                ModelState.AddModelError("Path", "An error occurred while uploading file");
+                ModelState.AddModelError(nameof(resource.Path), "An error occurred while uploading file");
                 return View(resource);
             }
 

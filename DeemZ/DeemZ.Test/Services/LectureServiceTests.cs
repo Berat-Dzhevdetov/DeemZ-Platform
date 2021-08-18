@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DeemZ.Data;
+using DeemZ.Data.Models;
 using DeemZ.Models.FormModels.Description;
 using DeemZ.Models.FormModels.Lecture;
 using DeemZ.Models.FormModels.Resource;
@@ -42,6 +44,32 @@ namespace DeemZ.Test.Services
             //Assert
             Assert.Equal(expectedName, lectureNameFromService);
         }
+
+        [Fact]
+        public void EditLectureByIdShouldNotEditTheLectureWhenTheDescriptionNameIsTooShort()
+        {
+            var expectedLecturesCount = 0;
+            //Arrange
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            //Act
+            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            {
+                CourseId = courseId,
+                Name = "a",
+                Descriptions = new List<EditDescriptionFormModel>()
+                {
+                    new EditDescriptionFormModel(){Name = "a"}
+                }
+            });
+            var actualDescriptionsCount = lectureService.GetLectureById<DetailsLectureViewModel>(lectureId).Descriptions.Count;
+
+            //Assert
+            Assert.Equal(expectedLecturesCount,actualDescriptionsCount);
+        }
+
 
         [Fact]
         public void GetLectureResourcesByIdShouldReturnTheCorrectResources()
@@ -122,6 +150,16 @@ namespace DeemZ.Test.Services
             var actualLectureDescriptionsCount = lectureService.GetLectureDescriptions<DetailsDescriptionViewModel>(lectureId).Count;
 
             Assert.Equal(expectedLectureDescriptionsCount, actualLectureDescriptionsCount);
+        }
+
+        [Fact]
+        public void DeletingNonExistantDescriptionShouldNotDoAnything()
+        {
+            var testDescriptionId = "test-description-id";
+
+            lectureService.DeleteDescription(testDescriptionId);
+
+            Assert.False(context.Descriptions.Any(x=>x.Id == testDescriptionId));
         }
     }
 }

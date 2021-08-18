@@ -43,7 +43,7 @@
 
             var error = questionService.ValidateQuestionFormModel(question);
 
-            if (error != null ) ModelState.AddModelError("Answers", error);
+            if (error != null ) ModelState.AddModelError(nameof(question.Answers), error);
 
             if (!ModelState.IsValid) return View(question);
 
@@ -92,7 +92,7 @@
 
             var error = questionService.ValidateQuestionFormModel(question);
 
-            if (error != null) ModelState.AddModelError("Answers", error);
+            if (error != null) ModelState.AddModelError(nameof(question.Answers), error);
 
             if (!ModelState.IsValid) return View(question);
 

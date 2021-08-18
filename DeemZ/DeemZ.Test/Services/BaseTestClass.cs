@@ -101,13 +101,16 @@ namespace DeemZ.Test.Services
             });
 
         //Seeding non admin user
-        public void SeedUser()
-            => context.Users.Add(new ApplicationUser
+        public void SeedUser(string username = "test-username", string id = testUserId)
+        {
+            context.Users.Add(new ApplicationUser
             {
-                Id = testUserId,
-                UserName = testUserId,
+                Id = id,
+                UserName = username,
                 Email = testUserId
             });
+            context.SaveChanges();
+        }
 
         public string SeedResourceTypes(bool isRemote = true)
         {
