@@ -1,5 +1,6 @@
 ﻿namespace DeemZ.Services.ForumServices
 {
+    using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
     using System.Collections.Generic;
 
@@ -11,6 +12,7 @@
         T GetTopicById<T>(string tid);
         int Count();
         IEnumerable<T> GetTopicsByTitleName<T>(string title, int page = 1, int quantity = 10);
-        void CreateComment(AddCommentFormModel model, string tid, string uid);
+        string CreateComment(AddCommentFormModel model, string tid, string uid);
+        Comment GetCommentById(string cid);
     }
 }

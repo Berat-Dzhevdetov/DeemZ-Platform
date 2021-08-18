@@ -16,6 +16,8 @@
     using DeemZ.Services.ResourceService;
     using DeemZ.Models.FormModels.Resource;
     using DeemZ.Services.UserServices;
+    using DeemZ.Services.ForumServices;
+    using DeemZ.Models.FormModels.Forum;
 
     public abstract class BaseTestClass
     {
@@ -26,6 +28,7 @@
         public IFileService fileService;
         public ICourseService courseService;
         public IUserService userService;
+        public IForumService forumService;
 
         public const string testUserId = "test-user";
         public const string issueDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur efficitur nec magna ac pharetra. Praesent sit amet est felis. Maecenas.";
@@ -72,6 +75,8 @@
                 resourceService);
 
             courseService = new CourseService(context, mapper, lectureService);
+
+            forumService = new ForumService(context, mapper);
         }
 
         public string SeedCourse()
@@ -126,6 +131,16 @@
             };
 
             return resourceService.AddResourceToLecture(lectureId, testUserId, resourceToAdd);
+        }
+
+        public string SeedForumTopic(bool addUser = true)
+        {
+            if (addUser) SeedUser();
+            return forumService.CreateTopic(new CreateForumTopicFormModel()
+            {
+                Title = "Test",
+                Description = "Test",
+            }, testUserId);
         }
     }
 }

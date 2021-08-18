@@ -38,7 +38,9 @@
 
             var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
 
-            var userId = User.GetId();
+            string userId = null;
+
+            if (User.Identity.IsAuthenticated) userId = User.GetId();
 
             if (userId == null) course.IsUserSignUpForThisCourse = false;
             else if (await userService.IsInRoleAsync(userId, AdminRoleName))  course.IsUserSignUpForThisCourse = true;

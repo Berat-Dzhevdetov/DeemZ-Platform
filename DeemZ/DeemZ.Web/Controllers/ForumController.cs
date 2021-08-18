@@ -49,6 +49,7 @@
             return View(viewModel);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return View();

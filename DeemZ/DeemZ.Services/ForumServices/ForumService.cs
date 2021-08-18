@@ -23,13 +23,15 @@
 
         public string CreateTopic(CreateForumTopicFormModel model, string uid)
         {
-            var entity = mapper.Map<Forum>(model);
-            entity.UserId = uid;
+            var newlyTopic = mapper.Map<Forum>(model);
+            newlyTopic.UserId = uid;
 
-            context.Forums.Add(entity);
+            newlyTopic.CreatedOn = newlyTopic.CreatedOn.ToUniversalTime();
+
+            context.Forums.Add(newlyTopic);
             context.SaveChanges();
 
-            return entity.Id;
+            return newlyTopic.Id;
         }
 
         public IEnumerable<T> GetAllTopics<T>()
@@ -65,10 +67,7 @@
                 .Paging(page, quantity)
                 .ToList();
 
-        public Comment GetCommentById(string cid)
-            => context.Comments.FirstOrDefault(x => x.Id == cid);
-
-        public void CreateComment(AddCommentFormModel model, string tid, string uid)
+        public string CreateComment(AddCommentFormModel model, string tid, string uid)
         {
             var comment = mapper.Map<Comment>(model);
 
@@ -77,6 +76,11 @@
 
             context.Comments.Add(comment);
             context.SaveChanges();
+
+            return comment.Id;
         }
+
+        public Comment GetCommentById(string cid)
+            => context.Comments.FirstOrDefault(x => x.Id == cid);
     }
 }

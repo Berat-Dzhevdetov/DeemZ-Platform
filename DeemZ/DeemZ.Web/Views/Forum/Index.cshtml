@@ -1,4 +1,4 @@
-﻿f@{
+﻿@{
     ViewData["Title"] = "Forum";
 }
 @model AllForumTopicsViewModel
@@ -19,20 +19,7 @@
     <div class="topics-holder flex">
         @foreach (var topic in Model.Topics)
         {
-            <div class="topic flex">
-                <img src="@topic.UserProfileImgUrl" />
-                <a asp-controller="Forum" asp-action="Topic" asp-route-topicId="@topic.Id">
-                    <div>
-                        <div class="topic-heading">
-                            <p class="small custom-text-muted">From: @topic.Username; posted on @topic.CreatedOn</p>
-                            <h2>@topic.Title</h2>
-                        </div>
-                        <div class="topic-information">
-                            @topic.Description
-                        </div>
-                    </div>
-                </a>
-            </div>
+            <partial name="_CommentPartialView" model="topic" />
         }
     </div>
     <div class="pages flex">

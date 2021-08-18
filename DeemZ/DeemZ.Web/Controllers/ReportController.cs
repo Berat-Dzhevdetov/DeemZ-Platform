@@ -25,6 +25,7 @@
             this.reportService = reportService;
         }
 
+        [Authorize]
         public IActionResult Add(string lectureId)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return NotFound();
@@ -36,6 +37,7 @@
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(AddReportFormModel formModel)
         {

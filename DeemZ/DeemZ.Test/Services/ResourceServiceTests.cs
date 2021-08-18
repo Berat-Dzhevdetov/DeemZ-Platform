@@ -123,15 +123,5 @@
 
             Assert.Equal(resourceTypeId, resourceTypeFromService.Id);
         }
-
-        [Fact]
-        public void GetUserResourcesShouldReturnTheCorrectResources()
-        {
-            var resourceId = SeedResource();
-
-            var userResources = resourceService.GetUserResources<ResourceTypeFormModel>(testUserId);
-
-            Assert.Equal(resourceId, userResources.First().Id);
-        }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model ForumTopicsViewModel 
+<div class="topic flex">
+    <img src="@Model.UserProfileImgUrl" />
+    <a asp-controller="Forum" asp-action="Topic" asp-route-topicId="@Model.Id">
+        <div>
+            <div class="topic-heading">
+                <p class="small custom-text-muted">From: @Model.Username; posted on @Model.CreatedOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</p>
+                <h2>@Model.Title</h2>
+            </div>
+            <div class="topic-information">
+                @Model.Description
+            </div>
+        </div>
+    </a>
+</div>

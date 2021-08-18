@@ -26,6 +26,8 @@
                 .ReverseMap();
 
             CreateMap<Resource, ResourceServiceModel>();
+
+            CreateMap<Resource, ResourceTypeFormModel>();
         }
     }
 }
