@@ -1,4 +1,7 @@
-﻿namespace DeemZ.Test.Services
+﻿using System.Collections.Generic;
+using DeemZ.Models.FormModels.Description;
+
+namespace DeemZ.Test.Services
 {
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
@@ -106,9 +109,9 @@
                 Email = testUserId
             });
 
-        public string SeedResourceTypes()
+        public string SeedResourceTypes(bool isRemote = true)
         {
-            context.ResourceTypes.Add(new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>", IsRemote = true });
+            context.ResourceTypes.Add(new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>", IsRemote = isRemote });
             
             context.SaveChanges();
 
@@ -142,5 +145,25 @@
                 Description = "Test",
             }, testUserId);
         }
+
+        public string SeedLectureWithDescriptions()
+        {
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            //Act
+            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            {
+                CourseId = courseId,
+                Descriptions = new List<EditDescriptionFormModel>()
+                    { new EditDescriptionFormModel() { Name = "test" } }
+                ,
+                Name = "TEST"
+            });
+
+            return lectureId;
+        }
+
     }
 }

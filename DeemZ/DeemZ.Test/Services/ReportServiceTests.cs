@@ -59,12 +59,10 @@
             reportService.Delete(reportId);
 
             var countsInDb = context.Reports.ToArray().Length;
-            
+
             //Assert
             Assert.Equal(expectedCount, countsInDb);
         }
-
-
 
         [Fact]
         public void GettingReportByIdFromServiceShouldGetTheReport()
@@ -83,5 +81,25 @@
             //Assert
             Assert.NotNull(report);
         }
+
+        [Fact]
+        public void GettingReportByIdFromServiceShouldReturnTrueIfReportExists()
+        {
+            //Arange
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            SeedUser();
+
+            //Act
+            var reportId = reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
+            var report = reportService.GetReportById(reportId);
+
+            //Assert
+            Assert.True(report);
+        }
+        [Fact]
+        public void GettingReportByIdFromServiceShouldReturnFalseIfReportDoesNotExists() => Assert.False(reportService.GetReportById("invalid-id"));
     }
 }

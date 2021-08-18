@@ -1,4 +1,6 @@
-﻿namespace DeemZ.Test.Services
+﻿using DeemZ.Data.Models;
+
+namespace DeemZ.Test.Services
 {
     using System.Linq;
     using Xunit;
@@ -48,28 +50,6 @@
         public void GetResourceByIdShouldReturnFalseWhenResourseDoenstExist() => Assert.False(resourceService.GetResourceById("invalid-id"));
 
         [Fact]
-        public void DeletingAResourceTypeLinkShouldRemoveItFromTheDb()
-        {
-            var expectedCountFromDb = 0;
-
-            var courseId = SeedCourse();
-
-            var lectureId = SeedLecture(courseId);
-
-            var resourceTypeId = SeedResourceTypes();
-
-            //Act
-            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
-                new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
-
-            resourceService.Delete(resourceId);
-
-            var actualCountFromDb = context.Resources.ToArray().Length;
-
-            Assert.Equal(expectedCountFromDb, actualCountFromDb);
-        }
-
-        [Fact]
         public void GettingResourceByIdShouldReturnTheCorrectResource()
         {
             var courseId = SeedCourse();
@@ -115,13 +95,101 @@
         }
 
         [Fact]
-        public void GetResourceTypesShouldRetunTheResourceTypes()
+        public void GetResourceTypesShouldReturnTheResourceTypes()
         {
             var resourceTypeId = SeedResourceTypes();
 
             var resourceTypeFromService = resourceService.GetResourceTypes<ResourceTypeFormModel>().First();
 
             Assert.Equal(resourceTypeId, resourceTypeFromService.Id);
+        }
+
+        [Fact]
+        public void DeletingLectureResourcesShouldRemoveTheResourcesFromTheLecture()
+        {
+            var expectedCountFromDb = 0;
+
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            var resourceTypeId = SeedResourceTypes();
+
+            //Act
+            resourceService.AddResourceToLecture(lectureId, "testId",
+                new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
+
+            resourceService.DeleteLectureResoureces(lectureId);
+
+            var actualCountFromDb = context.Lectures.ToArray()[0].Resources.Count;
+
+            Assert.Equal(expectedCountFromDb, actualCountFromDb);
+        }
+
+        [Fact]
+        public void DeletingAResourceTypeLinkShouldRemoveItFromTheDb()
+        {
+            var expectedCountFromDb = 0;
+
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            var resourceTypeId = SeedResourceTypes();
+
+            //Act
+            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+                new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
+
+            resourceService.Delete(resourceId);
+
+            var actualCountFromDb = context.Resources.ToArray().Length;
+
+            Assert.Equal(expectedCountFromDb, actualCountFromDb);
+        }
+
+        [Fact]
+        public void DeletingLectureResourcesOnRemoteShouldRemoveTheResourcesFromTheLecture()
+        {
+            var expectedCountFromDb = 0;
+
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            var resourceTypeId = SeedResourceTypes(false);
+
+            //Act
+            resourceService.AddResourceToLecture(lectureId, "testId",
+                new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
+
+            resourceService.DeleteLectureResoureces(lectureId);
+
+            var actualCountFromDb = context.Lectures.ToArray()[0].Resources.Count;
+
+            Assert.Equal(expectedCountFromDb, actualCountFromDb);
+        }
+
+        [Fact]
+        public void DeletingARemoteResourceTypeLinkShouldRemoveItFromTheDb()
+        {
+            var expectedCountFromDb = 0;
+
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            var resourceTypeId = SeedResourceTypes(false);
+
+            //Act
+            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+                new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
+
+            resourceService.Delete(resourceId);
+
+            var actualCountFromDb = context.Resources.ToArray().Length;
+
+            Assert.Equal(expectedCountFromDb, actualCountFromDb);
         }
     }
 }
