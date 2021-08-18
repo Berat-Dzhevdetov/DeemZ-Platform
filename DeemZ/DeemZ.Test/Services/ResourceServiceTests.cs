@@ -70,7 +70,7 @@
         }
 
         [Fact]
-        public void GettingResourceByIdShouldReturnTHeCorrectResource()
+        public void GettingResourceByIdShouldReturnTheCorrectResource()
         {
             var courseId = SeedCourse();
 
