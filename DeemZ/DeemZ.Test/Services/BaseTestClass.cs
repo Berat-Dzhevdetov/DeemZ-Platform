@@ -57,17 +57,6 @@ namespace DeemZ.Test.Services
 
             context = new DeemZDbContext(options.Options);
 
-            //var roleStore = new Mock<IRoleStore<IdentityRole>>();
-            //var roleManager = new Mock<RoleManager<IdentityRole>>(roleStore.Object, null, null, null, null, null, null, null, null);
-            //roleManager.Setup(x => x.RoleExistsAsync("Administrator")).ReturnsAsync(true);
-            //roleManager.Setup(x => x.RoleExistsAsync("Lecturer")).ReturnsAsync(true);
-            //roleManager.Setup(x => x.RoleExistsAsync("test")).ReturnsAsync(false);
-
-            //var userStore = new Mock<IUserStore<ApplicationUser>>();
-            //var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            //userManager.Setup(m => m.FindByNameAsync(It.IsAny<string>()))
-            //    .Returns(Task.FromResult<ApplicationUser>(this.context.Users.FirstOrDefault(x => x.UserName == It.IsAny<string>())));
-
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserProfile());
@@ -217,11 +206,6 @@ namespace DeemZ.Test.Services
 
         public void SeedUserCourseSurvey(string courseId, string userId)
         {
-
-            //context.Surveys
-            //.Where(x => x.IsPublic == true
-            //&& x.Course.UserCourses.Any(x => x.UserId == uid && x.IsPaid == true))
-
             var survey = new Survey()
             {
                 CourseId = courseId,
@@ -229,6 +213,17 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
             };
             context.Surveys.Add(survey);
+            context.SaveChanges();
+        }
+
+        public void SeedUserCourse(string courseId, string userId)
+        {
+            context.UserCourses.Add(new UserCourse()
+            {
+                CourseId = courseId,
+                UserId = userId,
+                IsPaid = true,
+            });
             context.SaveChanges();
         }
 
