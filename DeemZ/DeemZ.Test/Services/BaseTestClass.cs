@@ -4,6 +4,7 @@ using DeemZ.Services;
 using DeemZ.Services.SurveyServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 using Moq;
 
 namespace DeemZ.Test.Services
@@ -206,8 +207,31 @@ namespace DeemZ.Test.Services
             context.SaveChanges();
         }
 
+        public void SeedCourseSurvey(string courseId)
+        {
+            var survey = new Survey()
+            {
+                CourseId = courseId,
+                Name = "Test-Course",
+                IsPublic = true,
+            };
+            context.Surveys.Add(survey);
+            context.SaveChanges();
+        }
+
+        public void SeedUserSurvey(string userId,string surveyId)
+        {
+            context.ApplicationUserSurvey.Add(new ApplicationUserSurvey()
+            {
+                ApplicationUserId = userId,
+                SurveyId = surveyId,
+            });
+            context.SaveChanges();
+        }
+
         public void SeedUserCourseSurvey(string courseId, string userId)
         {
+            courseService.SignUserToCourse(userId, courseId);
             var survey = new Survey()
             {
                 CourseId = courseId,

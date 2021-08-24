@@ -248,7 +248,7 @@ namespace DeemZ.Test.Services
             courseService.SignUserToCourse(userId, courseId);
 
             SeedUserExam(courseId,userId);
-            SeedUserCourseSurvey(courseId, userId);
+            SeedCourseSurvey(courseId);
             var userInfo = userService.GetIndexInformaiton(userId,true);
             
             Assert.Equal(courseId, userInfo.Courses.First().Id);

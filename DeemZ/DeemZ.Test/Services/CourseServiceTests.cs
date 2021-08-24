@@ -260,7 +260,6 @@
             //Arrange
             var expectedCourseId = SeedCourse();
 
-            var userId = "test-user";
             SeedUser();
 
             //Act
@@ -277,7 +276,6 @@
             //Arrange
             var expectedCourseId = SeedCourse();
 
-            var userId = "test-user";
             SeedUser();
 
             //Act
