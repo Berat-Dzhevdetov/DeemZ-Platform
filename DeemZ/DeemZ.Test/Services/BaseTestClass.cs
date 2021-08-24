@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CloudinaryDotNet.Actions;
+using DeemZ.Services;
 using DeemZ.Services.SurveyServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -39,6 +40,7 @@ namespace DeemZ.Test.Services
         public IUserService userService;
         public ISurveyService surveyService;
         public IForumService forumService;
+        public Guard guard = new Guard();
 
         public const string testUserId = "test-user";
         public const string issueDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur efficitur nec magna ac pharetra. Praesent sit amet est felis. Maecenas.";
