@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using CloudinaryDotNet.Actions;
+using DeemZ.Models.FormModels.Exam;
 using DeemZ.Services;
+using DeemZ.Services.ExamServices;
 using DeemZ.Services.SurveyServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -41,6 +43,7 @@ namespace DeemZ.Test.Services
         public IUserService userService;
         public ISurveyService surveyService;
         public IForumService forumService;
+        public IExamService examService;
         public Guard guard = new Guard();
 
         public const string testUserId = "test-user";
@@ -76,22 +79,22 @@ namespace DeemZ.Test.Services
 
             IMapper mapper = mapperConfig.CreateMapper();
 
-            reportService = new ReportService(context, mapper);
-
             fileService = new FileService(context);
 
             resourceService = new ResourceService(context, mapper, fileService);
 
-            lectureService = new LectureService(context, mapper,
-                resourceService);
+            lectureService = new LectureService(context, mapper, resourceService);
 
             courseService = new CourseService(context, mapper, lectureService);
 
+            reportService = new ReportService(context, mapper);
             forumService = new ForumService(context, mapper);
-
             surveyService = new SurveyService(context, mapper);
+            examService = new ExamService(context, mapper);
 
             userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService);
+
+            
         }
 
         public string SeedCourse()
@@ -251,6 +254,95 @@ namespace DeemZ.Test.Services
                 IsPaid = true,
             });
             context.SaveChanges();
+        }
+
+        public string SeedExam(string courseId)
+        {
+            examService.CreateExam(courseId, new AddExamFormModel()
+            {
+                Name = "TestExam",
+                StartDate = DateTime.Today.AddDays(-1),
+                EndDate = DateTime.Today.AddDays(15),
+                IsPublic = true,
+                Password = "HackMe"
+            });
+
+            return context.Exams.First().Id;
+        }
+
+        public void SeedExamQuestions(string examId)
+        {
+            context.Exams.First(x=>x.Id == examId).Questions.Add(
+                new Question()
+                {
+                    Text = "Are you cool?",
+                    Points = 99,
+                    ExamId = examId,
+                });
+            context.SaveChanges();
+        }
+
+        public void SeedExamQuestionsAnswers(string examId)
+        {
+            SeedExamQuestions(examId);
+            context.Answers.Add(new Answer()
+            {
+                Text = "You are cool",
+                IsCorrect = true,
+                QuestionId = context.Questions.First().Id
+            });
+            context.SaveChanges();
+        }
+
+        public List<TakeExamQuestionFormModel> GetTakeExamQuestionFormModels(string examId)
+        {
+            context.Questions.Add(new Question()
+            {
+                ExamId = examId,
+                Points = 10,
+                Text = "Test-question",
+                Id = "test-question-id"
+            });
+
+            context.Answers.Add(new Answer()
+            {
+                Id = "test-answer-id",
+                IsCorrect = true,
+                Text = "test",
+                QuestionId = "test-question-id",
+            });
+
+            context.SaveChanges();
+
+            var questions = new List<TakeExamQuestionFormModel>()
+            {
+                new TakeExamQuestionFormModel()
+                {
+                    Id = "test-question-id",
+                    Points = 10,
+                    Text = "test-question",
+                    Answers = new List<TakeExamQuestionAnswerFormModel>()
+                    {
+                        new TakeExamQuestionAnswerFormModel(){IsChosen = true,Text = "Test",Id = "test-answer-id"}
+                    },
+                }
+            };
+
+            return questions;
+        }
+
+        public string SeedExpiredExam(string courseId)
+        {
+            examService.CreateExam(courseId, new AddExamFormModel()
+            {
+                Name = "TestExam",
+                StartDate = DateTime.Today.AddDays(-20),
+                EndDate = DateTime.Today.AddDays(-10),
+                IsPublic = true,
+                Password = "HackMe"
+            });
+
+            return context.Exams.First().Id;
         }
 
         public static RoleManager<IdentityRole> GetMockRoleManager(DeemZDbContext context)
