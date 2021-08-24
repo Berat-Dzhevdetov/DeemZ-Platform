@@ -1,4 +1,11 @@
-﻿namespace DeemZ.Test.Services
+﻿using System.Threading.Tasks;
+using CloudinaryDotNet.Actions;
+using DeemZ.Services.SurveyServices;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Moq;
+
+namespace DeemZ.Test.Services
 {
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
@@ -30,13 +37,14 @@
         public IFileService fileService;
         public ICourseService courseService;
         public IUserService userService;
+        public ISurveyService surveyService;
         public IForumService forumService;
 
         public const string testUserId = "test-user";
         public const string issueDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur efficitur nec magna ac pharetra. Praesent sit amet est felis. Maecenas.";
         public const string courseName = "Test course 2021";
-        public DeemZDbContext context;
 
+        public DeemZDbContext context;
 
         protected BaseTestClass()
         {
@@ -49,6 +57,16 @@
 
             context = new DeemZDbContext(options.Options);
 
+            //var roleStore = new Mock<IRoleStore<IdentityRole>>();
+            //var roleManager = new Mock<RoleManager<IdentityRole>>(roleStore.Object, null, null, null, null, null, null, null, null);
+            //roleManager.Setup(x => x.RoleExistsAsync("Administrator")).ReturnsAsync(true);
+            //roleManager.Setup(x => x.RoleExistsAsync("Lecturer")).ReturnsAsync(true);
+            //roleManager.Setup(x => x.RoleExistsAsync("test")).ReturnsAsync(false);
+
+            //var userStore = new Mock<IUserStore<ApplicationUser>>();
+            //var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
+            //userManager.Setup(m => m.FindByNameAsync(It.IsAny<string>()))
+            //    .Returns(Task.FromResult<ApplicationUser>(this.context.Users.FirstOrDefault(x => x.UserName == It.IsAny<string>())));
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -70,8 +88,6 @@
 
             fileService = new FileService(context);
 
-            userService = new UserService(context, mapper, null, null, courseService, null, resourceService, null);
-
             resourceService = new ResourceService(context, mapper, fileService);
 
             lectureService = new LectureService(context, mapper,
@@ -80,6 +96,10 @@
             courseService = new CourseService(context, mapper, lectureService);
 
             forumService = new ForumService(context, mapper);
+
+            surveyService = new SurveyService(context, mapper);
+
+            userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService);
         }
 
         public string SeedCourse()
@@ -90,7 +110,7 @@
                 StartDate = DateTime.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1),
                 SignUpStartDate = DateTime.UtcNow.AddDays(-2),
-                SignUpEndDate = DateTime.UtcNow.AddDays(-1),
+                SignUpEndDate = DateTime.UtcNow.AddDays(10),
                 Price = 220
             });
 
@@ -115,7 +135,7 @@
         public string SeedResourceTypes(bool isRemote = true)
         {
             context.ResourceTypes.Add(new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>", IsRemote = isRemote });
-            
+
             context.SaveChanges();
 
             return context.ResourceTypes.First().Id;
@@ -168,5 +188,75 @@
             return lectureId;
         }
 
+        public void SeedUserExam(string courseId, string userId)
+        {
+            var exam = new Exam()
+            {
+                CourseId = courseId,
+                Name = "Test-Exam",
+                Password = "123456",
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today.AddDays(5)
+            };
+
+            context.Exams.Add(exam);
+
+            var userExam = new ApplicationUserExam()
+            {
+                ApplicationUserId = userId,
+                EarnedCredits = 10,
+                EarnedPoints = 10,
+                ExamId = exam.Id,
+            };
+
+            context.ApplicationUserExams.Add(userExam);
+            context.Users.First(x => x.Id == userId).Exams.Add(userExam);
+
+            context.SaveChanges();
+        }
+
+        public void SeedUserCourseSurvey(string courseId, string userId)
+        {
+
+            //context.Surveys
+            //.Where(x => x.IsPublic == true
+            //&& x.Course.UserCourses.Any(x => x.UserId == uid && x.IsPaid == true))
+
+            var survey = new Survey()
+            {
+                CourseId = courseId,
+                Name = "Test-Course",
+                IsPublic = true,
+            };
+            context.Surveys.Add(survey);
+            context.SaveChanges();
+        }
+
+        public static RoleManager<IdentityRole> GetMockRoleManager(DeemZDbContext context)
+        {
+            var roleStore = new Mock<IRoleStore<IdentityRole>>();
+
+            var roleManager = new Mock<RoleManager<IdentityRole>>(
+                roleStore.Object, null, null, null, null);
+
+            roleManager.Setup(x => x.RoleExistsAsync("Administrator")).ReturnsAsync(true);
+            roleManager.Setup(x => x.RoleExistsAsync("Lecturer")).ReturnsAsync(true);
+            roleManager.Setup(x => x.RoleExistsAsync("test")).ReturnsAsync(false);
+
+            return roleManager.Object;
+        }
+
+        public static UserManager<ApplicationUser> GetMockUserManager(DeemZDbContext context)
+        {
+            var userStore = new Mock<IUserStore<ApplicationUser>>();
+
+            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
+            userManager.Setup(m => m.FindByNameAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult<ApplicationUser>(context.Users.FirstOrDefault(x => x.UserName == It.IsAny<string>())));
+            userManager.Setup(x => x.IsInRoleAsync(It.IsAny<ApplicationUser>(), "Lecturer")).ReturnsAsync(true);
+            userManager.Setup(x => x.IsInRoleAsync(It.IsAny<ApplicationUser>(), "test-role")).ReturnsAsync(false);
+
+            return userManager.Object;
+        }
     }
 }

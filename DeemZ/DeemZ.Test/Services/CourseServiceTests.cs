@@ -198,6 +198,98 @@
         }
 
         [Fact]
+        public void DeleteUserFromInvalidCourseShouldNotDoAnything()
+        {
+            //Arrange
+            var expectedUserCourseCount = 1;
+
+            var courseId = SeedCourse();
+
+            SeedUser();
+
+            //Act
+            courseService.SignUserToCourse(testUserId, courseId, true);
+
+            courseService.DeleteUserFromCourse("invalid-courseId", testUserId);
+
+            var actualResult = context.UserCourses
+                .Count(x => x.CourseId == courseId && x.UserId == testUserId);
+
+            //Assert
+            Assert.Equal(expectedUserCourseCount, actualResult);
+        }
+
+        [Fact]
+        public void IsUserSignUpForThisCourseShouldReturnTrueIfUserIsSignedUp()
+        {
+            //Arrange
+
+            var courseId = SeedCourse();
+
+            var userId = "test-user";
+            SeedUser();
+
+            //Act
+            courseService.SignUserToCourse(testUserId, courseId, true);
+            var isSignedUp = courseService.IsUserSignUpForThisCourse(userId,courseId);
+
+            //Assert
+            Assert.True(isSignedUp);
+        }
+
+        [Fact]
+        public void IsUserSignUpForThisCourseShouldReturnFalseIfUserIsNotSignedUp()
+        {
+            //Arrange
+
+            var courseId = SeedCourse();
+
+            var userId = "test-user";
+            SeedUser();
+
+            //Act
+            var isSignedUp = courseService.IsUserSignUpForThisCourse(userId, courseId);
+
+            //Assert
+            Assert.False(isSignedUp);
+        }
+
+        [Fact]
+        public void GettingCoursesShouldReturnTheCorrectCourses()
+        {
+            //Arrange
+            var expectedCourseId = SeedCourse();
+
+            var userId = "test-user";
+            SeedUser();
+
+            //Act
+            courseService.SignUserToCourse(testUserId, expectedCourseId, true);
+            var actualCourseId = courseService.GetCourses<CoursesViewModel>().First().Id;
+
+            //Assert
+            Assert.Equal(expectedCourseId,actualCourseId);
+        }
+
+        [Fact]
+        public void GetCourseByIdAsKeyValuePairShouldReturnCorrectInfo()
+        {
+            //Arrange
+            var expectedCourseId = SeedCourse();
+
+            var userId = "test-user";
+            SeedUser();
+
+            //Act
+            courseService.SignUserToCourse(testUserId, expectedCourseId, true);
+            
+            var keyValuePairKey = courseService.GetCourseByIdAsKeyValuePair(DateTime.Today.AddDays(-30)).First().Key;
+
+            //Assert
+            Assert.Equal(expectedCourseId, keyValuePairKey);
+        }
+
+        [Fact]
         public void GettingUserCourses()
         {
             //Arrange

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DeemZ.Data.Models;
+using DeemZ.Global.WebConstants;
 using DeemZ.Models.FormModels.User;
 using DeemZ.Models.ViewModels.User;
 using Xunit;
@@ -59,7 +61,7 @@ namespace DeemZ.Test.Services
 
             var actualUsername = userService.GetUserById<BasicUserInformationViewModel>(userId).Username;
 
-            Assert.Equal(expectedUsername,actualUsername);
+            Assert.Equal(expectedUsername, actualUsername);
         }
 
         [Fact]
@@ -137,11 +139,123 @@ namespace DeemZ.Test.Services
         {
             var expectedUserId = "testing";
             var username = "Bobby";
-            SeedUser(username,expectedUserId);
+            SeedUser(username, expectedUserId);
 
             var actualUserId = userService.GetUserIdByUserName(username);
 
-            Assert.Equal(expectedUserId,actualUserId);
+            Assert.Equal(expectedUserId, actualUserId);
+        }
+
+        [Fact]
+        public async Task AddingUserToRoleShouldAddThemSuccessfully()
+        {
+            SeedUser();
+            var userId = "test-user";
+            await userService.AddUserToRole(userId, Constants.LecturerRoleName);
+
+            var isAdded = await userService.IsInRoleAsync(userId, Constants.LecturerRoleName);
+
+            Assert.True(isAdded);
+        }
+
+        [Fact]
+        public async Task AddingUserToRoleWillNotAddThemIfRoleDoesNotExist()
+        {
+            SeedUser();
+            var userId = "test-user";
+            var roleName = "test-role";
+            await userService.AddUserToRole(userId, roleName);
+
+            var isAdded = await userService.IsInRoleAsync(userId, roleName);
+
+            Assert.False(isAdded);
+        }
+
+        [Fact]
+        public async Task IsUserInRoleAsyncShouldSayThatUserIsNotInRoleIfHeIsNot() =>
+            Assert.False(await userService.IsInRoleAsync("invalid-user-id", "invalid-role"));
+
+        [Fact]
+        public void SetProfileImgShouldSetTheCorrectUrl()
+        {
+            var userId = "test-user";
+            var photoPublicId = "public-photo-id";
+            var photoUrl = "https://api.images.com/cat";
+            
+            SeedUser();
+
+            userService.SetProfileImg(userId,photoUrl,photoPublicId);
+
+            var user = userService.GetUserById<ApplicationUser>(userId);
+
+            Assert.Equal(photoPublicId, user.ImgPublicId);
+            Assert.Equal(photoUrl,user.ImgUrl);
+        }
+
+        [Fact]
+        public void DeletingUserImgShouldRemoveItFromCloudinary()
+        {
+            var userId = "test-user";
+            var photoPublicId = "public-photo-id";
+            var photoUrl = "https://api.images.com/cat";
+
+            SeedUser();
+
+            userService.SetProfileImg(userId, photoUrl, photoPublicId);
+
+            userService.DeleteUserProfileImg(userId);
+
+            //Can't really test cloudinary functionality
+        }
+
+        [Fact]
+        public void DeletingUserImgShouldNotDoAnythingIfItIsTheDefaultImg()
+        {
+            var userId = "test-user";
+            SeedUser();
+
+            userService.DeleteUserProfileImg(userId);
+
+            //Can't really test cloudinary functionality
+        }
+
+        [Fact]
+        public void GettingUserCoursesShouldReturnTheCorrectCoursesCount()
+        {
+            var expectedCoursesCount = 1;
+
+            var courseId = SeedCourse();
+            var userId = "test-user";
+            SeedUser();
+
+            courseService.SignUserToCourse(userId,courseId);
+
+            var userCourses = userService.GetUserTakenCourses(userId);
+
+            Assert.Equal(expectedCoursesCount,userCourses);
+        }
+
+        [Fact]
+        public void GettingUserIndexInformationShouldGetAllUserInfo()
+        {
+            var courseId = SeedCourse();
+            var creditsCount = 10;
+            var signedUpCoursesCount = 1;
+            var userSurveysCount = 1;
+            var userId = "test-user";
+            SeedUser();
+            
+            courseService.SignUserToCourse(userId, courseId);
+
+            SeedUserExam(courseId,userId);
+            SeedUserCourseSurvey(courseId, userId);
+            var userInfo = userService.GetIndexInformaiton(userId,true);
+            
+            Assert.Equal(courseId, userInfo.Courses.First().Id);
+            Assert.Equal(creditsCount, userInfo.Credits);
+            Assert.Equal(signedUpCoursesCount,userInfo.SignUpCourses.Count());
+            Assert.Equal(userSurveysCount, userInfo.Surveys.Count());
+
         }
     }
 }
