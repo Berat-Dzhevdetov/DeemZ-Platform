@@ -10,6 +10,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Description;
     using DeemZ.Services.ResourceService;
+    using System;
 
     public class LectureService : ILectureService
     {
@@ -29,6 +30,8 @@
             var newlyLecture = mapper.Map<Lecture>(lecture);
             newlyLecture.CourseId = courseId;
 
+            if(lecture.Date != null) newlyLecture.Date = ((DateTime)lecture.Date).ToUniversalTime();
+
             context.Lectures.Add(newlyLecture);
             context.SaveChanges();
 
@@ -47,7 +50,8 @@
             var lectureToEdit = GetLectureById<Lecture>(lectureId);
 
             lectureToEdit.Name = lecture.Name;
-            lectureToEdit.Date = lecture.Date;
+
+            if (lecture.Date != null) lectureToEdit.Date = ((DateTime)lecture.Date).ToUniversalTime();
 
             for (int i = 0; i < lecture.Descriptions.Count; i++)
             {

@@ -52,11 +52,11 @@
         [DisableRequestSizeLimit,
                  RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,
                  ValueLengthLimit = int.MaxValue)]
-        public IActionResult Add(string lectureId, AddResourceFormModel resource,IFormFile file)
+        public IActionResult Add(string lectureId, AddResourceFormModel resource, IFormFile file)
         {
             if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
 
-            if (!resourceService.IsValidResourceType(resource.ResourceTypeId)) ModelState.AddModelError("ResourceTypes", "Invalid resource type");
+            if (!resourceService.IsValidResourceType(resource.ResourceTypeId)) ModelState.AddModelError(nameof(resource.ResourceTypes), "Invalid resource type");
 
             if (!ModelState.IsValid)
             {

@@ -49,10 +49,13 @@
         {
             var examToEdit = GetExamById<Exam>(eid);
 
+            examToEdit.Name = exam.Name;
+            examToEdit.IsPublic = exam.IsPublic;
+            examToEdit.Password = exam.Password;
+            examToEdit.ShuffleAnswers = exam.ShuffleAnswers;
+            examToEdit.ShuffleQuestions = exam.ShuffleQuestions;
             examToEdit.StartDate = exam.StartDate.ToUniversalTime();
             examToEdit.EndDate = exam.EndDate.ToUniversalTime();
-
-            examToEdit = mapper.Map<Exam>(exam);
 
             context.SaveChanges();
 

@@ -12,7 +12,7 @@
             <div class="course-info flex flex-row custom-text-muted">
                 <div class="start-date">
                     <img src="https://softuni.bg/Content/images/icons/play-icon.svg" />
-                    Start date: @Model.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                    Start date: @Model.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)
                 </div>
                 <div class="credits">
                     <img src="https://softuni.bg/Content/images/icons/timeline-icon.svg" />
@@ -24,7 +24,7 @@
     <div class="course-subjects box-shadow-all-corners rounded">
         <h2 class="subjects">Subjects</h2>
         <ul class="course-list course-list-enroled no-bullets">
-            @foreach (var lecture in Model.Lectures)
+            @foreach (var lecture in Model.Lectures.OrderBy(x => x.Date))
             {
                 index++;
                 <li data-number="@lecture.Id" class="flex flex-column">
@@ -86,7 +86,7 @@
                                 @if (lecture.Date != null)
                                 {
                                     <li class="small">
-                                        Date: @lecture.Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                        Date: @lecture.Date.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)
                                     </li>
                                 }
                                 <li class="small">
@@ -97,7 +97,7 @@
                     </div>
                 </li>
             }
-            @foreach (var exam in Model.Exams)
+            @foreach (var exam in Model.Exams.OrderBy(x => x.StartDate))
             {
                 index++;
                 <li data-number="@exam.Id" class="flex flex-column">
@@ -120,7 +120,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        Date: @exam.StartDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                        Date: @exam.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)
                                     </li>
                                 </ul>
                             }

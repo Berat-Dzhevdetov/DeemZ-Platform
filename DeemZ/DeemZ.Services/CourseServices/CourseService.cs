@@ -137,7 +137,7 @@
 
         public void CreateBasicsLectures(string courseId, AddCourseFormModel course)
         {
-            var basicLecturesNames = new string[] { "Course Introduciton", "Resources" };
+            var basicLecturesNames = new string[] { "Resources", "Course Introduciton" };
 
             for (int i = 0; i < basicLecturesNames.Length; i++)
             {
