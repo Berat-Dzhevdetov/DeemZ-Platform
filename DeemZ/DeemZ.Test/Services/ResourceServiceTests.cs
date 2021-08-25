@@ -191,5 +191,51 @@ namespace DeemZ.Test.Services
 
             Assert.Equal(expectedCountFromDb, actualCountFromDb);
         }
+
+        [Fact]
+        public void DoesUserHavePermissionShouldReturnFalseIfTheUserDoesNotHavePermissionToViewTheResource()
+        {
+            //Arange
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            var username = "Bero";
+            var userId = "test-user";
+            SeedUser(username, userId);
+
+            //Act
+            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+                new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = "1" });
+
+            //User needs to be enrolled in the course
+            var result = resourceService.DoesUserHavePermissionToThisResource(resourceId, userId);
+
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void DoesUserHavePermissionShouldReturnTrueIfTheUserHasPermissionToViewTheResource()
+        {
+            //Arange
+            var courseId = SeedCourse();
+
+            var lectureId = SeedLecture(courseId);
+
+            var username = "Bero";
+            var userId = "test-user";
+            SeedUser(username, userId);
+
+            //Act
+            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+                new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = "1" });
+
+            //User needs to be enrolled in the course
+            SeedUserCourse(courseId, userId);
+            
+            var result = resourceService.DoesUserHavePermissionToThisResource(resourceId, userId);
+
+            Assert.True(result);
+        }
     }
 }
