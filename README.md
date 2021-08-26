@@ -12,7 +12,7 @@ ASP.NET Core web application for online programming learing where you can take e
 - Cloudinary
 - Font-awesome
 - Bootstrap
-- Signalr
+- SignalR
 
 ## Permissions:
 Permission | Guest | Logged User | Admin
@@ -89,3 +89,10 @@ If you find any issue with the course's resource or lecture you can describe you
 In this page you can see information such as total users, money earned last 30 days, total courses and how many users signed up for courses for last 30 days
 
 ![image](https://user-images.githubusercontent.com/56674380/129886615-83c516b4-9645-4fb7-b637-bbbf01094426.png)
+
+**Admin Group Chat**
+
+In this page you can easily communicate with other admins.
+
+![image](https://user-images.githubusercontent.com/56674380/131031010-f2234a83-9211-4aee-881a-c53f2cad5ca1.png)
+
