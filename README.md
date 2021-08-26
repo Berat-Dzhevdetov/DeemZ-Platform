@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/56674380/129486206-6f0a40c7-fe25-46cd-8b84-933e5e3d2532.png)
 
-This project is made with ASP.NET Core 5. The design is taken from [SoftUni](https://softuni.bg/) for educational purposes!
+This project is made with ASP.NET Core 5. The design is taken from [SoftUni](https://softuni.bg/) for educational purposes! Don't forget to make initial migrate if you want to start the app.
 
 ASP.NET Core web application for online programming learing where you can take exams after the course and receive points.
 
