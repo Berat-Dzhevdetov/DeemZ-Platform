@@ -12,6 +12,7 @@ ASP.NET Core web application for online programming learing where you can take e
 - Cloudinary
 - Font-awesome
 - Bootstrap
+- Signalr
 
 ## Permissions:
 Permission | Guest | Logged User | Admin
