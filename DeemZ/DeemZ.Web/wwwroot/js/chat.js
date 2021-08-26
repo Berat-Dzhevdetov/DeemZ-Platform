@@ -7,31 +7,32 @@ var connection =
 
 connection.on("NewMessage",
     function (message) {
+
+        var link = `${window.location.origin}/media/notification_sound.mp3`;
+        var audio = new Audio(link);
+        audio.play();
+
         var chatInfo = "";
 
-        if (message.isDoctor) {
-            chatInfo += "<div class='media bg-success rounded text-wrap' style='margin-bottom: 5px'>";
-        }
-        if (message.isAdmin && !message.isDoctor) {
-            chatInfo += "<div class='media bg-warning rounded text-wrap' style='margin-bottom: 5px'>";
-        }
-        if (!message.isDoctor && !message.isAdmin) {
-            chatInfo += "<div class='media bg-gray-600 rounded text-wrap' style='margin-bottom: 5px'>";
-        }
-
+        chatInfo += "<div class='media rounded text-white text-wrap' style='margin-bottom: 5px'>";
         chatInfo += "<div class='media-body'>";
         chatInfo += `<h3 class='mt-0'>${escapeHtml(message.text)}</h3>`;
         chatInfo += `<h5 class='mt-0'>${message.user}</h5>`;
-        chatInfo += `<h5 class='mt-0'>Изпратено на: ${message.createdOn}</h5>`;
+        chatInfo += `<h5 class='mt-0'>Sent On: ${message.createdOn}</h5>`;
         chatInfo += "</div></div>";
         $("#messagesList").append(chatInfo);
     });
 
-$("#sendButton").click(function () {
+$("form").submit(function (e) {
+    e.preventDefault();
     var message = $("#messageInput").val();
+    var groupId = $("#groupId").val();
     if (message !== "") {
-        connection.invoke("Send", message); //Invokes controller method
+        connection.invoke("Send", message, groupId); //Invokes controller method
         $("#messageInput").val("");
+
+        $("#messageInput").focus();
+        $("#messageInput").select();
     }
 });
 
@@ -46,8 +47,8 @@ $("#removeFromAdminGroup").click(function () {
 });
 
 connection.start().then(function () {
-        console.log("JS TEST ONCONNECT")
-        connection.invoke("OnConnect");
+        var groupId = $("#groupId").val();
+    connection.invoke("OnConnect", groupId);
     })
     .catch(function (err) {
     return console.error(err.toString());

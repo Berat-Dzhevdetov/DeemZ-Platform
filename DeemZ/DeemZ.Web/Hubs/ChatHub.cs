@@ -14,31 +14,21 @@ namespace DeemZ.Web.Hubs
 
         public ChatHub()
         {
-            Group = "public";
         }
 
-        public async Task OnConnect()
+        public async Task OnConnect(string groupId)
         {
-            Console.WriteLine("CONNECTED");
-            var groupName = Context.Items[Context.ConnectionId];
-            if (groupName == null)
-            {
-                await AddToGroup("public");
-                Group = "public";
-            }
-            else
-            {
-                Group = Context.Items[Context.ConnectionId]!.ToString();
-            }
+            await AddToGroup(groupId);
+            Group = groupId;
         }
 
-        public async Task Send(string message)
+        public async Task Send(string message, string groupId)
         {
-            await Clients.Group(Group).SendAsync("NewMessage", new Message()
+            await Clients.Group(groupId).SendAsync("NewMessage", new Message()
             {
                 CreatedOn = DateTime.Now.ToShortDateString(),
                 Text = message,
-                User = $"{Context.User.Identity!.Name}, from group {Group}"
+                User = $"{Context.User!.Identity!.Name}, from group {groupId}"
             });
 
             //if (this.Context.User.IsInRole(GlobalConstants.DoctorRoleName))

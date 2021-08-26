@@ -221,5 +221,11 @@
 
             return viewModel;
         }
+
+        public IActionResult Chat(string groupId = "admin")
+        {
+            ViewBag.GroupId = groupId;
+            return View();
+        }
     }
 }

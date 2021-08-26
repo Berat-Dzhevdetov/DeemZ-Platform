@@ -171,6 +171,10 @@ form {
     margin: 0 auto;
 }
 
+.wide-form {
+    width: 100%
+}
+
 .remove-description {
     position: absolute;
     top: 18%;
