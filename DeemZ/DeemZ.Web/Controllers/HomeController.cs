@@ -1,4 +1,6 @@
-﻿namespace DeemZ.Web.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
@@ -32,6 +34,12 @@
                 return View("LoggedIndex", viewModel);
             }
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Chat()
+        {
+            return this.View();
         }
 
         public IActionResult Privacy()

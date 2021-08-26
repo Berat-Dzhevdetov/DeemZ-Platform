@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DeemZ.Data\DeemZ.Data.csproj" />
     <ProjectReference Include="..\DeemZ.Global\DeemZ.Global.csproj" />
   </ItemGroup>

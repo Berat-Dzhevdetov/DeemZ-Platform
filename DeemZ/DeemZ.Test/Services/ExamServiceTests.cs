@@ -100,8 +100,7 @@ namespace DeemZ.Test.Services
 
             var actualName = examService.GetExamById<BasicExamInfoViewModel>(examId).Name;
 
-            //Assert.Equal(expectedName, actualName); //TODO: Method Doesn't work correctly
-            //Assert.Equal(examId,returnedExamId); //TODO: Doesn't return the actual exam id
+            Assert.Equal(expectedName, actualName);
         }
 
         [Fact]

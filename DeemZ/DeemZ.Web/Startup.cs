@@ -1,3 +1,5 @@
+using DeemZ.Web.Hubs;
+
 namespace DeemZ.Web
 {
     using Microsoft.AspNetCore.Builder;
@@ -44,6 +46,8 @@ namespace DeemZ.Web
             services.AddMapper();
             services.AddCustomServices();
 
+            services.AddSignalR();
+
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
@@ -78,6 +82,7 @@ namespace DeemZ.Web
                         endpoints.MapDefaultAreaRoute();
                         endpoints.MapDefaultControllerRoute();
                         endpoints.MapRazorPages();
+                        endpoints.MapHub<ChatHub>("/chat");
                     });
 
         }
