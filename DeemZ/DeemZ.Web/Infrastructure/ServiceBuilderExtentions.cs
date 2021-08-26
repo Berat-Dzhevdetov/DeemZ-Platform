@@ -56,6 +56,7 @@
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IQuestionService, QuestionService>();
+            services.AddTransient<IExcelService, ExcelService>();
         }
     }
 }

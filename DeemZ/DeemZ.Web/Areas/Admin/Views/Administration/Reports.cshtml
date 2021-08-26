@@ -22,7 +22,7 @@
                 <td><a asp-area="" asp-controller="Report" asp-action="Preview" asp-route-reportId="@report.Id">#</a></td>
                 <td>@report.UserUsername</td>
                 <td>@report.LectureName</td>
-                <td>@report.CreatedOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</td>
+                <td>@report.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)</td>
                 <td>
                     <div class="btn-group">
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

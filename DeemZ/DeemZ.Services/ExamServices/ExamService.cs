@@ -59,7 +59,7 @@
 
             context.SaveChanges();
 
-            return context.Exams.Where(x => x.Id == eid).Select(x => x.CourseId).FirstOrDefault();
+            return eid;
         }
 
         public int EvaluateExam(TakeExamFormModel exam)

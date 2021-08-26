@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <label class="text-light" asp-for="@Model.CreatedOn"></label>
-            <p class="form-control">@Model.CreatedOn.ToLocalTime().ToString("dd.MM.yyyy HH:mm:ss")</p>
+            <p class="form-control">@Model.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)</p>
         </div>
         <div class="form-group">
             <label class="text-light" asp-for="@Model.IssueDescription"></label>
