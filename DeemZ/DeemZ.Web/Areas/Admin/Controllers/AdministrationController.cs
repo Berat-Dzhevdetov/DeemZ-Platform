@@ -22,6 +22,7 @@
     using DeemZ.Global.Extensions;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using DeemZ.Web.Infrastructure;
 
     [Authorize(Roles = AdminRoleName)]
     [Area(AreaNames.AdminArea)]
@@ -225,6 +226,7 @@
         public IActionResult Chat(string groupId = "admin")
         {
             ViewBag.GroupId = groupId;
+            ViewBag.UserId = User.GetId();
             return View();
         }
     }

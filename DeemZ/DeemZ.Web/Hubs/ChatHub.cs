@@ -1,20 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using DeemZ.Models.ViewModels.Chat;
-using Microsoft.AspNetCore.SignalR;
-
-namespace DeemZ.Web.Hubs
+﻿namespace DeemZ.Web.Hubs
 {
+    using Microsoft.AspNetCore.SignalR;
+    using System;
+    using System.Threading.Tasks;
+    using DeemZ.Models.ViewModels.Chat;
+    using DeemZ.Web.Infrastructure;
+    using DeemZ.Services.UserServices;
+    using DeemZ.Data.Models;
+
+    using static DeemZ.Global.WebConstants.Constants;
+
     public class ChatHub : Hub
     {
-        public string Group { get; set; }
+        private readonly IUserService userService;
 
-        public ChatHub()
-        {
-        }
+        public ChatHub(IUserService userService) 
+            => this.userService = userService;
+
+        public string Group { get; set; }
 
         public async Task OnConnect(string groupId)
         {
@@ -24,11 +27,16 @@ namespace DeemZ.Web.Hubs
 
         public async Task Send(string message, string groupId)
         {
+            var userId = Context.User.GetId();
+            var user = userService.GetUserById<ApplicationUser>(userId);
+
             await Clients.Group(groupId).SendAsync("NewMessage", new Message()
             {
-                CreatedOn = DateTime.Now.ToShortDateString(),
+                CreatedOn = DateTime.Now.ToString(DateTimeFormat),
                 Text = message,
-                User = $"{Context.User!.Identity!.Name}, from group {groupId}"
+                SenderId = user.Id,
+                SenderName = user.UserName,
+                SenderImg = user.ImgUrl,
             });
 
             //if (this.Context.User.IsInRole(GlobalConstants.DoctorRoleName))

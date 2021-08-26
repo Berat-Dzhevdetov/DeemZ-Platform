@@ -57,7 +57,7 @@
 .mobile-dropdown {
     padding: 1rem;
     display: none;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
 .logo img {
@@ -182,6 +182,54 @@ form {
     color: #8b0000;
 }
 
+.messages-holder {
+    padding: 1rem 0rem;
+    height: 70vh;
+}
+
+.message-holder {
+    max-width: 75%;
+    align-items: center;
+    margin: 10px 0px;
+}
+
+.my-message-holder {
+    width: fit-content;
+    max-width: 75%;
+    margin: 10px 0 10px auto;
+    text-align: right;
+}
+
+.username{
+    margin-left: 8px;
+}
+
+img.small-img {
+    width: 30px;
+    height: 30px;
+}
+
+img.rounted-img {
+    border-radius: 50%;
+}
+
+.message-holder .message {
+    padding: 10px;
+    word-break: break-word;
+    min-height: 20px;
+    background: #373737;
+    border-radius: 4px 20px 20px 4px;
+    margin-left: 5px;
+}
+
+.my-message-holder .message {
+    padding: 10px;
+    min-height: 20px;
+    background: #373737;
+    border-radius: 20px 4px 4px 20px;
+    word-break: break-word;
+}
+
 @media only screen and (max-width: 800px) {
     .card {
         padding: 14px 35px;
@@ -220,9 +268,10 @@ form {
     .mobile-dropdown {
         display: flex;
     }
-    .container-fluid{
+
+    .container-fluid {
         margin: 0;
-        padding:0;
+        padding: 0;
     }
 
     th, td {
@@ -230,11 +279,13 @@ form {
         border-width: 5px;
         word-wrap: break-word;
     }
+
     table {
         width: 100%;
-        overflow-x: auto!important;
+        overflow-x: auto !important;
     }
-    form{
-        width:90%;
+
+    form {
+        width: 90%;
     }
 }

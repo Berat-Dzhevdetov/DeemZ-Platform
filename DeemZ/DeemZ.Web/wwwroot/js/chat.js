@@ -8,19 +8,37 @@ var connection =
 connection.on("NewMessage",
     function (message) {
 
-        var link = `${window.location.origin}/media/notification_sound.mp3`;
-        var audio = new Audio(link);
-        audio.play();
+        var messageHtml = "";
 
-        var chatInfo = "";
+        if (chatRoom.getCurrentUserId() == message.senderId) {
+            messageHtml = `
+                <div title="Send on: ${message.createdOn}" class="my-message-holder">
+                    <div class="message text-white">
+                        ${message.text}
+                    </div>
+                </div>
+            `;
+        }
+        else {
+            messageHtml = `
+                <div title="Send on: ${message.createdOn}" class="message-holder flex">
+                    <div>
+                        <img class="small-img rounted-img" src="${message.senderImg}" />
+                    </div>
+                    <div class="flex flex-column">
+                        <div class="username text-white">${message.senderName}</div>
+                        <div class="message text-white">
+                            ${message.text}
+                        </div>
+                    </div>
+                </div>
+            `;
+            var link = `${window.location.origin}/media/notification_sound.mp3`;
+            var audio = new Audio(link);
+            audio.play();
+        }
 
-        chatInfo += "<div class='media rounded text-white text-wrap' style='margin-bottom: 5px'>";
-        chatInfo += "<div class='media-body'>";
-        chatInfo += `<h3 class='mt-0'>${escapeHtml(message.text)}</h3>`;
-        chatInfo += `<h5 class='mt-0'>${message.user}</h5>`;
-        chatInfo += `<h5 class='mt-0'>Sent On: ${message.createdOn}</h5>`;
-        chatInfo += "</div></div>";
-        $("#messagesList").append(chatInfo);
+        $("#messagesList").append(messageHtml);
     });
 
 $("form").submit(function (e) {
@@ -47,12 +65,12 @@ $("#removeFromAdminGroup").click(function () {
 });
 
 connection.start().then(function () {
-        var groupId = $("#groupId").val();
+    var groupId = $("#groupId").val();
     connection.invoke("OnConnect", groupId);
-    })
+})
     .catch(function (err) {
-    return console.error(err.toString());
-});
+        return console.error(err.toString());
+    });
 
 function escapeHtml(unsafe) {
     return unsafe
