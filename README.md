@@ -7,6 +7,7 @@ This project is made with ASP.NET Core 5. The design is taken from [SoftUni](htt
 ASP.NET Core web application for online programming learing where you can take exams after the course and receive points.
 
 ## 🛠 Built with:
+
 - ASP.NET Core MVC
 - MS SQL Server
 - Cloudinary
@@ -15,32 +16,37 @@ ASP.NET Core web application for online programming learing where you can take e
 - SignalR
 
 ## Permissions:
-Permission | Guest | Logged User | Admin
--- | ---- | ---- | ---
-Index page | ✅ | ✅ | ✅
-Privacy page | ✅ | ✅ | ✅
-Forum | ✅ | ✅ | ✅
-View Course Details | ✅ | ✅ | ✅
-Add report to resource | ❌ | ✅ | ✅
-Sign up for the course by paying | ❌ | ✅ | ❌
-View Course Resources | ❌ | ✅ (only if the user has paid for the course)| ✅
-Download Course Resources | ❌ | ✅ (only if the user has paid for the course)| ✅
-Admin Dashboard  | ❌ | ❌ | ✅
-Add Course  | ❌ | ❌ | ✅
-Edit Course  | ❌ | ❌ | ✅
-Delete Course  | ❌ | ❌ | ✅
-Add Lecture to Course  | ❌ | ❌ | ✅
-Add Exam to Course  | ❌ | ❌ | ✅
-Edit Exam  | ❌ | ❌ | ✅
-Delete Exam  | ❌ | ❌ | ✅
-Edit Lecture  | ❌ | ❌ | ✅
-Delete Lecture  | ❌ | ❌ | ✅
-Upload Resource to Lecture  | ❌ | ❌ | ✅
-Delete Resource | ❌ | ❌ | ✅
-Edit User | ❌ | ❌ | ✅
-Sign Up User to Course (basically for adding lecturer to the course) | ❌ | ❌ | ✅
-Remove User From Course | ❌ | ❌ | ✅
-Delete report | ❌ | ❌ | ✅
+
+| Permission                                                           | Guest | Logged User                                   | Admin |
+| -------------------------------------------------------------------- | ----- | --------------------------------------------- | ----- |
+| Index page                                                           | ✅    | ✅                                            | ✅    |
+| Privacy page                                                         | ✅    | ✅                                            | ✅    |
+| Forum                                                                | ✅    | ✅                                            | ✅    |
+| View Course Details                                                  | ✅    | ✅                                            | ✅    |
+| Add report to resource                                               | ❌    | ✅                                            | ✅    |
+| Sign up for the course by paying                                     | ❌    | ✅                                            | ❌    |
+| View Course Resources                                                | ❌    | ✅ (only if the user has paid for the course) | ✅    |
+| Download Course Resources                                            | ❌    | ✅ (only if the user has paid for the course) | ✅    |
+| Admin Dashboard                                                      | ❌    | ❌                                            | ✅    |
+| Add Course                                                           | ❌    | ❌                                            | ✅    |
+| Edit Course                                                          | ❌    | ❌                                            | ✅    |
+| Delete Course                                                        | ❌    | ❌                                            | ✅    |
+| Add Lecture to Course                                                | ❌    | ❌                                            | ✅    |
+| Add Exam to Course                                                   | ❌    | ❌                                            | ✅    |
+| Edit Exam                                                            | ❌    | ❌                                            | ✅    |
+| Delete Exam                                                          | ❌    | ❌                                            | ✅    |
+| Edit Lecture                                                         | ❌    | ❌                                            | ✅    |
+| Delete Lecture                                                       | ❌    | ❌                                            | ✅    |
+| Upload Resource to Lecture                                           | ❌    | ❌                                            | ✅    |
+| Delete Resource                                                      | ❌    | ❌                                            | ✅    |
+| Edit User                                                            | ❌    | ❌                                            | ✅    |
+| Sign Up User to Course (basically for adding lecturer to the course) | ❌    | ❌                                            | ✅    |
+| Remove User From Course                                              | ❌    | ❌                                            | ✅    |
+| Delete report                                                        | ❌    | ❌                                            | ✅    |
+
+## Unit tests coverage results:
+
+![code_coverage_results](https://i.ibb.co/tzVpM9T/covergae.png)
 
 ## Pages:
 
@@ -61,8 +67,8 @@ In this page, all written topics are displayed, here you can get brief informati
 On this page you can see information about the course such as when it starts, what will be studied during the course and etc.
 ![image](https://user-images.githubusercontent.com/56674380/129883919-887da01f-693e-4d3d-8e35-183bbe054889.png)
 
-
 ### Pages for Logged Users:
+
 **Posting a Topic**
 
 From this page, you can create a new topic. After choosing an appropriate title and description you can click the button Create in the bottom of the form.
@@ -95,4 +101,3 @@ In this page you can see information such as total users, money earned last 30 d
 In this page you can easily communicate with other admins.
 
 ![image](https://user-images.githubusercontent.com/56674380/131031010-f2234a83-9211-4aee-881a-c53f2cad5ca1.png)
-

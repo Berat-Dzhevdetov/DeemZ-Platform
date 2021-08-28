@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using DeemZ.Models.FormModels.Exam;
 using DeemZ.Services;
+using DeemZ.Services.AdminServices;
 using DeemZ.Services.ExamServices;
 using DeemZ.Services.Question;
 using DeemZ.Services.SurveyServices;
@@ -46,6 +47,7 @@ namespace DeemZ.Test.Services
         public IForumService forumService;
         public IExamService examService;
         public IQuestionService questionService;
+        public IAdminService adminService;
         public Guard guard = new Guard();
 
         public const string testUserId = "test-user";
@@ -96,6 +98,8 @@ namespace DeemZ.Test.Services
             questionService = new QuestionService(context, mapper);
 
             userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService);
+
+            adminService = new AdminService(mapper, context, courseService, userService);
         }
 
         public string SeedCourse()
@@ -223,7 +227,7 @@ namespace DeemZ.Test.Services
             context.SaveChanges();
         }
 
-        public void SeedUserSurvey(string userId,string surveyId)
+        public void SeedUserSurvey(string userId, string surveyId)
         {
             context.ApplicationUserSurvey.Add(new ApplicationUserSurvey()
             {
@@ -253,6 +257,7 @@ namespace DeemZ.Test.Services
                 CourseId = courseId,
                 UserId = userId,
                 IsPaid = true,
+                PaidOn = DateTime.Today,
             });
             context.SaveChanges();
         }
@@ -273,7 +278,7 @@ namespace DeemZ.Test.Services
 
         public void SeedExamQuestions(string examId)
         {
-            context.Exams.First(x=>x.Id == examId).Questions.Add(
+            context.Exams.First(x => x.Id == examId).Questions.Add(
                 new Question()
                 {
                     Text = "Are you cool?",
