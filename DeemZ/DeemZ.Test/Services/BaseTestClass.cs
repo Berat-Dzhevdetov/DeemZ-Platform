@@ -3,6 +3,7 @@ using CloudinaryDotNet.Actions;
 using DeemZ.Models.FormModels.Exam;
 using DeemZ.Services;
 using DeemZ.Services.ExamServices;
+using DeemZ.Services.Question;
 using DeemZ.Services.SurveyServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -44,6 +45,7 @@ namespace DeemZ.Test.Services
         public ISurveyService surveyService;
         public IForumService forumService;
         public IExamService examService;
+        public IQuestionService questionService;
         public Guard guard = new Guard();
 
         public const string testUserId = "test-user";
@@ -91,10 +93,9 @@ namespace DeemZ.Test.Services
             forumService = new ForumService(context, mapper);
             surveyService = new SurveyService(context, mapper);
             examService = new ExamService(context, mapper);
+            questionService = new QuestionService(context, mapper);
 
             userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService);
-
-            
         }
 
         public string SeedCourse()

@@ -19,24 +19,6 @@
 </div>
 
 @section Scripts {
-    <script>
-        class ChatRoom {
-            #currentUserId;
-
-            constructor(currentUserId) {
-                this.#currentUserId = currentUserId;
-            }
-
-            getCurrentUserId() {
-                return this.#currentUserId;
-            }
-        }
-
-        const temp = document.getElementById('currentUserId');
-
-        let chatRoom = new ChatRoom(temp.innerText);
-
-        temp.remove();
-    </script>
     <script src="~/js/chat.js"></script>
+    <script src="~/js/chatRoom.js"></script>
 }

@@ -46,6 +46,38 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
+        public void EditingALectureWithDateShouldSetTheDateToUTCStandard()
+        {
+            var expectedDate = DateTime.Today.AddDays(-50);
+
+            var courseId = SeedCourse();
+
+            var lectureId = "Test-Lecture-Id";
+
+            context.Lectures.Add(new Lecture()
+            {
+                CourseId = courseId,
+                Name = "Test Lecture",
+                Id = lectureId,
+            });
+            context.SaveChanges();
+            ;
+            //Act
+            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            {
+                CourseId = courseId,
+                Descriptions = new List<EditDescriptionFormModel>()
+                    { new EditDescriptionFormModel() { Name = "test" } }
+                ,
+                Date = expectedDate,
+            });
+            var lectureDateFromService = lectureService.GetLectureById<DetailsLectureViewModel>(lectureId).Date;
+
+            //Assert
+            Assert.Equal(expectedDate.ToUniversalTime(),lectureDateFromService);
+        }
+
+        [Fact]
         public void EditLectureByIdShouldNotEditTheLectureWhenTheDescriptionNameIsTooShort()
         {
             var expectedLecturesCount = 0;
@@ -67,7 +99,7 @@ namespace DeemZ.Test.Services
             var actualDescriptionsCount = lectureService.GetLectureById<DetailsLectureViewModel>(lectureId).Descriptions.Count;
 
             //Assert
-            Assert.Equal(expectedLecturesCount,actualDescriptionsCount);
+            Assert.Equal(expectedLecturesCount, actualDescriptionsCount);
         }
 
 
@@ -159,7 +191,7 @@ namespace DeemZ.Test.Services
 
             lectureService.DeleteDescription(testDescriptionId);
 
-            Assert.False(context.Descriptions.Any(x=>x.Id == testDescriptionId));
+            Assert.False(context.Descriptions.Any(x => x.Id == testDescriptionId));
         }
     }
 }
