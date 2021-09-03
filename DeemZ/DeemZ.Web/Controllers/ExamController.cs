@@ -207,7 +207,9 @@ namespace DeemZ.Web.Controllers
 
             if (!ModelState.IsValid) return View(exam);
 
-            var courseId = examService.EditExam(examId, exam);
+            examService.EditExam(examId, exam);
+
+            string courseId = examService.GetCourseIdByExamId(examId);
 
             return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
         }
@@ -217,9 +219,14 @@ namespace DeemZ.Web.Controllers
         {
             var userId = User.GetId();
 
-            var viewModel = examService.GetExamsByUserId<GetUserExamInfoViewModel>(userId);
-            
-            return View(viewModel);
+            var exams = examService.GetExamsByUserId<GetUserExamInfoViewModel>(userId);
+
+            foreach (var exam in exams)
+            {
+                exam.EndDate = exam.EndDate.ToLocalTime();
+            }
+
+            return View(exams);
         }
 
         [Authorize]

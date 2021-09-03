@@ -124,9 +124,9 @@
             => context.Exams
                 .Include(x => x.Course)
                 .Include(x => x.Questions)
-                .Include(e=>e.Users.Where(x=>x.ApplicationUserId == uid))
-                .Include(e=>e.Users.Where(x=>x.ApplicationUserId == uid))
-                .Where(e => e.Users.Any(x=>x.ApplicationUserId == uid))
+                .Include(e => e.Users.Where(x => x.ApplicationUserId == uid))
+                .Include(e => e.Users.Where(x => x.ApplicationUserId == uid))
+                .Where(e => e.Users.Any(x => x.ApplicationUserId == uid))
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
@@ -137,6 +137,8 @@
         public int SaveUserExam(string uid, int points, string eid)
         {
             var exam = GetExamById<Exam>(eid);
+
+            exam.EndDate = exam.EndDate.ToLocalTime();
 
             if (DateTime.Now > exam.EndDate) return -1;
 
@@ -160,5 +162,8 @@
 
             return maxExamPoints;
         }
+
+        public string GetCourseIdByExamId(string eid)
+            => context.Exams.FirstOrDefault(x => x.Id == eid).CourseId;
     }
 }
