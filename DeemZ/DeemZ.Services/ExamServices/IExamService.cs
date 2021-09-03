@@ -6,6 +6,7 @@
     public interface IExamService
     {
         IEnumerable<T> GetExamsByCourseId<T>(string cid);
+        IEnumerable<T> GetExamsByUserId<T>(string uid);
         void CreateExam(string cid, AddExamFormModel exam);
         bool GetExamById(string eid);
         T GetExamById<T>(string eid);

@@ -120,6 +120,16 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
+        public IEnumerable<T> GetExamsByUserId<T>(string uid)
+            => context.Exams
+                .Include(x => x.Course)
+                .Include(x => x.Questions)
+                .Include(e=>e.Users.Where(x=>x.ApplicationUserId == uid))
+                .Include(e=>e.Users.Where(x=>x.ApplicationUserId == uid))
+                .Where(e => e.Users.Any(x=>x.ApplicationUserId == uid))
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
+
         public bool IsProvidedPasswordRight(string eid, string password)
             => context.Exams
                 .Any(x => x.Password == password && x.Id == eid);

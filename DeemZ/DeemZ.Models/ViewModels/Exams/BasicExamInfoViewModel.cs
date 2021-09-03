@@ -12,6 +12,6 @@
 
         public DateTime EndDate { get; set; }
 
-        public bool IsPublic { get; set; } = false;
+        public bool IsPublic { get; set; }
     }
 }

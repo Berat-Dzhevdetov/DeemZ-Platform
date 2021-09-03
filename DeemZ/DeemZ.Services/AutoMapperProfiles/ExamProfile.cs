@@ -13,6 +13,10 @@
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToLocalTime()))
                 .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToLocalTime()));
 
+            CreateMap<Exam, GetUserExamInfoViewModel>()
+                .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToLocalTime()))
+                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToLocalTime()));
+
             CreateMap<AddExamFormModel, Exam>()
                 .ReverseMap();
 

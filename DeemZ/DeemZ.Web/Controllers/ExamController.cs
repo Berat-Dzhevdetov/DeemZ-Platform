@@ -1,4 +1,7 @@
-﻿namespace DeemZ.Web.Controllers
+﻿using System.Linq;
+using DeemZ.Models.ViewModels.Exams;
+
+namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -150,8 +153,8 @@
             }
 
             TempData[GlobalMessageKey] = string.Format(MessageAfterExam, points, maxPoints);
-
-            return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
+            
+            return RedirectToAction(nameof(GetUserExams));
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -207,6 +210,25 @@
             var courseId = examService.EditExam(examId, exam);
 
             return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
+        }
+
+        [Authorize]
+        public IActionResult GetUserExams()
+        {
+            var userId = User.GetId();
+
+            var viewModel = examService.GetExamsByUserId<GetUserExamInfoViewModel>(userId);
+            
+            return View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult ViewExam(string examId)
+        {
+            var userId = User.GetId();
+            //Get exam with users answers and show the correct answers
+            var viewModel = examService.GetExamById<TakeExamFormModel>(examId);
+            return View(viewModel);
         }
     }
 }

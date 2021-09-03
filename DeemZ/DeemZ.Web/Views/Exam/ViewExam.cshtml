@@ -1,0 +1,27 @@
+﻿@model TakeExamFormModel;
+<div class="exam-holder">
+    <div class="exam-header">
+        <h2>@Model.Name</h2>
+    </div>
+    <div class="exam-content">
+        @for (int i = 0; i < Model.Questions.Count; i++)
+        {
+            <div class="question">
+                <div class="question-header">
+                    @(i + 1). @Model.Questions[i].Text - @Model.Questions[i].Points Point(s)
+                    <input readonly hidden asp-for="Questions[i].Id" />
+                </div>
+                <div class="qustion-list">
+                    <em>indicate somehow which answer is correct</em>
+                    @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
+                    {
+                        <div>
+                            <label>@Model.Questions[i].Answers[j].Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

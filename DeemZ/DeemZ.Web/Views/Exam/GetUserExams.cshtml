@@ -1,0 +1,44 @@
+﻿@using DeemZ.Global.WebConstants
+@model IEnumerable<GetUserExamInfoViewModel>;
+@{
+    ViewData["Title"] = "Your exams";
+}
+
+<div class="container-fluid">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    @if (!Model.Any())
+    {
+        <h1 class="text-center">You haven't taken any exams!</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Exam Name</th>
+                <th scope="col">Course Name</th>
+                <th scope="col">Earned Points</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">View Results</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var exam in Model)
+            {
+                <tr>
+                    <td>@exam.Name</td>
+                    <td>@exam.Course.Name</td>
+                    <td>@exam.Users.First().EarnedPoints/@exam.Questions.Sum(x => x.Points)</td>
+                    <td>@exam.StartDate.ToString(Constants.DateTimeFormat)</td>
+                    <td>@exam.EndDate.ToString(Constants.DateTimeFormat)</td>
+                    <td>
+                        <a class="btn btn-info" asp-area="" asp-controller="Exam" asp-action="ViewExam" asp-route-examId="@exam.Id">View</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+
+</div>
