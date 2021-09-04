@@ -1,4 +1,6 @@
-﻿namespace DeemZ.Models.FormModels.Exam
+﻿using DeemZ.Services.Attributes;
+
+namespace DeemZ.Models.FormModels.Exam
 {
     using System;
     using System.Collections.Generic;
@@ -20,5 +22,8 @@
         public bool IsPublic { get; set; } = false;
 
         public IList<TakeExamQuestionFormModel> Questions { get; set; }
+
+        [GoogleReCaptchaValidation]
+        public string RecaptchaValue { get; set; }
     }
 }
