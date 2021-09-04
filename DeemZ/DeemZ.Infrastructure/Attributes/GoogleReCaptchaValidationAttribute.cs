@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using DeemZ.Infrastructure;
 
-namespace DeemZ.Infrastructure.Attributes
+namespace DeemZ.Services.Attributes
 {
     public class GoogleReCaptchaValidationAttribute : ValidationAttribute
     {
