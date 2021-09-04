@@ -1,4 +1,4 @@
-﻿using DeemZ.Services.Attributes;
+﻿using DeemZ.Infrastructure.Attributes;
 
 namespace DeemZ.Models.FormModels.Exam
 {
