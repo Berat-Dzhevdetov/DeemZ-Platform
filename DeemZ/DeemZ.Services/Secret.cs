@@ -9,6 +9,7 @@
             private const string cloudName = "";
             private const string key = "";
             private const string secretKey = "";
+
             private Account account;
 
             public CloudinarySetup()
@@ -27,6 +28,11 @@
                     this.account = value;
                 }
             }
+        }
+        public class GoogleRecaptcha
+        {
+            public const string LocalRecaptchaSiteKey = "";
+            public const string LocalRecaptchaSecretKey = "";
         }
     }
 }
