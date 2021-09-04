@@ -14,7 +14,7 @@
 *.userprefs
 
 Migrations
-Secret.cs
+
 
 # Mono auto generated files
 mono_crash.*
