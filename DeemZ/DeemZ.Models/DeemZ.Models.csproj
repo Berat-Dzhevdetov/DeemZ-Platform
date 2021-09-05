@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DeemZ.Data\DeemZ.Data.csproj" />
     <ProjectReference Include="..\DeemZ.Global\DeemZ.Global.csproj" />
+    <ProjectReference Include="..\DeemZ.Infrastructure\DeemZ.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

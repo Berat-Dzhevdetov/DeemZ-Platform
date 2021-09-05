@@ -117,12 +117,16 @@
 
             TempData[PassingTheTest] = true;
 
+            ViewData["LocalRecaptchaSiteKey"] = Secret.GoogleRecaptcha.LocalRecaptchaSiteKey;
+
             return View(exam);
         }
 
         [HttpPost]
         public async Task<IActionResult> Take(string examId, TakeExamFormModel exam)
         {
+            if(!ModelState.IsValid) return BadRequest();
+
             if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
 
             if (!examService.GetExamById(examId)) return NotFound();

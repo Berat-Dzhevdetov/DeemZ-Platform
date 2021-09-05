@@ -1,4 +1,5 @@
-﻿@model TakeExamFormModel
+﻿@using DeemZ.Services
+@model TakeExamFormModel
 @{
     ViewData["Title"] = Model.Name;
 }
@@ -15,32 +16,43 @@
     </div>
     <div class="exam-content">
         <form method="post" id="form">
-            <input type="hidden" asp-for="IsPublic" value="true"/>
+            <input type="hidden" asp-for="IsPublic" value="true" />
             @for (int i = 0; i < Model.Questions.Count; i++)
             {
                 <div class="question">
                     <div class="question-header">
                         @(i + 1). @Model.Questions[i].Text - @Model.Questions[i].Points Point(s)
-                        <input readonly hidden asp-for="Questions[i].Id"/>
+                        <input readonly hidden asp-for="Questions[i].Id" />
                     </div>
                     <div class="qustion-list">
                         @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
                         {
                             <div>
-                                <input asp-for="@Model.Questions[i].Answers[j].IsChosen"/>
-                                <input asp-for="@Model.Questions[i].Answers[j].Id" readonly hidden/>
+                                <input asp-for="@Model.Questions[i].Answers[j].IsChosen" />
+                                <input asp-for="@Model.Questions[i].Answers[j].Id" readonly hidden />
                                 <label>@Model.Questions[i].Answers[j].Text</label>
                             </div>
                         }
                     </div>
                 </div>
             }
+            <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
         </form>
         <input id="submit" type="submit" class="btn btn-info" value="Hand over" />
     </div>
 </div>
 
 @section Scripts{
+
+    <script src="https://www.google.com/recaptcha/api.js?render=@ViewData["LocalRecaptchaSiteKey"]"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@ViewData["LocalRecaptchaSiteKey"]', { action: 'contact_form' }).then(function (token) {
+                $("#RecaptchaValue").val(token);
+            });
+        });
+    </script>
+
     <script>
         document.getElementById('submit').addEventListener('click', (e) => {
             e.preventDefault();
