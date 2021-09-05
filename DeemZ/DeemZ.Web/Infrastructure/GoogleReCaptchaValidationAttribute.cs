@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using DeemZ.Services;
-
-namespace DeemZ.Web.Infrastructure
+﻿namespace DeemZ.Web.Infrastructure
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+    using DeemZ.Infrastructure;
+
     public class GoogleReCaptchaValidationAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)

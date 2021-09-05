@@ -8,6 +8,7 @@
     using System.Net;
     using DeemZ.Data;
     using DeemZ.Global.Extensions;
+    using DeemZ.Infrastructure;
 
     public class FileService : IFileService
     {
