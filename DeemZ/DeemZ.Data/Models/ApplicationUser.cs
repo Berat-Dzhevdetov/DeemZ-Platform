@@ -29,7 +29,7 @@
         public ICollection<UserCourse> UserCourses { get; set; } = new HashSet<UserCourse>();
         public ICollection<ApplicationUserExam> Exams { get; set; } = new HashSet<ApplicationUserExam>();
         public ICollection<ApplicationUserSurvey> Surveys { get; set; } = new HashSet<ApplicationUserSurvey>();
-        public ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
+        public ICollection<AnswerUsers> AnswerUsers { get; set; } = new HashSet<AnswerUsers>();
         public ICollection<Forum> Forums { get; set; } = new HashSet<Forum>();
     }
 }

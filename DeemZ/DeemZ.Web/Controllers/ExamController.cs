@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using DeemZ.Models.ViewModels.Exams;
-
-namespace DeemZ.Web.Controllers
+﻿namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using System;
     using DeemZ.Services;
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.CourseServices;
@@ -14,6 +12,7 @@ namespace DeemZ.Web.Controllers
     using DeemZ.Services.UserServices;
     using DeemZ.Global.Extensions;
     using DeemZ.Web.Areas.Administration.Controllers;
+    using DeemZ.Models.ViewModels.Exams;
 
     using static DeemZ.Global.WebConstants.Constants;
 
@@ -40,7 +39,6 @@ namespace DeemZ.Web.Controllers
             this.userService = userService;
         }
 
-        [Authorize]
         public async Task<IActionResult> Access(string examId)
         {
             if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
@@ -62,7 +60,6 @@ namespace DeemZ.Web.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult Access(string examId, string password)
         {
@@ -93,7 +90,6 @@ namespace DeemZ.Web.Controllers
             return RedirectToAction(nameof(ExamController.Take), new { examId });
         }
 
-        [Authorize]
         public async Task<IActionResult> Take(string examId)
         {
             if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
@@ -124,7 +120,6 @@ namespace DeemZ.Web.Controllers
             return View(exam);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Take(string examId, TakeExamFormModel exam)
         {
@@ -138,11 +133,11 @@ namespace DeemZ.Web.Controllers
 
             var userId = User.GetId();
 
-            var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+            var isUserAdmin = User.IsAdmin() || User.IsLecture();
 
             if (!exam.IsPublic && !isUserAdmin) return BadRequest();
 
-            var points = examService.EvaluateExam(exam);
+            var points = examService.EvaluateExam(exam, userId);
 
             var maxPoints = examService.SaveUserExam(userId, points, examId);
 
@@ -153,7 +148,7 @@ namespace DeemZ.Web.Controllers
             }
 
             TempData[GlobalMessageKey] = string.Format(MessageAfterExam, points, maxPoints);
-            
+
             return RedirectToAction(nameof(GetUserExams));
         }
 
@@ -179,7 +174,7 @@ namespace DeemZ.Web.Controllers
 
             examService.CreateExam(courseId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea  });
+            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
         }
 
         [Authorize(Roles = AdminRoleName)]
@@ -214,7 +209,6 @@ namespace DeemZ.Web.Controllers
             return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
         }
 
-        [Authorize]
         public IActionResult GetUserExams()
         {
             var userId = User.GetId();
@@ -229,13 +223,29 @@ namespace DeemZ.Web.Controllers
             return View(exams);
         }
 
-        [Authorize]
         public IActionResult ViewExam(string examId)
         {
+            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+
             var userId = User.GetId();
-            //Get exam with users answers and show the correct answers
-            var viewModel = examService.GetExamById<TakeExamFormModel>(examId);
-            return View(viewModel);
+
+            var isUserInRole = User.IsAdmin() || User.IsLecture();
+
+            if (!isUserInRole && !examService.DoesTheUserHavePermissionToExam(userId, examId))
+                return Forbid();
+
+            var exam = examService.GetExamById<ViewExamViewModel>(examId);
+
+            if (exam == null) return BadRequest();
+
+            exam.EndDate = exam.EndDate.ToLocalTime();
+
+
+            if (DateTime.Now <= exam.EndDate && !isUserInRole) return Unauthorized();
+
+            exam.UserAnswers = examService.GetUserExamAnswers(examId, userId);
+
+            return View(exam);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace DeemZ.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using DeemZ.Data;
 
@@ -18,5 +19,7 @@
         public string QuestionId { get; set; }
 
         public bool IsCorrect { get; set; }
+
+        public ICollection<AnswerUsers> AnswerUsers { get; set; } = new HashSet<AnswerUsers>();
     }
 }

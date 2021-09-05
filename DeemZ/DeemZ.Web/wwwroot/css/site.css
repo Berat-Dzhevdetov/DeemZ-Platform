@@ -808,6 +808,19 @@ span.lecture-number::after {
     text-wrap: normal;
 }
 
+.your-answer {
+    background-color: #949494;
+    padding-left:1rem;
+}
+
+.fa-check{
+    color: green;
+}
+
+.fa-times{
+    color: red;
+}
+
 .exam-holder {
     margin: 2rem;
     padding: 2rem;

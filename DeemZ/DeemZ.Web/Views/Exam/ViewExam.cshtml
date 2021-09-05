@@ -1,27 +1,42 @@
-﻿@model TakeExamFormModel;
+﻿@model ViewExamViewModel
+@{
+    var index = 1;
+    ViewData["Title"] = Model.Name;
+}
 <div class="exam-holder">
     <div class="exam-header">
         <h2>@Model.Name</h2>
     </div>
     <div class="exam-content">
-        @for (int i = 0; i < Model.Questions.Count; i++)
+        @foreach (var question in Model.Questions)
         {
+            var userAnswerId = Model.UserAnswers[question.Id];
+            var point = userAnswerId == question.Answers.First(x => x.IsCorrect).Id ? question.Points : 0;
             <div class="question">
                 <div class="question-header">
-                    @(i + 1). @Model.Questions[i].Text - @Model.Questions[i].Points Point(s)
-                    <input readonly hidden asp-for="Questions[i].Id" />
+                    @index. @question.Text - @point Point(s)
                 </div>
                 <div class="qustion-list">
-                    <em>indicate somehow which answer is correct</em>
-                    @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
+                    @foreach (var answer in question.Answers)
                     {
-                        <div>
-                            <label>@Model.Questions[i].Answers[j].Text</label>
+                        var divClass = answer.Id == userAnswerId ? "class=your-answer" : "class=pl-3";
+                        <div @divClass>
+                            <label>
+                                @if (answer.IsCorrect)
+                                {
+                                    <i class="fas fa-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-times"></i>
+                                }
+                                @answer.Text
+                            </label>
                         </div>
                     }
                 </div>
             </div>
+            index++;
         }
     </div>
 </div>
-

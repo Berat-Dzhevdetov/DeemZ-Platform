@@ -62,7 +62,7 @@
             return eid;
         }
 
-        public int EvaluateExam(TakeExamFormModel exam)
+        public int EvaluateExam(TakeExamFormModel exam, string uid)
         {
             if (exam == null) return 0;
 
@@ -72,8 +72,18 @@
             {
                 if (question.Answers == null || question.Answers.Count(x => x.IsChosen) >= 2 || question.Answers.Count(x => x.IsChosen) <= 0) continue;
 
-                points += CalculatePoints(question.Id, question.Answers.FirstOrDefault(x => x.IsChosen).Id);
+                var userAnswerId = question.Answers.FirstOrDefault(x => x.IsChosen).Id;
+
+                context.AnswerUsers.Add(new AnswerUsers
+                {
+                    AnswerId = userAnswerId,
+                    UserId = uid
+                });
+
+                points += CalculatePoints(question.Id, userAnswerId);
             }
+
+            context.SaveChanges();
 
             return points;
         }
@@ -165,5 +175,12 @@
 
         public string GetCourseIdByExamId(string eid)
             => context.Exams.FirstOrDefault(x => x.Id == eid).CourseId;
+
+        public IDictionary<string, string> GetUserExamAnswers(string eid, string uid)
+            => context.AnswerUsers
+                .Include(x => x.Answer)
+                .ThenInclude(x => x.Question)
+                .Where(x => x.Answer.Question.ExamId == eid)
+                .ToDictionary(x => x.Answer.QuestionId, x => x.AnswerId);
     }
 }

@@ -38,6 +38,12 @@
                 .ReverseMap();
 
             CreateMap<Description, Description>();
+
+            CreateMap<Exam, ViewExamViewModel>();
+
+            CreateMap<Question, ViewExamQuestionViewModel>();
+
+            CreateMap<Answer, ViewExamQuestionAnswersViewModel>();
         }
     }
 }

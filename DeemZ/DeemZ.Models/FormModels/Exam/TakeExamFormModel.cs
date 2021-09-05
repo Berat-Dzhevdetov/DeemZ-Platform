@@ -19,6 +19,6 @@
 
         public bool IsPublic { get; set; } = false;
 
-        public IList<TakeExamQuestionFormModel> Questions { get; set; }
+        public IList<TakeExamQuestionFormModel> Questions { get; set; } = new List<TakeExamQuestionFormModel>();
     }
 }

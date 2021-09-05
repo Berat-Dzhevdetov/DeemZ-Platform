@@ -32,6 +32,7 @@
         public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
         public DbSet<ApplicationUserSurvey> ApplicationUserSurvey { get; set; }
+        public DbSet<AnswerUsers> AnswerUsers { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -58,6 +59,11 @@
             mb.Entity<ApplicationUserSurvey>(x =>
             {
                 x.HasKey(x => new { x.ApplicationUserId, x.SurveyId });
+            });
+
+            mb.Entity<AnswerUsers>(x =>
+            {
+                x.HasKey(x => new { x.AnswerId, x.UserId });
             });
 
             base.OnModelCreating(mb);

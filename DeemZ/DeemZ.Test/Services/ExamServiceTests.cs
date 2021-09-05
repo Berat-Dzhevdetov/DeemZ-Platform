@@ -109,7 +109,7 @@ namespace DeemZ.Test.Services
         {
             var expectedPoints = 0;
 
-            var actualPoints = examService.EvaluateExam(null);
+            var actualPoints = examService.EvaluateExam(null, null);
 
             Assert.Equal(expectedPoints, actualPoints);
         }
@@ -226,7 +226,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
         }
@@ -275,7 +275,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
 
@@ -344,7 +344,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
 
@@ -412,7 +412,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
 
@@ -470,7 +470,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
 
@@ -517,7 +517,7 @@ namespace DeemZ.Test.Services
                     Text = "test-question",
                     Answers = new List<TakeExamQuestionAnswerFormModel>()
                     {
-                        new TakeExamQuestionAnswerFormModel(){IsChosen = true,Text = "Test",Id = null},
+                        new TakeExamQuestionAnswerFormModel(){IsChosen = true,Text = "Test",Id = "test-answer-id"},
                     },
                 }
             };
@@ -530,7 +530,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
 
@@ -591,7 +591,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
 
@@ -651,7 +651,7 @@ namespace DeemZ.Test.Services
                 IsPublic = true,
                 Password = "HackMe",
                 Questions = questions,
-            });
+            }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
 

@@ -13,8 +13,9 @@
         string EditExam(string eid, AddExamFormModel exam);
         bool DoesTheUserHavePermissionToExam(string uid, string eid);
         bool IsProvidedPasswordRight(string eid, string password);
-        int EvaluateExam(TakeExamFormModel exam);
+        int EvaluateExam(TakeExamFormModel exam, string uid);
         int SaveUserExam(string uid, int points, string eid);
         string GetCourseIdByExamId(string eid);
+        IDictionary<string, string> GetUserExamAnswers(string eid, string uid);
     }
 }
