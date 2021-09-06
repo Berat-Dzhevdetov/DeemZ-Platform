@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
 {
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System;
     public static class ManageNavPages
     {
         public static string Index => "Index";
