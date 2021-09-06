@@ -2,15 +2,11 @@
 {
     using DeemZ.Data;
     using DeemZ.Data.Models;
-    using DeemZ.Models.DTO;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Newtonsoft.Json;
     using System;
-    using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -28,8 +24,7 @@
 
             MigrateDatabase(services);
             SeedRoles(services);
-            CreateResourceTypes(services);
-            CreateCourses(services);
+            SeedResourceTypes(services);
 
             return app;
         }
@@ -41,7 +36,7 @@
             data.Database.Migrate();
         }
 
-        private static void CreateResourceTypes(IServiceProvider services)
+        private static void SeedResourceTypes(IServiceProvider services)
         {
             var data = services.GetRequiredService<DeemZDbContext>();
 
@@ -87,73 +82,6 @@
             })
             .GetAwaiter()
             .GetResult();
-        }
-
-        private static void CreateCourses(IServiceProvider services)
-        {
-            var data = services.GetRequiredService<DeemZDbContext>();
-
-            if (data.Courses.Any()) return;
-
-            var json = File.ReadAllText("./importCourseData.json");
-
-            var courses = JsonConvert.DeserializeObject<List<CourseImportDataDTO>>(json);
-
-            var dataCourses = new List<Course>();
-
-            foreach (var course in courses)
-            {
-                var newlyCourse = new Course()
-                {
-                    Name = course.Name,
-                    StartDate = DateTime.UtcNow.AddDays(20),
-                    EndDate = DateTime.UtcNow.AddDays(80),
-                    SignUpStartDate = DateTime.UtcNow,
-                    SignUpEndDate = DateTime.UtcNow.AddDays(10),
-                    Credits = course.Credits
-                };
-
-                var lectures = new List<Lecture>();
-                
-                var days = 20;
-
-                foreach (var lecture in course.Lectures)
-                {
-                    var newlyLecture = new Lecture()
-                    {
-                        Name = lecture.Name,
-                        Date = lecture.Date == null ? null : DateTime.UtcNow.AddDays(days),
-                    };
-
-                    days += 3;
-
-                    foreach (var description in lecture.Descriptions)
-                    {
-                        newlyLecture.Descriptions.Add(new Description()
-                        {
-                            Name = description
-                        });
-                    }
-
-                    foreach (var resource in lecture.Resources)
-                    {
-                        newlyLecture.Resources.Add(new Resource()
-                        {
-                            Name = resource.Name,
-                            Path = resource.Path,
-                            ResourceTypeId = data.ResourceTypes.FirstOrDefault(x => x.Name == resource.ResourceType).Id
-                        });
-                    }
-                    lectures.Add(newlyLecture);
-                }
-
-                newlyCourse.Lectures = lectures;
-
-                dataCourses.Add(newlyCourse);
-            }
-
-            data.Courses.AddRange(dataCourses);
-            data.SaveChanges();
         }
     }
 }
