@@ -455,7 +455,13 @@ svg:not(:root) {
     line-height: 100%;
     background-color: #ffa000;
     outline: none;
+    color: #fff;
     border: 2px solid transparent;
+}
+
+.custom-links {
+    display: flex;
+    flex-direction: column;
 }
 
 .primary-btn {
@@ -868,8 +874,13 @@ span.lecture-number::after {
 .monitor-error {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+}
+
+.mayhelp-links {
+    width: fit-content;
+    word-break: break-word;
 }
 
 .monitor {
@@ -959,7 +970,34 @@ span.lecture-number::after {
     }
 }
 
-/*new animation ends*/
+@media only screen and (max-width: 1200px) {
+    .monitor-error {
+        flex-direction: column;
+    }
+
+    .monitor-holder {
+        padding-bottom: 6rem;
+    }
+
+    .monitor {
+        width: 300px;
+        height: 250px;
+    }
+
+    .monitor-holder:before {
+        width: 100px;
+        height: 50px;
+        top: 300px;
+        left: 105px;
+    }
+
+    .monitor-holder:after {
+        width: 200px;
+        height: 15px;
+        top: 50px;
+        left: 52px;
+    }
+}
 
 @media only screen and (max-width: 950px) {
     .guest-users-container .seo-section {
