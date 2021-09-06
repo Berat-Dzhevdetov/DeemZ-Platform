@@ -14,15 +14,16 @@ namespace DeemZ.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService userService;
-
         public HomeController(IUserService userService)
         {
             this.userService = userService;
         }
 
+        public IActionResult Index1() => View();
+
         public async Task<IActionResult> Index()
         {
-            bool isAuthenticated = User.Identity.IsAuthenticated;
+            var isAuthenticated = User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
                 var userId = User.GetId();

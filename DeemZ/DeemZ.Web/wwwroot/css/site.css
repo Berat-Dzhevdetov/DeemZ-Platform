@@ -36,27 +36,27 @@ for details on configuring this project to bundle and minify static web assets. 
     justify-content: center;
 }
 
-.alert{
+.alert {
     margin: 0;
 }
 
-embed{
+embed {
     width: 100%;
     height: 100%;
 }
 
-    .pages .page-number {
-        border: 1px solid #ccc;
-        padding: 0.6rem;
-        width: auto;
-        text-align: center;
-        margin-left: 3px;
-        margin-right: 3px;
-    }
+.pages .page-number {
+    border: 1px solid #ccc;
+    padding: 0.6rem;
+    width: auto;
+    text-align: center;
+    margin-left: 3px;
+    margin-right: 3px;
+}
 
-        .pages .page-number a {
-            display: block;
-        }
+    .pages .page-number a {
+        display: block;
+    }
 
 /* width */
 ::-webkit-scrollbar {
@@ -116,7 +116,7 @@ textarea {
     width: 100%;
 }
 
-iframe,object{
+iframe, object {
     width: 100%;
     height: 70vh;
 }
@@ -125,8 +125,8 @@ iframe,object{
     padding: 2rem;
 }
 
-.resource-holder{
-    background:#ccc;
+.resource-holder {
+    background: #ccc;
 }
 
 .arrow-right {
@@ -810,14 +810,14 @@ span.lecture-number::after {
 
 .your-answer {
     background-color: #949494;
-    padding-left:1rem;
+    padding-left: 1rem;
 }
 
-.fa-check{
+.fa-check {
     color: green;
 }
 
-.fa-times{
+.fa-times {
     color: red;
 }
 
@@ -829,11 +829,11 @@ span.lecture-number::after {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
-.exam-header{
+.exam-header {
     text-align: center;
 }
 
-.question-header{
+.question-header {
     font-size: 30px;
     font-weight: 400;
     margin-bottom: 20px;
@@ -860,6 +860,106 @@ span.lecture-number::after {
     text-align: center;
     cursor: pointer;
 }
+
+.monitor-holder {
+    user-select: none;
+}
+
+.monitor-error {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.monitor {
+    width: 515px;
+    height: 300px;
+    overflow-y: scroll;
+    border: solid 1em #333;
+    border-radius: .5em;
+    color: #FF9C00;
+    font-weight: bold;
+}
+
+    .monitor:first-child {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+
+.error-status {
+    font-size: 80px;
+}
+
+.error-message {
+    font-size: 20px;
+}
+
+.monitor-holder:before {
+    content: "";
+    display: block;
+    position: relative;
+    background: #222;
+    width: 150px;
+    height: 50px;
+    top: 350px;
+    left: 185px;
+}
+
+.monitor-holder:after {
+    content: "";
+    display: block;
+    position: relative;
+    background: #333;
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+    width: 300px;
+    height: 15px;
+    top: 50px;
+    left: 110px;
+}
+
+.links {
+    width: 50%;
+}
+
+.typing-demo {
+    text-transform: uppercase;
+    display: inline;
+    width: 13ch;
+    animation: typing 3s steps(22), blink .5s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-family: monospace;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent
+    }
+}
+
+@keyframes animated-cursor {
+    from {
+        border-bottom-color: rgba(0,255,0,.75);
+    }
+
+    to {
+        border-bottom-color: transparent;
+    }
+}
+
+/*new animation ends*/
 
 @media only screen and (max-width: 950px) {
     .guest-users-container .seo-section {
@@ -894,7 +994,7 @@ span.lecture-number::after {
         height: 600px;
     }
 
-    .resource{
+    .resource {
         padding: 0;
     }
 
@@ -919,8 +1019,8 @@ span.lecture-number::after {
         padding: 2rem 3rem;
     }
 
-    .forum-holder{
-        padding:0;
+    .forum-holder {
+        padding: 0;
     }
 }
 
@@ -929,16 +1029,17 @@ span.lecture-number::after {
         flex-direction: column !important;
     }
 
-    .forum-holder .topics-holder .topic{
-        padding:0;
+    .forum-holder .topics-holder .topic {
+        padding: 0;
     }
 
         .forum-holder .topics-holder .topic img {
             width: 100px;
             height: 100px;
-            margin:0;
+            margin: 0;
         }
-    .forum-holder .topics-holder{
+
+    .forum-holder .topics-holder {
         padding: 0;
     }
 
