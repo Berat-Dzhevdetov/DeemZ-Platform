@@ -1,4 +1,6 @@
-﻿namespace DeemZ.Web.Controllers
+﻿using DeemZ.Global.WebConstants;
+
+namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -42,9 +44,12 @@
 
         public async Task<IActionResult> Access(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
-            if (!examService.GetExamById(examId)) return NotFound();
+
+            if (!examService.GetExamById(examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound});
 
             var userId = User.GetId();
 
@@ -56,7 +61,8 @@
                 return RedirectToAction(nameof(ExamController.Take), new { examId });
             }
 
-            if (!isUserAdmin && !examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
+            if (!isUserAdmin && !examService.DoesTheUserHavePermissionToExam(userId, examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
 
             return View();
         }
@@ -64,9 +70,11 @@
         [HttpPost]
         public IActionResult Access(string examId, string password)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
-            if (!examService.GetExamById(examId)) return NotFound();
+            if (!examService.GetExamById(examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             if (guard.AgainstNull(password, nameof(password)))
             {
@@ -76,7 +84,8 @@
 
             var userId = User.GetId();
 
-            if (!examService.DoesTheUserHavePermissionToExam(userId, examId)) return Unauthorized();
+            if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
 
             var isProvidedPasswordRight = examService.IsProvidedPasswordRight(examId, password);
 
@@ -93,9 +102,11 @@
 
         public async Task<IActionResult> Take(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
-            if (!examService.GetExamById(examId)) return NotFound();
+            if (!examService.GetExamById(examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             bool isPasswordProvided = TempData[IsPasswordProvidedKey] is bool;
 
@@ -110,7 +121,8 @@
 
             var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
-            if (!exam.IsPublic && !isUserAdmin) return BadRequest();
+            if (!exam.IsPublic && !isUserAdmin)
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
 
             if (exam.ShuffleQuestions) exam.Questions.Shuffle();
 
@@ -126,11 +138,14 @@
         [HttpPost]
         public async Task<IActionResult> Take(string examId, TakeExamFormModel exam)
         {
-            if(!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidForm });
 
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
-            if (!examService.GetExamById(examId)) return NotFound();
+            if (!examService.GetExamById(examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             bool passingTheTest = TempData[PassingTheTest] is bool;
 
@@ -140,7 +155,8 @@
 
             var isUserAdmin = User.IsAdmin() || User.IsLecture();
 
-            if (!exam.IsPublic && !isUserAdmin) return BadRequest();
+            if (!exam.IsPublic && !isUserAdmin)
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
 
             var points = examService.EvaluateExam(exam, userId);
 
@@ -160,9 +176,11 @@
         [Authorize(Roles = AdminRoleName)]
         public IActionResult Add(string courseId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
+            if (guard.AgainstNull(courseId, nameof(courseId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
-            if (!courseService.GetCourseById(courseId)) return NotFound();
+            if (!courseService.GetCourseById(courseId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             return View();
         }
@@ -171,9 +189,11 @@
         [Authorize(Roles = AdminRoleName)]
         public IActionResult Add(string courseId, AddExamFormModel exam)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
+            if (guard.AgainstNull(courseId, nameof(courseId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidCourseId });
 
-            if (!courseService.GetCourseById(courseId)) return NotFound();
+            if (!courseService.GetCourseById(courseId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             if (!ModelState.IsValid) return View(exam);
 
@@ -185,9 +205,11 @@
         [Authorize(Roles = AdminRoleName)]
         public IActionResult Edit(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
-            if (!examService.GetExamById(examId)) return NotFound();
+            if (!examService.GetExamById(examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             var exam = examService.GetExamById<AddExamFormModel>(examId);
 
@@ -201,9 +223,11 @@
         [Authorize(Roles = AdminRoleName)]
         public IActionResult Edit(string examId, AddExamFormModel exam)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
-            if (!examService.GetExamById(examId)) return NotFound();
+            if (!examService.GetExamById(examId))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             if (!ModelState.IsValid) return View(exam);
 
@@ -230,7 +254,8 @@
 
         public IActionResult ViewExam(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
+            if (guard.AgainstNull(examId, nameof(examId)))
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
 
             var userId = User.GetId();
 
@@ -241,12 +266,14 @@
 
             var exam = examService.GetExamById<ViewExamViewModel>(examId);
 
-            if (exam == null) return BadRequest();
+            if (exam == null)
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
 
             exam.EndDate = exam.EndDate.ToLocalTime();
 
 
-            if (DateTime.Now <= exam.EndDate && !isUserInRole) return Unauthorized();
+            if (DateTime.Now <= exam.EndDate && !isUserInRole)
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
 
             exam.UserAnswers = examService.GetUserExamAnswers(examId, userId);
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using DeemZ.Global.WebConstants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DeemZ.Web.Controllers
 {
@@ -19,7 +21,11 @@ namespace DeemZ.Web.Controllers
             this.userService = userService;
         }
 
-        public IActionResult Index1() => View();
+        public IActionResult UserErrorPage(string errorMsg)
+        {
+            ViewData["Error"] = errorMsg;
+            return View();
+        }
 
         public async Task<IActionResult> Index()
         {
