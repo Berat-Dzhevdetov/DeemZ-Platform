@@ -4,14 +4,12 @@
     using Microsoft.AspNetCore.Mvc.Filters;
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Routing;
-    using System.Linq;
     using System;
     using DeemZ.Web.Controllers;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services;
 
     using static DeemZ.Global.WebConstants.UserErrorMessages;
-    using System.Diagnostics;
 
     public class ClientRequired : ActionFilterAttribute
     {
@@ -36,17 +34,17 @@
                 {
                     if (!actionArguments.Keys.Contains(arg))
                     {
-                        var actionName = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)filterContext.ActionDescriptor).ActionName;
+                        var controllerDescription = (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)filterContext.ActionDescriptor;
 
-                        var controllerName = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)filterContext.ActionDescriptor).ControllerName;
+                        var actionName = controllerDescription.ActionName;
+
+                        var controllerName = controllerDescription.ControllerName;
 
                         var requestMethod = filterContext.HttpContext.Request.Method;
 
                         throw new ArgumentException($"Invalid argument '{arg}' in '{controllerName}/{actionName}' while trying to do '{requestMethod}' request");
                     }
                 }
-
-                actionArguments = actionArguments.Where(x => tempArr.Contains(x.Value)).ToDictionary(x => x.Key, x => x.Value);
             }
 
             CheckAgainstNull(actionArguments, filterContext);

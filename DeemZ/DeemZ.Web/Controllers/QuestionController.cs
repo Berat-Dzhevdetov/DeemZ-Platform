@@ -2,43 +2,39 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using DeemZ.Services;
     using DeemZ.Services.Question;
     using DeemZ.Services.ExamServices;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Web.Areas.Administration.Controllers;
+    using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constants;
 
     [Authorize(Roles = AdminRoleName)]
     public class QuestionController : Controller
     {
-        private readonly Guard guard;
         private readonly IQuestionService questionService;
         private readonly IExamService examService;
 
-        public QuestionController(Guard guard, IQuestionService questionService, IExamService examService)
+        public QuestionController(IQuestionService questionService, IExamService examService)
         {
-            this.guard = guard;
             this.questionService = questionService;
             this.examService = examService;
         }
 
+        [ClientRequired]
         public IActionResult Add(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
-
             if (!examService.GetExamById(examId)) return NotFound();
 
             return View();
         }
 
         [HttpPost]
+        [ClientRequired]
         public IActionResult Add(string examId, AddQuestionFormModel question)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
-
             if (!examService.GetExamById(examId)) return NotFound();
 
             var error = questionService.ValidateQuestionFormModel(question);
@@ -52,10 +48,9 @@
             return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
         }
 
+        [ClientRequired]
         public IActionResult Delete(string questionId)
         {
-            if (guard.AgainstNull(questionId, nameof(questionId))) return BadRequest();
-
             if (!questionService.GetQuestionById(questionId)) return NotFound();
 
             var examId = questionService.Delete(questionId);
@@ -63,10 +58,9 @@
             return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
         }
 
+        [ClientRequired]
         public IActionResult Edit(string questionId)
         {
-            if (guard.AgainstNull(questionId, nameof(questionId))) return BadRequest();
-
             if (!questionService.GetQuestionById(questionId)) return NotFound();
 
             var viewModel = questionService.GetQuestionById<AddQuestionFormModel>(questionId);
@@ -84,10 +78,9 @@
         }
 
         [HttpPost]
+        [ClientRequired]
         public IActionResult Edit(string questionId, AddQuestionFormModel question)
         {
-            if (guard.AgainstNull(questionId, nameof(questionId))) return BadRequest();
-
             if (!questionService.GetQuestionById(questionId)) return NotFound();
 
             var error = questionService.ValidateQuestionFormModel(question);

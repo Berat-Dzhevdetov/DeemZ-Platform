@@ -4,32 +4,29 @@
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Reports;
-    using DeemZ.Services;
     using DeemZ.Services.ReportService;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.Reports;
     using DeemZ.Web.Areas.Administration.Controllers;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using DeemZ.Web.Filters;
 
     public class ReportController : Controller
     {
         private readonly ILectureService lectureService;
         private readonly IReportService reportService;
-        private readonly Guard guard;
 
-        public ReportController(ILectureService lectureService, Guard guard, IReportService reportService)
+        public ReportController(ILectureService lectureService, IReportService reportService)
         {
             this.lectureService = lectureService;
-            this.guard = guard;
             this.reportService = reportService;
         }
 
         [Authorize]
+        [ClientRequired]
         public IActionResult Add(string lectureId)
         {
-            if (guard.AgainstNull(lectureId, nameof(lectureId))) return NotFound();
-
             var model = new AddReportFormModel()
             {
                 LectureId = lectureId,
@@ -39,6 +36,7 @@
 
         [Authorize]
         [HttpPost]
+        [ClientRequired]
         public IActionResult Add(AddReportFormModel formModel)
         {
             if (!ModelState.IsValid) return View(formModel);
@@ -57,10 +55,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Preview(string reportId)
         {
-            if (guard.AgainstNull(reportId, nameof(reportId))) return BadRequest();
-
             var report = reportService.GetReportById<PreviewReportViewModel>(reportId);
 
             if (report == null) return NotFound();
@@ -69,10 +66,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Delete(string reportId)
         {
-            if (guard.AgainstNull(reportId, nameof(reportId))) return BadRequest();
-
             var report = reportService.GetReportById(reportId);
 
             if (!report) return NotFound();

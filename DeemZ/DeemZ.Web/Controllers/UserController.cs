@@ -3,33 +3,30 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
-    using DeemZ.Services;
     using DeemZ.Services.UserServices;
     using DeemZ.Models.FormModels.User;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Services.FileService;
+    using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constants;
 
     public class UserController : Controller
     {
-        private readonly Guard guard;
         private readonly IUserService userService;
         private readonly IFileService fileService;
 
-        public UserController(Guard guard, IUserService userService, IFileService fileService)
+        public UserController(IUserService userService, IFileService fileService)
         {
-            this.guard = guard;
             this.userService = userService;
             this.fileService = fileService;
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public async Task<IActionResult> Edit(string userId)
         {
-            if (guard.AgainstNull(userId, nameof(userId))) return BadRequest();
-
             if (!userService.GetUserById(userId)) return NotFound();
 
             var user = userService.GetUserById<EditUserFormModel>(userId);
@@ -41,10 +38,9 @@
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public async Task<IActionResult> Edit(string userId, EditUserFormModel user)
         {
-            if (guard.AgainstNull(userId, nameof(userId))) return BadRequest();
-
             if (user == null) return NotFound();
 
             var isEmailFree = userService.IsEmailFree(userId, user.Email);

@@ -1,29 +1,23 @@
 ﻿namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using DeemZ.Services;
     using DeemZ.Services.SurveyServices;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Models.ViewModels.Surveys;
     using Microsoft.AspNetCore.Http;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Web.Filters;
 
     public class SurveyController : Controller
     {
-        private readonly Guard guard;
         private readonly ISurveyService surveyService;
 
-        public SurveyController(ISurveyService surveyService, Guard guard)
-        {
-            this.surveyService = surveyService;
-            this.guard = guard;
-        }
+        public SurveyController(ISurveyService surveyService) => this.surveyService = surveyService;
 
         [Authorize]
+        [ClientRequired]
         public IActionResult Take(string surveyId)
         {
-            if (guard.AgainstNull(surveyId, nameof(surveyId))) return NotFound();
-
             var userId = User.GetId();
 
             if (CheckIfUserHavePermissionToThisSurvey(userId,surveyId)) return Unauthorized();
@@ -37,10 +31,9 @@
 
         [Authorize]
         [HttpPost]
+        [ClientRequired]
         public IActionResult Take(IFormCollection answers)
         {
-            if (guard.AgainstNull(answers)) return NotFound();
-
             var surveyId = answers["surveyId"].ToString();
 
             var userId = User.GetId();

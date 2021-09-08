@@ -1,6 +1,4 @@
-﻿using DeemZ.Data.Models;
-
-namespace DeemZ.Test.Services
+﻿namespace DeemZ.Test.Services
 {
     using System.Linq;
     using Xunit;

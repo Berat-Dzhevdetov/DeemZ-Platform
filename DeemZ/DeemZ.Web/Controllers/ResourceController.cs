@@ -13,6 +13,7 @@
     using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Services.UserServices;
+    using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constants;
 
@@ -34,10 +35,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Add(string lectureId)
         {
-            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
-
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
             var formModel = new AddResourceFormModel();
@@ -52,10 +52,9 @@
         [DisableRequestSizeLimit,
                  RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,
                  ValueLengthLimit = int.MaxValue)]
+        [ClientRequired("lectureId")]
         public IActionResult Add(string lectureId, AddResourceFormModel resource, IFormFile file)
         {
-            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
-
             if (!resourceService.IsValidResourceType(resource.ResourceTypeId)) ModelState.AddModelError(nameof(resource.ResourceTypes), "Invalid resource type");
 
             if (!ModelState.IsValid)
@@ -88,10 +87,9 @@
         }
 
         [Authorize]
+        [ClientRequired]
         public async Task<IActionResult> ViewResource(string resourceId)
         {
-            if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
-
             if (!resourceService.GetResourceById(resourceId)) return NotFound();
 
             var userId = User.GetId();
@@ -114,10 +112,9 @@
         }
 
         [Authorize]
+        [ClientRequired]
         public async Task<IActionResult> Download(string resourceId)
         {
-            if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
-
             if (!resourceService.GetResourceById(resourceId)) return NotFound();
 
             var userId = User.GetId();
@@ -134,10 +131,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Delete(string resourceId)
         {
-            if (guard.AgainstNull(resourceId, nameof(resourceId))) return BadRequest();
-
             if (!resourceService.GetResourceById(resourceId)) return NotFound();
 
             var lectureId = resourceService.Delete(resourceId);

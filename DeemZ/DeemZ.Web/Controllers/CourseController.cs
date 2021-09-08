@@ -3,37 +3,34 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using System;
+    using System.Threading.Tasks;
     using DeemZ.Models.FormModels.Course;
     using DeemZ.Models.ViewModels.Course;
-    using DeemZ.Services;
     using DeemZ.Services.CourseServices;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.LectureServices;
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Services.UserServices;
+    using DeemZ.Web.Filters;
 
     using static Global.WebConstants.Constants;
-    using System.Threading.Tasks;
 
     public class CourseController : Controller
     {
-        private readonly Guard guard;
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
         private readonly IUserService userService;
 
-        public CourseController(Guard guard, ICourseService courseService, ILectureService lectureService, IUserService userService)
+        public CourseController(ICourseService courseService, ILectureService lectureService, IUserService userService)
         {
-            this.guard = guard;
             this.courseService = courseService;
             this.lectureService = lectureService;
             this.userService = userService;
         }
 
+        [ClientRequired]
         public async Task<IActionResult> ViewCourse(string courseId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
@@ -50,10 +47,9 @@
         }
 
         [Authorize]
+        [ClientRequired]
         public async Task<IActionResult> SignUp(string courseId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             var userId = User.GetId();
@@ -67,10 +63,9 @@
 
         [Authorize]
         [HttpPost]
+        [ClientRequired]
         public async Task<IActionResult> SignUp(string courseId, SignUpCourseFormModel signUp)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             var userId = User.GetId();
 
             if (await userService.IsInRoleAsync(userId, AdminRoleName)) return Unauthorized();
@@ -96,6 +91,7 @@
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Add(AddCourseFormModel course)
         {
             if (!ModelState.IsValid) return View(course);
@@ -110,10 +106,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Edit(string courseId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             var course = courseService.GetCourseById<EditCourseFormModel>(courseId);
@@ -123,6 +118,7 @@
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Edit(string courseId, EditCourseFormModel course)
         {
             if (!ModelState.IsValid) return View(course);
@@ -133,10 +129,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Delete(string courseId)
         {
-            if (guard.AgainstNull(courseId)) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             courseService.DeleteCourse(courseId);
@@ -158,6 +153,7 @@
 
         [Authorize(Roles = AdminRoleName)]
         [HttpPost]
+        [ClientRequired]
         public IActionResult AddUserToCourse(AddUserToCourseFormModel model)
         {
             if (!courseService.GetCourseById(model.CourseId)) ModelState.AddModelError(nameof(AddUserToCourseFormModel.CourseId), "Invalid course!");
@@ -179,11 +175,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult DeleteUserFromCourse(string courseId, string userId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId)) ||
-                guard.AgainstNull(userId, nameof(userId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId) ||
                 !userService.GetUserById(userId)) return NotFound();
 

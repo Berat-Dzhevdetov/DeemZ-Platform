@@ -10,6 +10,7 @@
     using DeemZ.Services;
     using DeemZ.Services.ForumServices;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Web.Filters;
 
     public class ForumController : Controller
     {
@@ -54,6 +55,7 @@
 
         [Authorize]
         [HttpPost]
+        [ClientRequired]
         public IActionResult Create(CreateForumTopicFormModel topic)
         {
             if (!ModelState.IsValid) return View(topic);
@@ -65,10 +67,9 @@
             return RedirectToAction(nameof(Topic), new { topicId = topicId });
         }
 
+        [ClientRequired]
         public IActionResult Topic(string topicId)
         {
-            if (guard.AgainstNull(topicId, nameof(topicId))) return NotFound();
-
             var topic = forumService.GetTopicById<TopicViewModel>(topicId);
 
             if (topic == null) return NotFound();
@@ -82,10 +83,9 @@
 
         [HttpPost]
         [Authorize]
+        [ClientRequired]
         public IActionResult PostComment(string topicId, ViewAndFormModelForTopics model)
         {
-            if (guard.AgainstNull(topicId, nameof(topicId))) return NotFound();
-
             if (!ModelState.IsValid)
             {
                 model.ViewModel = forumService.GetTopicById<TopicViewModel>(topicId);

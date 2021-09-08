@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DeemZ.Data;
 using DeemZ.Data.Models;
 using DeemZ.Models.FormModels.Exam;
-using DeemZ.Models.ViewModels.Exams;
-using DeemZ.Models.ViewModels.SurveyQuestions;
 using Xunit;
 
 namespace DeemZ.Test.Services

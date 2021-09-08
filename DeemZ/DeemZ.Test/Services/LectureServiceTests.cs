@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DeemZ.Data;
 using DeemZ.Data.Models;
 using DeemZ.Models.FormModels.Description;
 using DeemZ.Models.FormModels.Lecture;
-using DeemZ.Models.FormModels.Resource;
-using DeemZ.Models.ViewModels.Administration;
 using DeemZ.Models.ViewModels.Description;
 using DeemZ.Models.ViewModels.Lectures;
 using DeemZ.Models.ViewModels.Resources;

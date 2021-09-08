@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using CloudinaryDotNet.Actions;
 using DeemZ.Models.FormModels.Exam;
 using DeemZ.Services;
 using DeemZ.Services.AdminServices;
@@ -7,8 +6,6 @@ using DeemZ.Services.ExamServices;
 using DeemZ.Services.Question;
 using DeemZ.Services.SurveyServices;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.SignalR;
 using Moq;
 
 namespace DeemZ.Test.Services

@@ -9,6 +9,7 @@
     using DeemZ.Models.FormModels.Description;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Web.Areas.Administration.Controllers;
+    using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constants;
 
@@ -26,20 +27,18 @@
             this.courseService = courseService;
         }
 
+        [ClientRequired]
         public IActionResult Add(string courseId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             return View();
         }
 
         [HttpPost]
+        [ClientRequired]
         public IActionResult Add(string courseId, AddLectureFormModel lecture)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             if (!ModelState.IsValid) return View(lecture);
@@ -49,10 +48,9 @@
             return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
         }
 
+        [ClientRequired]
         public IActionResult Edit(string lectureId)
         {
-            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
-
             var formModel = lectureService.GetLectureById<EditLectureFormModel>(lectureId);
 
             if (formModel == null) return NotFound();
@@ -63,10 +61,9 @@
         }
 
         [HttpPost]
+        [ClientRequired]
         public IActionResult Edit(string lectureId, EditLectureFormModel lecture)
         {
-            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
-
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
             lectureService.EditLectureById(lectureId, lecture);
@@ -75,10 +72,9 @@
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Delete(string lectureId)
         {
-            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
-
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
             lectureService.DeleteLecture(lectureId);
