@@ -1,17 +1,14 @@
-﻿using System;
-using DeemZ.Global.WebConstants;
-using Microsoft.AspNetCore.Authorization;
-
-namespace DeemZ.Web.Controllers
+﻿namespace DeemZ.Web.Controllers
 {
+    using DeemZ.Models;
+    using DeemZ.Services.UserServices;
+    using DeemZ.Web.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using DeemZ.Models;
-    using DeemZ.Web.Infrastructure;
-    using DeemZ.Services.UserServices;
 
     using static Global.WebConstants.Constants;
+    using static Global.WebConstants.UserErrorMessages;
 
     public class HomeController : Controller
     {
@@ -23,7 +20,12 @@ namespace DeemZ.Web.Controllers
 
         public IActionResult UserErrorPage(string errorMsg)
         {
-            ViewData["Error"] = errorMsg;
+            if(!RouteData.Values.ContainsKey(ErrorMessageKey))
+                return RedirectToAction(nameof(Index));
+
+            var errorMessage = RouteData.Values[ErrorMessageKey];
+
+            TempData[ErrorMessageKey] = errorMessage;
             return View();
         }
 
@@ -43,10 +45,7 @@ namespace DeemZ.Web.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

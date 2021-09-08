@@ -1,6 +1,4 @@
-﻿using DeemZ.Global.WebConstants;
-
-namespace DeemZ.Web.Controllers
+﻿namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -16,8 +14,10 @@ namespace DeemZ.Web.Controllers
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Models.ViewModels.Exams;
     using DeemZ.Infrastructure;
+    using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.UserErrorMessages;
 
     [Authorize]
     public class ExamController : Controller
@@ -42,18 +42,15 @@ namespace DeemZ.Web.Controllers
             this.userService = userService;
         }
 
-        public async Task<IActionResult> Access(string examId)
+        [ClientRequired]
+        public IActionResult Access(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
-
-
             if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound});
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             var userId = User.GetId();
 
-            var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+            var isUserAdmin = User.IsAdmin();
 
             if (isUserAdmin)
             {
@@ -62,19 +59,17 @@ namespace DeemZ.Web.Controllers
             }
 
             if (!isUserAdmin && !examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             return View();
         }
 
+        [ClientRequired("examId")]
         [HttpPost]
         public IActionResult Access(string examId, string password)
         {
-            if (guard.AgainstNull(examId, nameof(examId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
-
             if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             if (guard.AgainstNull(password, nameof(password)))
             {
@@ -85,7 +80,7 @@ namespace DeemZ.Web.Controllers
             var userId = User.GetId();
 
             if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             var isProvidedPasswordRight = examService.IsProvidedPasswordRight(examId, password);
 
@@ -100,13 +95,11 @@ namespace DeemZ.Web.Controllers
             return RedirectToAction(nameof(ExamController.Take), new { examId });
         }
 
+        [ClientRequired]
         public async Task<IActionResult> Take(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
-
             if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             bool isPasswordProvided = TempData[IsPasswordProvidedKey] is bool;
 
@@ -122,7 +115,7 @@ namespace DeemZ.Web.Controllers
             var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             if (!exam.IsPublic && !isUserAdmin)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             if (exam.ShuffleQuestions) exam.Questions.Shuffle();
 
@@ -136,16 +129,14 @@ namespace DeemZ.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Take(string examId, TakeExamFormModel exam)
+        [ClientRequired]
+        public IActionResult Take(string examId, TakeExamFormModel exam)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidForm });
-
-            if (guard.AgainstNull(examId, nameof(examId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { InvalidForm });
 
             if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             bool passingTheTest = TempData[PassingTheTest] is bool;
 
@@ -156,7 +147,7 @@ namespace DeemZ.Web.Controllers
             var isUserAdmin = User.IsAdmin() || User.IsLecture();
 
             if (!exam.IsPublic && !isUserAdmin)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             var points = examService.EvaluateExam(exam, userId);
 
@@ -174,26 +165,22 @@ namespace DeemZ.Web.Controllers
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Add(string courseId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
-
             if (!courseService.GetCourseById(courseId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             return View();
         }
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Add(string courseId, AddExamFormModel exam)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidCourseId });
-
             if (!courseService.GetCourseById(courseId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             if (!ModelState.IsValid) return View(exam);
 
@@ -203,13 +190,11 @@ namespace DeemZ.Web.Controllers
         }
 
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Edit(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
-
             if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             var exam = examService.GetExamById<AddExamFormModel>(examId);
 
@@ -221,13 +206,11 @@ namespace DeemZ.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
+        [ClientRequired]
         public IActionResult Edit(string examId, AddExamFormModel exam)
         {
-            if (guard.AgainstNull(examId, nameof(examId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
-
             if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             if (!ModelState.IsValid) return View(exam);
 
@@ -252,11 +235,9 @@ namespace DeemZ.Web.Controllers
             return View(exams);
         }
 
+        [ClientRequired]
         public IActionResult ViewExam(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId)))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.InvalidExamId });
-
             var userId = User.GetId();
 
             var isUserInRole = User.IsAdmin() || User.IsLecture();
@@ -267,13 +248,13 @@ namespace DeemZ.Web.Controllers
             var exam = examService.GetExamById<ViewExamViewModel>(examId);
 
             if (exam == null)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.ResourceNotFound });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             exam.EndDate = exam.EndDate.ToLocalTime();
 
 
             if (DateTime.Now <= exam.EndDate && !isUserInRole)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { UserErrorMessages.AccessDenied });
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             exam.UserAnswers = examService.GetUserExamAnswers(examId, userId);
 

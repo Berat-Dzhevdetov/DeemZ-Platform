@@ -1,14 +1,15 @@
-﻿<div class="monitor-error">
+﻿@using DeemZ.Global.WebConstants
+<div class="monitor-error">
     <div class="monitor-holder">
         <div class="monitor">
             <div>
                 <div class="error-status"><div class="typing-demo">404</div></div>
-                <div class="error-message">< <div class="typing-demo">@ViewData["Error"]</div> ></div>
+                <div class="error-message">< <div class="typing-demo">not found</div> ></div>
             </div>
         </div>
     </div>
     <div class="custom-links">
-        <div class="mayhelp-links">We were unable to process the request you submitted. Maybe some of the links would help:</div>
+        <div class="mayhelp-links">@TempData[UserErrorMessages.ErrorMessageKey]. Maybe some of the links would help:</div>
         <div>
             <a asp-area="" asp-controller="Home" asp-action="Index" class="btn base-btn">Home</a>
         </div>
