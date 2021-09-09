@@ -7,7 +7,6 @@
     using System.Linq;
     using DeemZ.Services.AdminServices;
     using DeemZ.Models.ViewModels.Administration;
-    using DeemZ.Services;
     using DeemZ.Services.CourseServices;
     using DeemZ.Models.ViewModels.Resources;
     using DeemZ.Services.LectureServices;
@@ -20,15 +19,15 @@
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.Question;
     using DeemZ.Global.Extensions;
+    using DeemZ.Web.Infrastructure;
+    using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constants;
-    using DeemZ.Web.Infrastructure;
 
     [Authorize(Roles = AdminRoleName)]
     [Area(AreaNames.AdminArea)]
     public class AdministrationController : Controller
     {
-        private readonly Guard guard;
         private readonly IAdminService adminService;
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
@@ -37,9 +36,8 @@
         private readonly IExamService examService;
         private readonly IQuestionService questionService;
 
-        public AdministrationController(Guard guard, IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService)
+        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService)
         {
-            this.guard = guard;
             this.adminService = adminService;
             this.courseService = courseService;
             this.lectureService = lectureService;
@@ -84,10 +82,9 @@
             return View(viewModel);
         }
 
+        [ClientRequired("lectureId")]
         public IActionResult Resources(string lectureId, int page = 1, int quantity = 20)
         {
-            if (guard.AgainstNull(lectureId, nameof(lectureId))) return BadRequest();
-
             if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
             var resources = lectureService.GetLectureResourcesById<IndexResourceViewModel>(lectureId);
@@ -107,10 +104,9 @@
             return View(viewModel);
         }
 
+        [ClientRequired("courseId")]
         public IActionResult Lectures(string courseId, int page = 1, int quantity = 20)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             var lectures = lectureService.GetLecturesByCourseId<LectureBasicInformationViewModel>(courseId);
@@ -167,10 +163,9 @@
             return View(viewModel);
         }
 
+        [ClientRequired]
         public IActionResult Exams(string courseId)
         {
-            if (guard.AgainstNull(courseId, nameof(courseId))) return BadRequest();
-
             if (!courseService.GetCourseById(courseId)) return NotFound();
 
             var viewModel = new AdministrationExamsViewModel();
@@ -182,10 +177,9 @@
             return View(viewModel);
         }
 
+        [ClientRequired]
         public IActionResult Questions(string examId)
         {
-            if (guard.AgainstNull(examId, nameof(examId))) return BadRequest();
-
             if (!examService.GetExamById(examId)) return NotFound();
 
             var viewModel = new AdministrationQuetionsViewModel();
