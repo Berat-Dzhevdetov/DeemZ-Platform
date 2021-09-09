@@ -17,6 +17,10 @@ for details on configuring this project to bundle and minify static web assets. 
     box-sizing: border-box;
 }
 
+.mayhelp-links{
+    padding: 2rem;
+}
+
 .scroll-to-top {
     right: 30px;
     bottom: 50px;
@@ -869,6 +873,7 @@ span.lecture-number::after {
 
 .monitor-holder {
     user-select: none;
+    padding: 2rem;
 }
 
 .monitor-error {

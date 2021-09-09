@@ -1,17 +1,21 @@
-﻿@using DeemZ.Global.WebConstants
+﻿@model DeemZ.Models.DTOs.ClientRequiredModel
+@{ 
+    ViewData["Title"] = Model.StatusCode;
+}
 <div class="monitor-error">
     <div class="monitor-holder">
         <div class="monitor">
             <div>
-                <div class="error-status"><div class="typing-demo">404</div></div>
-                <div class="error-message">< <div class="typing-demo">not found</div> ></div>
+                <div class="error-status"><div class="typing-demo">@((int)(Model.StatusCode))</div></div>
+                <div class="error-message">< <div class="typing-demo">@Model.StatusCode</div> ></div>
             </div>
         </div>
     </div>
     <div class="custom-links">
-        <div class="mayhelp-links">@TempData[UserErrorMessages.ErrorMessageKey]. Maybe some of the links would help:</div>
-        <div>
+        <div class="mayhelp-links">@Model.Message. Maybe some of the links would help:</div>
+        <div class="mayhelp-links">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="btn base-btn">Home</a>
+            <a asp-area="" asp-controller="Forum" asp-action="Index" class="btn base-btn">Forum</a>
         </div>
     </div>
 </div>

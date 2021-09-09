@@ -60,15 +60,11 @@ namespace DeemZ.Web
             app.PrepareDatabase();
 
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage()
                     .UseMigrationsEndPoint();
-            }
             else
-            {
                 app.UseExceptionHandler("/Home/Error")
                     .UseHsts();
-            }
 
 
 
@@ -77,6 +73,7 @@ namespace DeemZ.Web
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
+                .UseCookiePolicy()
                 .UseEndpoints(endpoints =>
                     {
                         endpoints.MapDefaultAreaRoute();

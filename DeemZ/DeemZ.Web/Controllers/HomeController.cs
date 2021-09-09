@@ -1,11 +1,14 @@
 ﻿namespace DeemZ.Web.Controllers
 {
-    using DeemZ.Models;
-    using DeemZ.Services.UserServices;
-    using DeemZ.Web.Infrastructure;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+    using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using DeemZ.Models;
+    using DeemZ.Models.DTOs;
+    using DeemZ.Services.UserServices;
+    using DeemZ.Web.Infrastructure;
 
     using static Global.WebConstants.Constants;
     using static Global.WebConstants.UserErrorMessages;
@@ -18,15 +21,21 @@
             this.userService = userService;
         }
 
-        public IActionResult UserErrorPage(string errorMsg)
+        public IActionResult UserErrorPage()
         {
-            if(!RouteData.Values.ContainsKey(ErrorMessageKey))
+            string errorMessageJson = null;
+            try
+            {
+                errorMessageJson = TempData[ErrorMessageKey].ToString();
+            }
+            catch (Exception)
+            {
                 return RedirectToAction(nameof(Index));
+            }
 
-            var errorMessage = RouteData.Values[ErrorMessageKey];
+            var errorMessage = JsonConvert.DeserializeObject<ClientRequiredModel>(errorMessageJson);
 
-            TempData[ErrorMessageKey] = errorMessage;
-            return View();
+            return View(errorMessage);
         }
 
         public async Task<IActionResult> Index()

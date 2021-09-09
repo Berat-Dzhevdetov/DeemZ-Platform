@@ -2,12 +2,15 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Routing;
     using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using DeemZ.Services;
+    using DeemZ.Models.DTOs;
+    using DeemZ.Models;
     using DeemZ.Web.Controllers;
     using DeemZ.Web.Infrastructure;
-    using DeemZ.Services;
 
     using static DeemZ.Global.WebConstants.UserErrorMessages;
 
@@ -26,7 +29,7 @@
         {
             var actionArguments = filterContext.ActionArguments;
 
-            if(args != null)
+            if (args != null)
             {
                 var tempArr = args.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
@@ -35,7 +38,6 @@
                     if (!actionArguments.Keys.Contains(arg))
                     {
                         var controllerDescription = (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)filterContext.ActionDescriptor;
-
                         var actionName = controllerDescription.ActionName;
 
                         var controllerName = controllerDescription.ControllerName;
@@ -47,24 +49,29 @@
                 }
             }
 
-            CheckAgainstNull(actionArguments, filterContext);
-        }
-
-        private bool CheckAgainstNull(IDictionary<string,object> actionArguments, ActionExecutingContext filterContext)
-        {
-            foreach (KeyValuePair<string, object> entry in actionArguments)
+            var nullValue = CheckAgainstNull(actionArguments, filterContext);
+            if (nullValue != null)
             {
-                if (guard.AgainstNull(entry.Value, nameof(entry.Value)))
+                var clientRequired = new ClientRequiredModel
                 {
-                    filterContext.RouteData.Values.Add(ErrorMessageKey, string.Format(InvalidParam, entry.Key.ToLower()));
+                    Message = string.Format(InvalidParam, nullValue),
+                    StatusCode = HttpStatusCodes.BadRequest
+                };
 
-                    filterContext.Result = new RedirectToRouteResult(
+                ((Controller)filterContext.Controller).TempData[ErrorMessageKey] = JsonConvert.SerializeObject(clientRequired);
+
+                filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary(new { controller = typeof(HomeController).GetControllerName(), action = nameof(HomeController.UserErrorPage) })
                     );
-                    return false;
-                }
             }
-            return true;
+        }
+
+        private string CheckAgainstNull(IDictionary<string, object> actionArguments, ActionExecutingContext filterContext)
+        {
+            foreach (KeyValuePair<string, object> entry in actionArguments)
+                if (guard.AgainstNull(entry.Value, nameof(entry.Value)))
+                    return entry.Key;
+            return null;
         }
     }
 }
