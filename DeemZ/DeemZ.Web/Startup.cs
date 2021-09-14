@@ -1,5 +1,3 @@
-using DeemZ.Web.Hubs;
-
 namespace DeemZ.Web
 {
     using Microsoft.AspNetCore.Builder;
@@ -11,6 +9,7 @@ namespace DeemZ.Web
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Identity;
     using DeemZ.Data;
+    using DeemZ.Web.Hubs;
     using DeemZ.Data.Models;
     using DeemZ.Web.Infrastructure;
 
