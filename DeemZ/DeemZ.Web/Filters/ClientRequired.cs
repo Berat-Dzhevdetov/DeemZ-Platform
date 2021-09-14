@@ -52,13 +52,13 @@
             var nullValue = CheckAgainstNull(actionArguments, filterContext);
             if (nullValue != null)
             {
-                var clientRequired = new ClientRequiredModel
+                var errorModel = new HandleErrorModel
                 {
                     Message = string.Format(InvalidParam, nullValue),
                     StatusCode = HttpStatusCodes.BadRequest
                 };
 
-                ((Controller)filterContext.Controller).TempData[ErrorMessageKey] = JsonConvert.SerializeObject(clientRequired);
+                ((Controller)filterContext.Controller).TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
 
                 filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary(new { controller = typeof(HomeController).GetControllerName(), action = nameof(HomeController.UserErrorPage) })

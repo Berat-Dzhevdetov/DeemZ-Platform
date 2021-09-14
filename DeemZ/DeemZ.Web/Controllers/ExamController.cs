@@ -43,11 +43,9 @@
         }
 
         [ClientRequired]
+        [IfExists]
         public IActionResult Access(string examId)
         {
-            if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
-
             var userId = User.GetId();
 
             var isUserAdmin = User.IsAdmin();
@@ -65,12 +63,10 @@
         }
 
         [ClientRequired("examId")]
+        [IfExists]
         [HttpPost]
         public IActionResult Access(string examId, string password)
         {
-            if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
-
             if (guard.AgainstNull(password, nameof(password)))
             {
                 ViewBag.PasswordValidation = PasswordIsRequired;
@@ -96,11 +92,9 @@
         }
 
         [ClientRequired]
+        [IfExists]
         public async Task<IActionResult> Take(string examId)
         {
-            if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
-
             bool isPasswordProvided = TempData[IsPasswordProvidedKey] is bool;
 
             if (!isPasswordProvided) return RedirectToAction(nameof(ExamController.Access), new { examId });
@@ -130,13 +124,11 @@
 
         [HttpPost]
         [ClientRequired]
+        [IfExists]
         public IActionResult Take(string examId, TakeExamFormModel exam)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { InvalidForm });
-
-            if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             bool passingTheTest = TempData[PassingTheTest] is bool;
 
@@ -166,22 +158,15 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
-        public IActionResult Add(string courseId)
-        {
-            if (!courseService.GetCourseById(courseId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
-
-            return View();
-        }
+        [IfExists]
+        public IActionResult Add(string courseId) => View();
 
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Add(string courseId, AddExamFormModel exam)
         {
-            if (!courseService.GetCourseById(courseId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
-
             if (!ModelState.IsValid) return View(exam);
 
             examService.CreateExam(courseId, exam);
@@ -191,11 +176,9 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string examId)
         {
-            if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
-
             var exam = examService.GetExamById<AddExamFormModel>(examId);
 
             exam.StartDate = exam.StartDate.ToLocalTime();
@@ -207,11 +190,9 @@
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string examId, AddExamFormModel exam)
         {
-            if (!examService.GetExamById(examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
-
             if (!ModelState.IsValid) return View(exam);
 
             examService.EditExam(examId, exam);
@@ -228,14 +209,13 @@
             var exams = examService.GetExamsByUserId<GetUserExamInfoViewModel>(userId);
 
             foreach (var exam in exams)
-            {
                 exam.EndDate = exam.EndDate.ToLocalTime();
-            }
 
             return View(exams);
         }
 
         [ClientRequired]
+        [IfExists]
         public IActionResult ViewExam(string examId)
         {
             var userId = User.GetId();
@@ -246,9 +226,6 @@
                 return Forbid();
 
             var exam = examService.GetExamById<ViewExamViewModel>(examId);
-
-            if (exam == null)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
 
             exam.EndDate = exam.EndDate.ToLocalTime();
 

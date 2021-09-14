@@ -28,19 +28,14 @@
         }
 
         [ClientRequired]
-        public IActionResult Add(string courseId)
-        {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
-            return View();
-        }
+        [IfExists]
+        public IActionResult Add(string courseId) => View();
 
         [HttpPost]
         [ClientRequired]
+        [IfExists]
         public IActionResult Add(string courseId, AddLectureFormModel lecture)
         {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
             if (!ModelState.IsValid) return View(lecture);
 
             lectureService.AddLectureToCourse(courseId, lecture);
@@ -49,11 +44,10 @@
         }
 
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string lectureId)
         {
             var formModel = lectureService.GetLectureById<EditLectureFormModel>(lectureId);
-
-            if (formModel == null) return NotFound();
 
             formModel.Descriptions = lectureService.GetLectureDescriptions<EditDescriptionFormModel>(lectureId);
 
@@ -62,10 +56,9 @@
 
         [HttpPost]
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string lectureId, EditLectureFormModel lecture)
         {
-            if (!lectureService.GetLectureById(lectureId)) return NotFound();
-
             lectureService.EditLectureById(lectureId, lecture);
 
             return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId = lecture.CourseId, area = AreaNames.AdminArea });
@@ -73,10 +66,9 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Delete(string lectureId)
         {
-            if (!lectureService.GetLectureById(lectureId)) return NotFound();
-
             lectureService.DeleteLecture(lectureId);
 
             return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName());

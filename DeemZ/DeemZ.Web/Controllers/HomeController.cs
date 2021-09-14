@@ -16,10 +16,7 @@
     public class HomeController : Controller
     {
         private readonly IUserService userService;
-        public HomeController(IUserService userService)
-        {
-            this.userService = userService;
-        }
+        public HomeController(IUserService userService) => this.userService = userService;
 
         public IActionResult UserErrorPage()
         {
@@ -33,7 +30,7 @@
                 return RedirectToAction(nameof(Index));
             }
 
-            var errorMessage = JsonConvert.DeserializeObject<ClientRequiredModel>(errorMessageJson);
+            var errorMessage = JsonConvert.DeserializeObject<HandleErrorModel>(errorMessageJson);
 
             return View(errorMessage);
         }

@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using System.Reflection;
     using DeemZ.Data.Models;
 
     public class DeemZDbContext : IdentityDbContext<ApplicationUser>
@@ -67,6 +68,13 @@
             });
 
             base.OnModelCreating(mb);
+        }
+
+        public dynamic FindEntity(string table, string Id)
+        {
+            PropertyInfo prop = this.GetType().GetProperty(table, BindingFlags.Instance | BindingFlags.Public);
+            dynamic dbSet = prop.GetValue(this, null);
+            return dbSet.Find(Id);
         }
     }
 }

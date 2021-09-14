@@ -83,10 +83,9 @@
         }
 
         [ClientRequired("lectureId")]
+        [IfExists]
         public IActionResult Resources(string lectureId, int page = 1, int quantity = 20)
         {
-            if (!lectureService.GetLectureById(lectureId)) return NotFound();
-
             var resources = lectureService.GetLectureResourcesById<IndexResourceViewModel>(lectureId);
 
             var allPages = (int)Math.Ceiling(resources.Count() / (quantity * 1.0));
@@ -105,10 +104,9 @@
         }
 
         [ClientRequired("courseId")]
+        [IfExists]
         public IActionResult Lectures(string courseId, int page = 1, int quantity = 20)
         {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
             var lectures = lectureService.GetLecturesByCourseId<LectureBasicInformationViewModel>(courseId);
 
             var allPages = (int)Math.Ceiling(lectures.Count() / (quantity * 1.0));
@@ -141,9 +139,7 @@
             viewModel = AdjustPages(viewModel, page, allPages);
 
             foreach (var user in viewModel.Users)
-            {
                 user.TakenCoursesCount = userService.GetUserTakenCourses(user.Id);
-            }
 
             return View(viewModel);
         }
@@ -164,10 +160,10 @@
         }
 
         [ClientRequired]
+        [IfExists]
+        [IfExists]
         public IActionResult Exams(string courseId)
         {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
             var viewModel = new AdministrationExamsViewModel();
 
             viewModel.CourseId = courseId;
@@ -178,10 +174,9 @@
         }
 
         [ClientRequired]
+        [IfExists]
         public IActionResult Questions(string examId)
         {
-            if (!examService.GetExamById(examId)) return NotFound();
-
             var viewModel = new AdministrationQuetionsViewModel();
 
             viewModel.ExamId = examId;

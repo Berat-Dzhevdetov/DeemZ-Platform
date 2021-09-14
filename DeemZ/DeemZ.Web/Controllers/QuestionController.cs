@@ -24,19 +24,14 @@
         }
 
         [ClientRequired]
-        public IActionResult Add(string examId)
-        {
-            if (!examService.GetExamById(examId)) return NotFound();
-
-            return View();
-        }
+        [IfExists]
+        public IActionResult Add(string examId) => View();
 
         [HttpPost]
         [ClientRequired]
+        [IfExists]
         public IActionResult Add(string examId, AddQuestionFormModel question)
         {
-            if (!examService.GetExamById(examId)) return NotFound();
-
             var error = questionService.ValidateQuestionFormModel(question);
 
             if (error != null ) ModelState.AddModelError(nameof(question.Answers), error);
@@ -49,20 +44,18 @@
         }
 
         [ClientRequired]
+        [IfExists]
         public IActionResult Delete(string questionId)
         {
-            if (!questionService.GetQuestionById(questionId)) return NotFound();
-
             var examId = questionService.Delete(questionId);
 
             return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
         }
 
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string questionId)
         {
-            if (!questionService.GetQuestionById(questionId)) return NotFound();
-
             var viewModel = questionService.GetQuestionById<AddQuestionFormModel>(questionId);
 
             int maxQuestionCount = 4;
@@ -70,19 +63,16 @@
 
 
             for (int i = 0; i < diff; i++)
-            {
                 viewModel.Answers.Add(null);
-            }
 
             return View(viewModel);
         }
 
         [HttpPost]
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string questionId, AddQuestionFormModel question)
         {
-            if (!questionService.GetQuestionById(questionId)) return NotFound();
-
             var error = questionService.ValidateQuestionFormModel(question);
 
             if (error != null) ModelState.AddModelError(nameof(question.Answers), error);

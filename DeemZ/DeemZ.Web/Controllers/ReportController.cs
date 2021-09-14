@@ -8,9 +8,9 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.Reports;
     using DeemZ.Web.Areas.Administration.Controllers;
+    using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constants;
-    using DeemZ.Web.Filters;
 
     public class ReportController : Controller
     {
@@ -25,6 +25,7 @@
 
         [Authorize]
         [ClientRequired]
+        [IfExists]
         public IActionResult Add(string lectureId)
         {
             var model = new AddReportFormModel()
@@ -56,22 +57,20 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Preview(string reportId)
         {
             var report = reportService.GetReportById<PreviewReportViewModel>(reportId);
-
-            if (report == null) return NotFound();
 
             return View(report);
         }
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Delete(string reportId)
         {
             var report = reportService.GetReportById(reportId);
-
-            if (!report) return NotFound();
 
             reportService.Delete(reportId);
 

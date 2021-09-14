@@ -29,10 +29,9 @@
         }
 
         [ClientRequired]
+        [IfExists]
         public async Task<IActionResult> ViewCourse(string courseId)
         {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
             var course = courseService.GetCourseById<DetailsCourseViewModel>(courseId);
 
             string userId = null;
@@ -48,10 +47,9 @@
 
         [Authorize]
         [ClientRequired]
+        [IfExists]
         public async Task<IActionResult> SignUp(string courseId)
         {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
             var userId = User.GetId();
 
             if (await userService.IsInRoleAsync(userId, AdminRoleName)) return Unauthorized();
@@ -64,6 +62,7 @@
         [Authorize]
         [HttpPost]
         [ClientRequired]
+        [IfExists]
         public async Task<IActionResult> SignUp(string courseId, SignUpCourseFormModel signUp)
         {
             var userId = User.GetId();
@@ -75,8 +74,6 @@
             if (isUserSignUpForThisCourse) return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
 
             if (!ModelState.IsValid) return View(signUp);
-
-            if (!courseService.GetCourseById(courseId)) return BadRequest();
 
             var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
 
@@ -107,10 +104,9 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string courseId)
         {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
             var course = courseService.GetCourseById<EditCourseFormModel>(courseId);
 
             return View(course);
@@ -119,6 +115,7 @@
         [HttpPost]
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Edit(string courseId, EditCourseFormModel course)
         {
             if (!ModelState.IsValid) return View(course);
@@ -130,10 +127,9 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Delete(string courseId)
         {
-            if (!courseService.GetCourseById(courseId)) return NotFound();
-
             courseService.DeleteCourse(courseId);
 
             return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
@@ -176,11 +172,9 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists("courseId")]
         public IActionResult DeleteUserFromCourse(string courseId, string userId)
         {
-            if (!courseService.GetCourseById(courseId) ||
-                !userService.GetUserById(userId)) return NotFound();
-
             courseService.DeleteUserFromCourse(courseId, userId);
 
             return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });

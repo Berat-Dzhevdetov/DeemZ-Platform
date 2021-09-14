@@ -16,6 +16,7 @@
 
         [Authorize]
         [ClientRequired]
+        [IfExists]
         public IActionResult Take(string surveyId)
         {
             var userId = User.GetId();

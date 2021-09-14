@@ -36,10 +36,9 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Add(string lectureId)
         {
-            if (!lectureService.GetLectureById(lectureId)) return NotFound();
-
             var formModel = new AddResourceFormModel();
 
             formModel.ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>();
@@ -53,6 +52,7 @@
                  RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,
                  ValueLengthLimit = int.MaxValue)]
         [ClientRequired("lectureId")]
+        [IfExists]
         public IActionResult Add(string lectureId, AddResourceFormModel resource, IFormFile file)
         {
             if (!resourceService.IsValidResourceType(resource.ResourceTypeId)) ModelState.AddModelError(nameof(resource.ResourceTypes), "Invalid resource type");
@@ -62,8 +62,6 @@
                 resource.ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>();
                 return View(resource);
             }
-
-            if (!lectureService.GetLectureById(lectureId)) return NotFound();
 
             string path = string.Empty;
             string publicId = string.Empty;
@@ -88,10 +86,9 @@
 
         [Authorize]
         [ClientRequired]
+        [IfExists]
         public async Task<IActionResult> ViewResource(string resourceId)
         {
-            if (!resourceService.GetResourceById(resourceId)) return NotFound();
-
             var userId = User.GetId();
 
             var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
@@ -113,10 +110,9 @@
 
         [Authorize]
         [ClientRequired]
+        [IfExists]
         public async Task<IActionResult> Download(string resourceId)
         {
-            if (!resourceService.GetResourceById(resourceId)) return NotFound();
-
             var userId = User.GetId();
 
             var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
@@ -132,10 +128,9 @@
 
         [Authorize(Roles = AdminRoleName)]
         [ClientRequired]
+        [IfExists]
         public IActionResult Delete(string resourceId)
         {
-            if (!resourceService.GetResourceById(resourceId)) return NotFound();
-
             var lectureId = resourceService.Delete(resourceId);
 
             return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea, lectureId });

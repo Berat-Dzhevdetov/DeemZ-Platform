@@ -2,6 +2,7 @@
 {
     public enum HttpStatusCodes
     {
-        BadRequest = 401
+        BadRequest = 401,
+        NotFound = 404
     }
 }

@@ -14,8 +14,8 @@
 
     public class ForumController : Controller
     {
-        private readonly IForumService forumService;
         private readonly Guard guard;
+        private readonly IForumService forumService;
 
         public ForumController(IForumService forumService, Guard guard)
         {
@@ -68,11 +68,10 @@
         }
 
         [ClientRequired]
+        [IfExists]
         public IActionResult Topic(string topicId)
         {
             var topic = forumService.GetTopicById<TopicViewModel>(topicId);
-
-            if (topic == null) return NotFound();
 
             var viewModelTest = new ViewAndFormModelForTopics();
 
@@ -84,6 +83,7 @@
         [HttpPost]
         [Authorize]
         [ClientRequired]
+        [IfExists]
         public IActionResult PostComment(string topicId, ViewAndFormModelForTopics model)
         {
             if (!ModelState.IsValid)
