@@ -15,6 +15,8 @@
     using DeemZ.Models.ViewModels.Exams;
     using DeemZ.Infrastructure;
     using DeemZ.Web.Filters;
+    using DeemZ.Models.DTOs;
+    using Newtonsoft.Json;
 
     using static DeemZ.Global.WebConstants.Constants;
     using static DeemZ.Global.WebConstants.UserErrorMessages;
@@ -57,7 +59,17 @@
             }
 
             if (!isUserAdmin && !examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
+            {
+                var errorModel = new HandleErrorModel
+                {
+                    Message = AccessDenied,
+                    StatusCode = Models.HttpStatusCodes.Forbidden
+                };
+
+                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
+
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+            }
 
             return View();
         }
@@ -76,7 +88,17 @@
             var userId = User.GetId();
 
             if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
+            {
+                var errorModel = new HandleErrorModel
+                {
+                    Message = AccessDenied,
+                    StatusCode = Models.HttpStatusCodes.Forbidden
+                };
+
+                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
+
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+            }
 
             var isProvidedPasswordRight = examService.IsProvidedPasswordRight(examId, password);
 
@@ -109,7 +131,17 @@
             var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             if (!exam.IsPublic && !isUserAdmin)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
+            {
+                var errorModel = new HandleErrorModel
+                {
+                    Message = AccessDenied,
+                    StatusCode = Models.HttpStatusCodes.Forbidden
+                };
+
+                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
+
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+            }
 
             if (exam.ShuffleQuestions) exam.Questions.Shuffle();
 
@@ -139,7 +171,17 @@
             var isUserAdmin = User.IsAdmin() || User.IsLecture();
 
             if (!exam.IsPublic && !isUserAdmin)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
+            {
+                var errorModel = new HandleErrorModel
+                {
+                    Message = AccessDenied,
+                    StatusCode = Models.HttpStatusCodes.Forbidden
+                };
+
+                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
+
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+            }
 
             var points = examService.EvaluateExam(exam, userId);
 
@@ -231,7 +273,17 @@
 
 
             if (DateTime.Now <= exam.EndDate && !isUserInRole)
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { AccessDenied });
+            {
+                var errorModel = new HandleErrorModel
+                {
+                    Message = AccessDenied,
+                    StatusCode = Models.HttpStatusCodes.Forbidden
+                };
+
+                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
+
+                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+            }
 
             exam.UserAnswers = examService.GetUserExamAnswers(examId, userId);
 

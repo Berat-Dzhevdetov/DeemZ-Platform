@@ -2,16 +2,12 @@
 {
     using Microsoft.AspNetCore.Mvc.Filters;
     using PluralizeService.Core;
-    using Microsoft.AspNetCore.Routing;
     using System;
-    using Newtonsoft.Json;
     using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
     using DeemZ.Global.Extensions;
     using DeemZ.Data;
     using DeemZ.Models.DTOs;
     using DeemZ.Models;
-    using DeemZ.Web.Controllers;
     using DeemZ.Web.Infrastructure;
 
     using static DeemZ.Global.WebConstants.UserErrorMessages;
@@ -64,16 +60,17 @@
                         StatusCode = HttpStatusCodes.NotFound
                     };
 
-                    ((Controller)filterContext.Controller).TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
-
-                    filterContext.Result = new RedirectToRouteResult(
-                            new RouteValueDictionary(new { controller = typeof(HomeController).GetControllerName(), action = nameof(HomeController.UserErrorPage) })
-                        );
+                    filterContext.RedirectToErrorPage(errorModel);
                 }
                 catch (Exception)
                 {
-                    //todo redirect to error page some other error
-                    throw;
+                    var errorModel = new HandleErrorModel
+                    {
+                        Message = string.Format(InvalidParam, arg.Key),
+                        StatusCode = HttpStatusCodes.BadRequest
+                    };
+
+                    filterContext.RedirectToErrorPage(errorModel);
                 }
             }
 

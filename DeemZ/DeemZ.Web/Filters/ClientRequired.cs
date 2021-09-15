@@ -1,22 +1,18 @@
 ﻿namespace DeemZ.Web.Filters
 {
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using Microsoft.AspNetCore.Routing;
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
     using DeemZ.Services;
     using DeemZ.Models.DTOs;
     using DeemZ.Models;
-    using DeemZ.Web.Controllers;
     using DeemZ.Web.Infrastructure;
 
     using static DeemZ.Global.WebConstants.UserErrorMessages;
 
     public class ClientRequired : ActionFilterAttribute
     {
-        private string args = null;
+        private readonly string args = null;
         private readonly Guard guard;
 
         public ClientRequired(string args = null)
@@ -49,7 +45,8 @@
                 }
             }
 
-            var nullValue = CheckAgainstNull(actionArguments, filterContext);
+            var nullValue = CheckAgainstNull(actionArguments);
+
             if (nullValue != null)
             {
                 var errorModel = new HandleErrorModel
@@ -58,15 +55,11 @@
                     StatusCode = HttpStatusCodes.BadRequest
                 };
 
-                ((Controller)filterContext.Controller).TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
-
-                filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary(new { controller = typeof(HomeController).GetControllerName(), action = nameof(HomeController.UserErrorPage) })
-                    );
+                filterContext.RedirectToErrorPage(errorModel);
             }
         }
 
-        private string CheckAgainstNull(IDictionary<string, object> actionArguments, ActionExecutingContext filterContext)
+        private string CheckAgainstNull(IDictionary<string, object> actionArguments)
         {
             foreach (KeyValuePair<string, object> entry in actionArguments)
                 if (guard.AgainstNull(entry.Value, nameof(entry.Value)))

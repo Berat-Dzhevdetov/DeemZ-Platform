@@ -38,8 +38,9 @@
 
             if (User.Identity.IsAuthenticated) userId = User.GetId();
 
+            //Null reference exception on line 43?
             if (userId == null) course.IsUserSignUpForThisCourse = false;
-            else if (await userService.IsInRoleAsync(userId, AdminRoleName))  course.IsUserSignUpForThisCourse = true;
+            else if (await userService.IsInRoleAsync(userId, AdminRoleName)) course.IsUserSignUpForThisCourse = true;
             else course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
             return View(course);
