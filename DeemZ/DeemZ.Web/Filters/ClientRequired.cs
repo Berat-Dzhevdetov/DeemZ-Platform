@@ -24,6 +24,19 @@
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var actionArguments = filterContext.ActionArguments;
+            var actualActionArguments = filterContext.ActionDescriptor.Parameters;
+
+            //Checking if there is no needed argument
+            if(actionArguments.Count != actualActionArguments.Count)
+            {
+                var errorModel = new HandleErrorModel
+                {
+                    Message = WrongExpectedParams,
+                    StatusCode = HttpStatusCodes.BadRequest
+                };
+
+                filterContext.RedirectToErrorPage(errorModel);
+            }
 
             if (args != null)
             {
@@ -44,6 +57,7 @@
                     }
                 }
             }
+
 
             var nullValue = CheckAgainstNull(actionArguments);
 
