@@ -20,6 +20,7 @@
     using DeemZ.Services.Question;
     using DeemZ.Global.Extensions;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Services.CachingService;
     using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constant;
@@ -35,8 +36,9 @@
         private readonly IReportService reportService;
         private readonly IExamService examService;
         private readonly IQuestionService questionService;
+        private readonly IMemoryCachingService cachingService;
 
-        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService)
+        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService)
         {
             this.adminService = adminService;
             this.courseService = courseService;
@@ -45,11 +47,17 @@
             this.reportService = reportService;
             this.examService = examService;
             this.questionService = questionService;
+            this.cachingService = cachingService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
         {
-            var viewModel = adminService.GetIndexPageInfo();
+            if(!cachingService.ItemExists<AdministrationIndexViewModel>(AdminDashboradStatisticsCacheKey, out var viewModel))
+            {
+                viewModel = adminService.GetIndexPageInfo();
+
+                cachingService.CreateItem(AdminDashboradStatisticsCacheKey, viewModel, TimeSpan.FromMinutes(30));
+            }
 
             var allPages = (int)Math.Ceiling(adminService.GetUserCoursesCount() / (quantity * 1.0));
 
