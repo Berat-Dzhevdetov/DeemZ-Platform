@@ -17,6 +17,7 @@
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.Question;
     using DeemZ.Services.InformativeMessageServices;
+    using DeemZ.Services.CachingService;
 
     public static class ServiceBuilderExtentions
     {
@@ -45,8 +46,6 @@
         {
             services.AddSingleton<Guard>();
 
-            services.AddTransient<IMemoryCache, MemoryCache>();
-
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISurveyService, SurveyService>();
             services.AddTransient<IForumService, ForumService>();
@@ -60,6 +59,7 @@
             services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<IExcelService, ExcelService>();
             services.AddTransient<IInformativeMessageService, InformativeMessageService>();
+            services.AddTransient<IMemoryCachingService, MemoryCachingService>();
         }
     }
 }

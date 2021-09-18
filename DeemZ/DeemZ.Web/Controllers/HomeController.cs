@@ -13,21 +13,23 @@
     using DeemZ.Services.InformativeMessageServices;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.InformativeMessages;
+    using DeemZ.Services.CachingService;
 
     using static Global.WebConstants.Constant;
     using static Global.WebConstants.UserErrorMessages;
 
+
     public class HomeController : BaseController
     {
         private readonly IUserService userService;
-        private readonly IMemoryCache memoryCache;
+        private readonly IMemoryCachingService cachingService;
         private readonly IInformativeMessageService informativeMessageService;
 
-        public HomeController(IUserService userService, IMemoryCache memoryCache, IInformativeMessageService informativeMessageService)
+        public HomeController(IUserService userService, IInformativeMessageService informativeMessageService, IMemoryCachingService cachingService)
         {
             this.userService = userService;
-            this.memoryCache = memoryCache;
             this.informativeMessageService = informativeMessageService;
+            this.cachingService = cachingService;
         }
 
         public async Task<IActionResult> Index()
@@ -38,16 +40,12 @@
                 var userId = User.GetId();
 
                 var isAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
-
-                var informativeMessages = memoryCache.Get<List<InformativeMessagesHeadingViewModel>>(InformativeMessagesCacheKey);
-
-                if(informativeMessages == null)
+                
+                if (!cachingService.ItemExists<IEnumerable<InformativeMessagesHeadingViewModel>>(InformativeMessagesCacheKey, out var informativeMessages))
                 {
-                    informativeMessages = (List<InformativeMessagesHeadingViewModel>)informativeMessageService.GetInformativeMessages<InformativeMessagesHeadingViewModel>();
-
-                    var memoryChacheEntryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)).SetPriority(CacheItemPriority.High);
-
-                    memoryCache.Set(InformativeMessagesCacheKey, informativeMessages, memoryChacheEntryOptions);
+                    informativeMessages = informativeMessageService.GetInformativeMessages<InformativeMessagesHeadingViewModel>();
+                    
+                    cachingService.CreateItem(InformativeMessagesCacheKey, informativeMessages,TimeSpan.FromMinutes(30));
                 }
 
                 var viewModel = userService.GetIndexInformaiton(userId, !isAdmin);
@@ -56,6 +54,7 @@
 
                 return View("LoggedIndex", viewModel);
             }
+
             return View();
         }
 
