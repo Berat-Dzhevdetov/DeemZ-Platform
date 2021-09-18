@@ -68,6 +68,15 @@
                 x.HasKey(x => new { x.AnswerId, x.UserId });
             });
 
+            mb.Entity<Comment>()
+                .HasOne(x => x.Forum)
+                .WithMany(b => b.Comments)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            mb.Entity<Course>()
+                .Property(x => x.Price)
+                .HasColumnType("decimal(18,4)");
+
             base.OnModelCreating(mb);
         }
 
