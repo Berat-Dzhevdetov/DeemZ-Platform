@@ -22,7 +22,7 @@
     using static DeemZ.Global.WebConstants.UserErrorMessages;
 
     [Authorize]
-    public class ExamController : Controller
+    public class ExamController : BaseController
     {
         private readonly Guard guard;
         private readonly IExamService examService;
@@ -60,15 +60,7 @@
 
             if (!isUserAdmin && !examService.DoesTheUserHavePermissionToExam(userId, examId))
             {
-                var errorModel = new HandleErrorModel
-                {
-                    Message = AccessDenied,
-                    StatusCode = Models.HttpStatusCodes.Forbidden
-                };
-
-                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
-
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 401 });
             }
 
             return View();
@@ -89,15 +81,7 @@
 
             if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
             {
-                var errorModel = new HandleErrorModel
-                {
-                    Message = AccessDenied,
-                    StatusCode = Models.HttpStatusCodes.Forbidden
-                };
-
-                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
-
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
             }
 
             var isProvidedPasswordRight = examService.IsProvidedPasswordRight(examId, password);
@@ -132,15 +116,7 @@
 
             if (!exam.IsPublic && !isUserAdmin)
             {
-                var errorModel = new HandleErrorModel
-                {
-                    Message = AccessDenied,
-                    StatusCode = Models.HttpStatusCodes.Forbidden
-                };
-
-                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
-
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
             }
 
             if (exam.ShuffleQuestions) exam.Questions.Shuffle();
@@ -172,15 +148,7 @@
 
             if (!exam.IsPublic && !isUserAdmin)
             {
-                var errorModel = new HandleErrorModel
-                {
-                    Message = AccessDenied,
-                    StatusCode = Models.HttpStatusCodes.Forbidden
-                };
-
-                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
-
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
             }
 
             var points = examService.EvaluateExam(exam, userId);
@@ -265,7 +233,7 @@
             var isUserInRole = User.IsAdmin() || User.IsLecture();
 
             if (!isUserInRole && !examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return Forbid();
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
 
             var exam = examService.GetExamById<ViewExamViewModel>(examId);
 
@@ -274,15 +242,7 @@
 
             if (DateTime.Now <= exam.EndDate && !isUserInRole)
             {
-                var errorModel = new HandleErrorModel
-                {
-                    Message = AccessDenied,
-                    StatusCode = Models.HttpStatusCodes.Forbidden
-                };
-
-                TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
-
-                return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName());
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
             }
 
             exam.UserAnswers = examService.GetUserExamAnswers(examId, userId);

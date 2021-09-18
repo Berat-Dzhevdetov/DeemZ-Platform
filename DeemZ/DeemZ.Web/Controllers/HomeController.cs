@@ -17,7 +17,7 @@
     using static Global.WebConstants.Constants;
     using static Global.WebConstants.UserErrorMessages;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IUserService userService;
         private readonly IMemoryCache memoryCache;

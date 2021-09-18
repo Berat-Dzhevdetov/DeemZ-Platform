@@ -56,7 +56,7 @@
 
                     var errorModel = new HandleErrorModel
                     {
-                        Message = string.Format(NotFound, resourceName),
+                        Message = string.Format(NotFoundMessage, resourceName),
                         StatusCode = HttpStatusCodes.NotFound
                     };
 
