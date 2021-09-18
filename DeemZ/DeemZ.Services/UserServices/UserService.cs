@@ -18,7 +18,6 @@
     using DeemZ.Services.ResourceService;
     using DeemZ.Global.Extensions;
     using DeemZ.Services.FileService;
-    using System;
 
     public class UserService : IUserService
     {

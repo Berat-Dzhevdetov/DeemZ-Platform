@@ -1,40 +1,45 @@
-﻿using DeemZ.Models.DTOs;
-using DeemZ.Web.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DeemZ.Web.Controllers
+﻿namespace DeemZ.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
-    using static Global.WebConstants.Constants;
+    using DeemZ.Models.DTOs;
+    using DeemZ.Web.Infrastructure;
+    using DeemZ.Models;
+
     using static Global.WebConstants.UserErrorMessages;
 
     public class BaseController : Controller
     {
-        private static Dictionary<int, HandleErrorModel> ErrorMessageDictionary = new Dictionary<int, HandleErrorModel>()
+        private static readonly Dictionary<HttpStatusCodes, HandleErrorModel> ErrorMessageDictionary = new()
         {
-            {401, new HandleErrorModel
             {
-                Message = BadRequestMessage,
-                StatusCode = Models.HttpStatusCodes.BadRequest
-            }},
-            {403,new HandleErrorModel
+                HttpStatusCodes.BadRequest,
+                new HandleErrorModel
+                {
+                    Message = BadRequestMessage,
+                    StatusCode = HttpStatusCodes.BadRequest
+                }
+            },
             {
-                 Message = AccessDenied,
-                 StatusCode = Models.HttpStatusCodes.Forbidden
-            }},
-            {404,new HandleErrorModel
+                HttpStatusCodes.Forbidden,
+                new HandleErrorModel
+                {
+                    Message = AccessDenied,
+                    StatusCode = HttpStatusCodes.Forbidden
+                }
+            },
             {
-                 Message = NotFoundMessage,
-                 StatusCode = Models.HttpStatusCodes.NotFound
-            }},
+                HttpStatusCodes.NotFound,
+                new HandleErrorModel
+                {
+                    Message = NotFoundMessage,
+                    StatusCode = HttpStatusCodes.NotFound
+                }
+            },
         };
 
-        public IActionResult HandleErrorRedirect(int errorCode)
+        public IActionResult HandleErrorRedirect(HttpStatusCodes errorCode)
         {
             TempData[ErrorMessageKey] = JsonConvert.SerializeObject(ErrorMessageDictionary[errorCode]);
 

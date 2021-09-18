@@ -15,8 +15,7 @@
     using DeemZ.Models.ViewModels.Exams;
     using DeemZ.Infrastructure;
     using DeemZ.Web.Filters;
-    using DeemZ.Models.DTOs;
-    using Newtonsoft.Json;
+    using DeemZ.Models;
 
     using static DeemZ.Global.WebConstants.Constants;
     using static DeemZ.Global.WebConstants.UserErrorMessages;
@@ -59,9 +58,7 @@
             }
 
             if (!isUserAdmin && !examService.DoesTheUserHavePermissionToExam(userId, examId))
-            {
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 401 });
-            }
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.BadRequest });
 
             return View();
         }
@@ -80,9 +77,7 @@
             var userId = User.GetId();
 
             if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
-            {
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
-            }
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
 
             var isProvidedPasswordRight = examService.IsProvidedPasswordRight(examId, password);
 
@@ -115,9 +110,7 @@
             var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             if (!exam.IsPublic && !isUserAdmin)
-            {
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
-            }
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
 
             if (exam.ShuffleQuestions) exam.Questions.Shuffle();
 
@@ -147,9 +140,7 @@
             var isUserAdmin = User.IsAdmin() || User.IsLecture();
 
             if (!exam.IsPublic && !isUserAdmin)
-            {
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
-            }
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
 
             var points = examService.EvaluateExam(exam, userId);
 
@@ -233,7 +224,7 @@
             var isUserInRole = User.IsAdmin() || User.IsLecture();
 
             if (!isUserInRole && !examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
 
             var exam = examService.GetExamById<ViewExamViewModel>(examId);
 
@@ -241,9 +232,7 @@
 
 
             if (DateTime.Now <= exam.EndDate && !isUserInRole)
-            {
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = 403 });
-            }
+                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
 
             exam.UserAnswers = examService.GetUserExamAnswers(examId, userId);
 

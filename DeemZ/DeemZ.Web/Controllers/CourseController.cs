@@ -14,8 +14,9 @@
     using DeemZ.Web.Filters;
 
     using static Global.WebConstants.Constants;
+    using DeemZ.Models;
 
-    public class CourseController : Controller
+    public class CourseController : BaseController
     {
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
@@ -175,6 +176,8 @@
         [IfExists("courseId")]
         public IActionResult DeleteUserFromCourse(string courseId, string userId)
         {
+            if(!userService.GetUserById(userId)) return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.NotFound });
+
             courseService.DeleteUserFromCourse(courseId, userId);
 
             return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
