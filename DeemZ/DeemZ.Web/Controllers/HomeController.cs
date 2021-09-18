@@ -13,7 +13,7 @@
     using static Global.WebConstants.Constants;
     using static Global.WebConstants.UserErrorMessages;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IUserService userService;
         public HomeController(IUserService userService) => this.userService = userService;
