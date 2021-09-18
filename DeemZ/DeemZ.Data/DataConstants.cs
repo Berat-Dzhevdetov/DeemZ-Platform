@@ -104,5 +104,13 @@
         {
             public const int MaxTextLength = 50;
         }
+
+        public class InformativeMessages
+        {
+            public const int MaxTitleLength = 100;
+            public const int MinTitleLength = 3;
+            public const int MaxDescriptionLength = 100000;
+            public const int MinDescriptionLength = 20;
+        }
     }
 }

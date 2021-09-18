@@ -28,6 +28,7 @@
         public DbSet<ResourceType> ResourceTypes { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<InformativeMessage> InformativeMessages { get; set; }
+        public DbSet<InformativeMessagesHeading> InformativeMessagesHeadings { get; set; }
         public DbSet<ApplicationUserExam> ApplicationUserExams { get; set; }
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<SurveyAnswer> SurveyAnswers { get; set; }

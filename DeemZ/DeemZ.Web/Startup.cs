@@ -46,6 +46,7 @@ namespace DeemZ.Web
             services.AddCustomServices();
 
             services.AddSignalR();
+            services.AddMemoryCache();
 
             services.AddControllersWithViews(options =>
             {

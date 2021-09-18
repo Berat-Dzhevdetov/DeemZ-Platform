@@ -16,6 +16,7 @@
     using DeemZ.Services.UserServices;
     using DeemZ.Services.ExamServices;
     using DeemZ.Services.Question;
+    using DeemZ.Services.InformativeMessageServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -33,6 +34,7 @@
                 mc.AddProfile(new ReportProfile());
                 mc.AddProfile(new UserCourseProfile());
                 mc.AddProfile(new ExamProfile());
+                mc.AddProfile(new InformativeMessageProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -57,6 +59,7 @@
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<IExcelService, ExcelService>();
+            services.AddTransient<IInformativeMessageService, InformativeMessageService>();
         }
     }
 }

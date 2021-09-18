@@ -6,6 +6,7 @@
         public const string LecturerRoleName = "Lecturer";
         public const string GlobalMessageKey = "GlobalMessage";
         public const string DateTimeFormat = "dd.MM.yyyy HH:mm";
+        public const string InformativeMessagesCacheKey = "InformativeMessagesCache";
 
         public static class AreaNames
         {

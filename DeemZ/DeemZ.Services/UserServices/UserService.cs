@@ -18,6 +18,7 @@
     using DeemZ.Services.ResourceService;
     using DeemZ.Global.Extensions;
     using DeemZ.Services.FileService;
+    using System;
 
     public class UserService : IUserService
     {
@@ -120,7 +121,6 @@
                 Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid, isNotAdmin),
                 SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
             };
-        
 
         public bool GetUserByUserName(string username)
             => context.Users.Any(x => x.UserName == username);
