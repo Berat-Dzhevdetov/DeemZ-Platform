@@ -352,3 +352,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 DeemZ/DeemZ.Infrastructure/Secret.cs
+/DeemZ/Secret.txt
