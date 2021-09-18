@@ -6,7 +6,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Caching.Memory;
     using DeemZ.Models;
     using DeemZ.Models.DTOs;
     using DeemZ.Services.UserServices;
@@ -14,22 +13,25 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.InformativeMessages;
     using DeemZ.Services.CachingService;
+    using DeemZ.Models.ViewModels.Course;
+    using DeemZ.Services.CourseServices;
 
     using static Global.WebConstants.Constant;
     using static Global.WebConstants.UserErrorMessages;
-
 
     public class HomeController : BaseController
     {
         private readonly IUserService userService;
         private readonly IMemoryCachingService cachingService;
         private readonly IInformativeMessageService informativeMessageService;
+        private readonly ICourseService courseService;
 
-        public HomeController(IUserService userService, IInformativeMessageService informativeMessageService, IMemoryCachingService cachingService)
+        public HomeController(IUserService userService, IInformativeMessageService informativeMessageService, IMemoryCachingService cachingService, ICourseService courseService)
         {
             this.userService = userService;
             this.informativeMessageService = informativeMessageService;
             this.cachingService = cachingService;
+            this.courseService = courseService;
         }
 
         public async Task<IActionResult> Index()
@@ -48,9 +50,17 @@
                     cachingService.CreateItem(InformativeMessagesCacheKey, informativeMessages,TimeSpan.FromMinutes(30));
                 }
 
+                if(!cachingService.ItemExists<IEnumerable<IndexSignUpForCourseViewModel>>(UpCommingCoursesCacheKey, out var upCommingCourses))
+                {
+                    upCommingCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>();
+
+                    cachingService.CreateItem(UpCommingCoursesCacheKey, upCommingCourses, TimeSpan.FromMinutes(30));
+                }
+
                 var viewModel = userService.GetIndexInformaiton(userId, !isAdmin);
 
                 viewModel.InformativeMessagesHeadings = informativeMessages;
+                viewModel.SignUpCourses = upCommingCourses;
 
                 return View("LoggedIndex", viewModel);
             }

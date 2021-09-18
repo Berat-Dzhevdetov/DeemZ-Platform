@@ -117,8 +117,7 @@
                 Credits = courseService.GetUserCredits(uid),
                 Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(uid, isNotAdmin),
                 Surveys = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(uid),
-                Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid, isNotAdmin),
-                SignUpCourses = courseService.GetCoursesForSignUp<IndexSignUpForCourseViewModel>()
+                Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid, isNotAdmin)
             };
 
         public bool GetUserByUserName(string username)

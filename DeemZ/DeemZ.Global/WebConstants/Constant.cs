@@ -6,6 +6,7 @@
         public const string DateTimeFormat = "dd.MM.yyyy HH:mm";
         public const string InformativeMessagesCacheKey = "InformativeMessagesCache";
         public const string AdminDashboradStatisticsCacheKey = "AdminDashboradStatisticsCache";
+        public const string UpCommingCoursesCacheKey = "UpCommingCoursesCacheKey";
 
         public static class Role
         {
