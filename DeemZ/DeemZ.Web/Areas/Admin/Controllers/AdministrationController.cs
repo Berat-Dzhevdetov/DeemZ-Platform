@@ -22,10 +22,10 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Web.Filters;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
-    [Authorize(Roles = AdminRoleName)]
-    [Area(AreaNames.AdminArea)]
+    [Authorize(Roles = Role.AdminRoleName)]
+    [Area(AreaName.AdminArea)]
     public class AdministrationController : Controller
     {
         private readonly IAdminService adminService;
@@ -92,9 +92,10 @@
 
             if (page <= 0 || page > allPages) page = 1;
 
-            var viewModel = new ResourcesForCourseViewModel();
-
-            viewModel.Recourses = resources.Paging(page, quantity).ToList();
+            var viewModel = new ResourcesForCourseViewModel
+            {
+                Recourses = resources.Paging(page, quantity).ToList()
+            };
 
             viewModel = AdjustPages(viewModel, page, allPages);
 
@@ -113,11 +114,11 @@
 
             if (page <= 0 || page > allPages) page = 1;
 
-            var viewModel = new IndexLecturesViewModel();
-
-            viewModel.CourseId = courseId;
-
-            viewModel.Lectures = lectures.Paging(page, quantity).ToList();
+            var viewModel = new IndexLecturesViewModel
+            {
+                CourseId = courseId,
+                Lectures = lectures.Paging(page, quantity).ToList()
+            };
 
             viewModel = AdjustPages(viewModel, page, allPages);
 
@@ -146,9 +147,10 @@
 
         public IActionResult Reports(int page = 1, int quantity = 20)
         {
-            var viewModel = new AdministrationReportViewModel();
-
-            viewModel.Reports = reportService.GetReports<ReportViewReport>(page, quantity);
+            var viewModel = new AdministrationReportViewModel
+            {
+                Reports = reportService.GetReports<ReportViewReport>(page, quantity)
+            };
 
             var allPages = (int)Math.Ceiling(viewModel.Reports.Count() / (quantity * 1.0));
 
@@ -161,14 +163,13 @@
 
         [ClientRequired]
         [IfExists]
-        [IfExists]
         public IActionResult Exams(string courseId)
         {
-            var viewModel = new AdministrationExamsViewModel();
-
-            viewModel.CourseId = courseId;
-
-            viewModel.Exams = examService.GetExamsByCourseId<BasicExamInfoViewModel>(courseId);
+            var viewModel = new AdministrationExamsViewModel
+            {
+                CourseId = courseId,
+                Exams = examService.GetExamsByCourseId<BasicExamInfoViewModel>(courseId)
+            };
 
             return View(viewModel);
         }
@@ -177,11 +178,11 @@
         [IfExists]
         public IActionResult Questions(string examId)
         {
-            var viewModel = new AdministrationQuetionsViewModel();
-
-            viewModel.ExamId = examId;
-
-            viewModel.Questions = questionService.GetQuestionsByExamId<QuetionsViewModel>(examId);
+            var viewModel = new AdministrationQuetionsViewModel
+            {
+                ExamId = examId,
+                Questions = questionService.GetQuestionsByExamId<QuetionsViewModel>(examId)
+            };
 
             return View(viewModel);
         }

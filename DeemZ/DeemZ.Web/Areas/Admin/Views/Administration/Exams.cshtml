@@ -1,6 +1,6 @@
 ﻿@model DeemZ.Models.ViewModels.Administration.AdministrationExamsViewModel
 @{
-    Layout = "_AdminPanelLayout";
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
     ViewData["Title"] = "Exams";
 }
 
@@ -23,8 +23,8 @@
             {
                 <tr>
                     <td><a class="text-light" asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@exam.Id">@exam.Name</a></td>
-                    <td>@exam.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)</td>
-                    <td>@exam.EndDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)</td>
+                    <td>@exam.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                    <td>@exam.EndDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
                     <td>@exam.IsPublic</td>
                     <td>
                         <div class="btn-group">

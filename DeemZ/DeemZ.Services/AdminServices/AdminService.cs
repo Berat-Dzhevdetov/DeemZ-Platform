@@ -13,7 +13,7 @@
     using DeemZ.Services.UserServices;
     using DeemZ.Global.Extensions;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
     public class AdminService : IAdminService
     {
@@ -66,7 +66,7 @@
                 .Include(x => x.Course)
                 .Where(x => x.PaidOn >= prevsDate && x.IsPaid)
                 .ToList()
-                .Where(x => !IsInRole(x.UserId, AdminRoleName))
+                .Where(x => !IsInRole(x.UserId, Role.AdminRoleName))
                 .Sum(x => x.Course.Price);
 
         private bool IsInRole(string uid,string role)

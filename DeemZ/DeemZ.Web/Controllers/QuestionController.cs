@@ -9,9 +9,9 @@
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Web.Filters;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
-    [Authorize(Roles = AdminRoleName)]
+    [Authorize(Roles = Role.AdminRoleName)]
     public class QuestionController : Controller
     {
         private readonly IQuestionService questionService;
@@ -40,7 +40,7 @@
 
             questionService.AddQuestionToExam(examId, question);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaName.AdminArea });
         }
 
         [ClientRequired]
@@ -49,7 +49,7 @@
         {
             var examId = questionService.Delete(questionId);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaName.AdminArea });
         }
 
         [ClientRequired]
@@ -60,7 +60,6 @@
 
             int maxQuestionCount = 4;
             int diff = maxQuestionCount - viewModel.Answers.Count;
-
 
             for (int i = 0; i < diff; i++)
                 viewModel.Answers.Add(null);
@@ -81,7 +80,7 @@
 
             string examId = questionService.Edit(questionId, question);
 
-            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaName.AdminArea });
         }
     }
 }

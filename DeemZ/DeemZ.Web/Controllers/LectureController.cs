@@ -11,9 +11,9 @@
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Web.Filters;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
-    [Authorize(Roles = AdminRoleName)]
+    [Authorize(Roles = Role.AdminRoleName)]
     public class LectureController : Controller
     {
         private readonly Guard guard;
@@ -40,7 +40,7 @@
 
             lectureService.AddLectureToCourse(courseId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaName.AdminArea });
         }
 
         [ClientRequired]
@@ -61,10 +61,10 @@
         {
             lectureService.EditLectureById(lectureId, lecture);
 
-            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId = lecture.CourseId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Lectures), typeof(AdministrationController).GetControllerName(), new { courseId = lecture.CourseId, area = AreaName.AdminArea });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Delete(string lectureId)

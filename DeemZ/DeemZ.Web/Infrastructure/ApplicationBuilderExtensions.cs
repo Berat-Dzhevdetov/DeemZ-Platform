@@ -10,7 +10,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
     public static class ApplicationBuilderExtensions
     {
@@ -60,10 +60,10 @@
 
             Task.Run(async () =>
             {
-                if (await roleManager.RoleExistsAsync(AdminRoleName))
+                if (await roleManager.RoleExistsAsync(Role.AdminRoleName))
                     return;
 
-                var role = new IdentityRole { Name = AdminRoleName };
+                var role = new IdentityRole { Name = Role.AdminRoleName };
 
                 await roleManager.CreateAsync(role);
 

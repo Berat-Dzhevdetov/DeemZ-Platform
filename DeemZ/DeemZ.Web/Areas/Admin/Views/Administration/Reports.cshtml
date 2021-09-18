@@ -1,6 +1,6 @@
 ﻿@model DeemZ.Models.ViewModels.Administration.AdministrationReportViewModel
 @{
-    Layout = "_AdminPanelLayout";
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
     ViewData["Title"] = "Reports";
 }
 
@@ -19,17 +19,17 @@
             @foreach (var report in Model.Reports)
             {
             <tr>
-                <td><a asp-area="" asp-controller="Report" asp-action="Preview" asp-route-reportId="@report.Id">#</a></td>
+                <td><a asp-area="Report" asp-controller="Report" asp-action="Preview" asp-route-reportId="@report.Id">#</a></td>
                 <td>@report.UserUsername</td>
                 <td>@report.LectureName</td>
-                <td>@report.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)</td>
+                <td>@report.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
                 <td>
                     <div class="btn-group">
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Actions
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item text-danger" asp-area="" asp-controller="Report" asp-action="Delete" asp-route-reportId="@report.Id">Delete</a>
+                            <a class="dropdown-item text-danger" asp-area="Report" asp-controller="Report" asp-action="Delete" asp-route-reportId="@report.Id">Delete</a>
                         </div>
                     </div>
                 </td>

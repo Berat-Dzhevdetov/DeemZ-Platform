@@ -30,8 +30,8 @@
                         <td>@exam.Name</td>
                         <td>@exam.Course.Name</td>
                         <td>@exam.Users.First().EarnedPoints/@exam.Questions.Sum(x => x.Points)</td>
-                        <td>@exam.StartDate.ToString(Constants.DateTimeFormat)</td>
-                        <td>@exam.EndDate.ToString(Constants.DateTimeFormat)</td>
+                        <td>@exam.StartDate.ToString(Constant.DateTimeFormat)</td>
+                        <td>@exam.EndDate.ToString(Constant.DateTimeFormat)</td>
                         <td>
                             <a class="btn btn-info" asp-area="" asp-controller="Exam" asp-action="ViewExam" asp-route-examId="@exam.Id">View</a>
                         </td>

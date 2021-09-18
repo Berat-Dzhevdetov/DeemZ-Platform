@@ -12,7 +12,7 @@
             <div class="course-info flex flex-row custom-text-muted">
                 <div class="start-date">
                     <img src="https://softuni.bg/Content/images/icons/play-icon.svg" />
-                    Start date: @Model.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)
+                    Start date: @Model.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)
                 </div>
                 <div class="credits">
                     <img src="https://softuni.bg/Content/images/icons/timeline-icon.svg" />
@@ -86,11 +86,11 @@
                                 @if (lecture.Date != null)
                                 {
                                     <li class="small">
-                                        Date: @lecture.Date.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)
+                                        Date: @lecture.Date.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)
                                     </li>
                                 }
                                 <li class="small">
-                                    <a class="text-muted" asp-action="Add" asp-controller="Report" asp-route-lectureId="@lecture.Id">Report issue with resources or lecture</a>
+                                    <a class="text-muted" asp-area="Report" asp-action="Add" asp-controller="Report" asp-route-lectureId="@lecture.Id">Report issue with resources or lecture</a>
                                 </li>
                             </ul>
                         </div>
@@ -120,7 +120,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        Date: @exam.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)
+                                        Date: @exam.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)
                                     </li>
                                 </ul>
                             }

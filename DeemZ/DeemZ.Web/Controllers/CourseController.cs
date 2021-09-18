@@ -12,9 +12,9 @@
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Services.UserServices;
     using DeemZ.Web.Filters;
-
-    using static Global.WebConstants.Constants;
     using DeemZ.Models;
+
+    using static Global.WebConstants.Constant;
 
     public class CourseController : BaseController
     {
@@ -40,7 +40,7 @@
             if (User.Identity.IsAuthenticated) userId = User.GetId();
 
             if (userId == null) course.IsUserSignUpForThisCourse = false;
-            else if (await userService.IsInRoleAsync(userId, AdminRoleName)) course.IsUserSignUpForThisCourse = true;
+            else if (await userService.IsInRoleAsync(userId, Role.AdminRoleName)) course.IsUserSignUpForThisCourse = true;
             else course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
             return View(course);
@@ -53,7 +53,7 @@
         {
             var userId = User.GetId();
 
-            if (await userService.IsInRoleAsync(userId, AdminRoleName)) return Unauthorized();
+            if (await userService.IsInRoleAsync(userId, Role.AdminRoleName)) return Unauthorized();
 
             var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
 
@@ -68,7 +68,7 @@
         {
             var userId = User.GetId();
 
-            if (await userService.IsInRoleAsync(userId, AdminRoleName)) return Unauthorized();
+            if (await userService.IsInRoleAsync(userId, Role.AdminRoleName)) return Unauthorized();
 
             var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
@@ -83,12 +83,12 @@
             return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         public IActionResult Add() => View();
 
 
         [HttpPost]
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         public IActionResult Add(AddCourseFormModel course)
         {
@@ -100,10 +100,10 @@
 
             if (course.Redirect) return RedirectToAction(nameof(CourseController.ViewCourse), typeof(CourseController).GetControllerName(), new { courseId });
 
-            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Edit(string courseId)
@@ -114,7 +114,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Edit(string courseId, EditCourseFormModel course)
@@ -123,20 +123,20 @@
 
             courseService.Edit(course, courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Delete(string courseId)
         {
             courseService.DeleteCourse(courseId);
 
-            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Courses), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         public IActionResult AddUserToCourse()
         {
             var model = new AddUserToCourseFormModel();
@@ -148,7 +148,7 @@
             return View(model);
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [HttpPost]
         [ClientRequired]
         public IActionResult AddUserToCourse(AddUserToCourseFormModel model)
@@ -168,10 +168,10 @@
 
             courseService.SignUserToCourse(userId, model.CourseId, model.IsPaid);
 
-            return RedirectToAction(nameof(AdministrationController.UserCourses),typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.UserCourses),typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists("courseId")]
         public IActionResult DeleteUserFromCourse(string courseId, string userId)
@@ -180,7 +180,7 @@
 
             courseService.DeleteUserFromCourse(courseId, userId);
 
-            return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
     }
 }

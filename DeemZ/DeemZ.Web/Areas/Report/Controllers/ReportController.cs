@@ -10,8 +10,9 @@
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Web.Filters;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
+    [Area(AreaName.ReportArea)]
     public class ReportController : Controller
     {
         private readonly ILectureService lectureService;
@@ -52,10 +53,10 @@
 
             TempData[GlobalMessageKey] = "Your report was successfuly sent!";
 
-            return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
+            return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName(), new { area = "" });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Preview(string reportId)
@@ -65,7 +66,7 @@
             return View(report);
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Delete(string reportId)
@@ -74,7 +75,7 @@
 
             reportService.Delete(reportId);
 
-            return RedirectToAction(nameof(AdministrationController.Reports), typeof(HomeController).GetControllerName());
+            return RedirectToAction(nameof(AdministrationController.Reports), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
     }
 }

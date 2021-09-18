@@ -8,7 +8,7 @@
     using DeemZ.Services.UserServices;
     using DeemZ.Data.Models;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
     public class ChatHub : Hub
     {

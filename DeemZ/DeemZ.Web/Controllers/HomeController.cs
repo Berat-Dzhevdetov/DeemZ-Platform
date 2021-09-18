@@ -14,7 +14,7 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.ViewModels.InformativeMessages;
 
-    using static Global.WebConstants.Constants;
+    using static Global.WebConstants.Constant;
     using static Global.WebConstants.UserErrorMessages;
 
     public class HomeController : BaseController
@@ -37,7 +37,7 @@
             {
                 var userId = User.GetId();
 
-                var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+                var isAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
 
                 var informativeMessages = memoryCache.Get<List<InformativeMessagesHeadingViewModel>>(InformativeMessagesCacheKey);
 

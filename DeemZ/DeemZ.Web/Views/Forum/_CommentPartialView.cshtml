@@ -4,7 +4,7 @@
     <a asp-controller="Forum" asp-action="Topic" asp-route-topicId="@Model.Id">
         <div>
             <div class="topic-heading">
-                <p class="small custom-text-muted">From: @Model.Username; posted on @Model.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constants.DateTimeFormat)</p>
+                <p class="small custom-text-muted">From: @Model.Username; posted on @Model.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</p>
                 <h2>@Model.Title</h2>
             </div>
             <div class="topic-information">

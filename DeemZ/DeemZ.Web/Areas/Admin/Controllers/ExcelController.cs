@@ -5,10 +5,10 @@
     using DeemZ.Services.FileService;
     using DeemZ.Web.Filters;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
-    [Authorize(Roles = AdminRoleName)]
-    [Area(AreaNames.AdminArea)]
+    [Authorize(Roles = Role.AdminRoleName)]
+    [Area(AreaName.AdminArea)]
     public class ExcelController : Controller
     {
         private const string excelMimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

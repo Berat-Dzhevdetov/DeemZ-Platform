@@ -148,9 +148,9 @@ namespace DeemZ.Test.Services
         {
             SeedUser();
             var userId = "test-user";
-            await userService.AddUserToRole(userId, Constants.LecturerRoleName);
+            await userService.AddUserToRole(userId, Constant.Role.LecturerRoleName);
 
-            var isAdded = await userService.IsInRoleAsync(userId, Constants.LecturerRoleName);
+            var isAdded = await userService.IsInRoleAsync(userId, Constant.Role.LecturerRoleName);
 
             Assert.True(isAdded);
         }

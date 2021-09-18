@@ -15,7 +15,7 @@
     using DeemZ.Services.UserServices;
     using DeemZ.Web.Filters;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
     public class ResourceController : Controller
     {
@@ -34,20 +34,21 @@
             this.userService = userService;
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Add(string lectureId)
         {
-            var formModel = new AddResourceFormModel();
-
-            formModel.ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>();
+            var formModel = new AddResourceFormModel
+            {
+                ResourceTypes = resourceService.GetResourceTypes<ResourceTypeFormModel>()
+            };
 
             return View(formModel);
         }
 
         [HttpPost]
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [DisableRequestSizeLimit,
                  RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,
                  ValueLengthLimit = int.MaxValue)]
@@ -81,7 +82,7 @@
 
             resourceService.AddResourceToLecture(lectureId, publicId, resource);
 
-            return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { lectureId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { lectureId, area = AreaName.AdminArea });
         }
 
         [Authorize]
@@ -91,7 +92,7 @@
         {
             var userId = User.GetId();
 
-            var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+            var isAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
 
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId) && !isAdmin) return Unauthorized();
 
@@ -115,7 +116,7 @@
         {
             var userId = User.GetId();
 
-            var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+            var isAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
 
             if (!resourceService.DoesUserHavePermissionToThisResource(resourceId, userId) && !isAdmin) return Unauthorized();
 
@@ -126,14 +127,14 @@
             return File(bytes, contentType, downloadName);
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Delete(string resourceId)
         {
             var lectureId = resourceService.Delete(resourceId);
 
-            return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea, lectureId });
+            return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea, lectureId });
         }
     }
 }

@@ -10,7 +10,7 @@
     using DeemZ.Services.FileService;
     using DeemZ.Web.Filters;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
 
     public class UserController : Controller
     {
@@ -23,7 +23,7 @@
             this.fileService = fileService;
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         public async Task<IActionResult> Edit(string userId)
         {
@@ -31,13 +31,13 @@
 
             var user = userService.GetUserById<EditUserFormModel>(userId);
 
-            user.IsAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+            user.IsAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
 
             return View(user);
         }
 
         [HttpPost]
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         public async Task<IActionResult> Edit(string userId, EditUserFormModel user)
         {
@@ -56,12 +56,12 @@
 
             await userService.EditUser(userId, user);
 
-            if (user.IsAdmin && !await userService.IsInRoleAsync(userId, AdminRoleName))
-                await userService.AddUserToRole(userId, AdminRoleName);
-            else if (!user.IsAdmin && await userService.IsInRoleAsync(userId, AdminRoleName))
-                await userService.RemoveUserFromRole(userId, AdminRoleName);
+            if (user.IsAdmin && !await userService.IsInRoleAsync(userId, Role.AdminRoleName))
+                await userService.AddUserToRole(userId, Role.AdminRoleName);
+            else if (!user.IsAdmin && await userService.IsInRoleAsync(userId, Role.AdminRoleName))
+                await userService.RemoveUserFromRole(userId, Role.AdminRoleName);
 
-            return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
         [Authorize]

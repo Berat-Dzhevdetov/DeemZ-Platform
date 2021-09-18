@@ -45,10 +45,10 @@
         </nav>
     </header>
     <main role="main" class="pb-3">
-        @if (TempData.ContainsKey(DeemZ.Global.WebConstants.Constants.GlobalMessageKey))
+        @if (TempData.ContainsKey(DeemZ.Global.WebConstants.Constant.GlobalMessageKey))
         {
             <div class="alert alert-info text-center" role="alert">
-                @TempData[DeemZ.Global.WebConstants.Constants.GlobalMessageKey]
+                @TempData[DeemZ.Global.WebConstants.Constant.GlobalMessageKey]
             </div>
         }
         @RenderBody()

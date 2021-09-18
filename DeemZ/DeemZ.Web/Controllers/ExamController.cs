@@ -17,7 +17,7 @@
     using DeemZ.Web.Filters;
     using DeemZ.Models;
 
-    using static DeemZ.Global.WebConstants.Constants;
+    using static DeemZ.Global.WebConstants.Constant;
     using static DeemZ.Global.WebConstants.UserErrorMessages;
 
     [Authorize]
@@ -107,7 +107,7 @@
 
             var userId = User.GetId();
 
-            var isUserAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+            var isUserAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
 
             if (!exam.IsPublic && !isUserAdmin)
                 return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
@@ -157,13 +157,13 @@
             return RedirectToAction(nameof(GetUserExams));
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Add(string courseId) => View();
 
         [HttpPost]
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Add(string courseId, AddExamFormModel exam)
@@ -172,10 +172,10 @@
 
             examService.CreateExam(courseId, exam);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaName.AdminArea });
         }
 
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Edit(string examId)
@@ -189,7 +189,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = AdminRoleName)]
+        [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
         public IActionResult Edit(string examId, AddExamFormModel exam)
@@ -200,7 +200,7 @@
 
             string courseId = examService.GetCourseIdByExamId(examId);
 
-            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaNames.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.Exams), typeof(AdministrationController).GetControllerName(), new { courseId, area = AreaName.AdminArea });
         }
 
         public IActionResult GetUserExams()
