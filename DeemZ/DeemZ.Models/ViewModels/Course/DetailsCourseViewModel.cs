@@ -14,6 +14,7 @@
         public DateTime StartDate { get; set; }
 
         public int Credits { get; set; }
+        public string Description { get; set; }
 
         public DateTime SignUpStartDate { get; set; }
         public DateTime SignUpEndDate { get; set; }

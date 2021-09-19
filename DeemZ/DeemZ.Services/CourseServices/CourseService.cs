@@ -118,6 +118,7 @@
             courseToEdit.EndDate = course.EndDate.ToUniversalTime();
             courseToEdit.Credits = course.Credits;
             courseToEdit.Price = course.Price;
+            courseToEdit.Description = course.Description;
             courseToEdit.SignUpStartDate = course.SignUpStartDate.ToUniversalTime();
             courseToEdit.SignUpEndDate = course.SignUpEndDate.ToUniversalTime();
 

@@ -33,6 +33,7 @@
         [Display(Name = "End Sign Up Date")]
         public DateTime SignUpEndDate { get; set; } = DateTime.UtcNow.AddDays(14);
 
+        [Required]
         [StringLength(MaxDescriptionLength,
                 MinimumLength = MinDescriptionLength)]
         public string Description { get; set; }

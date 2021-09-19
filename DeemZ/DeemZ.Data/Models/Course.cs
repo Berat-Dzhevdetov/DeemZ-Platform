@@ -20,6 +20,7 @@
 
         public decimal Price { get; set; } = DefaultPrice;
 
+        [Required]
         [MaxLength(MaxDescriptionLength)]
         public string Description { get; set; }
 

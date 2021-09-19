@@ -44,6 +44,11 @@
             <input class="form-control" placeholder="@Model.SignUpEndDate" asp-for="SignUpEndDate" />
             <span asp-validation-for="SignUpEndDate" class="small text-danger"></span>
         </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Description"></label>
+            <textarea class="form-control ckeditor" placeholder="@Model.Description" asp-for="Description" ></textarea>
+            <span asp-validation-for="Description" class="small text-danger"></span>
+        </div>
         <div class="form-group text-center">
             <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
         </div>
@@ -52,4 +57,10 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('#Content');
+        });
+    </script>
 }
