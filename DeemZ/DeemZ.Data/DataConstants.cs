@@ -39,6 +39,8 @@
             public const int MaxCredits = 15;
             public const decimal MinMoney = 50m;
             public const decimal MaxMoney = 440m;
+            public const int MinDescriptionLength = 20;
+            public const int MaxDescriptionLength = 20000;
         }
 
         public class Lecture

@@ -4,10 +4,12 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using static DataConstants.Course;
+
     public class Course : BaseModel
     {
         [Required]
-        [MaxLength(DataConstants.Course.MaxNameLength)]
+        [MaxLength(MaxNameLength)]
         public string Name { get; set; }
 
         [Required]
@@ -16,7 +18,10 @@
         [Required]
         public DateTime EndDate { get; set; }
 
-        public decimal Price { get; set; } = DataConstants.Course.DefaultPrice;
+        public decimal Price { get; set; } = DefaultPrice;
+
+        [MaxLength(MaxDescriptionLength)]
+        public string Description { get; set; }
 
         public int Credits { get; set; }
 
