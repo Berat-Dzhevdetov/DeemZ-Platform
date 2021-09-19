@@ -53,9 +53,26 @@
             await client.SendEmailAsync(msg);
         }
 
-        public Task SendEmailToSelectedUsers(string subject, string content, BasicUserInformationViewModel users)
+        public async Task SendEmailToSelectedUsers(string subject, string content, IEnumerable<BasicUserInformationViewModel> users)
         {
-            throw new System.NotImplementedException();
+            var Tos = new List<EmailAddress>();
+            foreach (var user in users)
+            {
+                Tos.Add(new EmailAddress(user.Email));
+            }
+
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(Constant.EmailSender.Email, Constant.EmailSender.Name),
+                Subject = subject,
+                HtmlContent = content,
+                Personalizations = new List<Personalization>
+                {
+                     new Personalization { Tos = Tos }
+                }
+            };
+
+            await client.SendEmailAsync(msg);
         }
     }
 }

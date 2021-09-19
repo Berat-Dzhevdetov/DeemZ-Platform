@@ -18,7 +18,7 @@
 
         <div class="form-group">
             <label class="text-light" asp-for="Content"></label>
-            <textarea placeholder="Enroll In Our New Course! We Offer amazing new skills!" class="form-control" asp-for="Content"></textarea>
+            <textarea placeholder="Enroll In Our New Course! We Offer amazing new skills!" class="form-control ckeditor" id="Content" asp-for="Content"></textarea>
             <span asp-validation-for="Subject" class="small text-danger"></span>
         </div>
 
@@ -44,7 +44,7 @@
                     <td>@user.Email</td>
                     <td>
                         <div class="form-group">
-                            <input type="checkbox" name=@user.Email/>
+                            <input type="checkbox" name=@user.Email />
                         </div>
                     </td>
 
@@ -54,5 +54,11 @@
     </table>
 </div>
 @section Scripts {
-<partial name="_ValidationScriptsPartial" />
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('#Content');
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
 }
