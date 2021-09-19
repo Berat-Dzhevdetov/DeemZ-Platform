@@ -1,5 +1,6 @@
 ﻿namespace DeemZ.Services.EmailSender
 {
+    using DeemZ.Models.ViewModels.User;
     using System.Threading.Tasks;
 
     public interface IEmailSenderService
@@ -8,5 +9,9 @@
             string to,
             string subject,
             string htmlContent);
+
+        Task SendEmailToAllUsers(string subject, string content);
+
+        Task SendEmailToSelectedUsers(string subject, string content, BasicUserInformationViewModel users);
     }
 }

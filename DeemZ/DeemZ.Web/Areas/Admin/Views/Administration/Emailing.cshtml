@@ -1,0 +1,58 @@
+﻿@model DeemZ.Models.FormModels.Email.SendEmailFormModel
+@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "Send Email";
+}
+
+<div class="container-fluid">
+
+    <form method="post" class="mt-4">
+        <div class="form-group text-center">
+            <h2 class="text-light">@ViewData["Title"]</h2>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Subject"></label>
+            <input placeholder="Enroll In Our New Course!" class="form-control" asp-for="Subject" />
+            <span asp-validation-for="Subject" class="small text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="text-light" asp-for="Content"></label>
+            <textarea placeholder="Enroll In Our New Course! We Offer amazing new skills!" class="form-control" asp-for="Content"></textarea>
+            <span asp-validation-for="Subject" class="small text-danger"></span>
+        </div>
+
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-warning" value="Send to ALL users" />
+            <input type="button" class="btn btn-primary" value="Send to Selected users" />
+        </div>
+    </form>
+
+    <table class="table table-striped table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Send Email ?</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="checkbox" name=@user.Email/>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
