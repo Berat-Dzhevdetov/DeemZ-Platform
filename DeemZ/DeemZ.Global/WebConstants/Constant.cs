@@ -14,6 +14,12 @@
             public const string LecturerRoleName = "Lecturer";
         }
 
+        public static class EmailSender
+        {
+            public const string Email = "deemzonline@gmail.com";
+            public const string Name = "DeemZ University";
+        }
+
         public static class LayOut
         {
             public const string DefaultLayOut = "_Layout";

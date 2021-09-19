@@ -35,5 +35,10 @@
             public const string LocalRecaptchaSiteKey = "";
             public const string LocalRecaptchaSecretKey = "";
         }
+
+        public class SendGrid
+        {
+            public const string ApiKey = "";
+        }
     }
 }

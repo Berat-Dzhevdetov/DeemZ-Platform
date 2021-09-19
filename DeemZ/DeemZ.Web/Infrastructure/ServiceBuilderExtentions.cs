@@ -18,6 +18,7 @@
     using DeemZ.Services.Question;
     using DeemZ.Services.InformativeMessageServices;
     using DeemZ.Services.CachingService;
+    using DeemZ.Services.EmailSender;
 
     public static class ServiceBuilderExtentions
     {
@@ -60,6 +61,7 @@
             services.AddTransient<IExcelService, ExcelService>();
             services.AddTransient<IInformativeMessageService, InformativeMessageService>();
             services.AddTransient<IMemoryCachingService, MemoryCachingService>();
+            services.AddTransient<IEmailSenderService, EmailSenderService>();
         }
     }
 }

@@ -24,6 +24,9 @@
     using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using DeemZ.Services.EmailSender;
+    using DeemZ.Models.FormModels.Email;
+    using DeemZ.Web.Controllers;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]
@@ -37,8 +40,9 @@
         private readonly IExamService examService;
         private readonly IQuestionService questionService;
         private readonly IMemoryCachingService cachingService;
+        private readonly IEmailSenderService emailSenderService;
 
-        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService)
+        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService, IEmailSenderService emailSenderService)
         {
             this.adminService = adminService;
             this.courseService = courseService;
@@ -48,11 +52,12 @@
             this.examService = examService;
             this.questionService = questionService;
             this.cachingService = cachingService;
+            this.emailSenderService = emailSenderService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
         {
-            if(!cachingService.ItemExists<AdministrationIndexViewModel>(AdminDashboradStatisticsCacheKey, out var viewModel))
+            if (!cachingService.ItemExists<AdministrationIndexViewModel>(AdminDashboradStatisticsCacheKey, out var viewModel))
             {
                 viewModel = adminService.GetIndexPageInfo();
 
@@ -153,6 +158,35 @@
             return View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult Emailing()
+        {
+            var viewModel = new SendEmailFormModel()
+            {
+                Users = userService.GetAllUsers<BasicUserInformationViewModel>()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Emailing(SendEmailFormModel inputModel)
+        {
+            if(inputModel.Users == null)
+            {
+                //Send email to all users
+                emailSenderService.SendEmailToAllUsers(inputModel.Subject, inputModel.Content);
+            }
+            //Else get selected users and send email to them
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult SendEmailToUser(string email)
+        {
+            return null;
+        }
+
         public IActionResult Reports(int page = 1, int quantity = 20)
         {
             var viewModel = new AdministrationReportViewModel
@@ -195,7 +229,7 @@
             return View(viewModel);
         }
 
-        public IActionResult UserCourses(int page = 1,int quantity = 20)
+        public IActionResult UserCourses(int page = 1, int quantity = 20)
         {
             var viewModel = new AdministrationUserCoursesViewModel();
 
