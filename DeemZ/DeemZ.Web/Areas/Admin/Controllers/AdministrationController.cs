@@ -22,11 +22,12 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Services.CachingService;
     using DeemZ.Web.Filters;
-
-    using static DeemZ.Global.WebConstants.Constant;
     using DeemZ.Services.EmailSender;
     using DeemZ.Models.FormModels.Email;
-    using DeemZ.Web.Controllers;
+    using DeemZ.Services.InformativeMessageServices;
+
+    using static DeemZ.Global.WebConstants.Constant;
+    using DeemZ.Models.ViewModels.InformativeMessages;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]
@@ -41,8 +42,9 @@
         private readonly IQuestionService questionService;
         private readonly IMemoryCachingService cachingService;
         private readonly IEmailSenderService emailSenderService;
+        private readonly IInformativeMessageService informativeMessageService;
 
-        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService, IEmailSenderService emailSenderService)
+        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService, IEmailSenderService emailSenderService, IInformativeMessageService informativeMessageService)
         {
             this.adminService = adminService;
             this.courseService = courseService;
@@ -53,6 +55,7 @@
             this.questionService = questionService;
             this.cachingService = cachingService;
             this.emailSenderService = emailSenderService;
+            this.informativeMessageService = informativeMessageService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
@@ -184,7 +187,7 @@
 
         public IActionResult SendEmailToUser(string email)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public IActionResult Reports(int page = 1, int quantity = 20)
@@ -231,11 +234,28 @@
 
         public IActionResult UserCourses(int page = 1, int quantity = 20)
         {
-            var viewModel = new AdministrationUserCoursesViewModel();
-
-            viewModel.UserCourses = courseService.GetUserCourses<UserCoursesViewModel>(page, quantity);
+            var viewModel = new AdministrationUserCoursesViewModel
+            {
+                UserCourses = courseService.GetUserCourses<UserCoursesViewModel>(page, quantity)
+            };
 
             var allPages = (int)Math.Ceiling(viewModel.UserCourses.Count() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
+        public IActionResult InformativeMessagesHeadings(int page = 1, int quantity = 20)
+        {
+            var viewModel = new AdministrationInformativeMessagesHeadingViewModel
+            {
+                InformativeMessagesHeadingViewModel = informativeMessageService.GetInformativeMessageHeadings<InformativeMessagesHeadingViewModel>(page, quantity)
+            };
+
+            var allPages = (int)Math.Ceiling(viewModel.InformativeMessagesHeadingViewModel.Count() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
 

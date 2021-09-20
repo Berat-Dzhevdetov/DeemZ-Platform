@@ -1,0 +1,67 @@
+﻿@model DeemZ.Models.ViewModels.Administration.AdministrationInformativeMessagesHeadingViewModel
+@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "Informative message headings";
+}
+
+<div class="container-fluid">
+    <div class="text-center mt-5">
+        <a asp-area="Informative" asp-controller="InformativeMessage" asp-action="Add" class="btn btn-success">Add Informative Heading</a>
+    </div>
+    <table class="table table-striped table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Informative Messages Count</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var infromativeMessageHeading in Model.InformativeMessagesHeadingViewModel)
+            {
+                <tr>
+                    <td>@infromativeMessageHeading.Title</td>
+                    <td>@infromativeMessageHeading.InformativeMessages.Count()</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Informative" asp-controller="InformativeMessage" asp-action="Edit" asp-route-informativeMessageHeadingId="@infromativeMessageHeading.Id">Edit</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" asp-area="Informative" asp-controller="InformativeMessage" asp-action="Delete" asp-route-informativeMessageHeadingId="@infromativeMessageHeading.Id">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="InformativeMessagesHeadings" asp-route-page="@Model.PreviousPage">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="InformativeMessagesHeadings" asp-route-page="@i">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="InformativeMessagesHeadings" asp-route-page="@Model.NextPage">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
+</div>

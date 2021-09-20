@@ -8,9 +8,6 @@
     public class InformativeMessage : BaseModel
     {
         [Required]
-        [MaxLength(MaxTitleLength)]
-        public string Title { get; set; }
-        [Required]
         [MaxLength(MaxDescriptionLength)]
         public string Description { get; set; }
         public DateTime ShowFrom { get; set; } = DateTime.UtcNow;

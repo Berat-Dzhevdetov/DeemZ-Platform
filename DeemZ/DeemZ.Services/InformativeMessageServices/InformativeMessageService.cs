@@ -7,6 +7,8 @@
     using Microsoft.EntityFrameworkCore;
     using AutoMapper.QueryableExtensions;
     using DeemZ.Data;
+    using DeemZ.Global.Extensions;
+    using DeemZ.Data.Models;
 
     public class InformativeMessageService : IInformativeMessageService
     {
@@ -19,14 +21,26 @@
             this.mapper = mapper;
         }
 
+        public void CreateInformativeMessagesHeading(string title)
+        {
+            context.InformativeMessagesHeadings.Add(new InformativeMessagesHeading
+            {
+                Title = title
+            });
+
+            context.SaveChanges();
+        }
+
+        public IEnumerable<T> GetInformativeMessageHeadings<T>(int page = 1, int quantiy = 20)
+            => context.InformativeMessagesHeadings
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .Paging(page, quantiy)
+                .ToList();
+
+
         public IEnumerable<T> GetInformativeMessages<T>()
            => context.InformativeMessagesHeadings
                 .Include(x => x.InformativeMessages)
-                //.Select(x => new
-                //{
-                //    x.Title,
-                //    InformativeMessages = x.InformativeMessages.Where(x => x.ShowFrom.ToLocalTime() <= DateTime.Now && x.ShowTo.ToLocalTime() > DateTime.Now).ToList()
-                //})
                 .Where(x => x.InformativeMessages.Any(x => x.ShowFrom <= DateTime.Now && x.ShowTo > DateTime.Now))
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
