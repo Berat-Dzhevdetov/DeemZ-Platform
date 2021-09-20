@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.InformativeMessages;
     using DeemZ.Models.ViewModels.InformativeMessages;
 
     public class InformativeMessageProfile : Profile
@@ -11,6 +12,8 @@
             CreateMap<InformativeMessagesHeading, InformativeMessagesHeadingViewModel>();
 
             CreateMap<InformativeMessage,InformativeMessageViewModel>();
+
+            CreateMap<InformativeMessagesHeading, InformativeMessageHeadingFormModel>();
         }
     }
 }

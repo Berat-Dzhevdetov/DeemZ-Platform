@@ -42,7 +42,7 @@
 
             foreach (var arg in argumentsToCheck)
             {
-                var resourceName = arg.Key.ToLower().TrimEnd("id");
+                var resourceName = arg.Key.TrimEnd("Id");
 
                 var pluralizedName = PluralizationProvider.Pluralize(resourceName);
 

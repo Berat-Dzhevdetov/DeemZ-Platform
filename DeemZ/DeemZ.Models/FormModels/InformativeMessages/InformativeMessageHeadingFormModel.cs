@@ -6,6 +6,7 @@
 
     public class InformativeMessageHeadingFormModel
     {
+        public string Id { get; set; }
         [StringLength(MaxTitleLength, MinimumLength = MinTitleLength)]
         public string Title { get; set; }
     }

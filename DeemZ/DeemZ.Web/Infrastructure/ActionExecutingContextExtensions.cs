@@ -16,7 +16,7 @@
             ((Controller)filterContext.Controller).TempData[ErrorMessageKey] = JsonConvert.SerializeObject(errorModel);
 
             filterContext.Result = new RedirectToRouteResult(
-                    new RouteValueDictionary(new { controller = typeof(HomeController).GetControllerName(), action = nameof(HomeController.UserErrorPage) })
+                    new RouteValueDictionary(new { controller = typeof(HomeController).GetControllerName(), action = nameof(HomeController.UserErrorPage), area = "" })
                 );
         }
     }

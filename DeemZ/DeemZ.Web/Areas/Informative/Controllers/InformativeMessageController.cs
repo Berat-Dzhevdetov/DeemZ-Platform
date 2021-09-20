@@ -33,5 +33,35 @@
 
             return RedirectToAction(nameof(AdministrationController.InformativeMessagesHeadings), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Edit(string informativeMessagesHeadingId)
+        {
+            var viewModel = informativeMessageService.GetInformativeMessagesHeading<InformativeMessageHeadingFormModel>(informativeMessagesHeadingId);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Edit(string informativeMessagesHeadingId, InformativeMessageHeadingFormModel message)
+        {
+            if (!ModelState.IsValid) return View(message);
+
+            informativeMessageService.EditInformativeMessagesHeading(informativeMessagesHeadingId, message.Title);
+
+            return RedirectToAction(nameof(AdministrationController.InformativeMessagesHeadings), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Delete(string informativeMessagesHeadingId)
+        {
+            informativeMessageService.DeleteInformativeMessagesHeading(informativeMessagesHeadingId);
+
+            return RedirectToAction(nameof(AdministrationController.InformativeMessagesHeadings), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+        }
     }
 }
