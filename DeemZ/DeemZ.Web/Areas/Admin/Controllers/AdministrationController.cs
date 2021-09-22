@@ -264,6 +264,24 @@
             return View(viewModel);
         }
 
+        [ClientRequired("informativeMessagesHeadingId")]
+        [IfExists]
+        public IActionResult InformativeMessages(string informativeMessagesHeadingId, int page = 1, int quantity = 20)
+        {
+            var viewModel = new AdministrationInformativeMessages
+            {
+                InformativeMessages = informativeMessageService.GetInformativeMessages<InformativeMessageDetailsViewModel>(informativeMessagesHeadingId)
+            };
+
+            var allPages = (int)Math.Ceiling(viewModel.InformativeMessages.Count() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
         private T AdjustPages<T>(T viewModel, int page, int allPages)
             where T : PagingBaseModel
         {

@@ -45,7 +45,7 @@
                 
                 if (!cachingService.ItemExists<IEnumerable<InformativeMessagesHeadingViewModel>>(InformativeMessagesCacheKey, out var informativeMessages))
                 {
-                    informativeMessages = informativeMessageService.GetInformativeMessages<InformativeMessagesHeadingViewModel>();
+                    informativeMessages = informativeMessageService.GetInformativeMessagesCurrentlyInShow<InformativeMessagesHeadingViewModel>();
                     
                     cachingService.CreateItem(InformativeMessagesCacheKey, informativeMessages,TimeSpan.FromMinutes(30));
                 }

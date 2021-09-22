@@ -12,11 +12,11 @@
 
     [Area(AreaName.InformativeArea)]
     [Authorize(Roles = Role.AdminRoleName)]
-    public class InformativeMessageController : Controller
+    public class HeadingsMessageController : Controller
     {
         private readonly IInformativeMessageService informativeMessageService;
 
-        public InformativeMessageController(IInformativeMessageService informativeMessageService)
+        public HeadingsMessageController(IInformativeMessageService informativeMessageService)
         {
             this.informativeMessageService = informativeMessageService;
         }

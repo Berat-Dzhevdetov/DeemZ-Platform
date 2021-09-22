@@ -33,14 +33,14 @@
 
         public void DeleteInformativeMessagesHeading(string imhId)
         {
-            var imsgToDel = context.InformativeMessagesHeadings
+            var imhToDel = context.InformativeMessagesHeadings
                     .Include(x => x.InformativeMessages)
                     .FirstOrDefault(x => x.Id == imhId);
 
-            foreach (var imh in imsgToDel.InformativeMessages)
+            foreach (var imh in imhToDel.InformativeMessages)
                 DeleteInformativeMessage(imh.Id);
 
-            context.InformativeMessagesHeadings.Remove(imsgToDel);
+            context.InformativeMessagesHeadings.Remove(imhToDel);
 
             context.SaveChanges();
         }
@@ -78,12 +78,13 @@
                 .ToList();
 
 
-        public IEnumerable<T> GetInformativeMessages<T>()
+        public IEnumerable<T> GetInformativeMessagesCurrentlyInShow<T>()
            => context.InformativeMessagesHeadings
                 .Include(x => x.InformativeMessages)
                 .Where(x => x.InformativeMessages.Any(x => x.ShowFrom <= DateTime.Now && x.ShowTo > DateTime.Now))
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
+
 
         //imhId => informativeMessagesHeadingId
         public T GetInformativeMessagesHeading<T>(string imhId)
@@ -93,5 +94,12 @@
 
             return mapper.Map<T>(imh);
         }
+
+        public IEnumerable<T> GetInformativeMessages<T>(string imhId, int page = 1, int quantity = 20) 
+            => context.InformativeMessages
+                .Where(x => x.InformativeMessagesHeadingId == imhId)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .Paging(page, quantity)
+                .ToList();
     }
 }

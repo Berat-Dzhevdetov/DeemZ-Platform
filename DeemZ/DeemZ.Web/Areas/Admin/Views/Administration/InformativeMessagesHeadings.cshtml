@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="text-center mt-5">
-        <a asp-area="Informative" asp-controller="InformativeMessage" asp-action="Add" class="btn btn-success">Add Informative Heading</a>
+        <a asp-area="Informative" asp-controller="HeadingsMessage" asp-action="Add" class="btn btn-success">Add Informative Heading</a>
     </div>
     <table class="table table-striped table-dark mt-4">
         <thead>
@@ -28,9 +28,10 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="Informative" asp-controller="InformativeMessage" asp-action="Edit" asp-route-informativeMessagesHeadingId="@infromativeMessageHeading.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="Informative" asp-controller="HeadingsMessage" asp-action="Edit" asp-route-informativeMessagesHeadingId="@infromativeMessageHeading.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Administration" asp-action="InformativeMessages" asp-route-informativeMessagesHeadingId="@infromativeMessageHeading.Id">Informative Messages</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" asp-area="Informative" asp-controller="InformativeMessage" asp-action="Delete" asp-route-informativeMessagesHeadingId="@infromativeMessageHeading.Id">Delete</a>
+                                <a class="dropdown-item text-danger" asp-area="Informative" asp-controller="HeadingsMessage" asp-action="Delete" asp-route-informativeMessagesHeadingId="@infromativeMessageHeading.Id">Delete</a>
                             </div>
                         </div>
                     </td>

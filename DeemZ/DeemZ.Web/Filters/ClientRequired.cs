@@ -9,6 +9,7 @@
     using DeemZ.Web.Infrastructure;
 
     using static DeemZ.Global.WebConstants.UserErrorMessages;
+    using System.Linq;
 
     public class ClientRequired : ActionFilterAttribute
     {
@@ -25,18 +26,6 @@
         {
             var actionArguments = filterContext.ActionArguments;
             var actualActionArguments = filterContext.ActionDescriptor.Parameters;
-
-            //Checking if there is no needed argument
-            if(actionArguments.Count != actualActionArguments.Count)
-            {
-                var errorModel = new HandleErrorModel
-                {
-                    Message = WrongExpectedParams,
-                    StatusCode = HttpStatusCodes.BadRequest
-                };
-
-                filterContext.RedirectToErrorPage(errorModel);
-            }
 
             if (args != null)
             {
@@ -57,7 +46,17 @@
                     }
                 }
             }
+            //Checking if there is no needed argument
+            else if (actionArguments.Count != actualActionArguments.Count)
+            {
+                var errorModel = new HandleErrorModel
+                {
+                    Message = WrongExpectedParams,
+                    StatusCode = HttpStatusCodes.BadRequest
+                };
 
+                filterContext.RedirectToErrorPage(errorModel);
+            }
 
             var nullValue = CheckAgainstNull(actionArguments);
 
@@ -78,6 +77,14 @@
             foreach (KeyValuePair<string, object> entry in actionArguments)
                 if (guard.AgainstNull(entry.Value, nameof(entry.Value)))
                     return entry.Key;
+            return null;
+        }
+
+        private object GetDefaultValue(Type t)
+        {
+            if (t.IsValueType)
+                return Activator.CreateInstance(t);
+
             return null;
         }
     }

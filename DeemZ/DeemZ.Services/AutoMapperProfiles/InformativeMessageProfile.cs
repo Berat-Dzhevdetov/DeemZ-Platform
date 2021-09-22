@@ -14,6 +14,8 @@
             CreateMap<InformativeMessage,InformativeMessageViewModel>();
 
             CreateMap<InformativeMessagesHeading, InformativeMessageHeadingFormModel>();
+
+            CreateMap<InformativeMessage, InformativeMessageDetailsViewModel>();
         }
     }
 }
