@@ -1,0 +1,46 @@
+﻿@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "Add Informative Message";
+}
+@model DeemZ.Models.FormModels.InformativeMessages.InformativeMessageFormModel
+
+<div class="container-fluid">
+    <form method="post" class="mt-4">
+        <div class="form-group text-center">
+            <h2 class="text-light">@ViewData["Title"]</h2>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="Description"></label>
+            <textarea placeholder="Important information..." class="form-control ckeditor" asp-for="Description"></textarea>
+            <span asp-validation-for="Description" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="ShowFrom"></label>
+            <input class="form-control" asp-for="ShowFrom" />
+            <span asp-validation-for="ShowFrom" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="ShowTo"></label>
+            <input class="form-control" asp-for="ShowTo" />
+            <span asp-validation-for="ShowTo" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="InformativeMessagesHeadingId"></label>
+            <select asp-for="InformativeMessagesHeadingId" class="form-control" asp-items="@Model.InformativeMessagesHeadings"></select>
+            <span asp-validation-for="ShowTo" class="small text-danger"></span>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('#Description');
+        });
+    </script>
+}

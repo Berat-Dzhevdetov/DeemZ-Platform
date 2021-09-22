@@ -18,21 +18,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var infromativeMessageHeading in Model.InformativeMessages)
+            @foreach (var informativeMessage in Model.InformativeMessages)
             {
+                var description = informativeMessage.Description.Length <= 77 ? informativeMessage.Description : informativeMessage.Description.Substring(0, 77) + "...";
                 <tr>
-                    <td>@infromativeMessageHeading.Description</td>
-                    <td>@infromativeMessageHeading.ShowFrom.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
-                    <td>@infromativeMessageHeading.ShowTo.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                    <td>@Html.Raw(description)</td>
+                    <td>@informativeMessage.ShowFrom.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                    <td>@informativeMessage.ShowTo.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Actions
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="Informative" asp-controller="Message" asp-action="Edit" asp-route-informativeMessageId="@infromativeMessageHeading.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="Informative" asp-controller="Message" asp-action="Edit" asp-route-informativeMessageId="@informativeMessage.Id">Edit</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" asp-area="Informative" asp-controller="Message" asp-action="Delete" asp-route-informativeMessageId="@infromativeMessageHeading.Id">Delete</a>
+                                <a class="dropdown-item text-danger" asp-area="Informative" asp-controller="Message" asp-action="Delete" asp-route-informativeMessageId="@informativeMessage.Id">Delete</a>
                             </div>
                         </div>
                     </td>

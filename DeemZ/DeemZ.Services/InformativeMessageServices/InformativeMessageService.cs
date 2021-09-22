@@ -77,6 +77,14 @@
                 .Paging(page, quantiy)
                 .ToList();
 
+        public IEnumerable<T> GetInformativeMessageHeadings<T>()
+            => context.InformativeMessagesHeadings
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
+
+        public bool HeadingExits(string imhId)
+            => context.InformativeMessagesHeadings
+                .Any(x => x.Id == imhId);
 
         public IEnumerable<T> GetInformativeMessagesCurrentlyInShow<T>()
            => context.InformativeMessagesHeadings
@@ -101,5 +109,16 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .Paging(page, quantity)
                 .ToList();
+
+        public void CreateInformativeMessage<T>(T message)
+        {
+            var newlyMessage = mapper.Map<InformativeMessage>(message);
+
+            newlyMessage.ShowFrom = newlyMessage.ShowFrom.ToUniversalTime();
+            newlyMessage.ShowTo = newlyMessage.ShowTo.ToUniversalTime();
+
+            context.InformativeMessages.Add(newlyMessage);
+            context.SaveChanges();
+        }
     }
 }

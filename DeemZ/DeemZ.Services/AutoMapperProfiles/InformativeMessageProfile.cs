@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using DeemZ.Data.Models;
+    using DeemZ.Models.DTOs.SelectListItem.InformativeMessagesHeadings;
     using DeemZ.Models.FormModels.InformativeMessages;
     using DeemZ.Models.ViewModels.InformativeMessages;
 
@@ -15,7 +16,11 @@
 
             CreateMap<InformativeMessagesHeading, InformativeMessageHeadingFormModel>();
 
+            CreateMap<InformativeMessagesHeading, InformativeMessagesHeadingsDTO>();
+
             CreateMap<InformativeMessage, InformativeMessageDetailsViewModel>();
+
+            CreateMap<InformativeMessageFormModel, InformativeMessage>();
         }
     }
 }
