@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using DeemZ.Data.Models;
-    using DeemZ.Models.DTOs.SelectListItem.InformativeMessagesHeadings;
     using DeemZ.Models.FormModels.InformativeMessages;
     using DeemZ.Models.ViewModels.InformativeMessages;
 
@@ -16,11 +15,14 @@
 
             CreateMap<InformativeMessagesHeading, InformativeMessageHeadingFormModel>();
 
-            CreateMap<InformativeMessagesHeading, InformativeMessagesHeadingsDTO>();
-
             CreateMap<InformativeMessage, InformativeMessageDetailsViewModel>();
 
             CreateMap<InformativeMessageFormModel, InformativeMessage>();
+
+            CreateMap<InformativeMessage, InformativeMessageEditFormModel>()
+                .ForMember(x => x.ShowFrom, o => o.MapFrom(src => src.ShowFrom.ToLocalTime()))
+                .ForMember(x => x.ShowTo, o => o.MapFrom(src => src.ShowTo.ToLocalTime()))
+                .ReverseMap();
         }
     }
 }

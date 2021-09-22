@@ -270,7 +270,8 @@
         {
             var viewModel = new AdministrationInformativeMessages
             {
-                InformativeMessages = informativeMessageService.GetInformativeMessages<InformativeMessageDetailsViewModel>(informativeMessagesHeadingId)
+                InformativeMessages = informativeMessageService.GetInformativeMessages<InformativeMessageDetailsViewModel>(informativeMessagesHeadingId),
+                Id = informativeMessagesHeadingId
             };
 
             var allPages = (int)Math.Ceiling(viewModel.InformativeMessages.Count() / (quantity * 1.0));

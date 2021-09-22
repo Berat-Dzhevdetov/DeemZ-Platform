@@ -5,12 +5,12 @@
 
     using static DeemZ.Data.DataConstants.InformativeMessages;
 
-    public class InformativeMessageFormModel
+    public class InformativeMessageEditFormModel
     {
         [Required]
         [StringLength(MaxDescriptionLength,
-            ErrorMessage = "The {0} should be between {2} and {1} letters",
-            MinimumLength = MinDescriptionLength)]
+               ErrorMessage = "The {0} should be between {2} and {1} letters",
+               MinimumLength = MinDescriptionLength)]
         public string Description { get; set; }
         [Required]
         [Display(Name = "Show From")]

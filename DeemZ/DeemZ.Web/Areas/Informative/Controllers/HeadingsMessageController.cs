@@ -17,9 +17,7 @@
         private readonly IInformativeMessageService informativeMessageService;
 
         public HeadingsMessageController(IInformativeMessageService informativeMessageService)
-        {
-            this.informativeMessageService = informativeMessageService;
-        }
+            => this.informativeMessageService = informativeMessageService;
 
         public IActionResult Add() => View();
 

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\DeemZ.Infrastructure\DeemZ.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\SelectListItem\" />
+  </ItemGroup>
+
 </Project>

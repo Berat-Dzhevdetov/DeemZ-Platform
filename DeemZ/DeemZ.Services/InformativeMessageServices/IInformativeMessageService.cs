@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Services.InformativeMessageServices
 {
     using System.Collections.Generic;
+    using DeemZ.Models.FormModels.InformativeMessages;
 
     public interface IInformativeMessageService
     {
@@ -14,8 +15,9 @@
         T GetInformativeMessagesHeading<T>(string imhId);
         void EditInformativeMessagesHeading(string imhId, string title);
         void DeleteInformativeMessagesHeading(string imhId);
-        void DeleteInformativeMessage(string imId);
+        string DeleteInformativeMessage(string imId);
         T GetInformativeMessage<T>(string imId);
-        void CreateInformativeMessage<T>(T message);
+        void CreateInformativeMessage<T>(string imhId, T message);
+        string EditInformativeMessage(string imId, InformativeMessageEditFormModel message);
     }
 }

@@ -9,6 +9,7 @@
     using DeemZ.Data;
     using DeemZ.Global.Extensions;
     using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.InformativeMessages;
 
     public class InformativeMessageService : IInformativeMessageService
     {
@@ -45,12 +46,14 @@
             context.SaveChanges();
         }
 
-        public void DeleteInformativeMessage(string imId)
+        public string DeleteInformativeMessage(string imId)
         {
             var msg = GetInformativeMessage<InformativeMessage>(imId);
 
             context.InformativeMessages.Remove(msg);
             context.SaveChanges();
+
+            return msg.InformativeMessagesHeadingId;
         }
 
         public T GetInformativeMessage<T>(string imId)
@@ -93,7 +96,6 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
-
         //imhId => informativeMessagesHeadingId
         public T GetInformativeMessagesHeading<T>(string imhId)
         {
@@ -103,22 +105,38 @@
             return mapper.Map<T>(imh);
         }
 
-        public IEnumerable<T> GetInformativeMessages<T>(string imhId, int page = 1, int quantity = 20) 
+        public IEnumerable<T> GetInformativeMessages<T>(string imhId, int page = 1, int quantity = 20)
             => context.InformativeMessages
                 .Where(x => x.InformativeMessagesHeadingId == imhId)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .Paging(page, quantity)
                 .ToList();
 
-        public void CreateInformativeMessage<T>(T message)
+        public void CreateInformativeMessage<T>(string imhId, T message)
         {
             var newlyMessage = mapper.Map<InformativeMessage>(message);
 
             newlyMessage.ShowFrom = newlyMessage.ShowFrom.ToUniversalTime();
             newlyMessage.ShowTo = newlyMessage.ShowTo.ToUniversalTime();
+            newlyMessage.InformativeMessagesHeadingId = imhId;
 
             context.InformativeMessages.Add(newlyMessage);
             context.SaveChanges();
+        }
+
+        public string EditInformativeMessage(string imId, InformativeMessageEditFormModel message)
+        {
+            var msgToEdit = GetInformativeMessage<InformativeMessage>(imId);
+
+            context.InformativeMessages.Attach(msgToEdit);
+
+            msgToEdit.Description = message.Description;
+            msgToEdit.ShowFrom = message.ShowFrom.ToUniversalTime();
+            msgToEdit.ShowTo = message.ShowTo.ToUniversalTime();
+
+            context.SaveChanges();
+
+            return msgToEdit.InformativeMessagesHeadingId;
         }
     }
 }

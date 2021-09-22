@@ -51,7 +51,7 @@
                                 @foreach (var message in informationHeader.InformativeMessages)
                                 {
                                     <li>
-                                        @message.Description
+                                        @Html.Raw(message.Description)
                                     </li>
                                 }
                             </ul>

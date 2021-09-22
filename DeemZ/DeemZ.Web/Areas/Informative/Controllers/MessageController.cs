@@ -1,14 +1,10 @@
 ﻿namespace DeemZ.Web.Areas.Informative.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc;
     using DeemZ.Web.Filters;
     using DeemZ.Models.FormModels.InformativeMessages;
     using DeemZ.Services.InformativeMessageServices;
-    using DeemZ.Models.ViewModels.InformativeMessages;
-    using DeemZ.Models.DTOs.SelectListItem.InformativeMessagesHeadings;
 
     using static DeemZ.Global.WebConstants.Constant;
     using DeemZ.Web.Areas.Administration.Controllers;
@@ -21,49 +17,49 @@
         private readonly IInformativeMessageService informativeMessageService;
 
         public MessageController(IInformativeMessageService informativeMessageService)
+            => this.informativeMessageService = informativeMessageService;
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Add(string informativeMessagesHeadingId) => View();
+
+        [ClientRequired]
+        [IfExists]
+        [HttpPost]
+        public IActionResult Add(string informativeMessagesHeadingId, InformativeMessageFormModel message)
         {
-            this.informativeMessageService = informativeMessageService;
+            informativeMessageService.CreateInformativeMessage(informativeMessagesHeadingId, message);
+
+            return RedirectToAction(nameof(AdministrationController.InformativeMessages), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea, informativeMessagesHeadingId });
         }
 
-        public IActionResult Add()
+        public IActionResult Edit(string informativeMessageId)
         {
-            var headings = informativeMessageService.GetInformativeMessageHeadings<InformativeMessagesHeadingsDTO>()
-                .Select(x => new SelectListItem()
-                {
-                    Text = x.Title,
-                    Value = x.Id
-                });
+            var viewModel = informativeMessageService.GetInformativeMessage<InformativeMessageEditFormModel>(informativeMessageId);
 
-            var viewModel = new InformativeMessageFormModel()
-            {
-                InformativeMessagesHeadings = headings
-            };
             return View(viewModel);
         }
 
         [ClientRequired]
+        [IfExists]
         [HttpPost]
-        public IActionResult Add(InformativeMessageFormModel message)
+        public IActionResult Edit(string informativeMessageId, InformativeMessageEditFormModel message)
         {
-            if (!informativeMessageService.HeadingExits(message.InformativeMessagesHeadingId))
-                ModelState.AddModelError(nameof(message.InformativeMessagesHeadingId), "Invalid id provided");
-
             if (!ModelState.IsValid)
-            {
-                var headings = informativeMessageService.GetInformativeMessageHeadings<InformativeMessagesHeadingsDTO>()
-                .Select(x => new SelectListItem()
-                {
-                    Text = x.Title,
-                    Value = x.Id
-                });
-
-                message.InformativeMessagesHeadings = headings;
                 return View(message);
-            }
 
-            informativeMessageService.CreateInformativeMessage(message);
+            var informativeMessagesHeadingId = informativeMessageService.EditInformativeMessage(informativeMessageId, message);
 
-            return RedirectToAction(nameof(AdministrationController.InformativeMessages), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea, informativeMessagesHeadingId = message.InformativeMessagesHeadingId });
+            return RedirectToAction(nameof(AdministrationController.InformativeMessages), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea, informativeMessagesHeadingId });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Delete(string informativeMessageId)
+        {
+            var informativeMessagesHeadingId = informativeMessageService.DeleteInformativeMessage(informativeMessageId);
+
+            return RedirectToAction(nameof(AdministrationController.InformativeMessages), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea, informativeMessagesHeadingId });
         }
     }
 }

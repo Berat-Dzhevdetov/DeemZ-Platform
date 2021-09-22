@@ -6,5 +6,7 @@
     public class AdministrationInformativeMessages : PagingBaseModel
     {
         public IEnumerable<InformativeMessageDetailsViewModel> InformativeMessages { get; set; }
+
+        public string Id { get; set; }
     }
 }
