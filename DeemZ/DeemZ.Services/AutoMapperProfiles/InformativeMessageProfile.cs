@@ -17,6 +17,8 @@
 
             CreateMap<InformativeMessage, InformativeMessageDetailsViewModel>();
 
+            CreateMap<InformativeMessagesHeadingViewModel, InformativeMessagesHeadingViewModel>();
+
             CreateMap<InformativeMessageFormModel, InformativeMessage>();
 
             CreateMap<InformativeMessage, InformativeMessageEditFormModel>()

@@ -10,6 +10,7 @@
     using DeemZ.Global.Extensions;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.InformativeMessages;
+    using DeemZ.Models.ViewModels.InformativeMessages;
 
     public class InformativeMessageService : IInformativeMessageService
     {
@@ -90,11 +91,18 @@
                 .Any(x => x.Id == imhId);
 
         public IEnumerable<T> GetInformativeMessagesCurrentlyInShow<T>()
-           => context.InformativeMessagesHeadings
-                .Include(x => x.InformativeMessages)
-                .Where(x => x.InformativeMessages.Any(x => x.ShowFrom <= DateTime.Now && x.ShowTo > DateTime.Now))
-                .ProjectTo<T>(mapper.ConfigurationProvider)
-                .ToList();
+            => context.InformativeMessagesHeadings
+                  .Include(x => x.InformativeMessages)
+                  .Select(x => new InformativeMessagesHeadingViewModel() //This can also be done with AutoMapper
+                  {
+                      Title = x.Title,
+                      Id = x.Id,
+                      InformativeMessages = x.InformativeMessages
+                      .Where(x => x.ShowFrom <= DateTime.Now && x.ShowTo > DateTime.Now)
+                      .Select(y => new InformativeMessageViewModel() { Description = y.Description }),
+                  })
+                  .ProjectTo<T>(mapper.ConfigurationProvider)
+                  .ToList();
 
         //imhId => informativeMessagesHeadingId
         public T GetInformativeMessagesHeading<T>(string imhId)
