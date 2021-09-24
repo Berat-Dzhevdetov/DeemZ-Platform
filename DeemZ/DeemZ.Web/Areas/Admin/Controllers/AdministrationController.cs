@@ -175,10 +175,10 @@
         [HttpPost]
         public IActionResult Emailing(SendEmailFormModel inputModel)
         {
-            if(inputModel.Users == null)
+            if (inputModel.Users == null)
             {
                 //Send email to all users
-                emailSenderService.SendEmailToAllUsers(inputModel.Subject, inputModel.Content);
+                emailSenderService.SendEmailToUsers(inputModel.Subject, inputModel.Content, users: null);
             }
             //Else get selected users and send email to them
 

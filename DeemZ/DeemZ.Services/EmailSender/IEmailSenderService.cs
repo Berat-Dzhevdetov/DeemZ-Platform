@@ -11,8 +11,6 @@
             string subject,
             string htmlContent);
 
-        Task SendEmailToAllUsers(string subject, string content);
-
-        Task SendEmailToSelectedUsers(string subject, string content, IEnumerable<BasicUserInformationViewModel> users);
+        Task SendEmailToUsers(string subject, string content, IEnumerable<BasicUserInformationViewModel> users);
     }
 }

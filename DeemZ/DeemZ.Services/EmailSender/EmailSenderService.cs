@@ -30,49 +30,13 @@
             var response = await this.client.SendEmailAsync(message);
         }
 
-        public async Task SendEmailToAllUsers(string subject, string content)
+        public async Task SendEmailToUsers(string subject, string content, IEnumerable<BasicUserInformationViewModel> users)
         {
-            var users = userService.GetAllUsers<BasicUserInformationViewModel>();
-            var Tos = new List<EmailAddress>();
+            users = users == null ? userService.GetAllUsers<BasicUserInformationViewModel>() : users;
             foreach (var user in users)
             {
-                Tos.Add(new EmailAddress(user.Email));
+                await SendEmailAsync(user.Email, subject, content);
             }
-
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress(Constant.EmailSender.Email, Constant.EmailSender.Name),
-                Subject = subject,
-                HtmlContent = content,
-                Personalizations = new List<Personalization>
-                {
-                     new Personalization { Tos = Tos }
-                }
-            };
-
-            await client.SendEmailAsync(msg);
-        }
-
-        public async Task SendEmailToSelectedUsers(string subject, string content, IEnumerable<BasicUserInformationViewModel> users)
-        {
-            var Tos = new List<EmailAddress>();
-            foreach (var user in users)
-            {
-                Tos.Add(new EmailAddress(user.Email));
-            }
-
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress(Constant.EmailSender.Email, Constant.EmailSender.Name),
-                Subject = subject,
-                HtmlContent = content,
-                Personalizations = new List<Personalization>
-                {
-                     new Personalization { Tos = Tos }
-                }
-            };
-
-            await client.SendEmailAsync(msg);
         }
     }
 }
