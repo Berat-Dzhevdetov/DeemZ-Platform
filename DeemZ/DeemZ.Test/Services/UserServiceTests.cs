@@ -250,7 +250,7 @@ namespace DeemZ.Test.Services
             
             Assert.Equal(courseId, userInfo.Courses.First().Id);
             Assert.Equal(creditsCount, userInfo.Credits);
-            Assert.Equal(signedUpCoursesCount,userInfo.SignUpCourses.Count());
+            Assert.Equal(signedUpCoursesCount,userInfo.SignUpCourses.Count()); //here
             Assert.Equal(userSurveysCount, userInfo.Surveys.Count());
 
         }

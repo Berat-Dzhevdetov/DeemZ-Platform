@@ -83,6 +83,15 @@
             return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
         }
 
+        public IActionResult UpcomingCourses()
+        {
+            var viewModel = new UpcomingCoursesViewModel
+            {
+                UpcomingCourses = courseService.GetCoursesForSignUp<UpcomingCourseViewModel>(),
+            };
+            return View(viewModel);
+        }
+
         [Authorize(Roles = Role.AdminRoleName)]
         public IActionResult Add() => View();
 

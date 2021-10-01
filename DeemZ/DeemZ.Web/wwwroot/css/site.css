@@ -999,6 +999,16 @@ span.lecture-number::after {
     }
 }
 
+.list-flex {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+}
+
 @media only screen and (max-width: 950px) {
     .guest-users-container .seo-section {
         display: block;

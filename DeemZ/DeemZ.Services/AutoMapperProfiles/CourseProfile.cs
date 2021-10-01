@@ -33,6 +33,10 @@
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate))
                 .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate));
 
+            CreateMap<Course, UpcomingCourseViewModel>()
+                .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate))
+                .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate));
+
             CreateMap<AddCourseFormModel, Course>()
                 .ForMember(x => x.StartDate, o => o.MapFrom(src => src.StartDate.ToUniversalTime()))
                 .ForMember(x => x.EndDate, o => o.MapFrom(src => src.EndDate.ToUniversalTime()))

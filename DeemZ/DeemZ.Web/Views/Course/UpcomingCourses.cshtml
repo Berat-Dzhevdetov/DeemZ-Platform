@@ -1,0 +1,48 @@
+﻿@model UpcomingCoursesViewModel;
+@{
+    ViewData["Title"] = "Upcoming courses";
+}
+<h1 class="text-center">@ViewData["Title"]</h1>
+<div>
+    @if (Model.UpcomingCourses.Any())
+    {
+        @foreach (var course in Model.UpcomingCourses)
+        {
+            <div class="form gray-background mt-4 round-bottom pb-2">
+                <div class="image-holder">
+                    <img src="~/media/add-report-background.jpg" />
+                    <div>
+                        <h1>@course.Name</h1>
+                    </div>
+                </div>
+                <div class="p-3">
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <div class="inner-addon">
+                            @if (course.Description.Length <= 200)
+                            {
+                                <p>
+                                    @Html.Raw(course.Description)
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <ul class="no-bullets">
+                    <li><i class="fas fa-coins"></i> @course.Credits</li>
+                    <li><i class="fas fa-calendar-day"></i> @course.StartDate.ToShortDateString()</li>
+                    <li><p><i class="fas fa-money-check-alt"></i> @course.Price.ToString("f0")lv.</p></li>
+                    <li>
+                        <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@course.Id" class="btn btn-primary">Info</a>
+                    </li>
+                </ul>
+            </div>
+        }
+    }
+    else
+    {
+        <h2>There are not currently any upcoming courses!</h2>
+    }
+
+</div>
