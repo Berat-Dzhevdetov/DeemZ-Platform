@@ -24,7 +24,8 @@
 
         <div class="form-group text-center">
             <input type="submit" class="btn btn-warning" value="Send to ALL users" />
-            <input type="button" class="btn btn-primary" value="Send to Selected users" />
+            <input type="button" onclick="onSendToSelected()" class="btn btn-primary" value="Send to Selected users" />
+            <input type="hidden" asp-for="SelectedUsers" id="selectedUsers"/>
         </div>
     </form>
 
@@ -59,6 +60,24 @@
         $(document).ready(function () {
             CKEDITOR.replace('#Content');
         });
+    </script>
+    <script>
+        function onSendToSelected() {
+            let selectedUsersInput = document.getElementById("selectedUsers");
+            let checkedUsers = [...document.querySelectorAll('input[type="checkbox"]:checked')];
+
+            if (checkedUsers) {
+                let result = [];
+
+                for (let checkbox of checkedUsers) {
+                    result.push(checkbox.name)
+                }
+                selectedUsersInput.value = result;
+
+                document.querySelector("form").submit();
+            }
+            
+        }
     </script>
     <partial name="_ValidationScriptsPartial" />
 }

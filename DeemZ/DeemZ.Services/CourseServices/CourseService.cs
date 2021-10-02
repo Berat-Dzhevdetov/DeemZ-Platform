@@ -35,9 +35,8 @@
                .Sum(x => x.EarnedCredits);
 
 
-        //Gets user's given id courses
         public IEnumerable<T> GetUserCurrentCourses<T>(string uid, bool isPaid = true)
-         => context.UserCourses
+            => context.UserCourses
                 .Where(
                     x => x.User.Id == uid
                     && x.IsPaid == isPaid
@@ -46,8 +45,6 @@
                 .Include(x => x.Course)
                 .Select(x => mapper.Map<T>(x.Course))
                 .ToList();
-
-
 
         public T GetCourseById<T>(string cid)
         {

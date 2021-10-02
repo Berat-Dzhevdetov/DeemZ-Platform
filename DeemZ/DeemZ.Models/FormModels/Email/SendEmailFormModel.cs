@@ -17,5 +17,7 @@ namespace DeemZ.Models.FormModels.Email
         public string Content { get; set; }
 
         public IEnumerable<BasicUserInformationViewModel> Users { get; set; }
+
+        public string[] SelectedUsers { get; set; }
     }
 }

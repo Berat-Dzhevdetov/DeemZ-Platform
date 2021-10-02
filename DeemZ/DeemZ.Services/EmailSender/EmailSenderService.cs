@@ -8,6 +8,7 @@
     using DeemZ.Models.ViewModels.User;
     using System.Collections.Generic;
     using DeemZ.Services.UserServices;
+    using System.Linq;
 
     public class EmailSenderService : IEmailSenderService
     {
@@ -30,12 +31,12 @@
             var response = await this.client.SendEmailAsync(message);
         }
 
-        public async Task SendEmailToUsers(string subject, string content, IEnumerable<BasicUserInformationViewModel> users)
+        public async Task SendEmailToUsers(string subject, string content, string[] users)
         {
-            users = users == null ? userService.GetAllUsers<BasicUserInformationViewModel>() : users;
-            foreach (var user in users)
+            var recievers = (users.Where(x=>x!=null).Count() == 0) ? userService.GetAllUsers<BasicUserInformationViewModel>().Select(x => x.Email).ToArray() : users;
+            foreach (var user in recievers)
             {
-                await SendEmailAsync(user.Email, subject, content);
+                await SendEmailAsync(user, subject, content);
             }
         }
     }

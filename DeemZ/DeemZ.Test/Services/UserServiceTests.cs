@@ -237,7 +237,6 @@ namespace DeemZ.Test.Services
         {
             var courseId = SeedCourse();
             var creditsCount = 10;
-            var signedUpCoursesCount = 1;
             var userSurveysCount = 1;
             var userId = "test-user";
             SeedUser();
@@ -250,7 +249,6 @@ namespace DeemZ.Test.Services
             
             Assert.Equal(courseId, userInfo.Courses.First().Id);
             Assert.Equal(creditsCount, userInfo.Credits);
-            Assert.Equal(signedUpCoursesCount,userInfo.SignUpCourses.Count()); //here
             Assert.Equal(userSurveysCount, userInfo.Surveys.Count());
 
         }

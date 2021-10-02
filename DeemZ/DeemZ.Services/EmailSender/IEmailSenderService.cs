@@ -11,6 +11,6 @@
             string subject,
             string htmlContent);
 
-        Task SendEmailToUsers(string subject, string content, IEnumerable<BasicUserInformationViewModel> users);
+        Task SendEmailToUsers(string subject, string content, string[] users);
     }
 }
