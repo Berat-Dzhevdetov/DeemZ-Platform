@@ -9,6 +9,12 @@ for details on configuring this project to bundle and minify static web assets. 
     --dark-orange: #CB7D00;
 }
 
+.badge{
+    background-color: red;
+    color: white;
+    display: inline-flex;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -962,6 +968,7 @@ span.lecture-number::after {
     width: 90%;
     margin: 0 auto;
     margin-top: 5rem;
+    margin-bottom: 5rem;
 }
 
 @keyframes blink {

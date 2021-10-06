@@ -9,14 +9,9 @@
         @foreach (var course in Model.UpcomingCourses)
         {
             <div class="form gray-background mt-4 round-bottom pb-2">
-                <div class="image-holder">
-                    <img src="~/media/add-report-background.jpg" />
-                    <div>
-                        <h1>@course.Name</h1>
-                    </div>
-                </div>
                 <div class="p-3">
                     <div class="form-group">
+                        <h1>@course.Name</h1>
                     </div>
                     <div class="form-group">
                         <div class="inner-addon">
@@ -42,7 +37,9 @@
     }
     else
     {
-        <h2>There are not currently any upcoming courses!</h2>
+        <div class="text-center">
+            <h2>There are not currently any upcoming courses!</h2>
+        </div>
     }
 
 </div>

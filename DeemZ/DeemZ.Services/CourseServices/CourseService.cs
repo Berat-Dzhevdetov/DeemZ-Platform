@@ -171,5 +171,12 @@
             context.UserCourses.Remove(userCourse);
             context.SaveChanges();
         }
+
+        public int UpCommingCoursesCount()
+            => context.Courses
+            .Where(x =>
+                x.SignUpStartDate <= DateTime.UtcNow
+                && x.SignUpEndDate > DateTime.UtcNow)
+            .Count();
     }
 }

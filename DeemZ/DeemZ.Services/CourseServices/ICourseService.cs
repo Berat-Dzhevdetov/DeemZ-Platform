@@ -22,5 +22,7 @@
         IEnumerable<T> GetUserCourses<T>(int page = 1, int quantity = 20);
         IEnumerable<KeyValuePair<string,string>> GetCourseByIdAsKeyValuePair(DateTime prevDate);
         void DeleteUserFromCourse(string courseId, string userId);
+
+        int UpCommingCoursesCount();
     }
 }
