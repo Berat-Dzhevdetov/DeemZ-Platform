@@ -35,6 +35,7 @@
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
         public DbSet<ApplicationUserSurvey> ApplicationUserSurvey { get; set; }
         public DbSet<AnswerUsers> AnswerUsers { get; set; }
+        public DbSet<ChatMessage> Messages { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

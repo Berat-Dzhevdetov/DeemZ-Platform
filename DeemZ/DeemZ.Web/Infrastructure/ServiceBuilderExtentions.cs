@@ -19,6 +19,7 @@
     using DeemZ.Services.InformativeMessageServices;
     using DeemZ.Services.CachingService;
     using DeemZ.Services.EmailSender;
+    using DeemZ.Services.ChatMessageService;
 
     public static class ServiceBuilderExtentions
     {
@@ -37,6 +38,7 @@
                 mc.AddProfile(new UserCourseProfile());
                 mc.AddProfile(new ExamProfile());
                 mc.AddProfile(new InformativeMessageProfile());
+                mc.AddProfile(new ChatMessagesProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -62,6 +64,7 @@
             services.AddTransient<IInformativeMessageService, InformativeMessageService>();
             services.AddTransient<IMemoryCachingService, MemoryCachingService>();
             services.AddTransient<IEmailSenderService, EmailSenderService>();
+            services.AddTransient<IChatMessageService, ChatMessageService>();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace DeemZ.Web
 
             services.AddMapper();
             services.AddCustomServices();
-
+            
             services.AddSignalR();
             services.AddMemoryCache();
 
@@ -67,13 +67,16 @@ namespace DeemZ.Web
                     .UseHsts();
 
 
-
             app.UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
                 .UseCookiePolicy()
+                .UseCors(options => options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader())
                 .UseEndpoints(endpoints =>
                     {
                         endpoints.MapDefaultAreaRoute();
