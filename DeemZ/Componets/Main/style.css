@@ -68,20 +68,41 @@
     padding: 12px;
     margin-bottom: 12px;
     border-radius: 10px;
+    min-width: 100% !important;
+    flex-basis: 1;
 }
 
 .content {
     padding-left: 10px;
 }
 
-.small-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+.message-info{
+    display: flex;
+    flex-direction: column;
 }
 
-.author-name {
+.delete-message:hover{
+    cursor: pointer;
+    color: red;
+}
+
+.edit-message:hover{
+    cursor: pointer;
+    color: #2196F3;
+}
+
+.message-options{
+    position: relative;
+    width: 100%;
+    margin-left: 10px;
+    padding-bottom: 15px;
     font-size: 14px;
+}
+
+.message-options-right{
+    position: absolute;
+    right: 3%;
+    top: 6%;
 }
 
 /* Messages Ends */
