@@ -1,15 +1,11 @@
-﻿using DeemZ.Data.Models;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace DeemZ.Models.ViewModels.ChatMessages
+﻿namespace DeemZ.Models.ViewModels.ChatMessages
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
     public class ChatMessageViewModel
     {
         [Required]
         public string Content { get; set; }
-
-        //public ApplicationUser ApplicationUser { get; set; }
 
         public string ApplicationUserId { get; set; }
 

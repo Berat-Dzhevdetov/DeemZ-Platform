@@ -5,8 +5,8 @@
         public const string GlobalMessageKey = "GlobalMessage";
         public const string DateTimeFormat = "dd.MM.yyyy HH:mm";
         public const string InformativeMessagesCacheKey = "InformativeMessagesCache";
-        public const string AdminDashboradStatisticsCacheKey = "AdminDashboradStatisticsCache";
         public const string UpCommingCoursesCacheKey = "UpCommingCoursesCacheKey";
+        public const string AdminDashboradStatisticsCacheKey = "AdminDashboradStatisticsCache";
 
         public static class Role
         {

@@ -33,9 +33,15 @@
                         <li class="nav-item">
                             <a class="nav-link white-text" asp-area="" asp-controller="Course" asp-action="UpcomingCourses">
                                 Upcoming courses
-                                <span class="badge">
-                                    @courseService.UpCommingCoursesCount()
-                                </span>
+                                @{
+                                    var courseCount = courseService.UpCommingCoursesCount();
+                                    if (courseCount >= 1)
+                                    {
+                                        <span class="badge">
+                                            @courseCount
+                                        </span>
+                                    }
+                                }
                             </a>
                         </li>
                         @using DeemZ.Web.Infrastructure;
@@ -74,7 +80,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

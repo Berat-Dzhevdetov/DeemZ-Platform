@@ -1,20 +1,22 @@
-﻿using DeemZ.Models.FormModels.ChatMessage;
-using DeemZ.Models.ViewModels.ChatMessages;
-using DeemZ.Services.ChatMessageService;
-using DeemZ.Web.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-
-namespace DeemZ.Web.Areas.Messages.Controllers
+﻿namespace DeemZ.Web.Areas.Messages.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json;
+    using System.Threading.Tasks;
+    using DeemZ.Models.FormModels.ChatMessage;
+    using DeemZ.Models.ViewModels.ChatMessages;
+    using DeemZ.Services.ChatMessageService;
+    using DeemZ.Web.Infrastructure;
+
+    using static DeemZ.Services.EncryptionServices.Base64Service;
+
     [Route("api/[controller]")]
     [ApiController]
     [IgnoreAntiforgeryToken]
     public class MessagesController : ControllerBase
     {
         private readonly IChatMessageService chatMessageService;
+
         public MessagesController(IChatMessageService chatMessageService)
         {
             this.chatMessageService = chatMessageService;
