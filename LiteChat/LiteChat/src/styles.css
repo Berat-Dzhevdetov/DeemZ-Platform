@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.small-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.smaller-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.messages-holder {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+}

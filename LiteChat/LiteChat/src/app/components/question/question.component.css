@@ -1,0 +1,42 @@
+.message {
+  background: #f1f1f1;
+  display: flex;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  min-width: 100% !important;
+  flex-basis: 1;
+}
+
+.content {
+  padding-left: 10px;
+}
+
+.message-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.delete-message:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.edit-message:hover {
+  cursor: pointer;
+  color: #2196f3;
+}
+
+.message-options {
+  position: relative;
+  width: 100%;
+  margin-left: 10px;
+  padding-bottom: 15px;
+  font-size: 14px;
+}
+
+.message-options-right {
+  position: absolute;
+  right: 3%;
+  top: 6%;
+}

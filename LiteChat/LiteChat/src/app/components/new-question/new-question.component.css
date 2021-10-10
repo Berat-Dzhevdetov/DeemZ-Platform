@@ -1,0 +1,24 @@
+.user-iteration {
+  background-color: #ccc;
+  border-radius: 15px;
+  height: 75px;
+  padding: 15px;
+  display: flex;
+}
+
+.ask-question-input {
+  height: 45px;
+  border: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  resize: none;
+}
+
+.ask-question-input::-webkit-scrollbar {
+  display: none;
+}
+
+.ask-question-input-holder {
+  width: 100%;
+}
