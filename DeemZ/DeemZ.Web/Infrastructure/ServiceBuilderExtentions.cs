@@ -19,7 +19,6 @@
     using DeemZ.Services.CachingService;
     using DeemZ.Services.EmailSender;
     using DeemZ.Services.ChatMessageService;
-    using DeemZ.Services.CryptingServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -48,7 +47,6 @@
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddSingleton<Guard>();
-            services.AddSingleton<Base64Service>();
 
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISurveyService, SurveyService>();
