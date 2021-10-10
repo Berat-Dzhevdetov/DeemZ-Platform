@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { QuestionService } from 'src/app/core/services/question/question.service';
+import { Message } from '../../core/models/message';
 @Component({
   selector: 'app-content',
   templateUrl: './content.component.html',
-  styleUrls: ['./content.component.css']
+  styleUrls: ['./content.component.css'],
 })
-export class ContentComponent implements OnInit {
+export class ContentComponent implements AfterViewInit {
+  messages!: Message[];
+  constructor(public questionService: QuestionService) {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.questionService.getAllMessages().subscribe((x) => {
+      this.messages = x;
+    });
   }
-
 }

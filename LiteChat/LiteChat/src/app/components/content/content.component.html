@@ -2,5 +2,5 @@
     <h4>Ask the speaker:</h4>
     <app-new-question></app-new-question>
     <h4>Questions:</h4>
-    <app-question></app-question>
+    <app-question *ngFor="let message of messages" [message]=message></app-question>
 </div>
