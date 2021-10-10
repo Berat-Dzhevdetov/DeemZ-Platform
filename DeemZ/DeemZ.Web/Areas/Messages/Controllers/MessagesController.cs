@@ -13,6 +13,7 @@
 
     using static DeemZ.Services.EncryptionServices.Base64Service;
     using static DeemZ.Global.WebConstants.Constant.Role;
+    using static DeemZ.Data.DataConstants.User;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -30,27 +31,24 @@
 
         // GET: api/<Messages>
         [HttpGet]
-        public JsonResult Get()
-        {
-            return new JsonResult(chatMessageService.GetAllChatMessages<ChatMessageViewModel>());
-        }
+        public ActionResult<JsonResult> Get()
+            => new JsonResult(chatMessageService.GetAllChatMessages<ChatMessageViewModel>());
 
         // GET api/<Messages>/<id>
         [HttpGet("{id}")]
-        public JsonResult Get(string id)
-        {
-            return new JsonResult(chatMessageService.GetChatMessageById(id));
-        }
+        public ActionResult<JsonResult> Get(string id) => new JsonResult(chatMessageService.GetChatMessageById(id));
 
         // POST api/<MessagesController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] JsonElement message)
         {
             var parsedMessage = JsonSerializer.Deserialize<ChatMessageInputModel>(message.ToString());
-            if (!chatMessageService.CanUserSendMessage(parsedMessage.CourseId, parsedMessage.ApplicationUserId))
-            {
+            var isAdmin = User.IsAdmin();
+
+            if (!chatMessageService.CanUserSendMessage(parsedMessage.CourseId, parsedMessage.ApplicationUserId)
+                && !isAdmin)
                 return Unauthorized();
-            }
+
             await chatMessageService.SendChatMessage(parsedMessage);
 
             return Accepted();
@@ -68,15 +66,14 @@
             return Unauthorized();
         }
 
+        // GET api/<MessagesController>/connect
         [HttpGet("connect")]
         public async Task<ActionResult<string>> Connect(string courseId, string userId)
         {
             var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
 
             if (!chatMessageService.CanUserSendMessage(courseId, userId) && ! isAdmin)
-            {
                 return Unauthorized();
-            }
 
             var user = userService.GetUserById<ApplicationUser>(userId);
 
@@ -85,7 +82,7 @@
                 ApplicationUserId = userId,
                 CourseId = courseId,
                 IsAdmin = isAdmin,
-                ImageUrl = user.ImgUrl
+                ApplicationUserImageUrl = user.ImgUrl == DefaultProfilePictureUrl ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/{DefaultProfilePictureUrl}" : user.ImgUrl
             };
 
             var json = JsonSerializer.Serialize(model);

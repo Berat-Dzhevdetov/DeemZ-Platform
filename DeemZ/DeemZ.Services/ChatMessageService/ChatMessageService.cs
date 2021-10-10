@@ -1,17 +1,15 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using DeemZ.Data;
-using DeemZ.Data.Models;
-using DeemZ.Models.FormModels.ChatMessage;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeemZ.Services.ChatMessageService
+﻿namespace DeemZ.Services.ChatMessageService
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using DeemZ.Data;
+    using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.ChatMessage;
+
     public class ChatMessageService : IChatMessageService
     {
         private readonly DeemZDbContext context;
@@ -25,7 +23,7 @@ namespace DeemZ.Services.ChatMessageService
 
         public bool CanUserSendMessage(string courseId, string userId)
             => context.UserCourses
-            .Any(x => x.UserId == userId && x.CourseId == courseId);
+            .Any(x => x.UserId == userId && x.CourseId == courseId && x.IsPaid);
 
         public async Task DeleteChatMessage(string messsageId)
         {

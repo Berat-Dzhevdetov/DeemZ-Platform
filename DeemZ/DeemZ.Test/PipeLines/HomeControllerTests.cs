@@ -34,6 +34,8 @@
                     .WithKey(InformativeMessagesCacheKey)
                     .WithSlidingExpiration(TimeSpan.FromMinutes(30))
                     .WithValueOfType<IEnumerable<InformativeMessagesHeadingViewModel>>()))
+            .AndAlso()
+            .ShouldHave()
             .MemoryCache(cache => cache
                 .ContainingEntry(entry => entry
                     .WithKey(UpCommingCoursesCacheKey)
