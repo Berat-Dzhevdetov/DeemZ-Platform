@@ -4,7 +4,8 @@
   padding: 20px 10px;
 }
 
-.header a {
+.header a,
+.header .nav-link {
   float: left;
   color: black;
   text-align: center;
@@ -13,9 +14,10 @@
   font-size: 18px;
   line-height: 25px;
   border-radius: 4px;
+  display: block;
 }
 
-.header a.logo {
+.header .nav-link.logo {
   font-size: 25px;
   font-weight: bold;
 }
