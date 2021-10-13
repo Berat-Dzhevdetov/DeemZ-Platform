@@ -10,10 +10,12 @@
     using DeemZ.Services.UserServices;
     using DeemZ.Data.Models;
     using DeemZ.Models.DTOs.LiteChat;
+    using DeemZ.Services.CourseServices;
 
     using static DeemZ.Services.EncryptionServices.Base64Service;
     using static DeemZ.Global.WebConstants.Constant.Role;
     using static DeemZ.Data.DataConstants.User;
+    using DeemZ.Web.Filters;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -22,11 +24,13 @@
     {
         private readonly IChatMessageService chatMessageService;
         private readonly IUserService userService;
+        private readonly ICourseService courseService;
 
-        public MessagesController(IChatMessageService chatMessageService, IUserService userService)
+        public MessagesController(IChatMessageService chatMessageService, IUserService userService, ICourseService courseService)
         {
             this.chatMessageService = chatMessageService;
             this.userService = userService;
+            this.courseService = courseService;
         }
 
         // GET: api/<Messages>
@@ -68,21 +72,25 @@
 
         // GET api/<MessagesController>/connect
         [HttpGet("connect")]
-        public async Task<ActionResult<string>> Connect(string courseId, string userId)
+        public async Task<ActionResult<string>> Connect(string courseId, string applicationUserId)
         {
-            var isAdmin = await userService.IsInRoleAsync(userId, AdminRoleName);
+            var isAdmin = await userService.IsInRoleAsync(applicationUserId, AdminRoleName);
 
-            if (!chatMessageService.CanUserSendMessage(courseId, userId) && ! isAdmin)
+            if (!chatMessageService.CanUserSendMessage(courseId, applicationUserId) && ! isAdmin)
                 return Unauthorized();
 
-            var user = userService.GetUserById<ApplicationUser>(userId);
+            var user = userService.GetUserById<ApplicationUser>(applicationUserId);
+
+            var course = courseService.GetCourseById<Course>(courseId);
 
             var model = new ConnectDTO
             {
-                ApplicationUserId = userId,
+                ApplicationUserId = applicationUserId,
                 CourseId = courseId,
                 IsAdmin = isAdmin,
-                ApplicationUserImageUrl = user.ImgUrl == DefaultProfilePictureUrl ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/{DefaultProfilePictureUrl}" : user.ImgUrl
+                ApplicationUserImageUrl = user.ImgUrl == DefaultProfilePictureUrl ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/{DefaultProfilePictureUrl}" : user.ImgUrl,
+                UserName = user.UserName,
+                CourseName = course.Name,
             };
 
             var json = JsonSerializer.Serialize(model);
