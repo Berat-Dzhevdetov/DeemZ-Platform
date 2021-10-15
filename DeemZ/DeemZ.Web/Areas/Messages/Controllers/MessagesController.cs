@@ -15,7 +15,6 @@
     using static DeemZ.Services.EncryptionServices.Base64Service;
     using static DeemZ.Global.WebConstants.Constant.Role;
     using static DeemZ.Data.DataConstants.User;
-    using DeemZ.Web.Filters;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -35,12 +34,12 @@
 
         // GET: api/<Messages>
         [HttpGet]
-        public ActionResult<JsonResult> Get()
-            => new JsonResult(chatMessageService.GetAllChatMessages<ChatMessageViewModel>());
+        public JsonResult Get()
+            => new(chatMessageService.GetAllChatMessages<ChatMessageViewModel>());
 
         // GET api/<Messages>/<id>
         [HttpGet("{id}")]
-        public ActionResult<JsonResult> Get(string id) => new JsonResult(chatMessageService.GetChatMessageById(id));
+        public JsonResult Get(string id) => new(chatMessageService.GetChatMessageById(id));
 
         // POST api/<MessagesController>
         [HttpPost]
@@ -74,6 +73,9 @@
         [HttpGet("connect")]
         public async Task<ActionResult<string>> Connect(string courseId, string applicationUserId)
         {
+            if (!userService.GetUserById(applicationUserId)) return NotFound();
+            if (!courseService.GetCourseById(courseId)) return NotFound();
+
             var isAdmin = await userService.IsInRoleAsync(applicationUserId, AdminRoleName);
 
             if (!chatMessageService.CanUserSendMessage(courseId, applicationUserId) && ! isAdmin)

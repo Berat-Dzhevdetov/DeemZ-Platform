@@ -43,3 +43,10 @@
 :host {
   margin: 0;
 }
+
+@media only screen and (max-width: 880px) {
+  .header{
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
