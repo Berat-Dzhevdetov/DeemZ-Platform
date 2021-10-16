@@ -226,7 +226,7 @@ namespace DeemZ.Test.Services
 
         public void SeedUserSurvey(string userId, string surveyId)
         {
-            context.ApplicationUserSurvey.Add(new ApplicationUserSurvey()
+            context.ApplicationUserSurveys.Add(new ApplicationUserSurvey()
             {
                 ApplicationUserId = userId,
                 SurveyId = surveyId,

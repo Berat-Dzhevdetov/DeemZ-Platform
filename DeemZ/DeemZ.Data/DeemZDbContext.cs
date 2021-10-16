@@ -33,7 +33,8 @@
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
-        public DbSet<ApplicationUserSurvey> ApplicationUserSurvey { get; set; }
+        public DbSet<ApplicationUserSurvey> ApplicationUserSurveys { get; set; }
+        public DbSet<ApplicationUserSurveyAnswer> ApplicationUserSurveyAnswers { get; set; }
         public DbSet<AnswerUsers> AnswerUsers { get; set; }
         public DbSet<ChatMessage> Messages { get; set; }
 
@@ -57,6 +58,11 @@
             mb.Entity<ApplicationUserExam>(x =>
             {
                 x.HasKey(x => new { x.ExamId, x.ApplicationUserId });
+            });
+
+            mb.Entity<ApplicationUserSurveyAnswer>(x =>
+            {
+                x.HasKey(x => new { x.ApplicationUserId, x.SurveyAnswerId });
             });
 
             mb.Entity<ApplicationUserSurvey>(x =>

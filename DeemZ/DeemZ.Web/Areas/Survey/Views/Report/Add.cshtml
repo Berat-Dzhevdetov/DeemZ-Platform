@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Report an issue";
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
+}
+@model DeemZ.Models.FormModels.Reports.AddReportFormModel
+
+<div class="form gray-background mt-4 round-bottom pb-4">
+    <form method="post">
+        <div class="image-holder">
+            <img src="~/media/add-report-background.jpg" />
+            <div>
+                <h1>@ViewData["Title"]</h1>
+            </div>
+        </div>
+        <div class="p-3">
+            <div class="form-group">
+                <div class="inner-addon">
+                    <input hidden readonly asp-for="@Model.LectureId" type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="inner-addon">
+                    <label asp-for="@Model.IssueDescription"></label>
+                    <textarea asp-for="@Model.IssueDescription" rows="5"></textarea>
+                    <span asp-validation-for="@Model.IssueDescription" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <ul class="no-bullets">
+            <li>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </li>
+        </ul>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

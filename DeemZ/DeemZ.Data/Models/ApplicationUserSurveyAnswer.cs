@@ -1,10 +1,10 @@
 ﻿namespace DeemZ.Data.Models
 {
-    public class ApplicationUserSurvey
+    public class ApplicationUserSurveyAnswer
     {
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public string SurveyId { get; set; }
-        public Survey Survey { get; set; }
+        public string SurveyAnswerId { get; set; }
+        public SurveyAnswer SurveyAnswer { get; set; }
     }
 }

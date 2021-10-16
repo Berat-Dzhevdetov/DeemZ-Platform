@@ -1,0 +1,40 @@
+﻿@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "Preview Report";
+}
+@model DeemZ.Models.ViewModels.Reports.PreviewReportViewModel
+
+<div class="container-fluid">
+    <form method="post" class="mt-4" asp-action="Delete" asp-route-reportId="@Model.Id" asp-controller="Report">
+        <div class="form-group text-center">
+            <h2 class="text-light">@ViewData["Title"]</h2>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="@Model.UserEmail"></label>
+            <p class="form-control">@Model.UserEmail</p>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="@Model.UserUserName"></label>
+            <p class="form-control">@Model.UserUserName</p>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="@Model.LectureName"></label>
+            <p class="form-control"><a asp-area="" asp-action="ViewCourse" asp-controller="Course" asp-route-courseId="@Model.LectureCourseId" target="_blank">@Model.LectureName</a></p>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="@Model.CreatedOn"></label>
+            <p class="form-control">@Model.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</p>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="@Model.IssueDescription"></label>
+            <p class="form-control">@Model.IssueDescription</p>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-danger" value="Delete report" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

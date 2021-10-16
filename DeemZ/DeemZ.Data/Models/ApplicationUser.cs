@@ -28,6 +28,7 @@
         public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
         public ICollection<UserCourse> UserCourses { get; set; } = new HashSet<UserCourse>();
         public ICollection<ApplicationUserExam> Exams { get; set; } = new HashSet<ApplicationUserExam>();
+        public ICollection<ApplicationUserSurveyAnswer> SurveyAnswers { get; set; } = new HashSet<ApplicationUserSurveyAnswer>();
         public ICollection<ApplicationUserSurvey> Surveys { get; set; } = new HashSet<ApplicationUserSurvey>();
         public ICollection<AnswerUsers> AnswerUsers { get; set; } = new HashSet<AnswerUsers>();
         public ICollection<Forum> Forums { get; set; } = new HashSet<Forum>();

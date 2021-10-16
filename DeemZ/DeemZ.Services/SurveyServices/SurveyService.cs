@@ -22,7 +22,7 @@
         {
             var permission = context.Courses
                 .Any(x => x.UserCourses.Any(c => c.CourseId == x.Id && c.UserId == uid && c.IsPaid == true));
-            var takenOrNot = context.ApplicationUserSurvey
+            var takenOrNot = context.ApplicationUserSurveys
                 .Any(x => x.ApplicationUserId == uid && x.SurveyId == sid);
             return permission && !takenOrNot;
         }
@@ -41,7 +41,14 @@
                         && x.Course.UserCourses.Any(x => x.UserId == uid && x.IsPaid == true))
                 .Include(x => x.Course)
                 .ThenInclude(x => x.UserCourses)
-                .Include(x => x.Users)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
+
+        public IEnumerable<T> GetSurveysByCourseId<T>(string cid)
+            => context.Surveys
+                .Include(x => x.Questions)
+                .ThenInclude(x => x.Answers)
+                .Where(x => x.CourseId == cid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
     }
