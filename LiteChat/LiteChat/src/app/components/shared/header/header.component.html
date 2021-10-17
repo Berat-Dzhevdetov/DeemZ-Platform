@@ -1,13 +1,13 @@
 <div class="header">
-    <a href="#home">
+    <a>
         <i id="burger" class="fas fa-bars"></i>
     </a>
-    <a href="#home">
-        Course Name
+    <a href="https://localhost:5001/Course/ViewCourse?courseId={{userData.CourseId}}">
+        {{userData.CourseName}}
     </a>
     <div class="header-right">
         <div class="nav-link" style="padding: 0;">
-            <img class="small-image" src="https://i.ibb.co/tLxRnSs/test.jpg">
+            <img class="small-image" [src]=userData.ApplicationUserImageUrl>
         </div>
         <div class="nav-link logo">LiteChat</div>
     </div>

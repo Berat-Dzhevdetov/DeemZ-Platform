@@ -5,5 +5,5 @@ export interface Message {
   courseName: string;
   applicationUserUsername: string;
   applicationUserId: string;
-  applicationUserImageUrl: string;
+  applicationUserImgUrl: string;
 }
