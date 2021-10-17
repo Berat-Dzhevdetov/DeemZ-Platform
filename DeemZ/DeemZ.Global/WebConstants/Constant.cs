@@ -30,6 +30,7 @@
         {
             public const string AdminArea = "Admin";
             public const string ReportArea = "Report";
+            public const string SurveyArea = "Survey";
             public const string InformativeArea = "Informative";
         }
     }
