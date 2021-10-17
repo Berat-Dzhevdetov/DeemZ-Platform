@@ -1,13 +1,9 @@
-﻿using DeemZ.Data.Models;
-using DeemZ.Models.FormModels.ChatMessage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeemZ.Services.ChatMessageService
+﻿namespace DeemZ.Services.ChatMessageService
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using DeemZ.Models.FormModels.ChatMessage;
+
     public interface IChatMessageService
     {
         Task<string> SendChatMessage(ChatMessageInputModel inputModel);
@@ -20,6 +16,6 @@ namespace DeemZ.Services.ChatMessageService
         
         IEnumerable<T> GetAllChatMessages<T>();
 
-        ChatMessage GetChatMessageById(string messageId);
+        T GetChatMessageById<T>(string messageId);
     }
 }

@@ -685,10 +685,10 @@ input[type=checkbox] {
         gap: 1px;
     }
 
-        .course .course-subjects .course-list.course-list-enroled {
-            grid-template-columns: repeat(2,1fr);
-            gap: 1px 24px;
-        }
+.course .course-subjects .course-list.course-list-enroled {
+    grid-template-columns: repeat(2,1fr);
+    gap: 1px 24px;
+}
 
     .course .course-subjects ul.course-list li.clicked-lecture {
         color: white !important;

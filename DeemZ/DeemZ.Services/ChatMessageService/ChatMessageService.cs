@@ -39,11 +39,12 @@
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
 
-        public ChatMessage GetChatMessageById(string messageId)
+        public T GetChatMessageById<T>(string messageId)
         => context.Messages
             .Where(x => x.Id == messageId)
             .Include(x => x.Course)
             .Include(x => x.ApplicationUser)
+            .ProjectTo<T>(mapper.ConfigurationProvider)
             .FirstOrDefault();
 
         public IEnumerable<T> GetChatMessagesByCourse<T>(string courseId)

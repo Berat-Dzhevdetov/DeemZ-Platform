@@ -15,6 +15,7 @@
     using static DeemZ.Services.EncryptionServices.Base64Service;
     using static DeemZ.Global.WebConstants.Constant.Role;
     using static DeemZ.Data.DataConstants.User;
+    using System.Linq;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -35,11 +36,29 @@
         // GET: api/<Messages>
         [HttpGet]
         public JsonResult Get()
-            => new(chatMessageService.GetAllChatMessages<ChatMessageViewModel>());
+        {
+            var allMessages = chatMessageService.GetAllChatMessages<ChatMessageViewModel>();
+
+            allMessages.Select(x =>
+                    x.ApplicationUserImgUrl = GetUserImageLink(x.ApplicationUserImgUrl)
+                ).ToList();
+
+            return new(allMessages);
+        }
 
         // GET api/<Messages>/<id>
         [HttpGet("{id}")]
-        public JsonResult Get(string id) => new(chatMessageService.GetChatMessageById(id));
+        public IActionResult Get(string id)
+        {
+            var message = chatMessageService.GetChatMessageById<ChatMessageViewModel>(id);
+
+            if (message == null)
+                return NotFound();
+
+            message.ApplicationUserImgUrl = GetUserImageLink(message.ApplicationUserImgUrl);
+
+            return new JsonResult(message);
+        }
 
         // POST api/<MessagesController>
         [HttpPost]
@@ -69,7 +88,7 @@
             return Unauthorized();
         }
 
-        // GET api/<MessagesController>/connect
+        // GET api/<MessagesController>/<courseId>/<applicationUserId>
         [HttpGet("connect/{courseId}/{applicationUserId}")]
         public async Task<ActionResult<string>> Connect(string courseId, string applicationUserId)
         {
@@ -78,7 +97,7 @@
 
             var isAdmin = await userService.IsInRoleAsync(applicationUserId, AdminRoleName);
 
-            if (!chatMessageService.CanUserSendMessage(courseId, applicationUserId) && ! isAdmin)
+            if (!chatMessageService.CanUserSendMessage(courseId, applicationUserId) && !isAdmin)
                 return Unauthorized();
 
             var user = userService.GetUserById<ApplicationUser>(applicationUserId);
@@ -90,7 +109,7 @@
                 ApplicationUserId = applicationUserId,
                 CourseId = courseId,
                 IsAdmin = isAdmin,
-                ApplicationUserImageUrl = user.ImgUrl == DefaultProfilePictureUrl ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/{DefaultProfilePictureUrl}" : user.ImgUrl,
+                ApplicationUserImageUrl = GetUserImageLink(user.ImgUrl),
                 UserName = user.UserName,
                 CourseName = course.Name,
             };
@@ -101,5 +120,8 @@
 
             return new JsonResult(encryptedString);
         }
+
+        private string GetUserImageLink(string url)
+            => url == DefaultProfilePictureUrl ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{DefaultProfilePictureUrl}" : url;
     }
 }
