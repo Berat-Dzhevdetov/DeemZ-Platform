@@ -13,6 +13,7 @@ import { QuestionService } from './core/services/question/question.service';
 
 import { DateTimeFormatterPipe } from './components/shared/pipes/date-time-formatter.pipe';
 import { ShortenTextPipe } from './components/shared/pipes/shorten-text.pipe';
+import { JoinChatComponent } from './components/join-chat/join-chat.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ShortenTextPipe } from './components/shared/pipes/shorten-text.pipe';
     QuestionComponent,
     DateTimeFormatterPipe,
     ShortenTextPipe,
+    JoinChatComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [QuestionService],

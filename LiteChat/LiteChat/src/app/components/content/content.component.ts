@@ -1,9 +1,4 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 import { Message } from '../../core/models/message';
 @Component({
@@ -12,7 +7,8 @@ import { Message } from '../../core/models/message';
   styleUrls: ['./content.component.css'],
 })
 export class ContentComponent implements AfterViewInit {
-  messages!: Message[];
+  messages: Message[] = [];
+
   constructor(public questionService: QuestionService) {}
 
   ngAfterViewInit(): void {

@@ -70,7 +70,7 @@
         }
 
         // GET api/<MessagesController>/connect
-        [HttpGet("connect")]
+        [HttpGet("connect/{courseId}/{applicationUserId}")]
         public async Task<ActionResult<string>> Connect(string courseId, string applicationUserId)
         {
             if (!userService.GetUserById(applicationUserId)) return NotFound();
@@ -99,7 +99,7 @@
 
             var encryptedString = Encode(json);
 
-            return Ok(encryptedString);
+            return new JsonResult(encryptedString);
         }
     }
 }

@@ -1,3 +1,8 @@
-<app-header></app-header>
-<app-content></app-content>
-<app-footer></app-footer>
+<div *ngIf="notJoined">
+    <app-join-chat></app-join-chat>
+</div>
+<div *ngIf="!notJoined">
+    <app-header></app-header>
+    <app-content></app-content>
+    <app-footer></app-footer>
+</div>

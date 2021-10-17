@@ -43,6 +43,7 @@
             else if (await userService.IsInRoleAsync(userId, Role.AdminRoleName)) course.IsUserSignUpForThisCourse = true;
             else course.IsUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
+            ViewData["UserId"] = userId;
             return View(course);
         }
 
