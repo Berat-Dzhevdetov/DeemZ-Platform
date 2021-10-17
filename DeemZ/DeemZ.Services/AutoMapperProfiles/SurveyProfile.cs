@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.Survey;
     using DeemZ.Models.ViewModels.Surveys;
 
     public class SurveyProfile : Profile

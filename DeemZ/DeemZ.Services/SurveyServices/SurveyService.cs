@@ -6,6 +6,8 @@
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
     using DeemZ.Data;
+    using DeemZ.Models.FormModels.Survey;
+    using DeemZ.Data.Models;
 
     public class SurveyService : ISurveyService
     {
@@ -51,5 +53,21 @@
                 .Where(x => x.CourseId == cid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
+
+        public void AddSurveyToCourse(string cid, AddSurveyFormModel survey)
+        {
+            var newlySurvey = new Survey
+            {
+                CourseId = cid,
+                StartDate = survey.StartDate.ToUniversalTime(),
+                EndDate = survey.EndDate.ToUniversalTime(),
+                Name = survey.Name,
+                IsPublic = survey.IsPublic
+            };
+
+            context.Surveys.Add(newlySurvey);
+
+            context.SaveChanges();
+        }
     }
 }
