@@ -5,11 +5,11 @@
     using DeemZ.Web.Filters;
     using DeemZ.Services.SurveyServices;
     using DeemZ.Models.ViewModels.Surveys;
-
-    using static DeemZ.Global.WebConstants.Constant;
     using DeemZ.Models.FormModels.Survey;
     using DeemZ.Services.CourseServices;
     using DeemZ.Data.Models;
+
+    using static DeemZ.Global.WebConstants.Constant;
 
     [Area(AreaName.SurveyArea)]
     [Authorize(Roles = Role.AdminRoleName)]
@@ -39,11 +39,9 @@
         [IfExists]
         public IActionResult Add(string courseId)
         {
-            var courseName = courseService.GetCourseById<Course>(courseId).Name;
-
             var model = new AddSurveyFormModel()
             {
-                CourseName = courseName
+                CourseName = courseService.GetCourseById<Course>(courseId).Name
             };
 
             return View(model);
@@ -62,6 +60,40 @@
             }
 
             surveyService.AddSurveyToCourse(courseId, survey);
+
+            return RedirectToAction(nameof(All), new { courseId });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Edit(string surveyId)
+        {
+            var survey = surveyService.GetSurveyById<EditSurveyFormModel>(surveyId);
+
+            survey.StartDate = survey.StartDate.ToLocalTime();
+            survey.EndDate = survey.EndDate.ToLocalTime();
+
+            return View(survey);
+        }
+
+        [ClientRequired]
+        [IfExists]
+        [HttpPost]
+        public IActionResult Edit(string surveyId, EditSurveyFormModel survey)
+        {
+            if (!ModelState.IsValid)
+                return View(survey);
+
+            var courseId = surveyService.EditSurvey(surveyId, survey);
+
+            return RedirectToAction(nameof(All), new { courseId });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Delete(string surveyId)
+        {
+            string courseId = surveyService.DeleteSurvey(surveyId);
 
             return RedirectToAction(nameof(All), new { courseId });
         }

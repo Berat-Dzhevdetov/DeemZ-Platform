@@ -33,7 +33,7 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-area="Survey" asp-controller="Survey" asp-action="Edit" asp-route-surveyId="@survey.Id">Edit</a>
-                                <a class="dropdown-item" asp-area="Survey" asp-controller="Survey" asp-action="Questions" asp-route-surveyId="@survey.Id">Questions</a>
+                                <a class="dropdown-item" asp-area="Survey" asp-controller="Questions" asp-action="All" asp-route-surveyId="@survey.Id">Questions</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" asp-area="Survey" asp-controller="Survey" asp-action="Delete" asp-route-surveyId="@survey.Id">Delete</a>
                             </div>

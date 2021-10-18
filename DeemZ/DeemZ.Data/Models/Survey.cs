@@ -15,8 +15,6 @@
         [Required]
         public Course Course { get; set; }
 
-        public bool IsPublic { get; set; } = false;
-
         [Required]
         public DateTime StartDate { get; set; }
         [Required]

@@ -29,18 +29,17 @@
             return permission && !takenOrNot;
         }
 
-        public T GetSurveyById<T>(string sid,bool isPublic = true)
+        public T GetSurveyById<T>(string sid)
             => context.Surveys
             .Include(x => x.Questions)
             .ThenInclude(x => x.Answers)
-            .Where(x => x.Id == sid && x.IsPublic == isPublic)
+            .Where(x => x.Id == sid)
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .FirstOrDefault();
 
         public IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid)
                 => context.Surveys
-                .Where(x => x.IsPublic == true
-                        && x.Course.UserCourses.Any(x => x.UserId == uid && x.IsPaid == true))
+                .Where(x => x.Course.UserCourses.Any(x => x.UserId == uid && x.IsPaid == true))
                 .Include(x => x.Course)
                 .ThenInclude(x => x.UserCourses)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
@@ -61,13 +60,47 @@
                 CourseId = cid,
                 StartDate = survey.StartDate.ToUniversalTime(),
                 EndDate = survey.EndDate.ToUniversalTime(),
-                Name = survey.Name,
-                IsPublic = survey.IsPublic
+                Name = survey.Name
             };
 
             context.Surveys.Add(newlySurvey);
 
             context.SaveChanges();
+        }
+
+        public string EditSurvey(string sid, EditSurveyFormModel survey)
+        {
+            var surveyToEdit = context.Surveys.FirstOrDefault(x => x.Id == sid);
+
+            surveyToEdit.StartDate = survey.StartDate.ToUniversalTime();
+            surveyToEdit.EndDate = survey.EndDate.ToUniversalTime();
+            surveyToEdit.Name = survey.Name;
+
+            context.SaveChanges();
+
+            return surveyToEdit.CourseId;
+        }
+
+        public string DeleteSurvey(string sid)
+        {
+            var survey = GetSurveyById<Survey>(sid);
+
+            foreach (var question in survey.Questions)
+            {
+                foreach (var answer in question.Answers)
+                {
+                    context.SurveyAnswers.Remove(answer);
+                }
+                context.SurveyQuestions.Remove(question);
+            }
+
+            var courseId = survey.CourseId;
+
+            context.Surveys.Remove(survey);
+
+            context.SaveChanges();
+
+            return courseId;
         }
     }
 }

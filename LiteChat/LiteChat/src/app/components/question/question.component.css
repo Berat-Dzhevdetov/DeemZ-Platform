@@ -18,12 +18,17 @@
   flex-direction: column;
 }
 
+.delete-message{
+  margin-right: 5px;
+}
+
 .delete-message:hover {
   cursor: pointer;
   color: red;
 }
 
-.edit-message:hover {
+.edit-message:hover,
+.fa-thumbs-up:hover {
   cursor: pointer;
   color: #2196f3;
 }

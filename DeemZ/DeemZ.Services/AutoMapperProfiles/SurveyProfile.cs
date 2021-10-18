@@ -12,6 +12,8 @@
             CreateMap<Survey, IndexSurveyViewModel>();
 
             CreateMap<Survey, DetailsSurveyViewModel>();
+
+            CreateMap<Survey, EditSurveyFormModel>();
         }
     }
 }

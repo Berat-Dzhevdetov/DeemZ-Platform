@@ -218,7 +218,6 @@ namespace DeemZ.Test.Services
             {
                 CourseId = courseId,
                 Name = "Test-Course",
-                IsPublic = true,
             };
             context.Surveys.Add(survey);
             context.SaveChanges();
@@ -241,7 +240,6 @@ namespace DeemZ.Test.Services
             {
                 CourseId = courseId,
                 Name = "Test-Course",
-                IsPublic = true,
             };
             context.Surveys.Add(survey);
             context.SaveChanges();

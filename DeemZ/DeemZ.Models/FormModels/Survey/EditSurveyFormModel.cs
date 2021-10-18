@@ -5,7 +5,7 @@
 
     using static DeemZ.Data.DataConstants.Survey;
 
-    public class AddSurveyFormModel
+    public class EditSurveyFormModel
     {
         [Required]
         [StringLength(MaxNameLength, MinimumLength = MinNameLength)]
@@ -16,6 +16,5 @@
         [Required]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; } = DateTime.Now;
-        public string CourseName { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿@{
     Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
-    ViewData["Title"] = "Add Survey";
+    ViewData["Title"] = "Edit Survey";
 }
-@model DeemZ.Models.FormModels.Survey.AddSurveyFormModel
+@model DeemZ.Models.FormModels.Survey.EditSurveyFormModel
 
 <div class="container-fluid">
     <form method="post" class="mt-4">
@@ -11,7 +11,7 @@
         </div>
         <div class="form-group">
             <label class="text-light" asp-for="Name"></label>
-            <input value="@Model.CourseName Survey" class="form-control" asp-for="Name" />
+            <input class="form-control" asp-for="Name" />
             <span asp-validation-for="Name" class="small text-danger"></span>
         </div>
         <div class="form-group">
