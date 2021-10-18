@@ -11,5 +11,7 @@
         void AddSurveyToCourse(string cid, AddSurveyFormModel survey);
         string EditSurvey(string sid, EditSurveyFormModel survey);
         string DeleteSurvey(string sid);
+        IEnumerable<T> GetSurveyQuestions<T>(string sid);
+        void AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question);
     }
 }

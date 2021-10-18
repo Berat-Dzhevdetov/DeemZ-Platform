@@ -1,0 +1,42 @@
+﻿@model IEnumerable<DeemZ.Models.ViewModels.Surveys.AllSurveyQuestionsViewModel>
+@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "Surveys";
+}
+
+<div class="container-fluid">
+    <div class="text-center mt-5">
+        <a asp-area="Survey" asp-controller="Question" asp-action="Add" asp-route-surveyId="@ViewBag.SurveyId" class="btn btn-success">Add Question</a>
+    </div>
+    <table class="table table-striped table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Text</th>
+                <th scope="col">Answers Count</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model)
+            {
+                <tr>
+                    <td>@question.Question</td>
+                    <td>@question.AnswersCount</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Survey" asp-controller="Question" asp-action="Edit" asp-route-surveyQuestionId="@question.Id">Edit</a>
+                                <a class="dropdown-item" asp-area="Survey" asp-controller="Answer" asp-action="All" asp-route-surveyQuestionId="@question.Id">Answers</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" asp-area="Survey" asp-controller="Question" asp-action="Delete" asp-route-surveyQuestionId="@question.Id">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

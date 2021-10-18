@@ -102,5 +102,24 @@
 
             return courseId;
         }
+
+        public IEnumerable<T> GetSurveyQuestions<T>(string sid)
+            => context.SurveyQuestions
+                .Where(x => x.SurveyId == sid)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
+
+        public void AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question)
+        {
+            var newlyQuestion = new SurveyQuestion
+            {
+                SurveyId = sid,
+                Question = question.Question
+            };
+
+            context.SurveyQuestions.Add(newlyQuestion);
+
+            context.SaveChanges();
+        }
     }
 }
