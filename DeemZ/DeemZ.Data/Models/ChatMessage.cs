@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeemZ.Data.Models
+﻿namespace DeemZ.Data.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
     public class ChatMessage : BaseModel
     {
         [Required]
@@ -21,5 +16,7 @@ namespace DeemZ.Data.Models
         public string CourseId { get; set; }
 
         public DateTime SentOn { get; set; } = DateTime.UtcNow;
+
+        public int Likes { set; get; } = 0;
     }
 }

@@ -32,5 +32,6 @@
         public ICollection<ApplicationUserSurvey> Surveys { get; set; } = new HashSet<ApplicationUserSurvey>();
         public ICollection<AnswerUsers> AnswerUsers { get; set; } = new HashSet<AnswerUsers>();
         public ICollection<Forum> Forums { get; set; } = new HashSet<Forum>();
+        public ICollection<ChatMessage> Messages { get; set; } = new HashSet<ChatMessage>();
     }
 }

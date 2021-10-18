@@ -279,4 +279,14 @@ input:checked + .slider:before {
 
 /* Slider ends */
 
+/* Order messages options starts */
+
+.order-msgs-options{
+  background: none;
+  border: none;
+}
+
+
+/* Order messages options ends */
+
 /* Popup ends */

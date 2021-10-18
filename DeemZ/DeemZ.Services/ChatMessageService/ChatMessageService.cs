@@ -27,20 +27,21 @@
 
         public async Task DeleteChatMessage(string messsageId)
         {
-            var message = context.Messages.FirstOrDefault(x => x.Id == messsageId);
+            var message = context.ChatMessages.FirstOrDefault(x => x.Id == messsageId);
             
-            context.Messages.Remove(message);
+            context.ChatMessages.Remove(message);
 
             await context.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetAllChatMessages<T>()
-            => context.Messages
+            => context.ChatMessages
+            .OrderByDescending(x => x.SentOn)
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
 
         public T GetChatMessageById<T>(string messageId)
-        => context.Messages
+        => context.ChatMessages
             .Where(x => x.Id == messageId)
             .Include(x => x.Course)
             .Include(x => x.ApplicationUser)
@@ -48,10 +49,14 @@
             .FirstOrDefault();
 
         public IEnumerable<T> GetChatMessagesByCourse<T>(string courseId)
-        => context.Messages
+        => context.ChatMessages
             .Where(x=>x.CourseId == courseId)
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
+
+        public bool IfExists(string mid)
+            => context.ChatMessages
+                .Any(x => x.Id == mid);
 
         public async Task<string> SendChatMessage(ChatMessageInputModel inputModel)
         {
@@ -62,7 +67,7 @@
                 Content = inputModel.Content,
             };
 
-            context.Messages.Add(chatMessage);
+            context.ChatMessages.Add(chatMessage);
             await context.SaveChangesAsync();
 
             return chatMessage.Id;

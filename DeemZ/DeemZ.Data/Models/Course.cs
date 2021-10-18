@@ -33,5 +33,6 @@
         public ICollection<Lecture> Lectures { get; set; } = new HashSet<Lecture>();
         public ICollection<Survey> Surveys { get; set; } = new HashSet<Survey>();
         public ICollection<UserCourse> UserCourses { get; set; } = new HashSet<UserCourse>();
+        public ICollection<ChatMessage> Messages { get; set; } = new HashSet<ChatMessage>();
     }
 }

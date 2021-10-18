@@ -8,14 +8,16 @@
     {
         Task<string> SendChatMessage(ChatMessageInputModel inputModel);
 
-        bool CanUserSendMessage(string courseId, string userId);
+        bool CanUserSendMessage(string cid, string uid);
 
-        Task DeleteChatMessage(string messsageId);
+        Task DeleteChatMessage(string mid);
 
-        IEnumerable<T> GetChatMessagesByCourse<T>(string courseId);
+        IEnumerable<T> GetChatMessagesByCourse<T>(string cid);
         
         IEnumerable<T> GetAllChatMessages<T>();
 
-        T GetChatMessageById<T>(string messageId);
+        T GetChatMessageById<T>(string mid);
+
+        bool IfExists(string mid);
     }
 }
