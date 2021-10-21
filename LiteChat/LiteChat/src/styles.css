@@ -23,3 +23,16 @@
   margin: 0 auto;
   margin-top: 10px;
 }
+
+.spinner {
+  margin: 0 auto;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

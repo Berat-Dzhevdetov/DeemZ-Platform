@@ -1,4 +1,5 @@
-<div class="header">
+<mat-spinner class="spinner" *ngIf="!this.userData"></mat-spinner>
+<div *ngIf="this.userData" class="header">
     <a>
         <i id="burger" class="fas fa-bars"></i>
     </a>

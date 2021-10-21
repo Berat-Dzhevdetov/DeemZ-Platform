@@ -5,10 +5,7 @@ import { Message } from '../../core/models/message';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css'],
 })
-export class QuestionComponent implements OnInit, AfterViewInit {
+export class QuestionComponent {
   @Input() message!: Message;
-
   constructor() {}
-  ngOnInit(): void {}
-  ngAfterViewInit(): void {}
 }
