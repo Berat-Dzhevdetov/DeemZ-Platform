@@ -60,12 +60,23 @@
             return new JsonResult(message);
         }
 
+        [HttpGet("GetCourseMessages/{courseId}")]
+        public IActionResult GetCourseMessages(string courseId)
+        {
+            var messages = chatMessageService.GetChatMessagesByCourse<ChatMessageViewModel>(courseId);
+
+            if (messages == null)
+                return NotFound();
+
+            return new JsonResult(messages);
+        }
+
         // POST api/<MessagesController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] JsonElement message)
         {
             var parsedMessage = JsonSerializer.Deserialize<ChatMessageInputModel>(message.ToString());
-            var isAdmin = User.IsAdmin();
+            var isAdmin = await userService.IsInRoleAsync(parsedMessage.ApplicationUserId, AdminRoleName);
 
             if (!chatMessageService.CanUserSendMessage(parsedMessage.CourseId, parsedMessage.ApplicationUserId)
                 && !isAdmin)

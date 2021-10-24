@@ -1,3 +1,8 @@
-<app-header></app-header>
-<app-content></app-content>
-<app-footer></app-footer>
+<div *ngIf="!isConnected">
+    <app-not-found></app-not-found>
+</div>
+<div *ngIf="isConnected">
+    <app-header></app-header>
+    <app-content></app-content>
+    <app-footer></app-footer>
+</div>
