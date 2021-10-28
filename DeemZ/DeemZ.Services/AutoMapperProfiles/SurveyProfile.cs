@@ -17,6 +17,8 @@
 
             CreateMap<SurveyQuestion, AllSurveyQuestionsViewModel>()
                 .ForMember(x => x.AnswersCount, o => o.MapFrom(src => src.Answers.Count));
+
+            CreateMap<SurveyQuestion, EditSurveyQuestionFormModel>();
         }
     }
 }

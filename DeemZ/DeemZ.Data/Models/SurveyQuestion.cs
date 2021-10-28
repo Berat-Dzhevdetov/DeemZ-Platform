@@ -14,6 +14,10 @@
         [Required]
         public Survey Survey { get; set; }
 
+        public bool IsOptional { get; set; } = false;
+
+        public bool IsOpenAnswer { get; set; } = false;
+
         public ICollection<SurveyAnswer> Answers { get; set; } = new HashSet<SurveyAnswer>();
     }
 }

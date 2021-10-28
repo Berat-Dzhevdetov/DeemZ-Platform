@@ -114,12 +114,62 @@
             var newlyQuestion = new SurveyQuestion
             {
                 SurveyId = sid,
-                Question = question.Question
+                Question = question.Question,
+                IsOpenAnswer = question.IsOpenAnswer,
+                IsOptional = question.IsOptional
             };
 
             context.SurveyQuestions.Add(newlyQuestion);
 
             context.SaveChanges();
+        }
+
+        public T GetQuestionById<T>(string sqid)
+            => context.SurveyQuestions
+                .Where(x => x.Id == sqid)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .FirstOrDefault();
+
+        public string EditQuestion(string sqid, EditSurveyQuestionFormModel question)
+        {
+            var questionToEdit = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+
+
+            questionToEdit.Question = question.Question;
+            questionToEdit.IsOptional = question.IsOptional;
+            questionToEdit.IsOpenAnswer = question.IsOpenAnswer;
+
+            DeleteQuestionAllAnswers(questionToEdit);
+
+            context.SaveChanges();
+
+            return questionToEdit.SurveyId;
+        }
+
+        public string DeleteQuestion(string sqid)
+        {
+            var questionToDel = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+
+            DeleteQuestionAllAnswers(questionToDel);
+
+            var surveyId = questionToDel.SurveyId;
+
+            context.SurveyQuestions.Remove(questionToDel);
+
+            context.SaveChanges();
+
+            return surveyId;
+        }
+
+        private void DeleteQuestionAllAnswers(SurveyQuestion question)
+        {
+            if (question.IsOpenAnswer && question.Answers.Any())
+            {
+                foreach (var answerToDel in question.Answers)
+                {
+                    context.SurveyAnswers.Remove(answerToDel);
+                }
+            }
         }
     }
 }

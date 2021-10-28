@@ -4,7 +4,7 @@
 
     using static DeemZ.Data.DataConstants.SurveyQuestion;
 
-    public class AddSurveyQuestionFormModel
+    public class EditSurveyQuestionFormModel
     {
         [Required]
         [StringLength(MaxQuestionLength, MinimumLength = MinNameLength)]

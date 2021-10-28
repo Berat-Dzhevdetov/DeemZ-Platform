@@ -13,6 +13,8 @@
             <tr>
                 <th scope="col">Text</th>
                 <th scope="col">Answers Count</th>
+                <th scope="col">Is Open Answer</th>
+                <th scope="col">Is Optional</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -22,6 +24,8 @@
                 <tr>
                     <td>@question.Question</td>
                     <td>@question.AnswersCount</td>
+                    <td>@question.IsOpenAnswer</td>
+                    <td>@question.IsOptional</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,7 +33,10 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-area="Survey" asp-controller="Question" asp-action="Edit" asp-route-surveyQuestionId="@question.Id">Edit</a>
-                                <a class="dropdown-item" asp-area="Survey" asp-controller="Answer" asp-action="All" asp-route-surveyQuestionId="@question.Id">Answers</a>
+                                @if (question.IsOpenAnswer == false)
+                                {
+                                    <a class="dropdown-item" asp-area="Survey" asp-controller="Answer" asp-action="All" asp-route-surveyQuestionId="@question.Id">Answers</a>
+                                }
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" asp-area="Survey" asp-controller="Question" asp-action="Delete" asp-route-surveyQuestionId="@question.Id">Delete</a>
                             </div>

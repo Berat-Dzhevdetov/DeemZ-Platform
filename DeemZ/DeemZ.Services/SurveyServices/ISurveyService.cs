@@ -13,5 +13,8 @@
         string DeleteSurvey(string sid);
         IEnumerable<T> GetSurveyQuestions<T>(string sid);
         void AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question);
+        T GetQuestionById<T>(string sqid);
+        string EditQuestion(string sqid, EditSurveyQuestionFormModel question);
+        string DeleteQuestion(string sqid);
     }
 }
