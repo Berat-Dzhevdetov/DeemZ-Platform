@@ -3,7 +3,16 @@
         <img class="smaller-image" src="https://i.ibb.co/tLxRnSs/test.jpg">
     </div>
     <div class="ask-question-input-holder">
-        <textarea type="text" id="ask-question-input" placeholder="Type your question"
-            class="ask-question-input"></textarea>
+        <form #form='ngForm' ngForm method="post">
+            <textarea type="text" id="question" name="question" id="question" #questionInput="ngModel" ngModel required
+                placeholder="Type your question" class="ask-question-input" [(ngModel)]="this.question"></textarea>
+
+            <div *ngIf="questionInput.touched &&questionInput.errors?.required" class="validation-error">You cannot post
+                empty questions!
+            </div>
+
+            <button class="postBtn" type="button" (click)="postQuestion(form)" [disabled]="
+            questionInput.errors?.required">POST</button>
+        </form>
     </div>
 </div>

@@ -7,3 +7,10 @@ export interface Message {
   applicationUserId: string;
   applicationUserImgUrl: string;
 }
+
+export interface SendMessage {
+  SentOn: string;
+  Content: string;
+  CourseId: string;
+  ApplicationUserId: string;
+}

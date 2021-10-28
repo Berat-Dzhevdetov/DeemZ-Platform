@@ -22,3 +22,26 @@
 .ask-question-input-holder {
   width: 100%;
 }
+
+.postBtn {
+  outline: none;
+  border: none;
+  height: 50%;
+  width: fit-content;
+  padding: 0px 20px;
+  border-radius: 12px;
+  color: white;
+  background: #00ffbf;
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: row;
+}
+
+.validation-error {
+  color: red;
+}

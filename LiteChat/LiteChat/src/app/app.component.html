@@ -1,7 +1,7 @@
-<div *ngIf="notJoined">
-    <app-join-chat></app-join-chat>
+<div *ngIf="!isConnected">
+    <app-not-found></app-not-found>
 </div>
-<div *ngIf="!notJoined">
+<div *ngIf="isConnected">
     <app-header></app-header>
     <app-content></app-content>
     <app-footer></app-footer>

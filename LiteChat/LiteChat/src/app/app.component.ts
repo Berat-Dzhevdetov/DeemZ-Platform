@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserData } from './core/models/userData';
+import { QuestionService } from './core/services/question/question.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,16 +7,7 @@ import { UserData } from './core/models/userData';
 })
 export class AppComponent {
   title = 'LiteChat';
-  notJoined: boolean = false;
-  userData!: UserData;
 
-  constructor() {
-    this.notJoined =
-      localStorage['courseId'] == null ||
-      localStorage['applicationUserId'] == null ||
-      localStorage['courseName'] == null;
-
-    if (!this.notJoined && localStorage['data'])
-      this.userData = JSON.parse(localStorage['data']);
-  }
+  constructor(private questionService: QuestionService) {}
+  isConnected: boolean = this.questionService.getCourseIdFromStorage() != null;
 }

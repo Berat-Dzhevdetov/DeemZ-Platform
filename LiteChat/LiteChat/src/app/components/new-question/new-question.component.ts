@@ -1,15 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-
+import { NgForm } from '@angular/forms';
+import { SendMessage } from 'src/app/core/models/message';
+import { QuestionService } from 'src/app/core/services/question/question.service';
 @Component({
   selector: 'app-new-question',
   templateUrl: './new-question.component.html',
-  styleUrls: ['./new-question.component.css']
+  styleUrls: ['./new-question.component.css'],
 })
 export class NewQuestionComponent implements OnInit {
+  question: string = '';
+  constructor(private questionService: QuestionService) {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  postQuestion(formData: NgForm) {
+    if (this.question != '') {
+      var message: SendMessage = {
+        Content: this.question,
+        CourseId: this.questionService.getCourseIdFromStorage()!,
+        ApplicationUserId: this.questionService.getUserIdFromStorage()!,
+        SentOn: new Date().toLocaleString(),
+      };
+      this.questionService.postMessage(message).subscribe((x) => {
+        this.question = '';
+        formData.controls.question.reset();
+      });
+    }
+    return;
   }
-
 }
