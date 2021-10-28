@@ -16,5 +16,6 @@
         T GetQuestionById<T>(string sqid);
         string EditQuestion(string sqid, EditSurveyQuestionFormModel question);
         string DeleteQuestion(string sqid);
+        IEnumerable<T> GetAllAnswers<T>(string sqid);
     }
 }

@@ -125,10 +125,11 @@
         }
 
         public T GetQuestionById<T>(string sqid)
-            => context.SurveyQuestions
-                .Where(x => x.Id == sqid)
-                .ProjectTo<T>(mapper.ConfigurationProvider)
-                .FirstOrDefault();
+        {
+            var question = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+
+            return mapper.Map<T>(question);
+        }
 
         public string EditQuestion(string sqid, EditSurveyQuestionFormModel question)
         {
@@ -171,5 +172,11 @@
                 }
             }
         }
+
+        public IEnumerable<T> GetAllAnswers<T>(string sqid)
+            => context.SurveyAnswers
+                .Where(x => x.QuestionId == sqid)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
     }
 }

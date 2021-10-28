@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DeemZ.Models.ViewModels.Surveys.AllSurveyQuestionAnswersViewModel>
+@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "Answers";
+}
+
+<div class="container-fluid">
+    <div class="text-center mt-5">
+        <a asp-area="Survey" asp-controller="Answer" asp-action="Add" asp-route-surveyQuestionId="@ViewBag.QuestionId" class="btn btn-success">Add Answer</a>
+    </div>
+    <table class="table table-striped table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Text</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var answer in Model)
+            {
+                <tr>
+                    <td>@answer.Text</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Survey" asp-controller="Answer" asp-action="Edit" asp-route-surveyAnswerId="@answer.Id">Edit</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" asp-area="Survey" asp-controller="Answer" asp-action="Delete" asp-route-surveyAnswerId="@answer.Id">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
