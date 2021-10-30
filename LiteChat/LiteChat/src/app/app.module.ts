@@ -4,6 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentComponent } from './components/content/content.component';
@@ -18,6 +23,7 @@ import { DateTimeFormatterPipe } from './components/shared/pipes/date-time-forma
 import { ShortenTextPipe } from './components/shared/pipes/shorten-text.pipe';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -33,6 +39,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireAuthModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,

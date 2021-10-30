@@ -1,11 +1,12 @@
 export interface Message {
+  id?: string;
   sentOn: string;
   content: string;
   courseId: string;
-  courseName: string;
-  applicationUserUsername: string;
+  courseName?: string;
+  applicationUserUsername?: string;
   applicationUserId: string;
-  applicationUserImgUrl: string;
+  applicationUserImgUrl?: string;
 }
 
 export interface SendMessage {

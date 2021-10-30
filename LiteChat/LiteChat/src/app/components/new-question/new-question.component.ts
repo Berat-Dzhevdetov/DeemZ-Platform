@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { SendMessage } from 'src/app/core/models/message';
+import { Message } from 'src/app/core/models/message';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 @Component({
   selector: 'app-new-question',
@@ -15,16 +15,9 @@ export class NewQuestionComponent implements OnInit {
 
   postQuestion(formData: NgForm) {
     if (this.question != '') {
-      var message: SendMessage = {
-        Content: this.question,
-        CourseId: this.questionService.getCourseIdFromStorage()!,
-        ApplicationUserId: this.questionService.getUserIdFromStorage()!,
-        SentOn: new Date().toLocaleString(),
-      };
-      this.questionService.postMessage(message).subscribe((x) => {
-        this.question = '';
-        formData.controls.question.reset();
-      });
+      this.questionService.postMessage(this.question);
+      this.question = '';
+      formData.controls.question.reset();
     }
     return;
   }

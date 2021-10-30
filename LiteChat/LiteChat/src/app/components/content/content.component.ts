@@ -8,16 +8,14 @@ import { Message } from '../../core/models/message';
 })
 export class ContentComponent implements AfterViewInit {
   messages: Message[] = [];
-  courseId!: string;
+  courseId: string = this.questionService.getCourseIdFromStorage()!;
   constructor(public questionService: QuestionService) {}
 
   ngAfterViewInit(): void {
-    this.questionService
-      .getCourseMessages(this.questionService.getCourseIdFromStorage()!)
-      .subscribe((x) => {
-        this.messages = x.sort(
-          (a, b) => Date.parse(b.sentOn) - Date.parse(a.sentOn)
-        );
-      });
+    this.questionService.getMessages().subscribe((x) => {
+      this.messages = x
+        .filter((y) => y.courseId == this.courseId)
+        .sort((a, b) => Date.parse(b.sentOn) - Date.parse(a.sentOn));
+    });
   }
 }
