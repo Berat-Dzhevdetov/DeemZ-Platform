@@ -1,4 +1,9 @@
-<mat-spinner class="spinner" *ngIf="!this.userData"></mat-spinner>
+<div class="access-denied-div" *ngIf="!this.questionService.doesUserHaveAccess">
+    <!-- <mat-spinner class="spinner" *ngIf="!this.userData"></mat-spinner> -->
+    <img *ngIf="!this.questionService.doesUserHaveAccess" class="access-denied-image"
+        src="https://images-na.ssl-images-amazon.com/images/I/511JzaWDULL.png">
+</div>
+
 <div *ngIf="this.userData" class="header">
     <a>
         <i id="burger" class="fas fa-bars"></i>
@@ -8,7 +13,10 @@
     </a>
     <div class="header-right">
         <div class="nav-link" style="padding: 0;">
-            <img class="small-image" [src]=userData.ApplicationUserImageUrl>
+            <img *ngIf="this.questionService.doesUserHaveAccess" class="small-image"
+                [src]="userData.ApplicationUserImageUrl">
+            <img *ngIf="!this.questionService.doesUserHaveAccess" class="small-image"
+                src="https://images-na.ssl-images-amazon.com/images/I/511JzaWDULL.png">
         </div>
         <div class="nav-link logo">LiteChat</div>
     </div>

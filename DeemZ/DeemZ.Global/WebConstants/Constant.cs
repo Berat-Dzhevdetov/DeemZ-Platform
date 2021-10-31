@@ -8,6 +8,11 @@
         public const string UpCommingCoursesCacheKey = "UpCommingCoursesCacheKey";
         public const string AdminDashboradStatisticsCacheKey = "AdminDashboradStatisticsCache";
 
+        public static class WebApi
+        {
+            public const string AccessForbiddenMessage = "ACCESS-FORBIDDEN";
+        }
+
         public static class Role
         {
             public const string AdminRoleName = "Administrator";

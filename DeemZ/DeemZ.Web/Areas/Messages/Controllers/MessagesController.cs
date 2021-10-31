@@ -14,6 +14,7 @@
 
     using static DeemZ.Services.EncryptionServices.Base64Service;
     using static DeemZ.Global.WebConstants.Constant.Role;
+    using static DeemZ.Global.WebConstants.Constant.WebApi;
     using static DeemZ.Data.DataConstants.User;
     using System.Linq;
 
@@ -111,13 +112,13 @@
         [HttpGet("connect/{courseId}/{applicationUserId}")]
         public async Task<ActionResult<string>> Connect(string courseId, string applicationUserId)
         {
-            if (!userService.GetUserById(applicationUserId)) return NotFound();
-            if (!courseService.GetCourseById(courseId)) return NotFound();
+            if (!userService.GetUserById(applicationUserId)) return GetAccessDeniedMessage();
+            if (!courseService.GetCourseById(courseId)) return GetAccessDeniedMessage();
 
             var isAdmin = await userService.IsInRoleAsync(applicationUserId, AdminRoleName);
 
             if (!chatMessageService.CanUserSendMessage(courseId, applicationUserId) && !isAdmin)
-                return Unauthorized();
+                return GetAccessDeniedMessage();
 
             var user = userService.GetUserById<ApplicationUser>(applicationUserId);
 
@@ -142,5 +143,10 @@
 
         private string GetUserImageLink(string url)
             => url == DefaultProfilePictureUrl ? $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{DefaultProfilePictureUrl}" : url;
+
+        private JsonResult GetAccessDeniedMessage()
+        {
+            return new JsonResult(Encode(JsonSerializer.Serialize(AccessForbiddenMessage)));
+        }
     }
 }

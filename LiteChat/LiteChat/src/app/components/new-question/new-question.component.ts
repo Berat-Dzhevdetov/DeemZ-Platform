@@ -9,7 +9,7 @@ import { QuestionService } from 'src/app/core/services/question/question.service
 })
 export class NewQuestionComponent implements OnInit {
   question: string = '';
-  constructor(private questionService: QuestionService) {}
+  constructor(public questionService: QuestionService) {}
 
   ngOnInit(): void {}
 

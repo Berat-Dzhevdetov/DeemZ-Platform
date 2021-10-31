@@ -43,9 +43,16 @@
 :host {
   margin: 0;
 }
+.access-denied-div {
+  text-align: center;
+}
+.access-denied-image {
+  height: 100px;
+  margin-top: 25px;
+}
 
 @media only screen and (max-width: 880px) {
-  .header{
+  .header {
     display: flex;
     flex-direction: column-reverse;
   }

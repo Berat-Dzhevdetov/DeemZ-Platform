@@ -18,6 +18,7 @@ export class QuestionService {
   messagesCollection!: AngularFirestoreCollection<Message>;
   chatMessageDoc!: AngularFirestoreDocument<Message>;
   chatMesasges!: Observable<Message[]>;
+  doesUserHaveAccess: boolean = false;
 
   constructor(private http: HttpClient, public afs: AngularFirestore) {
     this.messagesCollection = this.afs.collection('messages');
@@ -97,9 +98,5 @@ export class QuestionService {
 
   getUserIdFromStorage() {
     return new URLSearchParams(window.location.search).get('applicationUserId');
-  }
-
-  getUserDataFromStorage() {
-    //return new URLSearchParams(window.location.search).get()
   }
 }

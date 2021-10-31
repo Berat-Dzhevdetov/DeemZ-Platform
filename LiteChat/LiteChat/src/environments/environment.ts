@@ -15,6 +15,9 @@ export const environment = {
   },
   production: false,
   API_ENDPOINT: 'https://localhost:5001/api/messages',
+  AccessForbiddenMessage: 'ACCESS-FORBIDDEN',
+  AccessDeniedImage:
+    'https://images-na.ssl-images-amazon.com/images/I/511JzaWDULL.png',
 };
 
 /*

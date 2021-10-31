@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { QuestionService } from 'src/app/core/services/question/question.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -7,7 +8,7 @@ import { QuestionService } from 'src/app/core/services/question/question.service
 })
 export class HeaderComponent {
   userData: any;
-  constructor(private questionService: QuestionService) {
+  constructor(public questionService: QuestionService) {
     localStorage.clear();
     var querryParams = this.parseUrl();
 
@@ -28,8 +29,14 @@ export class HeaderComponent {
   joinChat(courseId: string, applicationUserId: string) {
     this.questionService.connect(courseId, applicationUserId).subscribe((x) => {
       var parsed = JSON.parse(atob(x as string));
-      this.userData = parsed;
-      localStorage.data = JSON.stringify(parsed);
+      if (parsed != environment.AccessForbiddenMessage) {
+        this.questionService.doesUserHaveAccess = true;
+        this.userData = parsed;
+        localStorage.data = JSON.stringify(parsed);
+      } else {
+        //alert('you are not allowed to join');
+        this.questionService.doesUserHaveAccess = false;
+      }
     });
   }
 }

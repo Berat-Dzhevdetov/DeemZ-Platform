@@ -5,14 +5,15 @@
     <div class="ask-question-input-holder">
         <form #form='ngForm' ngForm method="post">
             <textarea type="text" id="question" name="question" id="question" #questionInput="ngModel" ngModel required
-                placeholder="Type your question" class="ask-question-input" [(ngModel)]="this.question"></textarea>
+                placeholder="Type your question" class="ask-question-input"
+                [disabled]="!this.questionService.doesUserHaveAccess" [(ngModel)]="this.question"></textarea>
 
             <div *ngIf="questionInput.touched &&questionInput.errors?.required" class="validation-error">You cannot post
                 empty questions!
             </div>
 
             <button class="postBtn" type="button" (click)="postQuestion(form)" [disabled]="
-            questionInput.errors?.required">
+            questionInput.errors?.required || !this.questionService.doesUserHaveAccess">
                 <i class="fas fa-paper-plane"></i>
             </button>
         </form>
