@@ -9,6 +9,7 @@
     using DeemZ.Models.ViewModels.Surveys;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using DeemZ.Models.FormModels.Survey;
 
     [Area(AreaName.SurveyArea)]
     [Authorize(Roles = Role.AdminRoleName)]
@@ -32,6 +33,46 @@
             ViewBag.QuestionId = question.Id;
 
             return View(answers);
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Add(string surveyQuestionId)
+            => View();
+
+        [ClientRequired]
+        [IfExists]
+        [HttpPost]
+        public IActionResult Add(string surveyQuestionId, AddSurveyAnswerFormModel answer)
+        {
+            if (!ModelState.IsValid)
+                return View(answer);
+
+            surveyService.AddAnswerToQuestion(surveyQuestionId, answer);
+
+            return RedirectToAction(nameof(All), new { surveyQuestionId });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Edit(string surveyAnswerId)
+        {
+            var answer = surveyService.GetAnswerById<EditSurveyAnswerFormModel>(surveyAnswerId);
+
+            return View(answer);
+        }
+
+        [ClientRequired]
+        [IfExists]
+        [HttpPost]
+        public IActionResult Edit(string surveyAnswerId, EditSurveyAnswerFormModel answer)
+        {
+            if (!ModelState.IsValid)
+                return View(answer);
+
+            var surveyQuestionId = surveyService.EditAnswer(surveyAnswerId, answer);
+
+            return RedirectToAction(nameof(All), new { surveyQuestionId });
         }
     }
 }

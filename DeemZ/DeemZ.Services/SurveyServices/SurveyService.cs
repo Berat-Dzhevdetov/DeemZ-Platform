@@ -175,8 +175,39 @@
 
         public IEnumerable<T> GetAllAnswers<T>(string sqid)
             => context.SurveyAnswers
-                .Where(x => x.QuestionId == sqid)
+                .Where(x => x.SurveyQuestionId == sqid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
+
+        public void AddAnswerToQuestion(string sqid, AddSurveyAnswerFormModel answer)
+        {
+            var newlyAnswer = new SurveyAnswer()
+            {
+                SurveyQuestionId = sqid,
+                Text = answer.Text
+            };
+
+            context.SurveyAnswers.Add(newlyAnswer);
+
+            context.SaveChanges();
+        }
+
+        public T GetAnswerById<T>(string said)
+        {
+            var answer = context.SurveyAnswers.FirstOrDefault(x => x.Id == said);
+
+            return mapper.Map<T>(answer);
+        }
+
+        public string EditAnswer(string said, EditSurveyAnswerFormModel answer)
+        {
+            var answerEdit = context.SurveyAnswers.FirstOrDefault(x => x.Id == said);
+
+            answerEdit.Text = answer.Text;
+
+            context.SaveChanges();
+
+            return answerEdit.SurveyQuestionId;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace DeemZ.Services.SurveyServices
 {
-    using DeemZ.Models.FormModels.Survey;
     using System.Collections.Generic;
+    using DeemZ.Models.FormModels.Survey;
     public interface ISurveyService
     {
         IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid);
@@ -17,5 +17,8 @@
         string EditQuestion(string sqid, EditSurveyQuestionFormModel question);
         string DeleteQuestion(string sqid);
         IEnumerable<T> GetAllAnswers<T>(string sqid);
+        void AddAnswerToQuestion(string sqid, AddSurveyAnswerFormModel answer);
+        T GetAnswerById<T>(string said);
+        string EditAnswer(string said, EditSurveyAnswerFormModel answer);
     }
 }

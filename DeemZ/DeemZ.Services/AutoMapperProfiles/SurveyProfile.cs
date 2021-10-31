@@ -10,17 +10,13 @@
         public SurveyProfile()
         {
             CreateMap<Survey, IndexSurveyViewModel>();
-
             CreateMap<Survey, DetailsSurveyViewModel>();
-
             CreateMap<Survey, EditSurveyFormModel>();
-
             CreateMap<SurveyQuestion, AllSurveyQuestionsViewModel>()
                 .ForMember(x => x.AnswersCount, o => o.MapFrom(src => src.Answers.Count));
-
             CreateMap<SurveyQuestion, EditSurveyQuestionFormModel>();
-
             CreateMap<SurveyAnswer, AllSurveyQuestionAnswersViewModel>();
+            CreateMap<SurveyAnswer, EditSurveyAnswerFormModel>();
         }
     }
 }
