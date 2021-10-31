@@ -17,7 +17,7 @@
         IEnumerable<T> GetAllChatMessages<T>();
 
         T GetChatMessageById<T>(string mid);
-
+        
         bool IfExists(string mid);
     }
 }

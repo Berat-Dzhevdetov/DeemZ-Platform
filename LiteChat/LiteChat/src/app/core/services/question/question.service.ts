@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
 import { Message } from '../../models/message';
+import { UserData } from '../../models/userData';
 
 import {
   AngularFirestore,
@@ -41,14 +42,24 @@ export class QuestionService {
   }
 
   postMessage(content: string) {
-    //make a get request to DEEMZ and subscribe to the data to get the username and imageUrl and then post it to the firebase
-    let message: Message = {
-      content: content,
-      sentOn: new Date().toLocaleString('en-US'),
-      applicationUserId: this.getUserIdFromStorage()!,
-      courseId: this.getCourseIdFromStorage()!,
-    };
-    this.messagesCollection.add(message);
+    this.getUserData(this.getUserIdFromStorage()!).subscribe((data) => {
+      let message: Message = {
+        content: content,
+        sentOn: new Date().toLocaleString('en-US'),
+        applicationUserId: this.getUserIdFromStorage()!,
+        courseId: this.getCourseIdFromStorage()!,
+        applicationUserUsername: data.applicationUserUsername,
+        applicationUserImgUrl: data.applicationUserImgUrl,
+        likes: [],
+      };
+      this.canUserSendMessage(message).subscribe((canSend) => {
+        if (canSend) {
+          this.messagesCollection.add(message);
+        } else {
+          alert('You do not have permission to send messages to this channel!');
+        }
+      });
+    });
   }
 
   getCourseMessages(courseId: string) {
@@ -60,6 +71,17 @@ export class QuestionService {
   connect(courseId: string, applicationUserId: string) {
     var point = `${environment.API_ENDPOINT}/connect/${courseId}/${applicationUserId}`;
     return this.http.get(point);
+  }
+
+  getUserData(applicationUserId: string) {
+    var point = `${environment.API_ENDPOINT}/GetUserData/${applicationUserId}`;
+    return this.http.get<UserData>(point);
+  }
+
+  canUserSendMessage(message: Message) {
+    const options = { headers: { 'Content-Type': 'application/json' } };
+    const data = JSON.stringify(message);
+    return this.http.post<boolean>(environment.API_ENDPOINT, data, options);
   }
 
   // postMessage(message: SendMessage) {

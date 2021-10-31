@@ -7,6 +7,7 @@ export interface Message {
   applicationUserUsername?: string;
   applicationUserId: string;
   applicationUserImgUrl?: string;
+  likes: [];
 }
 
 export interface SendMessage {

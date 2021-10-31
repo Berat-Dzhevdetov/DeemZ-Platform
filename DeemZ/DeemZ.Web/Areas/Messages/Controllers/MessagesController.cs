@@ -46,6 +46,14 @@
             return new(allMessages);
         }
 
+        [HttpGet("GetUserData/{userId}")]
+        public JsonResult GetUserData(string userId)
+        {
+            var userData = userService.GetUserById<GetUserDataDTO>(userId);
+            userData.ApplicationUserImgUrl = GetUserImageLink(userData.ApplicationUserImgUrl);
+            return new(userData);
+        }
+
         // GET api/<Messages>/<id>
         [HttpGet("{id}")]
         public IActionResult Get(string id)
@@ -73,18 +81,18 @@
 
         // POST api/<MessagesController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] JsonElement message)
+        public async Task<bool> Post([FromBody] JsonElement message)
         {
-            var parsedMessage = JsonSerializer.Deserialize<ChatMessageInputModel>(message.ToString());
-            var isAdmin = await userService.IsInRoleAsync(parsedMessage.ApplicationUserId, AdminRoleName);
+            var parsedMessage = JsonSerializer.Deserialize<CheckUserPermissionsDTO>(message.ToString());
+            var isAdmin = await userService.IsInRoleAsync(parsedMessage.applicationUserId, AdminRoleName);
 
-            if (!chatMessageService.CanUserSendMessage(parsedMessage.CourseId, parsedMessage.ApplicationUserId)
+            if (!chatMessageService.CanUserSendMessage(parsedMessage.courseId, parsedMessage.applicationUserId)
                 && !isAdmin)
-                return Unauthorized();
+                return false;
 
-            await chatMessageService.SendChatMessage(parsedMessage);
+            return true;
 
-            return Accepted();
+            //await chatMessageService.SendChatMessage(parsedMessage);
         }
 
         // DELETE api/<MessagesController>/<id>

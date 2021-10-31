@@ -29,9 +29,9 @@
   height: 50%;
   width: fit-content;
   padding: 0px 20px;
-  border-radius: 12px;
-  color: white;
-  background: #00ffbf;
+  /* border-radius: 12px; */
+  /* color: white; */
+  background: transparent;
   cursor: pointer;
 }
 
@@ -44,4 +44,9 @@ form {
 
 .validation-error {
   color: red;
+}
+
+i {
+  color: #172e4e;
+  font-size: 25px;
 }
