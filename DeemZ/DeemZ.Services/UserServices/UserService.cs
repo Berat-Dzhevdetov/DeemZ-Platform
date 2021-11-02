@@ -111,13 +111,13 @@
         public bool IsUsernameFree(string uid, string userName)
             => !context.Users.Any(x => x.UserName == userName && x.Id == uid);
 
-        public IndexUserViewModel GetIndexInformaiton(string uid, bool isNotAdmin = true)
-            => new IndexUserViewModel()
+        public IndexUserViewModel GetIndexInformaiton(string uid, bool isAdmin = false)
+            => new()
             {
                 Credits = courseService.GetUserCredits(uid),
-                Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(uid, isNotAdmin),
-                Surveys = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(uid),
-                Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid, isNotAdmin)
+                Courses = courseService.GetUserCurrentCourses<IndexCourseViewModel>(uid, isAdmin),
+                Surveys = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(uid, isAdmin),
+                Resources = resourceService.GetUserResources<IndexResourceViewModel>(uid, isAdmin)
             };
 
         public bool GetUserByUserName(string username)

@@ -4,7 +4,7 @@
     using DeemZ.Models.FormModels.Survey;
     public interface ISurveyService
     {
-        IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid);
+        IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid, bool isAdmin);
         T GetSurveyById<T>(string sid);
         bool DoesTheUserHavePermissionToSurvey(string uid, string sid);
         IEnumerable<T> GetSurveysByCourseId<T>(string cid);
@@ -20,5 +20,6 @@
         void AddAnswerToQuestion(string sqid, AddSurveyAnswerFormModel answer);
         T GetAnswerById<T>(string said);
         string EditAnswer(string said, EditSurveyAnswerFormModel answer);
+        string DeleteAnswer(string said);
     }
 }

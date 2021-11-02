@@ -101,7 +101,7 @@
                         @foreach (var survey in Model.Surveys)
                         {
                             <li class="info-item">
-                                <a asp-action="Take" asp-controller="Survey" asp-route-surveyId="@survey.Id">
+                                <a asp-action="Take" asp-area="Survey" asp-controller="Survey" asp-route-surveyId="@survey.Id">
                                     @survey.Name
                                 </a>
                             </li>

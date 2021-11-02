@@ -17,7 +17,7 @@
         Task RemoveUserFromRole(string uid, string role);
         bool IsEmailFree(string uid, string email);
         bool IsUsernameFree(string uid, string userName);
-        IndexUserViewModel GetIndexInformaiton(string uid, bool isNotAdmin);
+        IndexUserViewModel GetIndexInformaiton(string uid, bool isAdmin);
         bool GetUserByUserName(string username);
         string GetUserIdByUserName(string username);
         void SetProfileImg(string id, string url, string publidId);

@@ -74,5 +74,14 @@
 
             return RedirectToAction(nameof(All), new { surveyQuestionId });
         }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Delete(string surveyAnswerId)
+        {
+            var surveyQuestionId = surveyService.DeleteAnswer(surveyAnswerId);
+
+            return RedirectToAction(nameof(All), new { surveyQuestionId });
+        }
     }
 }

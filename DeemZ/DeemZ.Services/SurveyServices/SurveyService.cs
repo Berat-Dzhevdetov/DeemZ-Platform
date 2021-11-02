@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using AutoMapper.QueryableExtensions;
     using System.Linq;
+    using System;
     using Microsoft.EntityFrameworkCore;
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Survey;
@@ -37,11 +38,12 @@
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .FirstOrDefault();
 
-        public IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid)
-                => context.Surveys
-                .Where(x => x.Course.UserCourses.Any(x => x.UserId == uid && x.IsPaid == true))
+        public IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid, bool isPaid)
+            => context.Surveys
                 .Include(x => x.Course)
                 .ThenInclude(x => x.UserCourses)
+                .Where(x => x.Course.UserCourses.Any(x => x.IsPaid == isPaid && x.UserId == uid)
+                        && x.StartDate <= DateTime.UtcNow && x.EndDate > DateTime.UtcNow)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
@@ -208,6 +210,18 @@
             context.SaveChanges();
 
             return answerEdit.SurveyQuestionId;
+        }
+
+        public string DeleteAnswer(string said)
+        {
+            var answerToDelete = context.SurveyAnswers.FirstOrDefault(x => x.Id == said);
+
+            var surveyQuestionId = answerToDelete.SurveyQuestionId;
+
+            context.SurveyAnswers.Remove(answerToDelete);
+            context.SaveChanges();
+
+            return surveyQuestionId;
         }
     }
 }
