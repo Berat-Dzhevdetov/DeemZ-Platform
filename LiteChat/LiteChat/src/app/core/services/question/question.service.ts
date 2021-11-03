@@ -63,10 +63,22 @@ export class QuestionService {
     });
   }
 
-  getCourseMessages(courseId: string) {
-    return this.http.get<Message[]>(
-      `${environment.API_ENDPOINT}/GetCourseMessages/${courseId}`
-    );
+  deleteMessage(message: Message) {
+    this.chatMessageDoc = this.afs.doc(`messages/${message.id}`);
+    this.chatMessageDoc.delete();
+  }
+
+  likeMessage(message: Message) {
+    var userId = this.getUserIdFromStorage()!;
+
+    if (message.likes.includes(userId)) {
+      message.likes.splice(message.likes.indexOf(userId));
+    } else {
+      message.likes.push(userId);
+    }
+
+    this.chatMessageDoc = this.afs.doc(`messages/${message.id}`);
+    this.chatMessageDoc.update(message);
   }
 
   connect(courseId: string, applicationUserId: string) {
