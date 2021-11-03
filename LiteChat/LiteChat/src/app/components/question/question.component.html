@@ -7,9 +7,11 @@
             <span class="author-name">{{message.applicationUserUsername}}</span>
             <span class="message-sent-on">, Sent: {{message.sentOn | dateTimeFormatter}}</span>
             <div class="message-options-right">
-                <i class="fas fa-thumbs-up"></i><span class="likesCount"> 1 </span>
-                <i class="fa fa-trash delete-message" aria-hidden="true"></i>
-                <i class="fa fa-pencil edit-message" aria-hidden="true"></i>
+                <i class="fas fa-thumbs-up" (click)=likeMessage(message)></i><span class="likesCount">
+                    {{message.likes.length}} </span>
+                <i class="fa fa-trash delete-message" *ngIf="isAdmin" (click)="deleteMessage(message)"
+                    aria-hidden="true"></i>
+                <!-- <i class="fa fa-pencil edit-message" aria-hidden="true"></i> -->
             </div>
         </div>
         <div class="content">
