@@ -8,8 +8,11 @@
     using DeemZ.Models.FormModels.Survey;
     using DeemZ.Services.CourseServices;
     using DeemZ.Data.Models;
+    using DeemZ.Web.Infrastructure;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using System.Linq;
+    using DeemZ.Global.Extensions;
 
     [Area(AreaName.SurveyArea)]
     [Authorize(Roles = Role.AdminRoleName)]
@@ -96,6 +99,48 @@
             string courseId = surveyService.DeleteSurvey(surveyId);
 
             return RedirectToAction(nameof(All), new { courseId });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        [Authorize]
+        public IActionResult Take(string surveyId)
+        {
+            var isAdmin = User.IsAdmin();
+
+            if (!isAdmin)
+            {
+                var userId = User.GetId();
+
+                var canUserAccessThisSurvey = surveyService.CanUserAccessSurveyById(surveyId, userId);
+
+                if (!canUserAccessThisSurvey)
+                    return HandleErrorRedirect(Models.HttpStatusCodes.Forbidden);
+            }
+
+            var survey = surveyService.GetSurveyById<TakeSurveyFormModel>(surveyId);
+
+            survey.Questions.ForEach(x =>
+            {
+                x.Answers = x.Answers.OrderByDescending(x => x.Text).ToList();
+                if(x.IsOpenAnswer)
+                {
+                    var newAnswer = new TakeSurveyAnswerFormModel();
+                    x.Answers.Add(newAnswer);
+                }
+            });
+
+            return View(survey);
+        }
+
+        [ClientRequired]
+        [IfExists]
+        [Authorize]
+        [HttpPost]
+        public IActionResult Take(string surveyId, TakeSurveyFormModel survey)
+        {
+            ;
+            return View(survey);
         }
     }
 }

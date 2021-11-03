@@ -19,7 +19,7 @@ namespace DeemZ.Models.FormModels.Exam
 
         public bool ShuffleAnswers { get; set; } = true;
 
-        public bool IsPublic { get; set; } = false;
+        public bool IsPublic { get; set; }
 
         public IList<TakeExamQuestionFormModel> Questions { get; set; } = new List<TakeExamQuestionFormModel>();
 

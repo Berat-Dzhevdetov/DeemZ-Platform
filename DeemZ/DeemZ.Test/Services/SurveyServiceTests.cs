@@ -24,7 +24,7 @@ namespace DeemZ.Test.Services
             SeedUserExam(courseId, userId);
             SeedUserCourseSurvey(courseId, userId);
 
-            var actualUserSurveysCount = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId).Count();
+            var actualUserSurveysCount = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId, false).Count();
 
             Assert.Equal(expectedUserSurveysCount, actualUserSurveysCount);
         }

@@ -223,5 +223,11 @@
 
             return surveyQuestionId;
         }
+
+        public bool CanUserAccessSurveyById(string sid, string uid)
+            => context.Surveys
+                .Any(x => !x.Users.Any(x => x.ApplicationUserId == uid) && x.Id == sid
+                    && x.StartDate <= DateTime.UtcNow && x.EndDate > DateTime.UtcNow
+                    && x.Course.UserCourses.Any(x => x.IsPaid && x.UserId == uid));
     }
 }

@@ -1,0 +1,62 @@
+﻿@model DeemZ.Models.FormModels.Survey.TakeSurveyFormModel
+@{
+    ViewData["Title"] = $"Take {Model.Name}";
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
+    var isOptional = "";
+}
+
+<div class="survey-holder">
+    <div class="survey-header">
+        <h2>@Model.Name</h2>
+    </div>
+    <div class="survey-content">
+        <form method="post" id="form">
+            @for (int i = 0; i < Model.Questions.Count; i++)
+            {
+                <div class="question">
+                    <div class="question-header">
+                        @(i + 1). @Model.Questions[i].Question
+                        <input readonly hidden asp-for="Questions[i].Id" />
+                    </div>
+                    <div class="qustion-list">
+                        @{
+                            isOptional = Model.Questions[i].IsOptional ? "" : "required";
+                        }
+                        @if (Model.Questions[i].IsOpenAnswer)
+                        {
+                            <textarea asp-for="@Model.Questions[i].Answers[0].Text" isOptional></textarea>
+                            <span asp-validation-for="Questions[i]"></span>
+                        }
+                        else
+                        {
+                            @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
+                            {
+                                <div>
+                                    <input isOptional asp-for="@Model.Questions[i].Answers[j].IsChosen" />
+                                    <input asp-for="@Model.Questions[i].Answers[j].Id" readonly hidden />
+                                    <label>@Model.Questions[i].Answers[j].Text</label>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
+            <input type="submit" class="btn btn-primary" id="btnSubmit" value="Submit" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('btnSubmit').addEventListener('click', (e) => {
+                e.preventDefault();
+
+            let result = confirm("Are you sure you want to hand over the @Model.Name?");
+
+                if (result == true)
+                    document.getElementById('form').submit();
+            })
+    </script>
+}

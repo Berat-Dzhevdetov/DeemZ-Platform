@@ -21,5 +21,6 @@
         T GetAnswerById<T>(string said);
         string EditAnswer(string said, EditSurveyAnswerFormModel answer);
         string DeleteAnswer(string said);
+        bool CanUserAccessSurveyById(string sid, string uid);
     }
 }

@@ -1014,6 +1014,17 @@ span.lecture-number::after {
     flex-direction: row;
     align-items: center;
 }
+
+.survey-holder {
+    margin: 2rem;
+    padding: 2rem;
+    user-select: none;
+    margin-bottom: 50px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.survey-header{
+    text-align: center;
 }
 
 @media only screen and (max-width: 950px) {

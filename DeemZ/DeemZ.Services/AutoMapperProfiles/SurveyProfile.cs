@@ -17,6 +17,9 @@
             CreateMap<SurveyQuestion, EditSurveyQuestionFormModel>();
             CreateMap<SurveyAnswer, AllSurveyQuestionAnswersViewModel>();
             CreateMap<SurveyAnswer, EditSurveyAnswerFormModel>();
+            CreateMap<Survey, TakeSurveyFormModel>();
+            CreateMap<SurveyQuestion, TakeSurveyQuestionFormModel>();
+            CreateMap<SurveyAnswer, TakeSurveyAnswerFormModel>();
         }
     }
 }
