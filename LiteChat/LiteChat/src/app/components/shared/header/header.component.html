@@ -6,7 +6,7 @@
 
 <div *ngIf="this.userData" class="header">
     <a>
-        <i id="burger" class="fas fa-bars"></i>
+        <i id="burger" class="fas fa-bars" (click)=showBurger()></i>
     </a>
     <a href="https://localhost:5001/Course/ViewCourse?courseId={{userData.CourseId}}">
         {{userData.CourseName}}

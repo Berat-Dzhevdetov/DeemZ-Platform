@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { QuestionService } from './core/services/question/question.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,7 +8,10 @@ import { QuestionService } from './core/services/question/question.service';
 })
 export class AppComponent {
   title = 'LiteChat';
-
   constructor(private questionService: QuestionService) {}
   isConnected: boolean = this.questionService.getCourseIdFromStorage() != null;
+
+  isPopupShown(): boolean {
+    return environment.userOptions.burgerState;
+  }
 }

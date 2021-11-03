@@ -39,4 +39,7 @@ export class HeaderComponent {
       }
     });
   }
+  showBurger() {
+    environment.userOptions.burgerState = !environment.userOptions.burgerState;
+  }
 }

@@ -1,33 +1,28 @@
-class LocalStorage {
+export class LocalStorage {
+  data!: {};
 
-    private data: {}
+  constructor(cryptedString: string) {
+    this.Init(cryptedString);
+  }
 
-    constructor(cryptedString: string) {
-        this.Init(cryptedString);
-    }
+  Init(cryptedString: string) {
+    let decryptedString = this.decrypt(cryptedString);
+    let jsonObj = this.serializeJson(decryptedString);
 
-    private Init(cryptedString: string) {
-        let decryptedString = this.decrypt(cryptedString);
-        let jsonObj = this.serializeJson(decryptedString);
+    //this.setAllProperties(jsonObj);
+  }
 
-        this.setAllProperties(jsonObj);
-    }
+  decrypt(cryptedString: string): string {
+    return atob(cryptedString);
+  }
 
-    private decrypt(cryptedString: string): string {
-        return atob(cryptedString);
-    }
+  serializeJson(decryptedString: string): JSON {
+    return JSON.parse(decryptedString);
+  }
 
-    private serializeJson(decryptedString: string): JSON {
-        return JSON.parse(decryptedString);
-    }
-
-    private setAllProperties(jsonObj: JSON) {
-        Object.keys(jsonObj).forEach(function (key) {
-            this.data[key] = jsonObj[key];
-        });
-    }
-
-    private getPrivate(privateFieldName: string) {
-        return this.data[privateFieldName];
-    }
+  //   setAllProperties(jsonObj: JSON) {
+  //     Object.keys(jsonObj).forEach(function (key) {
+  //       this.data[key] = (jsonObj as any)[key];
+  //     });
+  //   }
 }

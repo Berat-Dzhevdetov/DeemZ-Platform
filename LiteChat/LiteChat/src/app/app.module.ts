@@ -24,6 +24,7 @@ import { ShortenTextPipe } from './components/shared/pipes/shorten-text.pipe';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { environment } from 'src/environments/environment';
+import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { environment } from 'src/environments/environment';
     DateTimeFormatterPipe,
     ShortenTextPipe,
     NotFoundComponent,
+    PopupComponent,
   ],
   imports: [
     BrowserModule,
