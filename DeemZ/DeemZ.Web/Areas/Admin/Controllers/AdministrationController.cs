@@ -25,9 +25,10 @@
     using DeemZ.Services.EmailSender;
     using DeemZ.Models.FormModels.Email;
     using DeemZ.Services.InformativeMessageServices;
+    using DeemZ.Models.ViewModels.InformativeMessages;
+    using DeemZ.Models.Shared;
 
     using static DeemZ.Global.WebConstants.Constant;
-    using DeemZ.Models.ViewModels.InformativeMessages;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]

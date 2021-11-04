@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Models.ViewModels.Surveys
 {
     using System.Collections.Generic;
+
     public class MySurveyViewModel
     {
         public string Id { get; set; }

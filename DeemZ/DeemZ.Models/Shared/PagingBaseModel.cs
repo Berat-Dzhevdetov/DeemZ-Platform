@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Models.ViewModels.Administration
+﻿namespace DeemZ.Models.Shared
 {
     public class PagingBaseModel
     {

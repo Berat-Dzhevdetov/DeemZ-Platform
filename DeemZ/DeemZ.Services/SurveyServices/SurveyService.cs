@@ -341,11 +341,12 @@
             }
         }
 
-        public IEnumerable<T> GetUserAllSurveys<T>(string uid)
+        public IEnumerable<T> GetUserAllSurveys<T>(string uid, int page = 1)
             => context.Surveys
                 .Where(x => x.Users.Any(x => x.ApplicationUserId == uid))
                 .OrderByDescending(x => x.StartDate)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
+                .Paging(page, 25)
                 .ToList();
 
         public IDictionary<string, string> GetUserAnswers(string uid, string sid)
@@ -354,5 +355,9 @@
                 .ThenInclude(x => x.SurveyQuestion)
                 .Where(x => x.ApplicationUserId == uid && x.SurveyAnswer.SurveyQuestion.SurveyId == sid)
                 .ToDictionary(x => x.SurveyAnswer.SurveyQuestionId, x => x.SurveyAnswerId);
+
+        public int GetUserAllSurveysCount(string userId)
+            => context.ApplicationUserSurveys
+                .Count(x => x.ApplicationUserId == userId);
     }
 }

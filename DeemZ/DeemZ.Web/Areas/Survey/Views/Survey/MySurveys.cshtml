@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DeemZ.Models.ViewModels.Surveys.MySurveyViewModel>
+﻿@model DeemZ.Models.ViewModels.Surveys.MySurveyPagingViewModel
 @{
     ViewData["Title"] = "Your surveys";
     Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <h1 class="text-center">@ViewData["Title"]</h1>
-    @if (!Model.Any())
+    @if (!Model.Surveys.Any())
     {
         <h1 class="text-center">You haven't taken any surveys!</h1>
     }
@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var survey in Model)
+                @foreach (var survey in Model.Surveys)
                 {
                     <tr>
                         <td>@survey.Name</td>
@@ -33,4 +33,30 @@
         </table>
     }
 
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a asp-area="Survey" asp-controller="Survey" asp-action="MySurveys" asp-route-page="@Model.PreviousPage">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a asp-area="Survey" asp-controller="Survey" asp-action="MySurveys" asp-route-page="@i">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a asp-area="Survey" asp-controller="Survey" asp-action="MySurveys" asp-route-page="@Model.NextPage">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
 </div>

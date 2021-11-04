@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Web.Filters;
     using DeemZ.Services.SurveyServices;
@@ -9,6 +10,7 @@
     using DeemZ.Services.CourseServices;
     using DeemZ.Data.Models;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Models.Shared;
 
     using static DeemZ.Global.WebConstants.Constant;
 
@@ -148,13 +150,21 @@
         }
 
         [Authorize]
-        public IActionResult MySurveys()
+        public IActionResult MySurveys(int page = 1)
         {
+            var model = new MySurveyPagingViewModel();
+
             var userId = User.GetId();
 
-            var surveys = surveyService.GetUserAllSurveys<MySurveyViewModel>(userId);
+            var allPages = (int)Math.Ceiling(surveyService.GetUserAllSurveysCount(userId) / (25 * 1.0));
 
-            return View(surveys);
+            if (page <= 0 || page > allPages) page = 1;
+
+            model = AdjustPages(model, page, allPages);
+
+            model.Surveys = surveyService.GetUserAllSurveys<MySurveyViewModel>(userId, page);
+
+            return View(model);
         }
 
         [Authorize]
@@ -178,6 +188,17 @@
             surveys.UserAnswers = surveyService.GetUserAnswers(userId, surveyId);
 
             return View(surveys);
+        }
+
+        private T AdjustPages<T>(T viewModel, int page, int allPages)
+            where T : PagingBaseModel
+        {
+            viewModel.CurrentPage = page;
+            viewModel.NextPage = page >= allPages ? null : page + 1;
+            viewModel.PreviousPage = page <= 1 ? null : page - 1;
+            viewModel.MaxPages = allPages;
+
+            return viewModel;
         }
     }
 }
