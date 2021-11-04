@@ -112,7 +112,7 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
-        public void AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question)
+        public string AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question)
         {
             var newlyQuestion = new SurveyQuestion
             {
@@ -124,6 +124,8 @@
             context.SurveyQuestions.Add(newlyQuestion);
 
             context.SaveChanges();
+
+            return newlyQuestion.Id;
         }
 
         public T GetQuestionById<T>(string sqid)
@@ -306,7 +308,7 @@
                 context.ApplicationUserSurveyAnswers.Add(newUserSurveyAnswer);
             }
 
-            var applicationUserSurvey = new ApplicationUserSurvey
+            var applicationUserSurvey = new ApplicationUserSurvey()
             {
                 ApplicationUserId = uid,
                 SurveyId = sid
@@ -315,6 +317,28 @@
             context.ApplicationUserSurveys.Add(applicationUserSurvey);
 
             context.SaveChanges();
+        }
+
+        public void AddRatingScaleToQuestion(string sqid)
+        {
+            var question = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+
+            for (int i = 2; i <= 6; i++)
+            {
+                var text = i.ToString();
+
+                if (i == 2)
+                    text += " - Poor";
+                else if (i == 4)
+                    text += " - Average";
+                else if (i == 6)
+                    text += " - Excellent";
+
+                AddAnswerToQuestion(sqid, new AddSurveyAnswerFormModel
+                {
+                    Text = text
+                });
+            }
         }
     }
 }

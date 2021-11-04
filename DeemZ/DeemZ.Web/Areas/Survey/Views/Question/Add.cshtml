@@ -19,6 +19,11 @@
             <label class="text-light" asp-for="IsOptional"></label>
             <span asp-validation-for="IsOptional" class="small text-danger"></span>
         </div>
+        <div class="form-group">
+            <input asp-for="CreateRatingScale" />
+            <label class="text-light" asp-for="CreateRatingScale"></label>
+            <span asp-validation-for="CreateRatingScale" class="small text-danger"></span>
+        </div>
         <div class="form-group text-center">
             <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
         </div>

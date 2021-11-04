@@ -12,5 +12,7 @@
 
         [Display(Name = "Is Optional")]
         public bool IsOptional { get; set; } = false;
+        [Display(Name = "Create Rating Scale")]
+        public bool CreateRatingScale { get; set; }
     }
 }

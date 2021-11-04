@@ -42,7 +42,12 @@
             if (!ModelState.IsValid)
                 return View(model);
 
-            surveyService.AddQuestionToSurvey(surveyId, model);
+            var questionId = surveyService.AddQuestionToSurvey(surveyId, model);
+
+            if(model.CreateRatingScale)
+            {
+                surveyService.AddRatingScaleToQuestion(questionId);
+            }
 
             return RedirectToAction(nameof(All), new { surveyId });
         }

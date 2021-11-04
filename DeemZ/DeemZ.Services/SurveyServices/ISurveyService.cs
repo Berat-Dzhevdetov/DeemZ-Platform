@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using DeemZ.Models.FormModels.Survey;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     public interface ISurveyService
     {
@@ -14,7 +13,7 @@
         string EditSurvey(string sid, EditSurveyFormModel survey);
         string DeleteSurvey(string sid);
         IEnumerable<T> GetSurveyQuestions<T>(string sid);
-        void AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question);
+        string AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question);
         T GetQuestionById<T>(string sqid);
         string EditQuestion(string sqid, EditSurveyQuestionFormModel question);
         string DeleteQuestion(string sqid);
@@ -27,5 +26,6 @@
         void PrepareSurvey(string sid, out TakeSurveyFormModel survey);
         (Dictionary<string, string>, List<string>) ValidateSurvey(TakeSurveyFormModel survey);
         void SaveSurvey(string sid, string uid,List<string> correctAnswerIds);
+        void AddRatingScaleToQuestion(string sqid);
     }
 }
