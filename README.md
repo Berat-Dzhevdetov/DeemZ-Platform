@@ -48,6 +48,10 @@ ASP.NET Core web application for online programming learing where you can take e
 
 ![code_coverage_results](https://i.ibb.co/tzVpM9T/covergae.png)
 
+## Database Diagram:
+
+![Database Diagram](https://i.ibb.co/fnmd21t/deemz-db.png)
+
 ## Pages:
 
 ### Public Pages:
