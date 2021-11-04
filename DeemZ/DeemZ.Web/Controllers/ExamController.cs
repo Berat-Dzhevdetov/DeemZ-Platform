@@ -224,15 +224,14 @@
             var isUserInRole = User.IsAdmin() || User.IsLecture();
 
             if (!isUserInRole && !examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
+                return HandleErrorRedirect(HttpStatusCodes.Forbidden);
 
             var exam = examService.GetExamById<ViewExamViewModel>(examId);
 
             exam.EndDate = exam.EndDate.ToLocalTime();
 
-
             if (DateTime.Now <= exam.EndDate && !isUserInRole)
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
+                return HandleErrorRedirect(HttpStatusCodes.Forbidden);
 
             exam.UserAnswers = examService.GetUserExamAnswers(examId, userId);
 

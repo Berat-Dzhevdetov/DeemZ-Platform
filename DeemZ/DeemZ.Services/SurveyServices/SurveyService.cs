@@ -28,7 +28,7 @@
                 .Any(x => x.UserCourses.Any(c => c.CourseId == x.Id && c.UserId == uid && c.IsPaid == true));
             var takenOrNot = context.ApplicationUserSurveys
                 .Any(x => x.ApplicationUserId == uid && x.SurveyId == sid);
-            return permission && !takenOrNot;
+            return permission && takenOrNot;
         }
 
         public T GetSurveyById<T>(string sid)
@@ -340,5 +340,19 @@
                 });
             }
         }
+
+        public IEnumerable<T> GetUserAllSurveys<T>(string uid)
+            => context.Surveys
+                .Where(x => x.Users.Any(x => x.ApplicationUserId == uid))
+                .OrderByDescending(x => x.StartDate)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
+
+        public IDictionary<string, string> GetUserAnswers(string uid, string sid)
+            => context.ApplicationUserSurveyAnswers
+                .Include(x => x.SurveyAnswer)
+                .ThenInclude(x => x.SurveyQuestion)
+                .Where(x => x.ApplicationUserId == uid && x.SurveyAnswer.SurveyQuestion.SurveyId == sid)
+                .ToDictionary(x => x.SurveyAnswer.SurveyQuestionId, x => x.SurveyAnswerId);
     }
 }

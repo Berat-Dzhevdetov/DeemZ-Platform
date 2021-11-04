@@ -1,0 +1,34 @@
+﻿@model DeemZ.Models.ViewModels.Surveys.MySurveyViewModel
+@{
+    var index = 1;
+    ViewData["Title"] = Model.Name;
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
+}
+<div class="exam-holder">
+    <div class="exam-header">
+        <h2>@Model.Name</h2>
+    </div>
+    <div class="exam-content">
+        @foreach (var question in Model.Questions)
+        {
+            var userAnswerId = Model.UserAnswers[question.Id];
+            <div class="question">
+                <div class="question-header">
+                    @index. @question.Question
+                </div>
+                <div class="qustion-list">
+                    @foreach (var answer in question.Answers.OrderByDescending(x => x.Text))
+                    {
+                        var divClass = answer.Id == userAnswerId ? "class=your-answer" : "class=pl-3";
+                        <div @divClass>
+                            <label>
+                                @answer.Text
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+            index++;
+        }
+    </div>
+</div>

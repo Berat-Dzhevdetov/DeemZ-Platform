@@ -180,7 +180,7 @@
             => context.AnswerUsers
                 .Include(x => x.Answer)
                 .ThenInclude(x => x.Question)
-                .Where(x => x.Answer.Question.ExamId == eid)
+                .Where(x => x.Answer.Question.ExamId == eid && x.UserId == uid)
                 .ToDictionary(x => x.Answer.QuestionId, x => x.AnswerId);
     }
 }

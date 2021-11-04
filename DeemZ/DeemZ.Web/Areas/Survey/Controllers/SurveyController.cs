@@ -56,7 +56,7 @@
             if (!ModelState.IsValid)
             {
                 survey.CourseName = courseService.GetCourseById<Course>(courseId).Name;
-                
+
                 return View(survey);
             }
 
@@ -145,6 +145,39 @@
             TempData[GlobalMessageKey] = "Thank you very much for your feedback. It helps us grow!";
 
             return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName(), new { area = "" });
-        }    
+        }
+
+        [Authorize]
+        public IActionResult MySurveys()
+        {
+            var userId = User.GetId();
+
+            var surveys = surveyService.GetUserAllSurveys<MySurveyViewModel>(userId);
+
+            return View(surveys);
+        }
+
+        [Authorize]
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Preview(string surveyId)
+        {
+            var isAdmin = User.IsAdmin();
+
+            var userId = User.GetId();
+            if (!isAdmin)
+            {
+                var doesTheUserHavePermissionToSurvey = surveyService.DoesTheUserHavePermissionToSurvey(userId, surveyId);
+
+                if (!doesTheUserHavePermissionToSurvey)
+                    HandleErrorRedirect(Models.HttpStatusCodes.Forbidden);
+            }
+
+            var surveys = surveyService.GetSurveyById<MySurveyViewModel>(surveyId);
+
+            surveys.UserAnswers = surveyService.GetUserAnswers(userId, surveyId);
+
+            return View(surveys);
+        }
     }
 }

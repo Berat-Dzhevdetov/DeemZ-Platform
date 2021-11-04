@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DeemZ.Models.ViewModels.Surveys.MySurveyViewModel>
+@{
+    ViewData["Title"] = "Your surveys";
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
+}
+
+<div class="container-fluid">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    @if (!Model.Any())
+    {
+        <h1 class="text-center">You haven't taken any surveys!</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Survey Name</th>
+                    <th scope="col">View Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var survey in Model)
+                {
+                    <tr>
+                        <td>@survey.Name</td>
+                        <td>
+                            <a class="btn btn-info" asp-area="Survey" asp-controller="Survey" asp-action="Preview" asp-route-surveyId="@survey.Id">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

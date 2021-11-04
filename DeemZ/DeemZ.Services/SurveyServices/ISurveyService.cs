@@ -27,5 +27,7 @@
         (Dictionary<string, string>, List<string>) ValidateSurvey(TakeSurveyFormModel survey);
         void SaveSurvey(string sid, string uid,List<string> correctAnswerIds);
         void AddRatingScaleToQuestion(string sqid);
+        IEnumerable<T> GetUserAllSurveys<T>(string uid);
+        IDictionary<string, string> GetUserAnswers(string uid, string sid);
     }
 }

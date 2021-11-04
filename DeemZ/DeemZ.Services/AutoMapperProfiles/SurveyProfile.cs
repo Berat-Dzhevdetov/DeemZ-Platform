@@ -20,6 +20,8 @@
             CreateMap<Survey, TakeSurveyFormModel>();
             CreateMap<SurveyQuestion, TakeSurveyQuestionFormModel>();
             CreateMap<SurveyAnswer, TakeSurveyAnswerFormModel>();
+            CreateMap<Survey, MySurveyViewModel>();
+            CreateMap<SurveyQuestion, PreviewSurveyQuestionViewModel>();
         }
     }
 }
