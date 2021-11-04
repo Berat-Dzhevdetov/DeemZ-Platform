@@ -25,9 +25,6 @@
         {
             var question = surveyService.GetQuestionById<SurveyQuestion>(surveyQuestionId);
 
-            if (question.IsOpenAnswer)
-                return HandleErrorRedirect(Models.HttpStatusCodes.NotFound);
-
             var answers = surveyService.GetAllAnswers<AllSurveyQuestionAnswersViewModel>(surveyQuestionId);
 
             ViewBag.QuestionId = question.Id;

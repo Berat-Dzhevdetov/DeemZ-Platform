@@ -9,6 +9,7 @@
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Survey;
     using DeemZ.Data.Models;
+    using DeemZ.Global.Extensions;
 
     public class SurveyService : ISurveyService
     {
@@ -117,7 +118,6 @@
             {
                 SurveyId = sid,
                 Question = question.Question,
-                IsOpenAnswer = question.IsOpenAnswer,
                 IsOptional = question.IsOptional
             };
 
@@ -140,7 +140,6 @@
 
             questionToEdit.Question = question.Question;
             questionToEdit.IsOptional = question.IsOptional;
-            questionToEdit.IsOpenAnswer = question.IsOpenAnswer;
 
             DeleteQuestionAllAnswers(questionToEdit);
 
@@ -166,7 +165,7 @@
 
         private void DeleteQuestionAllAnswers(SurveyQuestion question)
         {
-            if (question.IsOpenAnswer && question.Answers.Any())
+            if (question.Answers.Any())
             {
                 foreach (var answerToDel in question.Answers)
                 {
@@ -229,5 +228,93 @@
                 .Any(x => !x.Users.Any(x => x.ApplicationUserId == uid) && x.Id == sid
                     && x.StartDate <= DateTime.UtcNow && x.EndDate > DateTime.UtcNow
                     && x.Course.UserCourses.Any(x => x.IsPaid && x.UserId == uid));
+
+        public void PrepareSurvey(string surveyId, out TakeSurveyFormModel survey)
+        {
+            survey = GetSurveyById<TakeSurveyFormModel>(surveyId);
+
+            survey.Questions.ForEach(x =>
+            {
+                x.Answers = x.Answers.OrderByDescending(x => x.Text).ToList();
+            });
+        }
+
+        public (Dictionary<string, string>, List<string>) ValidateSurvey(TakeSurveyFormModel survey)
+        {
+            var erros = new Dictionary<string, string>();
+            var correctAnswerIds = new List<string>();
+
+            var i = 0;
+            var modelStateKey = "Questions[{0}]";
+            var isGood = true;
+
+            foreach (var question in survey.Questions)
+            {
+                isGood = true;
+
+                var questionFromDb = context.SurveyQuestions.FirstOrDefault(x => x.Id == question.Id);
+
+                if (questionFromDb == null)
+                {
+                    erros.Add(string.Format(modelStateKey, i), "Are you trying to hack me?");
+                    isGood = false;
+                }
+                else if (question.Answers.Count == 0)
+                {
+                    erros.Add(string.Format(modelStateKey, i), "This question is not valid because it doesn't have any answers!");
+                    isGood = false;
+                }
+                else if (!questionFromDb.IsOptional && question.Answers.Count(x => x.IsChosen) != 1)
+                {
+                    erros.Add(string.Format(modelStateKey, i), "The question should have exactly 1 answer checked.");
+                    isGood = false;
+                }
+                else if (questionFromDb.IsOptional && question.Answers.Count(x => x.IsChosen) >= 2)
+                {
+                    erros.Add(string.Format(modelStateKey, i), "The question should have exactly 1 answer checked.");
+                    isGood = false;
+                }
+                else if (question.Answers.Any(x => x.IsChosen)
+                    && !IfAnswerExists(question.Answers.FirstOrDefault(x => x.IsChosen).Id))
+                {
+                    erros.Add(string.Format(modelStateKey, i), "Why did you change the answer id bro?");
+                    isGood = false;
+                }
+
+                if (isGood && question.Answers.Any(x => x.IsChosen))
+                    correctAnswerIds.Add(question.Answers.FirstOrDefault(x => x.IsChosen).Id);
+
+                i++;
+            }
+
+            return (erros, correctAnswerIds);
+        }
+
+        private bool IfAnswerExists(string aid)
+            => context.SurveyAnswers.Any(x => x.Id == aid);
+
+        public void SaveSurvey(string sid, string uid, List<string> correctAnswerIds)
+        {
+            foreach (var answerId in correctAnswerIds)
+            {
+                var newUserSurveyAnswer = new ApplicationUserSurveyAnswer()
+                {
+                    ApplicationUserId = uid,
+                    SurveyAnswerId = answerId
+                };
+
+                context.ApplicationUserSurveyAnswers.Add(newUserSurveyAnswer);
+            }
+
+            var applicationUserSurvey = new ApplicationUserSurvey
+            {
+                ApplicationUserId = uid,
+                SurveyId = sid
+            };
+
+            context.ApplicationUserSurveys.Add(applicationUserSurvey);
+
+            context.SaveChanges();
+        }
     }
 }

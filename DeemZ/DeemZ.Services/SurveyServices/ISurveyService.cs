@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
     using DeemZ.Models.FormModels.Survey;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+
     public interface ISurveyService
     {
         IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid, bool isAdmin);
@@ -22,5 +24,8 @@
         string EditAnswer(string said, EditSurveyAnswerFormModel answer);
         string DeleteAnswer(string said);
         bool CanUserAccessSurveyById(string sid, string uid);
+        void PrepareSurvey(string sid, out TakeSurveyFormModel survey);
+        (Dictionary<string, string>, List<string>) ValidateSurvey(TakeSurveyFormModel survey);
+        void SaveSurvey(string sid, string uid,List<string> correctAnswerIds);
     }
 }

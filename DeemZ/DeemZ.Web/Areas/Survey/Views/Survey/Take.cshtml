@@ -15,29 +15,26 @@
             {
                 <div class="question">
                     <div class="question-header">
-                        @(i + 1). @Model.Questions[i].Question
-                        <input readonly hidden asp-for="Questions[i].Id" />
-                    </div>
-                    <div class="qustion-list">
                         @{
                             isOptional = Model.Questions[i].IsOptional ? "" : "required";
                         }
-                        @if (Model.Questions[i].IsOpenAnswer)
+                        @(i + 1). @Model.Questions[i].Question
+                        @if (isOptional == "required")
                         {
-                            <textarea asp-for="@Model.Questions[i].Answers[0].Text" isOptional></textarea>
-                            <span asp-validation-for="Questions[i]"></span>
+                            <span class="text-danger" title="This question is required">*</span>
                         }
-                        else
+                        <input readonly hidden asp-for="Questions[i].Id" />
+                    </div>
+                    <div class="qustion-list">
+                        @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
                         {
-                            @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
-                            {
-                                <div>
-                                    <input isOptional asp-for="@Model.Questions[i].Answers[j].IsChosen" />
-                                    <input asp-for="@Model.Questions[i].Answers[j].Id" readonly hidden />
-                                    <label>@Model.Questions[i].Answers[j].Text</label>
-                                </div>
-                            }
+                            <div>
+                                <input asp-for="@Model.Questions[i].Answers[j].IsChosen" />
+                                <input asp-for="@Model.Questions[i].Answers[j].Id" readonly hidden />
+                                <label>@Model.Questions[i].Answers[j].Text</label>
+                            </div>
                         }
+                        <span class="text-danger" asp-validation-for="Questions[i]"></span>
                     </div>
                 </div>
             }

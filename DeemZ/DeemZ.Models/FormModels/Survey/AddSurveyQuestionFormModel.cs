@@ -12,8 +12,5 @@
 
         [Display(Name = "Is Optional")]
         public bool IsOptional { get; set; } = false;
-
-        [Display(Name = "Is Open Answer")]
-        public bool IsOpenAnswer { get; set; } = false;
     }
 }

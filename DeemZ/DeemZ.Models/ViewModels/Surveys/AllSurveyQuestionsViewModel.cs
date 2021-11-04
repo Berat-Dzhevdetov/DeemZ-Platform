@@ -6,6 +6,5 @@
         public string Question { get; set; }
         public int AnswersCount { get; set; }
         public bool IsOptional { get; set; }
-        public bool IsOpenAnswer { get; set; }
     }
 }

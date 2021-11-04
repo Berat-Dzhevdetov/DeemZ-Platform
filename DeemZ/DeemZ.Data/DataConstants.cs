@@ -40,7 +40,7 @@
             public const decimal MinMoney = 50m;
             public const decimal MaxMoney = 440m;
             public const int MinDescriptionLength = 20;
-            public const int MaxDescriptionLength = 20000;
+            public const int MaxDescriptionLength = 20_000;
         }
 
         public class Lecture
@@ -78,7 +78,7 @@
         public class Answer
         {
             public const int MinTextLength = 3;
-            public const int MaxTextLength = 100;
+            public const int MaxTextLength = 150;
         }
 
         public class Resource
@@ -104,6 +104,7 @@
 
         public class SurveyAnswer
         {
+            public const int MinTextLength = 5;
             public const int MaxTextLength = 50;
         }
 
@@ -111,7 +112,7 @@
         {
             public const int MaxTitleLength = 100;
             public const int MinTitleLength = 3;
-            public const int MaxDescriptionLength = 100000;
+            public const int MaxDescriptionLength = 100_000;
             public const int MinDescriptionLength = 20;
         }
     }

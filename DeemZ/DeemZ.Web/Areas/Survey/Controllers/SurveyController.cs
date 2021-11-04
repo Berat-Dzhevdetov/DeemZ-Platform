@@ -11,8 +11,6 @@
     using DeemZ.Web.Infrastructure;
 
     using static DeemZ.Global.WebConstants.Constant;
-    using System.Linq;
-    using DeemZ.Global.Extensions;
 
     [Area(AreaName.SurveyArea)]
     [Authorize(Roles = Role.AdminRoleName)]
@@ -118,17 +116,7 @@
                     return HandleErrorRedirect(Models.HttpStatusCodes.Forbidden);
             }
 
-            var survey = surveyService.GetSurveyById<TakeSurveyFormModel>(surveyId);
-
-            survey.Questions.ForEach(x =>
-            {
-                x.Answers = x.Answers.OrderByDescending(x => x.Text).ToList();
-                if(x.IsOpenAnswer)
-                {
-                    var newAnswer = new TakeSurveyAnswerFormModel();
-                    x.Answers.Add(newAnswer);
-                }
-            });
+            surveyService.PrepareSurvey(surveyId, out TakeSurveyFormModel survey);
 
             return View(survey);
         }
@@ -139,8 +127,24 @@
         [HttpPost]
         public IActionResult Take(string surveyId, TakeSurveyFormModel survey)
         {
-            ;
-            return View(survey);
-        }
+            var (errors, correctAnswerIds) = surveyService.ValidateSurvey(survey);
+
+            foreach (var error in errors)
+                ModelState.AddModelError(error.Key, error.Value);
+
+            if (!ModelState.IsValid)
+            {
+                surveyService.PrepareSurvey(surveyId, out survey);
+                return View(survey);
+            }
+
+            var userId = User.GetId();
+
+            surveyService.SaveSurvey(surveyId, userId, correctAnswerIds);
+
+            TempData[GlobalMessageKey] = "Thank you very much for your feedback. It helps us grow!";
+
+            return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName(), new { area = "" });
+        }    
     }
 }
