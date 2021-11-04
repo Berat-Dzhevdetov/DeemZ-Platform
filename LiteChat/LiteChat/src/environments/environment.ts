@@ -17,6 +17,6 @@ export const environment = {
   userOptions: {
     burgerState: false,
     isWhiteTheme: false,
-    messageOrderState: 'Ascending',
+    messageOrderState: 'ascending',
   },
 };

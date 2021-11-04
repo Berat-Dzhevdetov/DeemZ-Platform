@@ -1,12 +1,7 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Message } from 'src/app/core/models/message';
+import { QuestionService } from 'src/app/core/services/question/question.service';
 import { environment } from 'src/environments/environment';
-import { ContentComponent } from '../content/content.component';
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
@@ -15,9 +10,7 @@ import { ContentComponent } from '../content/content.component';
 export class PopupComponent implements OnInit {
   selectedSort!: string;
 
-  @Output() messageEvent = new EventEmitter<string>();
-
-  constructor() {}
+  constructor(private questionService: QuestionService) {}
 
   ngOnInit(): void {}
 
@@ -37,7 +30,14 @@ export class PopupComponent implements OnInit {
     if (this.selectedSort != '') {
       environment.userOptions.messageOrderState = this.selectedSort;
     }
-    this.messageEvent.emit('HELLO');
+
+    var message: Message;
+    // this.questionService.getMessages().subscribe((x) => {
+    //   message = x.filter(
+    //     (y) => y.courseId == this.questionService.getCourseIdFromStorage()!
+    //   )[0];
+    //   this.questionService.likeMessage(message);
+    // });
     this.closeBurger();
   }
 }

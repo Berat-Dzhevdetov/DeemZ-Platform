@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css'],
 })
-export class ContentComponent implements AfterViewInit, OnChanges {
+export class ContentComponent implements AfterViewInit {
   messages: Message[] = [];
   courseId: string = this.questionService.getCourseIdFromStorage()!;
   showBurger: boolean = false;
@@ -26,18 +26,7 @@ export class ContentComponent implements AfterViewInit, OnChanges {
   };
   constructor(public questionService: QuestionService) {}
 
-  message!: any;
-
-  receiveMessage($event: Event) {
-    this.message = $event;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('CHANGES');
-  }
-
   ngAfterViewInit(): void {
-    console.log('init');
     this.questionService.getMessages().subscribe((x) => {
       this.messages = x
         .filter((y) => y.courseId == this.courseId)

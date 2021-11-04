@@ -12,13 +12,15 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 @Injectable()
 export class QuestionService {
   messagesCollection!: AngularFirestoreCollection<Message>;
   chatMessageDoc!: AngularFirestoreDocument<Message>;
   chatMesasges!: Observable<Message[]>;
   doesUserHaveAccess: boolean = false;
+
+  private subscriptions: Array<Subscription> = [];
 
   constructor(private http: HttpClient, public afs: AngularFirestore) {
     this.messagesCollection = this.afs.collection('messages');
@@ -78,7 +80,7 @@ export class QuestionService {
     }
 
     this.chatMessageDoc = this.afs.doc(`messages/${message.id}`);
-    this.chatMessageDoc.update(message);
+    return this.chatMessageDoc.update(message);
   }
 
   connect(courseId: string, applicationUserId: string) {
@@ -97,12 +99,18 @@ export class QuestionService {
     return this.http.post<boolean>(environment.API_ENDPOINT, data, options);
   }
 
-  // postMessage(message: SendMessage) {
-  //   const options = { headers: { 'Content-Type': 'application/json' } };
-  //   const data = JSON.stringify(message);
-
-  //   return this.http.post(environment.API_ENDPOINT, data, options);
-  // }
+  doMagic() {
+    this.subscriptions.push(
+      this.getMessages().subscribe((x) => {
+        var test = x.filter(
+          (y) => y.courseId == this.getCourseIdFromStorage()!
+        )[0];
+        this.likeMessage(test);
+        this.likeMessage(test);
+        this.subscriptions.pop();
+      })
+    );
+  }
 
   getCourseIdFromStorage() {
     return new URLSearchParams(window.location.search).get('courseId');
@@ -111,4 +119,11 @@ export class QuestionService {
   getUserIdFromStorage() {
     return new URLSearchParams(window.location.search).get('applicationUserId');
   }
+
+  // postMessage(message: SendMessage) {
+  //   const options = { headers: { 'Content-Type': 'application/json' } };
+  //   const data = JSON.stringify(message);
+
+  //   return this.http.post(environment.API_ENDPOINT, data, options);
+  // }
 }
