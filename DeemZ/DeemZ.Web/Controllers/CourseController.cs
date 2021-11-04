@@ -15,6 +15,7 @@
     using DeemZ.Models;
 
     using static Global.WebConstants.Constant;
+    using DeemZ.Data.Models;
 
     public class CourseController : BaseController
     {
@@ -50,11 +51,9 @@
         [Authorize]
         [ClientRequired]
         [IfExists]
-        public async Task<IActionResult> SignUp(string courseId)
+        public IActionResult SignUp(string courseId)
         {
-            var userId = User.GetId();
-
-            if (await userService.IsInRoleAsync(userId, Role.AdminRoleName)) return Unauthorized();
+            if (User.IsAdmin()) return HandleErrorRedirect(HttpStatusCodes.Forbidden);
 
             var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
 
@@ -65,23 +64,24 @@
         [HttpPost]
         [ClientRequired]
         [IfExists]
-        public async Task<IActionResult> SignUp(string courseId, SignUpCourseFormModel signUp)
+        public IActionResult SignUp(string courseId, SignUpCourseFormModel signUp)
         {
-            var userId = User.GetId();
+            if (User.IsAdmin()) return HandleErrorRedirect(HttpStatusCodes.Forbidden);
 
-            if (await userService.IsInRoleAsync(userId, Role.AdminRoleName)) return Unauthorized();
+            var userId = User.GetId();
 
             var isUserSignUpForThisCourse = courseService.IsUserSignUpForThisCourse(userId, courseId);
 
-            if (isUserSignUpForThisCourse) return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
+            if (isUserSignUpForThisCourse) return RedirectToAction(nameof(ViewCourse), new { courseId });
+
+            if (signUp.PromoCode.Length >= 1 || (string.IsNullOrEmpty(signUp.PromoCode.Trim()) && !courseService.ValidatePromoCode(userId, signUp.PromoCode)))
+                ModelState.AddModelError(nameof(signUp.PromoCode), "The promo code is not valid. Please check it and try again");
 
             if (!ModelState.IsValid) return View(signUp);
 
-            var course = courseService.GetCourseById<SignUpCourseFormModel>(courseId);
+            courseService.SignUserToCourse(userId, courseId, signUp);
 
-            courseService.SignUserToCourse(userId, course.Id);
-
-            return RedirectToAction(nameof(ViewCourse), new { courseId = courseId });
+            return RedirectToAction(nameof(ViewCourse), new { courseId });
         }
 
         public IActionResult UpcomingCourses()
@@ -119,6 +119,11 @@
         public IActionResult Edit(string courseId)
         {
             var course = courseService.GetCourseById<EditCourseFormModel>(courseId);
+
+            course.StartDate = course.StartDate.ToLocalTime();
+            course.EndDate = course.EndDate.ToLocalTime();
+            course.SignUpStartDate = course.SignUpStartDate.ToLocalTime();
+            course.SignUpEndDate = course.SignUpEndDate.ToLocalTime();
 
             return View(course);
         }
@@ -178,7 +183,7 @@
 
             courseService.SignUserToCourse(userId, model.CourseId, model.IsPaid);
 
-            return RedirectToAction(nameof(AdministrationController.UserCourses),typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
         [Authorize(Roles = Role.AdminRoleName)]
@@ -186,11 +191,33 @@
         [IfExists("courseId")]
         public IActionResult DeleteUserFromCourse(string courseId, string userId)
         {
-            if(!userService.GetUserById(userId)) return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.NotFound });
+            if (!userService.GetUserById(userId)) return HandleErrorRedirect(HttpStatusCodes.NotFound);
 
             courseService.DeleteUserFromCourse(courseId, userId);
 
             return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        [IgnoreAntiforgeryToken]
+        [HttpPost]
+        public ActionResult ValidatePromoCode(string promoCode, string courseId)
+        {
+            var userId = User.GetId();
+
+            var isValid = promoCode.Length >= 1 && !string.IsNullOrEmpty(promoCode.Trim()) && courseService.ValidatePromoCode(userId, promoCode);
+
+            var price = courseService.GetCourseById<Course>(courseId).Price;
+
+            var promoCodeObj = courseService.GetPromoCode(promoCode);
+
+            if (isValid)
+            {
+                price -= promoCodeObj.DiscountPrice;
+            }
+
+            return Json(new { isValid, price });
         }
     }
 }

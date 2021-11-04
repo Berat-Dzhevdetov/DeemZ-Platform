@@ -79,7 +79,9 @@
         public ActionResult DeleteDescription(string did)
         {
             if (guard.AgainstNull(did, nameof(did))) return Json(new { status = 400, message = "The given id was null" });
+
             lectureService.DeleteDescription(did);
+
             return Json(new { status = 200, message = "The description was successfully deleted" });
         }
     }

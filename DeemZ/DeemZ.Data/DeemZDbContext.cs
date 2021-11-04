@@ -18,6 +18,7 @@
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<PromoCode> PromoCodes { get; set; }
         public DbSet<Description> Descriptions { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Forum> Forums { get; set; }
@@ -82,6 +83,14 @@
 
             mb.Entity<Course>()
                 .Property(x => x.Price)
+                .HasColumnType("decimal(18,4)");
+
+            mb.Entity<UserCourse>()
+                .Property(x => x.Paid)
+                .HasColumnType("decimal(18,4)");
+
+            mb.Entity<PromoCode>()
+                .Property(x => x.DiscountPrice)
                 .HasColumnType("decimal(18,4)");
 
             base.OnModelCreating(mb);

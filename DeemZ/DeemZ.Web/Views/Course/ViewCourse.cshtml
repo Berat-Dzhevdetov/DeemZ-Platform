@@ -20,7 +20,12 @@
                 </div>
             </div>
         </div>
-        <a href="http://localhost:4200/?courseId=@Model.Id&courseName=@Model.Name&applicationUserId=@ViewData["UserId"]">Join Chat</a>
+        @if (Model.IsUserSignUpForThisCourse)
+        {
+            <div>
+                <a class="btn btn-info" href="http://localhost:4200/?courseId=@Model.Id&courseName=@Model.Name&applicationUserId=@ViewData["UserId"]">Join Chat</a>
+            </div>
+        }
     </div>
     <div class="course-subjects box-shadow-all-corners rounded">
         <h2 class="subjects">Subjects</h2>

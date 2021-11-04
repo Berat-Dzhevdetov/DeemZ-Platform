@@ -33,5 +33,6 @@
         public ICollection<AnswerUsers> AnswerUsers { get; set; } = new HashSet<AnswerUsers>();
         public ICollection<Forum> Forums { get; set; } = new HashSet<Forum>();
         public ICollection<ChatMessage> Messages { get; set; } = new HashSet<ChatMessage>();
+        public ICollection<PromoCode> PromoCodes { set; get; } = new HashSet<PromoCode>();
     }
 }

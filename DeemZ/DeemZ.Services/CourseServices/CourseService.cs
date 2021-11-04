@@ -73,15 +73,46 @@
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
 
+        public PromoCode GetPromoCode(string promoCode)
+            => context.PromoCodes.FirstOrDefault(x => x.Text == promoCode);
+
         public void SignUserToCourse(string uid, string cid, bool isPaid = true)
         {
+            var toPay = GetCourseById<Course>(cid).Price;
+
             var userCourse = new UserCourse()
             {
                 CourseId = cid,
                 UserId = uid,
                 IsPaid = isPaid,
-                PaidOn = DateTime.UtcNow
+                PaidOn = DateTime.UtcNow,
+                Paid = toPay,
             };
+
+            context.UserCourses.Add(userCourse);
+            context.SaveChanges();
+        }
+
+        public void SignUserToCourse(string uid, string cid, SignUpCourseFormModel signUp)
+        {
+            var promoCode = GetPromoCode(signUp.PromoCode);
+
+            var toPay = GetCourseById<Course>(cid).Price;
+
+            if (promoCode != null)
+                toPay -= promoCode.DiscountPrice;
+
+            var userCourse = new UserCourse()
+            {
+                CourseId = cid,
+                UserId = uid,
+                IsPaid = true,
+                PaidOn = DateTime.UtcNow,
+                Paid = toPay,
+                PromoCodeId = promoCode.Id,
+            };
+
+            promoCode.IsUsed = true;
 
             context.UserCourses.Add(userCourse);
             context.SaveChanges();
@@ -178,5 +209,10 @@
                 x.SignUpStartDate <= DateTime.UtcNow
                 && x.SignUpEndDate > DateTime.UtcNow)
             .Count();
+
+        public bool ValidatePromoCode(string uid, string promoCode)
+            => context.PromoCodes
+                .Any(x => x.ApplicationUserId == uid
+                        && !x.IsUsed && x.Text == promoCode); 
     }
 }

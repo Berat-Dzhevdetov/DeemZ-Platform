@@ -67,7 +67,7 @@
                 .Where(x => x.PaidOn >= prevsDate && x.IsPaid)
                 .ToList()
                 .Where(x => !IsInRole(x.UserId, Role.AdminRoleName))
-                .Sum(x => x.Course.Price);
+                .Sum(x => x.Paid);
 
         private bool IsInRole(string uid,string role)
         {

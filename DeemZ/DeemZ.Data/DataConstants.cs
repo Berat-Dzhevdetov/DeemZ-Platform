@@ -43,6 +43,12 @@
             public const int MaxDescriptionLength = 20_000;
         }
 
+        public class PromoCode
+        {
+            public const int MinTextLength = 16;
+            public const int MaxTextLength = 16;
+        }
+
         public class Lecture
         {
             public const int MinNameLength = 5;
