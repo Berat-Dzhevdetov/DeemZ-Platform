@@ -29,6 +29,8 @@
     using DeemZ.Models.Shared;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using DeemZ.Services.PromoCodeServices;
+    using DeemZ.Models.ViewModels.PromoCodes;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]
@@ -44,8 +46,9 @@
         private readonly IMemoryCachingService cachingService;
         private readonly IEmailSenderService emailSenderService;
         private readonly IInformativeMessageService informativeMessageService;
+        private readonly IPromoCodeService promoCodeService;
 
-        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService, IEmailSenderService emailSenderService, IInformativeMessageService informativeMessageService)
+        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService, IEmailSenderService emailSenderService, IInformativeMessageService informativeMessageService, IPromoCodeService promoCodeService)
         {
             this.adminService = adminService;
             this.courseService = courseService;
@@ -57,6 +60,7 @@
             this.cachingService = cachingService;
             this.emailSenderService = emailSenderService;
             this.informativeMessageService = informativeMessageService;
+            this.promoCodeService = promoCodeService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
@@ -92,6 +96,30 @@
             foreach (var course in viewModel.Courses)
             {
                 course.SignedUpUsers = adminService.GetUserSignedUpForCourse(course.Id);
+            }
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
+        public IActionResult PromoCodes(string promoCode = null, int page = 1, int quantity = 20)
+        {
+            var viewModel = new AdministrationPromoCodesViewModel();
+
+            var allPages = (int)Math.Ceiling(promoCodeService.GetPromoCodesCount() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            if (promoCode != null)
+            {
+                viewModel.PromoCode = promoCode;
+                viewModel.PromoCodes = promoCodeService.GetPromoCodes<PromoCodeDetailsViewModel>(promoCode);
+            }
+            else
+            {
+                viewModel.PromoCode = null;
+                viewModel.PromoCodes = promoCodeService.GetPromoCodes <PromoCodeDetailsViewModel>(page, quantity);
             }
 
             viewModel = AdjustPages(viewModel, page, allPages);

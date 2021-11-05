@@ -12,18 +12,21 @@
     using DeemZ.Models.FormModels.Lecture;
     using DeemZ.Services.LectureServices;
     using DeemZ.Global.Extensions;
+    using DeemZ.Services.PromoCodeServices;
 
     public class CourseService : ICourseService
     {
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
         private readonly ILectureService lectureService;
+        private readonly IPromoCodeService promoCodeService;
 
-        public CourseService(DeemZDbContext context, IMapper mapper, ILectureService lectureService)
+        public CourseService(DeemZDbContext context, IMapper mapper, ILectureService lectureService, IPromoCodeService promoCodeService)
         {
             this.context = context;
             this.mapper = mapper;
             this.lectureService = lectureService;
+            this.promoCodeService = promoCodeService;
         }
 
         public int GetUserCredits(string id)
@@ -73,8 +76,7 @@
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
 
-        public PromoCode GetPromoCode(string promoCode)
-            => context.PromoCodes.FirstOrDefault(x => x.Text == promoCode);
+        
 
         public void SignUserToCourse(string uid, string cid, bool isPaid = true)
         {
@@ -95,7 +97,7 @@
 
         public void SignUserToCourse(string uid, string cid, SignUpCourseFormModel signUp)
         {
-            var promoCode = GetPromoCode(signUp.PromoCode);
+            var promoCode = promoCodeService.GetPromoCode(signUp.PromoCode);
 
             var toPay = GetCourseById<Course>(cid).Price;
 
@@ -112,7 +114,7 @@
                 PromoCodeId = promoCode.Id,
             };
 
-            promoCode.IsUsed = true;
+            promoCodeService.MarkPromoCodeAsUsed(promoCode.Id);
 
             context.UserCourses.Add(userCourse);
             context.SaveChanges();
@@ -210,9 +212,6 @@
                 && x.SignUpEndDate > DateTime.UtcNow)
             .Count();
 
-        public bool ValidatePromoCode(string uid, string promoCode)
-            => context.PromoCodes
-                .Any(x => x.ApplicationUserId == uid
-                        && !x.IsUsed && x.Text == promoCode); 
+        
     }
 }

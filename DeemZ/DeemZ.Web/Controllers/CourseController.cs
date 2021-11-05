@@ -12,22 +12,25 @@
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Services.UserServices;
     using DeemZ.Web.Filters;
+    using DeemZ.Data.Models;
     using DeemZ.Models;
+    using DeemZ.Services.PromoCodeServices;
 
     using static Global.WebConstants.Constant;
-    using DeemZ.Data.Models;
 
     public class CourseController : BaseController
     {
         private readonly ICourseService courseService;
         private readonly ILectureService lectureService;
         private readonly IUserService userService;
+        private readonly IPromoCodeService promoCodeService;
 
-        public CourseController(ICourseService courseService, ILectureService lectureService, IUserService userService)
+        public CourseController(ICourseService courseService, ILectureService lectureService, IUserService userService, IPromoCodeService promoCodeService)
         {
             this.courseService = courseService;
             this.lectureService = lectureService;
             this.userService = userService;
+            this.promoCodeService = promoCodeService;
         }
 
         [ClientRequired]
@@ -74,7 +77,7 @@
 
             if (isUserSignUpForThisCourse) return RedirectToAction(nameof(ViewCourse), new { courseId });
 
-            if (signUp.PromoCode.Length >= 1 || (string.IsNullOrEmpty(signUp.PromoCode.Trim()) && !courseService.ValidatePromoCode(userId, signUp.PromoCode)))
+            if (signUp.PromoCode.Length >= 1 || (string.IsNullOrEmpty(signUp.PromoCode.Trim()) && !promoCodeService.ValidatePromoCode(userId, signUp.PromoCode)))
                 ModelState.AddModelError(nameof(signUp.PromoCode), "The promo code is not valid. Please check it and try again");
 
             if (!ModelState.IsValid) return View(signUp);
@@ -206,11 +209,11 @@
         {
             var userId = User.GetId();
 
-            var isValid = promoCode.Length >= 1 && !string.IsNullOrEmpty(promoCode.Trim()) && courseService.ValidatePromoCode(userId, promoCode);
+            var isValid = promoCode.Length >= 1 && !string.IsNullOrEmpty(promoCode.Trim()) && promoCodeService.ValidatePromoCode(userId, promoCode);
 
             var price = courseService.GetCourseById<Course>(courseId).Price;
 
-            var promoCodeObj = courseService.GetPromoCode(promoCode);
+            var promoCodeObj = promoCodeService.GetPromoCode(promoCode);
 
             if (isValid)
             {

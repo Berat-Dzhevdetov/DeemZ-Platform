@@ -86,7 +86,7 @@ namespace DeemZ.Test.Services
 
             lectureService = new LectureService(context, mapper, resourceService);
 
-            courseService = new CourseService(context, mapper, lectureService);
+            courseService = new CourseService(context, mapper, lectureService, null);
 
             reportService = new ReportService(context, mapper);
             forumService = new ForumService(context, mapper);

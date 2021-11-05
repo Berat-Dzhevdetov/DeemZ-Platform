@@ -19,6 +19,7 @@
     using DeemZ.Services.CachingService;
     using DeemZ.Services.EmailSender;
     using DeemZ.Services.ChatMessageService;
+    using DeemZ.Services.PromoCodeServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -38,6 +39,7 @@
                 mc.AddProfile(new ExamProfile());
                 mc.AddProfile(new InformativeMessageProfile());
                 mc.AddProfile(new ChatMessagesProfile());
+                mc.AddProfile(new PromoCodeProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -64,6 +66,7 @@
             services.AddTransient<IMemoryCachingService, MemoryCachingService>();
             services.AddTransient<IEmailSenderService, EmailSenderService>();
             services.AddTransient<IChatMessageService, ChatMessageService>();
+            services.AddTransient<IPromoCodeService, PromoCodeService>();
         }
     }
 }

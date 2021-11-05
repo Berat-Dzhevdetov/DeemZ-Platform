@@ -37,6 +37,7 @@
             public const string ReportArea = "Report";
             public const string SurveyArea = "Survey";
             public const string InformativeArea = "Informative";
+            public const string PromoCodeArea = "PromoCode";
         }
     }
 }

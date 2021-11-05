@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Course;
 
     public interface ICourseService
@@ -20,13 +19,10 @@
         string CreateCourse(AddCourseFormModel course);
         void Edit(EditCourseFormModel course, string cid);
         void DeleteCourse(string cid);
-        PromoCode GetPromoCode(string promoCode);
         void CreateBasicsLectures(string cid, AddCourseFormModel course);
         IEnumerable<T> GetUserCourses<T>(int page = 1, int quantity = 20);
         IEnumerable<KeyValuePair<string,string>> GetCourseByIdAsKeyValuePair(DateTime prevDate);
         void DeleteUserFromCourse(string courseId, string userId);
-
         int UpCommingCoursesCount();
-        bool ValidatePromoCode(string uid, string promoCode);
     }
 }
