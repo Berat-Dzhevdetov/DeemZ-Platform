@@ -19,5 +19,6 @@
         T GetPromoCodeById<T>(string pcid);
         void EditPromoCode(string pcid, EditPromoCodeFormModel promoCode);
         void Delete(string pcid);
+        void DeleteAllExipiredCodes();
     }
 }

@@ -94,6 +94,13 @@
             return RedirectToAction(nameof(AdministrationController.PromoCodes), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
+        public IActionResult DeleteAllExpiredCodes()
+        {
+            promoCodeService.DeleteAllExipiredCodes();
+
+            return RedirectToAction(nameof(AdministrationController.PromoCodes), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+        }
+
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> GeneratePromoCodeText() =>
             Ok(await promoCodeService.GeneratePromoCodeText());

@@ -134,5 +134,14 @@
             context.PromoCodes.Remove(promoCodeToDel);
             context.SaveChanges();
         }
+
+        public void DeleteAllExipiredCodes()
+        {
+            var promoCodesToDel = context.PromoCodes.Where(x => x.ExpireOn < DateTime.UtcNow).ToList();
+
+            context.PromoCodes.RemoveRange(promoCodesToDel);
+
+            context.SaveChanges();
+        }
     }
 }
