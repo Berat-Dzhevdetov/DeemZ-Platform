@@ -14,9 +14,6 @@ export const environment = {
   AccessForbiddenMessage: 'ACCESS-FORBIDDEN',
   AccessDeniedImage:
     'https://images-na.ssl-images-amazon.com/images/I/511JzaWDULL.png',
-  userOptions: {
-    burgerState: false,
-    isWhiteTheme: false,
-    messageOrderState: 'ascending',
-  },
+  messageOrderAscending: 'ascending',
+  messageOrderDescending: 'descending',
 };

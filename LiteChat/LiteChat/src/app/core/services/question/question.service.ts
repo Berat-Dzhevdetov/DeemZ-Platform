@@ -99,19 +99,6 @@ export class QuestionService {
     return this.http.post<boolean>(environment.API_ENDPOINT, data, options);
   }
 
-  doMagic() {
-    this.subscriptions.push(
-      this.getMessages().subscribe((x) => {
-        var test = x.filter(
-          (y) => y.courseId == this.getCourseIdFromStorage()!
-        )[0];
-        this.likeMessage(test);
-        this.likeMessage(test);
-        this.subscriptions.pop();
-      })
-    );
-  }
-
   getCourseIdFromStorage() {
     return new URLSearchParams(window.location.search).get('courseId');
   }

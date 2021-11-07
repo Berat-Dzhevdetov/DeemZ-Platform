@@ -2,11 +2,11 @@
     <h4 class="mt-3 mb-2">Ask the speaker:</h4>
     <app-new-question></app-new-question>
     <h4 class="mt-4">Questions:</h4>
-    <!-- <mat-spinner class="spinner" *ngIf="messages.length == 0"></mat-spinner> -->
+    <mat-spinner class="spinner" *ngIf="messages.length == 0"></mat-spinner>
     <div *ngIf="messages.length > 0">
         <app-question *ngFor="let message of messages" [message]=message></app-question>
     </div>
-    <div *ngIf="messages.length == 0">
+    <!-- <div *ngIf="messages.length == 0">
         <h4>There aren't any messages yet!</h4>
-    </div>
+    </div> -->
 </div>

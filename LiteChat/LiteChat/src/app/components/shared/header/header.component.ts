@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 import { environment } from 'src/environments/environment';
+import { LocalStorage } from 'src/environments/LocalStorage';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -8,8 +9,11 @@ import { environment } from 'src/environments/environment';
 })
 export class HeaderComponent {
   userData: any;
-  constructor(public questionService: QuestionService) {
-    localStorage.clear();
+  constructor(
+    public questionService: QuestionService,
+    private localStorage: LocalStorage
+  ) {
+    localStorage.resetStorage();
     var querryParams = this.parseUrl();
 
     if (querryParams.length == 3) {
@@ -28,18 +32,18 @@ export class HeaderComponent {
 
   joinChat(courseId: string, applicationUserId: string) {
     this.questionService.connect(courseId, applicationUserId).subscribe((x) => {
-      var parsed = JSON.parse(atob(x as string));
+      var parsed = this.localStorage.Init(x as string);
       if (parsed != environment.AccessForbiddenMessage) {
         this.questionService.doesUserHaveAccess = true;
         this.userData = parsed;
-        localStorage.data = JSON.stringify(parsed);
       } else {
-        //alert('you are not allowed to join');
         this.questionService.doesUserHaveAccess = false;
       }
     });
   }
+
   showBurger() {
-    environment.userOptions.burgerState = !environment.userOptions.burgerState;
+    this.localStorage.userOptions.burgerState =
+      !this.localStorage.userOptions.burgerState;
   }
 }

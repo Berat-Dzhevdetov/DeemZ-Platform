@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { QuestionService } from './core/services/question/question.service';
-import { environment } from 'src/environments/environment';
+
+import { LocalStorage } from 'src/environments/LocalStorage';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,10 +9,13 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent {
   title = 'LiteChat';
-  constructor(private questionService: QuestionService) {}
+  constructor(
+    private questionService: QuestionService,
+    private localStorage: LocalStorage
+  ) {}
   isConnected: boolean = this.questionService.getCourseIdFromStorage() != null;
 
   isPopupShown(): boolean {
-    return environment.userOptions.burgerState;
+    return this.localStorage.userOptions.burgerState;
   }
 }

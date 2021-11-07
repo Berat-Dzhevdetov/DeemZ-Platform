@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from 'src/app/core/models/message';
 import { QuestionService } from 'src/app/core/services/question/question.service';
-import { environment } from 'src/environments/environment';
+
+import { LocalStorage } from 'src/environments/LocalStorage';
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
@@ -10,16 +11,17 @@ import { environment } from 'src/environments/environment';
 export class PopupComponent implements OnInit {
   selectedSort!: string;
 
-  constructor(private questionService: QuestionService) {}
+  constructor(private localStorage: LocalStorage) {}
 
   ngOnInit(): void {}
 
   getPopupState() {
-    return environment.userOptions.burgerState;
+    return this.localStorage.userOptions.burgerState;
   }
 
   closeBurger() {
-    environment.userOptions.burgerState = !environment.userOptions.burgerState;
+    this.localStorage.userOptions.burgerState =
+      !this.localStorage.userOptions.burgerState;
   }
 
   changeTheme(event: Event) {
@@ -28,16 +30,9 @@ export class PopupComponent implements OnInit {
 
   sortOptions() {
     if (this.selectedSort != '') {
-      environment.userOptions.messageOrderState = this.selectedSort;
+      this.localStorage.userOptions.messageOrderState = this.selectedSort;
+      //TODO: Rerender content component
     }
-
-    var message: Message;
-    // this.questionService.getMessages().subscribe((x) => {
-    //   message = x.filter(
-    //     (y) => y.courseId == this.questionService.getCourseIdFromStorage()!
-    //   )[0];
-    //   this.questionService.likeMessage(message);
-    // });
     this.closeBurger();
   }
 }

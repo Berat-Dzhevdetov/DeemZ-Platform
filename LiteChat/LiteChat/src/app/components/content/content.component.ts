@@ -1,13 +1,8 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 import { Message } from '../../core/models/message';
-import { environment } from 'src/environments/environment';
+
+import { LocalStorage } from 'src/environments/LocalStorage';
 @Component({
   selector: 'app-content',
   templateUrl: './content.component.html',
@@ -24,14 +19,19 @@ export class ContentComponent implements AfterViewInit {
     ascending: (a: Message, b: Message) =>
       Date.parse(a.sentOn) - Date.parse(b.sentOn),
   };
-  constructor(public questionService: QuestionService) {}
+  constructor(
+    public questionService: QuestionService,
+    private LocalStorage: LocalStorage
+  ) {}
 
   ngAfterViewInit(): void {
     this.questionService.getMessages().subscribe((x) => {
       this.messages = x
         .filter((y) => y.courseId == this.courseId)
         .sort(
-          (this.sortCriteria as any)[environment.userOptions.messageOrderState]
+          (this.sortCriteria as any)[
+            this.LocalStorage.userOptions.messageOrderState
+          ]
         );
     });
   }

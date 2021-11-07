@@ -1,6 +1,6 @@
 <div class="user-iteration" id="user-iteration">
     <div class="write-question-image">
-        <img class="smaller-image" src="https://i.ibb.co/tLxRnSs/test.jpg">
+        <img class="smaller-image" [src]=this.LocalStorage.data.ApplicationUserImageUrl>
     </div>
     <div class="ask-question-input-holder">
         <form #form='ngForm' ngForm method="post">
