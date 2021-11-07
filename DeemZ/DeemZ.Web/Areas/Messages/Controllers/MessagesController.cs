@@ -80,6 +80,9 @@
             return new JsonResult(messages);
         }
 
+        [HttpGet("IsUserAdmin/{userId}")]
+        public async Task<bool> IsUserAdmin(string userId) => await userService.IsInRoleAsync(userId, AdminRoleName);
+
         // POST api/<MessagesController>
         [HttpPost]
         public async Task<bool> Post([FromBody] JsonElement message)

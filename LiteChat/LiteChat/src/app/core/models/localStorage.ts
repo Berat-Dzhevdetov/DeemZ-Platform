@@ -1,5 +1,5 @@
 export interface LocalStorageData {
-  ApplicataionUserId: string;
+  ApplicationUserId: string;
   ApplicationUserImageUrl: string;
   UserName: string;
   CourseId: string;

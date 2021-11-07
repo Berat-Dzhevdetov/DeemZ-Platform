@@ -24,7 +24,6 @@ export class LocalStorage {
     let jsonObj = this.serializeJson(decryptedString);
 
     this.setData(jsonObj);
-    console.log(jsonObj);
     return jsonObj;
   }
 

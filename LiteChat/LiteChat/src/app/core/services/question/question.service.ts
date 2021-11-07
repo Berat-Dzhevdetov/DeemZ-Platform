@@ -93,6 +93,11 @@ export class QuestionService {
     return this.http.get<UserData>(point);
   }
 
+  isUserAdmin(applicationUserId: string) {
+    var point = `${environment.API_ENDPOINT}/IsUserAdmin/${applicationUserId}`;
+    return this.http.get<boolean>(point);
+  }
+
   canUserSendMessage(message: Message) {
     const options = { headers: { 'Content-Type': 'application/json' } };
     const data = JSON.stringify(message);
