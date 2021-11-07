@@ -216,9 +216,7 @@
             var promoCodeObj = promoCodeService.GetPromoCode(promoCode);
 
             if (isValid)
-            {
                 price -= promoCodeObj.DiscountPrice;
-            }
 
             return Json(new { isValid, price });
         }

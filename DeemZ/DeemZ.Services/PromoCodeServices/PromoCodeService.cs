@@ -11,7 +11,6 @@
     using DeemZ.Data.Models;
     using DeemZ.Global.Extensions;
     using DeemZ.Models.FormModels.PromoCode;
-    using DeemZ.Services.UserServices;
 
     using static DeemZ.Data.DataConstants.PromoCode;
 
@@ -89,7 +88,7 @@
         public bool ValidatePromoCode(string uid, string promoCode)
             => context.PromoCodes
                 .Any(x => x.ApplicationUserId == uid
-                        && !x.IsUsed && x.Text == promoCode);
+                        && !x.IsUsed && x.Text == promoCode && x.ExpireOn <= DateTime.UtcNow);
 
         public void AddPromoCode(AddPromoCodeFormModel promoCode)
         {
@@ -106,6 +105,33 @@
 
             context.PromoCodes.Add(newPromoCode);
 
+            context.SaveChanges();
+        }
+
+        public T GetPromoCodeById<T>(string pcid)
+            => context.PromoCodes
+                .Where(x => x.Id == pcid)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .FirstOrDefault();
+
+        public void EditPromoCode(string pcid, EditPromoCodeFormModel promoCode)
+        {
+            var promoCodeToEdit = context.PromoCodes.FirstOrDefault(x => x.Id == pcid);
+            var userId = context.Users.FirstOrDefault(x => x.UserName == promoCode.ApplicationUserUserName).Id;
+
+            promoCodeToEdit.Text = promoCode.Text;
+            promoCodeToEdit.DiscountPrice = promoCode.DiscountPrice;
+            promoCodeToEdit.ExpireOn = promoCode.ExpireOn.ToUniversalTime();
+            promoCodeToEdit.ApplicationUserId = userId;
+
+            context.SaveChanges();
+        }
+
+        public void Delete(string pcid)
+        {
+            var promoCodeToDel = context.PromoCodes.FirstOrDefault(x => x.Id == pcid);
+
+            context.PromoCodes.Remove(promoCodeToDel);
             context.SaveChanges();
         }
     }

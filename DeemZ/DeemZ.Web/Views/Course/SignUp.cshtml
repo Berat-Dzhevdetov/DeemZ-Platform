@@ -84,7 +84,7 @@
                             priceInformation.innerHTML = `<span class="text-success">Your discount code has been successfully applied</span>`;
                             priceInput.value = Number.parseFloat(result.price).toFixed(2);
                         } else if (result.isValid == false) {
-                            priceInformation.innerHTML = `<span class="text-danger">Your discount code is invalid. Possible reasons: non-existent; if you use your friend's discount code; has already been used</span>`;
+                            priceInformation.innerHTML = `<span class="text-danger">Your discount code is invalid. Possible reasons: non-existent; expired; if you use your friend's discount code; has already been used</span>`;
                         }
                     },
                     error: function (err) {

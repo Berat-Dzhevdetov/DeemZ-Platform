@@ -6,10 +6,11 @@
     using DeemZ.Services.PromoCodeServices;
     using DeemZ.Models.FormModels.PromoCode;
     using DeemZ.Services.UserServices;
-
-    using static DeemZ.Global.WebConstants.Constant;
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Web.Infrastructure;
+    using DeemZ.Web.Filters;
+
+    using static DeemZ.Global.WebConstants.Constant;
 
     [Area(AreaName.PromoCodeArea)]
     [Authorize(Roles = Role.AdminRoleName)]
@@ -52,6 +53,45 @@
                 return Redirect(returnUrl);
             else
                 return RedirectToAction(nameof(AdministrationController.PromoCodes), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Edit(string promoCodeId)
+        {
+            var promoCode = promoCodeService.GetPromoCodeById<EditPromoCodeFormModel>(promoCodeId);
+            promoCode.ExpireOn = promoCode.ExpireOn.ToLocalTime();
+            return View(promoCode);
+        }
+
+        [ClientRequired]
+        [IfExists]
+        [HttpPost]
+        public IActionResult Edit(string promoCodeId, EditPromoCodeFormModel promoCode)
+        {
+            if (!userService.GetUserByUserName(promoCode.ApplicationUserUserName))
+                ModelState.AddModelError(nameof(promoCode.ApplicationUserUserName), "Given user name is invalid.");
+
+            var promoCodeDb = promoCodeService.GetPromoCode(promoCode.Text);
+
+            if (promoCodeService.IfExists(promoCode.Text) && promoCode.Text != promoCode.Text)
+                ModelState.AddModelError(nameof(promoCode.Text), "Sorry but the given text already exists. Try again with the button.");
+
+            if (!ModelState.IsValid)
+                return View(promoCode);
+
+            promoCodeService.EditPromoCode(promoCodeId, promoCode);
+
+            return RedirectToAction(nameof(AdministrationController.PromoCodes), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+        }
+
+        [ClientRequired]
+        [IfExists]
+        public IActionResult Delete(string promoCodeId)
+        {
+            promoCodeService.Delete(promoCodeId);
+
+            return RedirectToAction(nameof(AdministrationController.PromoCodes), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
         [IgnoreAntiforgeryToken]
