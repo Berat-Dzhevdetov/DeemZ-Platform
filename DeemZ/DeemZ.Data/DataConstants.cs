@@ -45,8 +45,9 @@
 
         public class PromoCode
         {
-            public const int MinTextLength = 16;
-            public const int MaxTextLength = 16;
+            public const int TextLength = 16;
+            public const int MinDiscountPrice = 20;
+            public const int MaxDiscountPrice = 150;
         }
 
         public class Lecture

@@ -7,10 +7,10 @@
     public class PromoCode : BaseModel
     {
         [Required]
-        [MaxLength(MaxTextLength)]
+        [MaxLength(TextLength)]
         public string Text { get; set; }
         [Required]
-        [Range(20, 150)]
+        [Range(MinDiscountPrice, MaxDiscountPrice)]
         public decimal DiscountPrice { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }

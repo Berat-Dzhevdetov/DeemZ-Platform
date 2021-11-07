@@ -1,7 +1,9 @@
 ﻿namespace DeemZ.Services.PromoCodeServices
 {
-    using DeemZ.Data.Models;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using DeemZ.Data.Models;
+    using DeemZ.Models.FormModels.PromoCode;
 
     public interface IPromoCodeService
     {
@@ -11,5 +13,8 @@
         int GetPromoCodesCount();
         IEnumerable<T> GetPromoCodes<T>(string promoCode);
         IEnumerable<T> GetPromoCodes<T>(int page = 1 , int quantity = 20);
+        Task<string> GeneratePromoCodeText();
+        bool IfExists(string promoCode);
+        void AddPromoCode(AddPromoCodeFormModel promoCode);
     }
 }

@@ -17,7 +17,7 @@
         public string CourseName { get; set; }
         public decimal Price { get; set; }
         [Display(Name ="Promo code")]
-        [StringLength(MaxTextLength, MinimumLength = MinTextLength)]
+        [StringLength(TextLength, MinimumLength = TextLength)]
         public string PromoCode { get; set; }
     }
 }

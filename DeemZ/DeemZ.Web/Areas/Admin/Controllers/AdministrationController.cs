@@ -27,10 +27,10 @@
     using DeemZ.Services.InformativeMessageServices;
     using DeemZ.Models.ViewModels.InformativeMessages;
     using DeemZ.Models.Shared;
-
-    using static DeemZ.Global.WebConstants.Constant;
     using DeemZ.Services.PromoCodeServices;
     using DeemZ.Models.ViewModels.PromoCodes;
+
+    using static DeemZ.Global.WebConstants.Constant;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]

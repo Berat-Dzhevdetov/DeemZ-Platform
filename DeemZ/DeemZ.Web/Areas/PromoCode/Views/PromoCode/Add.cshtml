@@ -1,8 +1,8 @@
 ﻿@{
     Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
-    ViewData["Title"] = "Add Informative Messages Heading";
+    ViewData["Title"] = "Add Promo code";
 }
-@model DeemZ.Models.FormModels.InformativeMessages.InformativeMessageHeadingFormModel
+@model DeemZ.Models.FormModels.PromoCode.AddPromoCodeFormModel
 
 <div class="container-fluid">
     <form method="post" class="mt-4">
@@ -10,9 +10,25 @@
             <h2 class="text-light">@ViewData["Title"]</h2>
         </div>
         <div class="form-group">
-            <label class="text-light" asp-for="Title"></label>
-            <input placeholder="Important information..." class="form-control" asp-for="Title" />
-            <span asp-validation-for="Title" class="small text-danger"></span>
+            <label class="text-light" asp-for="Text"></label>
+            <input class="form-control" asp-for="Text" />
+            <input id="generatePromoCode" class="form-control btn-success" value="Generate Promo code" type="submit" />
+            <span asp-validation-for="Text" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="DiscountPrice"></label>
+            <input class="form-control" asp-for="DiscountPrice" />
+            <span asp-validation-for="DiscountPrice" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="UserName"></label>
+            <input class="form-control" asp-for="UserName" />
+            <span asp-validation-for="UserName" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="ExpireOn"></label>
+            <input class="form-control" asp-for="ExpireOn" />
+            <span asp-validation-for="ExpireOn" class="small text-danger"></span>
         </div>
         <div class="form-group text-center">
             <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
@@ -22,4 +38,23 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        const generatePromoCodeInput = document.getElementById('generatePromoCode');
+        const textInput = document.getElementById('Text');
+
+        generatePromoCodeInput.addEventListener('click', (e) => {
+            e.preventDefault();
+            $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GeneratePromoCodeText", "PromoCode")',
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (result) {
+                        textInput.value = result;
+                    },
+                    error: function (err) {
+                        console.log(err.status);
+                    }
+                });
+        })
+    </script>
 }

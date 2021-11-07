@@ -8,7 +8,8 @@
         public string CourseId { get; set; }
         public string UserName { get; set; }
         public string CourseName { get; set; }
-        public bool IsPaid { get; set; }
         public DateTime PaidOn { get; set; }
+        public string PromoCodeText { get; set; }
+        public decimal Paid { get; set; }
     }
 }

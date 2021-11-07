@@ -5,7 +5,8 @@
         <tr>
             <th scope="col">Username</th>
             <th scope="col">Course Name</th>
-            <th scope="col">Is Paid</th>
+            <th scope="col">Paid</th>
+            <th scope="col">PromoCode Used</th>
             <th scope="col">Paid On</th>
             <th scope="col">Action</th>
         </tr>
@@ -13,10 +14,12 @@
     <tbody>
         @foreach (var userCourse in Model.OrderByDescending(x => x.PaidOn))
         {
+            var promoCode = userCourse.PromoCodeText == null ? "-" : userCourse.PromoCodeText;
             <tr>
                 <td>@userCourse.UserName</td>
                 <td>@userCourse.CourseName</td>
-                <td>@userCourse.IsPaid</td>
+                <td>@userCourse.Paid.ToString("F2")</td>
+                <td>@promoCode</td>
                 <td>@userCourse.PaidOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
                 <td>
                     <div class="btn-group">
