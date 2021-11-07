@@ -1,3 +1,5 @@
-<div class="footer">
-    <p>LiteChat is an <a href="https://github.com/Berat-Dzhevdetov/DeemZ" class="link">open source</a> system &copy; 2021 - {{year}}</p>
+<div class="footer" [class.dark-footer]=!this.LocalStorage.userOptions.isWhiteTheme>
+    <p>LiteChat is an <a href="https://github.com/Berat-Dzhevdetov/DeemZ" class="link"
+            [class.dark-footer-a]=!this.LocalStorage.userOptions.isWhiteTheme>open source</a> system &copy;
+        2021 - {{year}}</p>
 </div>

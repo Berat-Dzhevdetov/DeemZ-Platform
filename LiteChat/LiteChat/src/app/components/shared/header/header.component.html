@@ -4,11 +4,12 @@
         src="https://images-na.ssl-images-amazon.com/images/I/511JzaWDULL.png">
 </div>
 
-<div *ngIf="this.userData" class="header">
+<div *ngIf="this.userData" class="header" [class.dark-header]=!this.localStorage.userOptions.isWhiteTheme>
     <a>
         <i id="burger" class="fas fa-bars" (click)=showBurger()></i>
     </a>
-    <a href="https://localhost:5001/Course/ViewCourse?courseId={{userData.CourseId}}">
+    <a class="course-link" href="https://localhost:5001/Course/ViewCourse?courseId={{userData.CourseId}}"
+        [class.dark-header-a]=!this.localStorage.userOptions.isWhiteTheme>
         {{userData.CourseName}}
     </a>
     <div class="header-right">

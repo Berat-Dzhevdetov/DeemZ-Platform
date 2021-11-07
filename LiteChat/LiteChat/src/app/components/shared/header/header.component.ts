@@ -11,7 +11,7 @@ export class HeaderComponent {
   userData: any;
   constructor(
     public questionService: QuestionService,
-    private localStorage: LocalStorage
+    public localStorage: LocalStorage
   ) {
     localStorage.resetStorage();
     var querryParams = this.parseUrl();

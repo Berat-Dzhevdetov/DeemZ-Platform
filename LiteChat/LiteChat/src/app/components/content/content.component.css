@@ -1,18 +1,22 @@
-.mt-4{
-    margin-top:15px;   
+.messages-holder {
+  min-height: 100vh;
+  margin-bottom: 0px;
 }
 
-.mt-3{
-    margin-top: 10px;
+.mt-4 {
+  margin-top: 15px;
 }
 
-.mb-2{
-    margin-bottom: 5px;
+.mt-3 {
+  margin-top: 10px;
 }
 
+.mb-2 {
+  margin-bottom: 5px;
+}
 
 @media only screen and (max-width: 880px) {
-    .messages-holder{
-        width: 99%;
-    }
+  .messages-holder {
+    width: 99%;
+  }
 }

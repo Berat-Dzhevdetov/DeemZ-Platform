@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'LiteChat';
   constructor(
     private questionService: QuestionService,
-    private localStorage: LocalStorage
+    public localStorage: LocalStorage
   ) {}
   isConnected: boolean = this.questionService.getCourseIdFromStorage() != null;
 

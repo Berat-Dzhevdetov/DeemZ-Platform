@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Message } from 'src/app/core/models/message';
-import { QuestionService } from 'src/app/core/services/question/question.service';
 
 import { LocalStorage } from 'src/environments/LocalStorage';
 @Component({
@@ -11,7 +9,7 @@ import { LocalStorage } from 'src/environments/LocalStorage';
 export class PopupComponent implements OnInit {
   selectedSort!: string;
 
-  constructor(private localStorage: LocalStorage) {}
+  constructor(public localStorage: LocalStorage) {}
 
   ngOnInit(): void {}
 
@@ -24,8 +22,9 @@ export class PopupComponent implements OnInit {
       !this.localStorage.userOptions.burgerState;
   }
 
-  changeTheme(event: Event) {
-    console.log('changeTheme', event);
+  changeTheme() {
+    this.localStorage.userOptions.isWhiteTheme =
+      !this.localStorage.userOptions.isWhiteTheme;
   }
 
   sortOptions() {

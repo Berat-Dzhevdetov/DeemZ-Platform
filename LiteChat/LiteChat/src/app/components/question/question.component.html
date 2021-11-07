@@ -1,4 +1,4 @@
-<div class="message">
+<div class="message" [class.dark-question]=!this.localStorage.userOptions.isWhiteTheme>
     <div class="image">
         <img class="small-image" [src]=message.applicationUserImgUrl alt="">
     </div>

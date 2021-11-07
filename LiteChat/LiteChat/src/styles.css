@@ -38,15 +38,47 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/* 
-DARK THEME
-body
-  background-color: #161616;
-  color: white;
+.dark-body {
+  background-color: #161616 !important;
+  color: white !important;
+}
 
-  question
-   background: #262626;
+.dark-question {
+  background: #262626 !important;
+}
 
-   header and footer
-   background-color:#242526;
-*/
+.dark-header {
+  background-color: #242526 !important;
+  color: white !important;
+}
+
+.dark-header-a,
+.dark-icon {
+  text-decoration: none;
+  color: white !important;
+}
+
+.dark-footer {
+  background-color: #242526 !important;
+  color: white !important;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

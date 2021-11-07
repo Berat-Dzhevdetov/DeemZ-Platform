@@ -12,7 +12,7 @@ export class QuestionComponent {
   isAdmin: boolean = this.localStorage.data.IsAdmin;
   constructor(
     private questionService: QuestionService,
-    private localStorage: LocalStorage
+    public localStorage: LocalStorage
   ) {}
 
   deleteMessage(message: Message) {

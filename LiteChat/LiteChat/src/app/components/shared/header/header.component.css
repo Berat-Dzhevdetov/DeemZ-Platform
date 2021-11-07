@@ -7,7 +7,7 @@
 .header a,
 .header .nav-link {
   float: left;
-  color: black;
+  /* color: black; */
   text-align: center;
   padding: 12px;
   text-decoration: none;
@@ -49,6 +49,10 @@
 .access-denied-image {
   height: 100px;
   margin-top: 25px;
+}
+
+.course-link {
+  color: inherit;
 }
 
 @media only screen and (max-width: 880px) {

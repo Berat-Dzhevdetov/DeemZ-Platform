@@ -1,4 +1,4 @@
-<div class="user-iteration" id="user-iteration">
+<div class="user-iteration" id="user-iteration" [class.dark-question]=!this.LocalStorage.userOptions.isWhiteTheme>
     <div class="write-question-image">
         <img class="smaller-image" [src]=this.LocalStorage.data.ApplicationUserImageUrl>
     </div>
@@ -14,7 +14,7 @@
 
             <button class="postBtn" type="button" (click)="postQuestion(form)" [disabled]="
             questionInput.errors?.required || !this.questionService.doesUserHaveAccess">
-                <i class="fas fa-paper-plane"></i>
+                <i class="fas fa-paper-plane" [class.dark-icon]=!this.LocalStorage.userOptions.isWhiteTheme></i>
             </button>
         </form>
     </div>
