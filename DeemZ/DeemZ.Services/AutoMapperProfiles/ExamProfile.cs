@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Services.AutoMapperProfiles
 {
     using AutoMapper;
+    using System.Linq;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Models.ViewModels.Exams;
@@ -44,6 +45,8 @@
             CreateMap<Question, ViewExamQuestionViewModel>();
 
             CreateMap<Answer, ViewExamQuestionAnswersViewModel>();
+            CreateMap<ApplicationUserExam, UserExamViewModel>()
+                .ForMember(x => x.MaxPoints, o => o.MapFrom(src => src.Exam.Questions.Sum(x => x.Points)));
         }
     }
 }

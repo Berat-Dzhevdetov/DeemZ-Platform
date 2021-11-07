@@ -1,5 +1,6 @@
 ﻿namespace DeemZ.Services.ExamServices
 {
+    using System;
     using System.Collections.Generic;
     using DeemZ.Models.FormModels.Exam;
 
@@ -17,5 +18,8 @@
         int SaveUserExam(string uid, int points, string eid);
         string GetCourseIdByExamId(string eid);
         IDictionary<string, string> GetUserExamAnswers(string eid, string uid);
+        IDictionary<string, string> GetExamsAsKeyValuePair(DateTime prevDate);
+        IEnumerable<T> GetUserExams<T>(int page = 1, int quantity = 20);
+        IEnumerable<T> GetUserExams<T>(string eid, int page = 1, int quantity = 20);
     }
 }

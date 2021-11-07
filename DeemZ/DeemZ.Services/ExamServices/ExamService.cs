@@ -9,6 +9,7 @@
     using DeemZ.Data;
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Data.Models;
+    using DeemZ.Global.Extensions;
 
     public class ExamService : IExamService
     {
@@ -164,7 +165,8 @@
                 ApplicationUserId = uid,
                 EarnedPoints = points,
                 ExamId = eid,
-                EarnedCredits = creditsEarned
+                EarnedCredits = creditsEarned,
+                HandOverOn = DateTime.UtcNow
             };
 
             context.ApplicationUserExams.Add(userExam);
@@ -182,5 +184,28 @@
                 .ThenInclude(x => x.Question)
                 .Where(x => x.Answer.Question.ExamId == eid && x.UserId == uid)
                 .ToDictionary(x => x.Answer.QuestionId, x => x.AnswerId);
+
+        public IDictionary<string, string> GetExamsAsKeyValuePair(DateTime prevDate)
+            => context.Exams
+                .Where(x => x.EndDate > prevDate)
+                .ToDictionary(x => x.Id, x => x.Name);
+
+        public IEnumerable<T> GetUserExams<T>(int page = 1, int quantity = 20)
+            => context.ApplicationUserExams
+                .Where(x => x.HandOverOn > DateTime.UtcNow.AddDays(-30))
+                .OrderByDescending(x => x.EarnedPoints)
+                .ThenBy(x => x.HandOverOn)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .Paging(page, quantity)
+                .ToList();
+
+        public IEnumerable<T> GetUserExams<T>(string eid, int page = 1, int quantity = 20)
+        => context.ApplicationUserExams
+                .Where(x => x.HandOverOn > DateTime.UtcNow.AddDays(-30) && x.ExamId == eid)
+                .OrderByDescending(x => x.EarnedPoints)
+                .ThenBy(x => x.HandOverOn)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .Paging(page, quantity)
+                .ToList();
     }
 }

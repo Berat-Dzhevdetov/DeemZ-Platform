@@ -272,6 +272,31 @@
             return View(viewModel);
         }
 
+        public IActionResult UserExams(AdministrationUserExamViewModel viewModel, int page = 1, int quantity = 20)
+        {
+            int allPages = 0;
+            var prevDate = DateTime.UtcNow.AddDays(-30);
+
+            viewModel.Exams = examService.GetExamsAsKeyValuePair(prevDate);
+
+            if (string.IsNullOrEmpty(viewModel.ExamId))
+            {
+                viewModel.UserExams = examService.GetUserExams<UserExamViewModel>(page, quantity);
+                allPages = (int)Math.Ceiling(viewModel.UserExams.Count() / (quantity * 1.0));
+            }
+            else
+            {
+                viewModel.UserExams = examService.GetUserExams<UserExamViewModel>(viewModel.ExamId, page, quantity);
+                allPages = (int)Math.Ceiling(viewModel.UserExams.Count() / (quantity * 1.0));
+            }
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
         public IActionResult InformativeMessagesHeadings(int page = 1, int quantity = 20)
         {
             var viewModel = new AdministrationInformativeMessagesHeadingViewModel

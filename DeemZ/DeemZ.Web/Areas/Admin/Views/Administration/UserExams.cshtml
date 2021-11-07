@@ -1,0 +1,83 @@
+﻿@model DeemZ.Models.ViewModels.Administration.AdministrationUserExamViewModel
+@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "User Exams";
+}
+
+<div class="container-fluid">
+    <form method="get" class="mt-3">
+        <div class="form-group">
+            <label class="text-light" asp-for="ExamId"></label>
+            <select class="form-control" asp-for="ExamId">
+                @foreach (var (key, value) in Model.Exams)
+                {
+                    <option value="@key">@value</option>
+                }
+            </select>
+            <span asp-validation-for="ExamId" class="small text-danger"></span>
+        </div>
+        <div class="text-center">
+            <input class="btn btn-info" type="submit" value="Select" />
+        </div>
+    </form>
+    <table class="table table-striped table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">UserName</th>
+                <th scope="col">Earned Credits</th>
+                <th scope="col">Earned Points</th>
+                <th scope="col">MaxPoints</th>
+                <th scope="col">Hand Over On</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var userExam in Model.UserExams)
+            {
+                <tr>
+                    <td>@userExam.ApplicationUserUserName</td>
+                    <td>@userExam.EarnedCredits</td>
+                    <td>@userExam.EarnedPoints</td>
+                    <td>@userExam.MaxPoints</td>
+                    <td>@userExam.HandOverOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="PromoCode" asp-controller="PromoCode" asp-action="Add" asp-route-userName="@userExam.ApplicationUserUserName">Give PromoCode</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="PromoCodes" asp-route-examId="@Model.ExamId" asp-route-page="@Model.PreviousPage">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="PromoCodes" asp-route-examId="@Model.ExamId" asp-route-page="@i">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="PromoCodes" asp-route-examId="@Model.ExamId" asp-route-page="@Model.NextPage">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
+</div>
