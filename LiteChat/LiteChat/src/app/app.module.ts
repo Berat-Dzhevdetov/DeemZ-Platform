@@ -26,6 +26,7 @@ import { DateTimeFormatterPipe } from './components/shared/pipes/date-time-forma
 import { ShortenTextPipe } from './components/shared/pipes/shorten-text.pipe';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { environment } from 'src/environments/environment';
 
@@ -51,8 +52,9 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    MatProgressSpinnerModule,
     FormsModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
   ],
   providers: [QuestionService, LocalStorage],
   bootstrap: [AppComponent],

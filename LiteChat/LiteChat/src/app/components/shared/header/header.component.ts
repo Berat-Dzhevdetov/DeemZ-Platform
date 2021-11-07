@@ -9,6 +9,7 @@ import { LocalStorage } from 'src/environments/LocalStorage';
 })
 export class HeaderComponent {
   userData: any;
+  isStatusDeleting: boolean = false;
   constructor(
     public questionService: QuestionService,
     public localStorage: LocalStorage

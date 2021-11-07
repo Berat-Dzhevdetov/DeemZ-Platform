@@ -16,4 +16,6 @@ export const environment = {
     'https://images-na.ssl-images-amazon.com/images/I/511JzaWDULL.png',
   messageOrderAscending: 'ascending',
   messageOrderDescending: 'descending',
+  progressBarMode: 'buffer',
+  progressBarScheme: 'warn',
 };

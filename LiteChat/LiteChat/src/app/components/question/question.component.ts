@@ -16,13 +16,12 @@ export class QuestionComponent {
   ) {}
 
   deleteMessage(message: Message) {
-    if (this.isAdmin) {
+    if (this.localStorage.data.IsAdmin) {
       this.questionService
         .isUserAdmin(this.localStorage.data.ApplicationUserId)
         .subscribe((isAdmin) => {
           if (isAdmin) {
-            if (confirm('Are you sure you want to delete this question?'))
-              this.questionService.deleteMessage(message);
+            this.questionService.deleteMessage(message);
           }
         });
     }

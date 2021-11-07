@@ -7,6 +7,8 @@ import { environment } from '../../../../environments/environment';
 import { Message } from '../../models/message';
 import { UserData } from '../../models/userData';
 
+import { LocalStorage } from 'src/environments/LocalStorage';
+
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -20,9 +22,13 @@ export class QuestionService {
   chatMesasges!: Observable<Message[]>;
   doesUserHaveAccess: boolean = false;
 
-  private subscriptions: Array<Subscription> = [];
+  subscriptions: Subscription[] = [];
 
-  constructor(private http: HttpClient, public afs: AngularFirestore) {
+  constructor(
+    private http: HttpClient,
+    public afs: AngularFirestore,
+    private localStorage: LocalStorage
+  ) {
     this.messagesCollection = this.afs.collection('messages');
 
     this.loadMessages();
@@ -70,6 +76,20 @@ export class QuestionService {
     this.chatMessageDoc.delete();
   }
 
+  deleteMessageById(id: string) {
+    this.chatMessageDoc = this.afs.doc(`messages/${id}`);
+    this.chatMessageDoc.delete();
+  }
+
+  delelteMessagesByIds(ids: string[]) {
+    ids.forEach((x) => {
+      console.log('deleting message with id ', x);
+      this.chatMessageDoc = this.afs.doc(`messages/${x}`);
+      this.chatMessageDoc.delete();
+    });
+    this.subscriptions = [];
+  }
+
   likeMessage(message: Message) {
     var userId = this.getUserIdFromStorage()!;
 
@@ -102,6 +122,12 @@ export class QuestionService {
     const options = { headers: { 'Content-Type': 'application/json' } };
     const data = JSON.stringify(message);
     return this.http.post<boolean>(environment.API_ENDPOINT, data, options);
+  }
+
+  purgeCourseMessages() {
+    this.chatMesasges.subscribe((records) => {
+      records.forEach((record) => this.deleteMessage(record));
+    });
   }
 
   getCourseIdFromStorage() {

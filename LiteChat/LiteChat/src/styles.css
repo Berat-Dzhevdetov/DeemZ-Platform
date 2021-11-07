@@ -46,7 +46,9 @@ body {
 .dark-question {
   background: #262626 !important;
 }
-
+.dark-question textarea {
+  color: white !important;
+}
 .dark-header {
   background-color: #242526 !important;
   color: white !important;

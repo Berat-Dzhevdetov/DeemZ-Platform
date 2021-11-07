@@ -24,7 +24,7 @@
 
 .header a:hover {
   background-color: #ddd;
-  color: black;
+  color: black !important;
 }
 
 .header a.active {
