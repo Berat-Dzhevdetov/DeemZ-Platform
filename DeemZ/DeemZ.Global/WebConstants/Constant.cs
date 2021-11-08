@@ -13,6 +13,12 @@
             public const string AccessForbiddenMessage = "ACCESS-FORBIDDEN";
         }
 
+        public static class PromoCodes
+        {
+            public const string EmailSubject = "You have won a promo code!";
+            public const string EmailContent = "Hello Dear <strong>{0}</strong>,<br> You have just won a promo code from us for {1}. The promo code is worth  <strong>${2}</strong>. You can use it when you sign up for a new course until <strong>{3}</strong>. The code is <strong>'{4}'</strong>";
+        }
+
         public static class Role
         {
             public const string AdminRoleName = "Administrator";

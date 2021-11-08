@@ -15,7 +15,7 @@
         IEnumerable<T> GetPromoCodes<T>(int page = 1 , int quantity = 20);
         Task<string> GeneratePromoCodeText();
         bool IfExists(string promoCode);
-        void AddPromoCode(AddPromoCodeFormModel promoCode);
+        Task<string> AddPromoCode(AddPromoCodeFormModel promoCode);
         T GetPromoCodeById<T>(string pcid);
         void EditPromoCode(string pcid, EditPromoCodeFormModel promoCode);
         void Delete(string pcid);

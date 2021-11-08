@@ -12,18 +12,22 @@
     using DeemZ.Global.Extensions;
     using DeemZ.Models.FormModels.PromoCode;
 
+    using DeemZ.Services.EmailSender;
     using static DeemZ.Data.DataConstants.PromoCode;
+    using static DeemZ.Global.WebConstants.Constant;
 
     public class PromoCodeService : IPromoCodeService
     {
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
         private readonly Random random;
+        private readonly IEmailSenderService emailSender;
 
-        public PromoCodeService(DeemZDbContext context, IMapper mapper)
+        public PromoCodeService(DeemZDbContext context, IMapper mapper, IEmailSenderService emailSender)
         {
             this.context = context;
             this.mapper = mapper;
+            this.emailSender = emailSender;
             this.random = new Random();
         }
 
@@ -90,22 +94,30 @@
                 .Any(x => x.ApplicationUserId == uid
                         && !x.IsUsed && x.Text == promoCode && x.ExpireOn <= DateTime.UtcNow);
 
-        public void AddPromoCode(AddPromoCodeFormModel promoCode)
+        public async Task<string> AddPromoCode(AddPromoCodeFormModel promoCode)
         {
-            var userId = context.Users.FirstOrDefault(x => x.UserName == promoCode.UserName).Id;
-            
+            var user = context.Users.FirstOrDefault(x => x.UserName == promoCode.UserName);
+
             var newPromoCode = new PromoCode()
             {
                 Text = promoCode.Text,
                 DiscountPrice = promoCode.DiscountPrice,
                 ExpireOn = promoCode.ExpireOn.ToUniversalTime(),
                 IsUsed = false,
-                ApplicationUserId = userId
+                ApplicationUserId = user.Id
             };
 
-            context.PromoCodes.Add(newPromoCode);
+            context.PromoCodes.Add(newPromoCode);        
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
+
+            //Notify User by email
+            var occasionForWininng = "being the first to finish an exam with the highest score";
+            await emailSender
+                .SendEmailAsync(user.Email, PromoCodes.EmailSubject,
+                string.Format(PromoCodes.EmailContent, user.UserName, occasionForWininng, promoCode.DiscountPrice,promoCode.ExpireOn.ToString(DateTimeFormat),promoCode.Text));
+
+            return newPromoCode.Text;
         }
 
         public T GetPromoCodeById<T>(string pcid)

@@ -11,6 +11,7 @@
     using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using DeemZ.Services.EmailSender;
 
     [Area(AreaName.PromoCodeArea)]
     [Authorize(Roles = Role.AdminRoleName)]
@@ -36,7 +37,7 @@
         }
 
         [HttpPost]
-        public IActionResult Add(AddPromoCodeFormModel promoCode, string returnUrl = null)
+        public async Task<IActionResult> Add(AddPromoCodeFormModel promoCode, string returnUrl = null)
         {
             if (!userService.GetUserByUserName(promoCode.UserName))
                 ModelState.AddModelError(nameof(promoCode.UserName), "Given user name is invalid.");
@@ -47,7 +48,7 @@
             if (!ModelState.IsValid)
                 return View(promoCode);
 
-            promoCodeService.AddPromoCode(promoCode);
+            await promoCodeService.AddPromoCode(promoCode);
 
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
