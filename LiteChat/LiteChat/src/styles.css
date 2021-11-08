@@ -54,6 +54,10 @@ body {
   color: white !important;
 }
 
+.dark-replies {
+  background-color: #181818 !important;
+}
+
 .dark-header-a,
 .dark-icon {
   text-decoration: none;
@@ -83,4 +87,8 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.over-flow-hidden {
+  overflow-y: hidden;
 }

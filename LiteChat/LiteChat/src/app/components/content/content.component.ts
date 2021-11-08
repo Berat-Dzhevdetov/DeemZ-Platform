@@ -17,6 +17,7 @@ export class ContentComponent implements AfterViewInit {
   messages: Message[] = [];
   courseId: string = this.questionService.getCourseIdFromStorage()!;
   showBurger: boolean = false;
+  isLoading: boolean = true;
   isStatusDeleting: boolean = false;
 
   color: ThemePalette = environment.progressBarScheme as any;
@@ -44,6 +45,7 @@ export class ContentComponent implements AfterViewInit {
             this.LocalStorage.userOptions.messageOrderState
           ]
         );
+      this.isLoading = false;
     });
   }
 

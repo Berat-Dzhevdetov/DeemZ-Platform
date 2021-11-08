@@ -34,12 +34,11 @@
 
 .modal {
   background-color: #f1f1f1;
-  width: 80%;
+  width: 50%;
   max-width: 100%;
   padding: 30px 50px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-align: center;
 }
 
 dl.table-display {
@@ -127,4 +126,20 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.replies-holder {
+  max-height: 270px;
+  overflow-y: auto;
+}
+
+.new-reply {
+  margin-top: 10px;
+}
+
+@media only screen and (max-width: 880px) {
+  .modal {
+    width: 99%;
+    padding: 10px 20px;
+  }
 }

@@ -18,6 +18,7 @@ export class PopupComponent implements OnInit {
   }
 
   closeBurger() {
+    document.body.classList.remove('over-flow-hidden');
     this.localStorage.userOptions.burgerState =
       !this.localStorage.userOptions.burgerState;
   }

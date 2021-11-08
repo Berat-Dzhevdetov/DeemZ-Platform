@@ -21,6 +21,7 @@ export class RepliesComponent implements OnInit {
   }
 
   closeReplies() {
+    document.body.classList.remove('over-flow-hidden');
     this.localStorage.userOptions.repliesState =
       !this.localStorage.userOptions.repliesState;
   }

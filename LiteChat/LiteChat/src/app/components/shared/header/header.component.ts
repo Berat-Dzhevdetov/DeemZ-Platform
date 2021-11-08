@@ -44,6 +44,7 @@ export class HeaderComponent {
   }
 
   showBurger() {
+    document.body.classList.add('over-flow-hidden');
     this.localStorage.userOptions.burgerState =
       !this.localStorage.userOptions.burgerState;
   }

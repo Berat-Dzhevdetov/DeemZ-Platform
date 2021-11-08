@@ -33,6 +33,7 @@ export class QuestionComponent {
   }
 
   openReplies() {
+    document.body.classList.add('over-flow-hidden');
     this.localStorage.userOptions.replyQuestion = this.message;
     this.localStorage.userOptions.repliesState =
       !this.localStorage.userOptions.repliesState;
