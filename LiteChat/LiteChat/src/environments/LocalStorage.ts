@@ -7,6 +7,8 @@ export class LocalStorage {
 
   userOptions = {
     burgerState: false,
+    repliesState: false,
+    replyQuestion: {},
     isWhiteTheme: false,
     messageOrderState: environment.messageOrderDescending,
   };

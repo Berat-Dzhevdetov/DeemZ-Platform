@@ -6,16 +6,18 @@
         <div class="message-options">
             <span class="author-name">{{message.applicationUserUsername}}</span>
             <span class="message-sent-on">, Sent: {{message.sentOn | dateTimeFormatter}}</span>
-            <div class="message-options-right">
+            <div class="message-options-right" *ngIf="!this.isReplied">
                 <i class="fas fa-thumbs-up" (click)=likeMessage(message)></i><span class="likesCount">
                     {{message.likes.length}} </span>
                 <i class="fa fa-trash delete-message" *ngIf="isAdmin" (click)="deleteMessage(message)"
                     aria-hidden="true"></i>
-                <!-- <i class="fa fa-pencil edit-message" aria-hidden="true"></i> -->
             </div>
         </div>
         <div class="content">
             {{message.content}}
+        </div>
+        <div class="replies-holder" (click)=openReplies() *ngIf="!this.isReplied">
+            Replies {{message.replies.length}}
         </div>
     </div>
 </div>

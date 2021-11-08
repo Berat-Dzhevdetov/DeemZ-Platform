@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
-import { Message } from '../../models/message';
+import { Message, ReplyMessage } from '../../models/message';
 import { UserData } from '../../models/userData';
 
 import { LocalStorage } from 'src/environments/LocalStorage';
@@ -60,6 +60,7 @@ export class QuestionService {
         applicationUserUsername: data.applicationUserUsername,
         applicationUserImgUrl: data.applicationUserImgUrl,
         likes: [],
+        replies: [],
       };
       this.canUserSendMessage(message).subscribe((canSend) => {
         if (canSend) {
@@ -69,6 +70,34 @@ export class QuestionService {
         }
       });
     });
+  }
+
+  postReply(content: string, message: Message) {
+    this.getUserData(this.getUserIdFromStorage()!).subscribe((data) => {
+      let reply: Message = {
+        content: content,
+        sentOn: new Date().toLocaleString('en-US'),
+        applicationUserId: this.getUserIdFromStorage()!,
+        courseId: this.getCourseIdFromStorage()!,
+        applicationUserUsername: data.applicationUserUsername,
+        applicationUserImgUrl: data.applicationUserImgUrl,
+        likes: [],
+        replies: [],
+      };
+      this.canUserSendMessage(message).subscribe((canSend) => {
+        if (canSend) {
+          message.replies.push(reply);
+          this.updateMessage(message);
+        } else {
+          alert('You do not have permission to send messages to this channel!');
+        }
+      });
+    });
+  }
+
+  updateMessage(message: Message) {
+    this.chatMessageDoc = this.afs.doc(`messages/${message.id}`);
+    this.chatMessageDoc.update(message);
   }
 
   deleteMessage(message: Message) {
@@ -137,11 +166,4 @@ export class QuestionService {
   getUserIdFromStorage() {
     return new URLSearchParams(window.location.search).get('applicationUserId');
   }
-
-  // postMessage(message: SendMessage) {
-  //   const options = { headers: { 'Content-Type': 'application/json' } };
-  //   const data = JSON.stringify(message);
-
-  //   return this.http.post(environment.API_ENDPOINT, data, options);
-  // }
 }

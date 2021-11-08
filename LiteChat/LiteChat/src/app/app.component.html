@@ -5,6 +5,7 @@
     <div *ngIf="isConnected">
         <app-header></app-header>
         <app-popup *ngIf="isPopupShown()"></app-popup>
+        <app-replies *ngIf="areRepliesShown()"></app-replies>
         <app-content></app-content>
         <app-footer></app-footer>
     </div>

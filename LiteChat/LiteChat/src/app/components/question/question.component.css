@@ -16,6 +16,7 @@
   display: flex;
   width: 100%;
   flex-direction: column;
+  position: relative;
 }
 
 .delete-message {
@@ -45,4 +46,11 @@
   position: absolute;
   right: 3%;
   top: 6%;
+}
+.replies-holder {
+  float: right;
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  cursor: pointer;
 }

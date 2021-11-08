@@ -9,6 +9,7 @@ import { LocalStorage } from 'src/environments/LocalStorage';
 })
 export class QuestionComponent {
   @Input() message!: Message;
+  @Input() isReplied: boolean = false;
   isAdmin: boolean = this.localStorage.data.IsAdmin;
   constructor(
     private questionService: QuestionService,
@@ -29,5 +30,11 @@ export class QuestionComponent {
 
   likeMessage(message: Message) {
     this.questionService.likeMessage(message);
+  }
+
+  openReplies() {
+    this.localStorage.userOptions.replyQuestion = this.message;
+    this.localStorage.userOptions.repliesState =
+      !this.localStorage.userOptions.repliesState;
   }
 }

@@ -18,4 +18,8 @@ export class AppComponent {
   isPopupShown(): boolean {
     return this.localStorage.userOptions.burgerState;
   }
+
+  areRepliesShown(): boolean {
+    return this.localStorage.userOptions.repliesState;
+  }
 }

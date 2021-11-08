@@ -1,0 +1,19 @@
+<div class="modal-container" [class.show]=getRepliesState()>
+    <div class="modal" [class.dark-header]=!this.localStorage.userOptions.isWhiteTheme>
+        <div class="close-modal" id="close-modal" (click)=closeReplies()>
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <h2>Question Details:</h2>
+        <dl class="table-display">
+            <div class="row">
+                <app-question [message]="this.getMessage()" [isReplied]="true"></app-question>
+                <h5>Replies :</h5>
+                <div *ngIf="this.getMessage().replies.length > 0">
+                    <app-question *ngFor="let message of this.getMessage().replies" [message]=message
+                        [isReplied]="true"></app-question>
+                </div>
+                <app-new-question [isReply]="true" [message]="this.getMessage()"></app-new-question>
+            </div>
+        </dl>
+    </div>
+</div>

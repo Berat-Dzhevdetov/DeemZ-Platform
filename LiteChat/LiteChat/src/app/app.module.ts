@@ -29,6 +29,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { environment } from 'src/environments/environment';
+import { NewReplyComponent } from './components/new-reply/new-reply.component';
+import { RepliesComponent } from './components/replies/replies.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { environment } from 'src/environments/environment';
     ShortenTextPipe,
     NotFoundComponent,
     PopupComponent,
+    NewReplyComponent,
+    RepliesComponent,
   ],
   imports: [
     BrowserModule,
