@@ -1,0 +1,68 @@
+﻿@model DeemZ.Models.ViewModels.Resources.MyResourcesViewModel
+@{
+    ViewData["Title"] = "Your resources";
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
+}
+
+<div class="container-fluid">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    @if (!Model.Resources.Any())
+    {
+        <h1 class="text-center">You haven't any resources!</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Lecture Name</th>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Resource Type</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var resource in Model.Resources)
+                {
+                    <tr>
+                        <td>@Html.Raw(resource.ResourceTypeIcon) @resource.Name</td>
+                        <td>@resource.LectureName</td>
+                        <td>@resource.LectureCourseName</td>
+                        <td>@resource.ResourceTypeName</td>
+                        <td>
+                            <a class="btn btn-info" asp-area="" asp-controller="Resource" asp-action="ViewResource" asp-route-resourceId="@resource.Id">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a asp-area="" asp-controller="Resource" asp-action="ViewResource" asp-route-page="@Model.PreviousPage">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a asp-area="" asp-controller="Resource" asp-action="ViewResource" asp-route-page="@i">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a asp-area="" asp-controller="Resource" asp-action="ViewResource" asp-route-page="@Model.NextPage">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
+</div>

@@ -13,5 +13,7 @@
         bool GetResourceById(string rid);
         void DeleteLectureResoureces(string lid);
         string Delete(string resourceId);
+        IEnumerable<T> GetUserResources<T>(string uid, int page, int quantity);
+        int GetUserResourcesCount(string uid);
     }
 }

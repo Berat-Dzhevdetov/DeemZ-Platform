@@ -1,6 +1,7 @@
 ﻿namespace DeemZ.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
+    using System;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Http;
     using System.Threading.Tasks;
@@ -14,6 +15,7 @@
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Services.UserServices;
     using DeemZ.Web.Filters;
+    using DeemZ.Models.Shared;
 
     using static DeemZ.Global.WebConstants.Constant;
 
@@ -135,6 +137,32 @@
             var lectureId = resourceService.Delete(resourceId);
 
             return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea, lectureId });
+        }
+
+        public IActionResult MyResources(int page = 1, int quantity = 20)
+        {
+            var viewModel = new MyResourcesViewModel();
+
+            var userId = User.GetId();
+
+            var allPages = (int)Math.Ceiling(resourceService.GetUserResourcesCount(userId) / (quantity * 1.0));
+
+            viewModel.Resources = resourceService.GetUserResources<DetailsResourseViewModel>(userId, page, quantity);
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
+        private static T AdjustPages<T>(T viewModel, int page, int allPages)
+            where T : PagingBaseModel
+        {
+            viewModel.CurrentPage = page;
+            viewModel.NextPage = page >= allPages ? null : page + 1;
+            viewModel.PreviousPage = page <= 1 ? null : page - 1;
+            viewModel.MaxPages = allPages;
+
+            return viewModel;
         }
     }
 }

@@ -10,6 +10,7 @@
     using DeemZ.Models.FormModels.Resource;
     using DeemZ.Data.Models;
     using DeemZ.Services.FileService;
+    using DeemZ.Global.Extensions;
 
     public class ResourceService : IResourceService
     {
@@ -110,5 +111,19 @@
 
             return lectureId;
         }
+
+        public IEnumerable<T> GetUserResources<T>(string uid, int page, int quantity)
+            => context.Resources
+                .Include(x => x.Lecture)
+                .ThenInclude(x => x.Course)
+                .Where(x => x.Lecture.Course.UserCourses.Any(x => x.UserId == uid && x.PaidOn != null))
+                .OrderByDescending(x => x.CreatedOn)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .Paging(page, quantity)
+                .ToList();
+
+        public int GetUserResourcesCount(string uid)
+            => context.Resources
+                    .Count(x => x.Lecture.Course.UserCourses.Any(x => x.UserId == uid && x.PaidOn != null));
     }
 }
