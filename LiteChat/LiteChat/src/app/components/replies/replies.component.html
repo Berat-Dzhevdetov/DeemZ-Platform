@@ -12,7 +12,8 @@
                     <app-question *ngFor="let message of this.getMessage().replies" [message]=message
                         [isReplied]="true"></app-question>
                 </div>
-                <app-new-question class="new-reply" [isReply]="true" [message]="this.getMessage()"></app-new-question>
+                <app-new-question (keyup.esc)="closeReplies()" class="new-reply" [isReply]="true"
+                    [message]="this.getMessage()"></app-new-question>
             </div>
         </dl>
     </div>

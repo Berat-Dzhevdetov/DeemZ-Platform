@@ -20,7 +20,7 @@ export class NewQuestionComponent implements OnInit {
   ngOnInit(): void {}
 
   postQuestion(formData: NgForm) {
-    if (this.question != '') {
+    if (this.question.trim() != '') {
       if (this.isReply) {
         this.questionService.postReply(this.question, this.message);
       } else {

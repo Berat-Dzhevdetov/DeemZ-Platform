@@ -5,7 +5,7 @@
     <div class="ask-question-input-holder">
         <form #form='ngForm' ngForm method="post">
             <textarea type="text" id="question" name="question" id="question" #questionInput="ngModel" ngModel required
-                placeholder="Type your question" class="ask-question-input"
+                placeholder="Type your question" class="ask-question-input" (keyup.enter)="postQuestion(form)"
                 [disabled]="!this.questionService.doesUserHaveAccess" [(ngModel)]="this.question"></textarea>
 
             <div *ngIf="questionInput.touched &&questionInput.errors?.required" class="validation-error">You cannot post
