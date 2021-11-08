@@ -63,7 +63,7 @@
 }
 
 .message {
-  background: #f1f1f1;
+  background: inherit;
   display: flex;
   padding: 12px;
   margin-bottom: 12px;
@@ -87,6 +87,11 @@
 }
 
 .edit-message:hover {
+  cursor: pointer;
+  color: #2196f3;
+}
+
+.reply-message:hover {
   cursor: pointer;
   color: #2196f3;
 }
@@ -143,6 +148,18 @@
 
 /* User Inputs Ends */
 
+/* Reply message modal starts */
+
+.remove-margin {
+  margin: 0;
+}
+
+.width-100{
+  width: 100%; 
+}
+
+/* Reply message modal ends */
+
 /* Popup Starts */
 
 .modal-container {
@@ -160,7 +177,7 @@
   justify-content: center;
 }
 
-.modal-container.show {
+.modal-container.show, .reply-message-modal-container.show {
   pointer-events: auto;
   opacity: 1;
 }
@@ -254,21 +271,22 @@ dl.table-display {
   transition: 0.4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #2196f3;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(18px);
   -ms-transform: translateX(18px);
   transform: translateX(18px);
 }
 
 /* Rounded sliders */
+
 .slider.round {
   border-radius: 34px;
 }
@@ -281,11 +299,10 @@ input:checked + .slider:before {
 
 /* Order messages options starts */
 
-.order-msgs-options{
+.order-msgs-options {
   background: none;
   border: none;
 }
-
 
 /* Order messages options ends */
 

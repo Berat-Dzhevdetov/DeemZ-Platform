@@ -52,6 +52,7 @@
                     <div class="message-options-right">
                         <i class="fa fa-trash delete-message" aria-hidden="true"></i>
                         <i class="fa fa-pencil edit-message" aria-hidden="true"></i>
+                        <i class="fas fa-share"></i>
                     </div>
                 </div>
                 <div class="content">
@@ -73,6 +74,7 @@
                     <div class="message-options-right">
                         <i class="fa fa-trash delete-message" aria-hidden="true"></i>
                         <i class="fa fa-pencil edit-message" aria-hidden="true"></i>
+                        <i onclick="openReplies(event)" class="fa fa-reply reply-message" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="content">
@@ -82,6 +84,78 @@
         </div>
     </div>
     <!-- Messages ends -->
+
+    <!-- Reply Message Modal starts -->
+    <div class="modal-container" id="reply-modal-container">
+        <div class="modal">
+            <div class="close-modal" onclick="closeModala()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+            <div class="message">
+                <div class="image">
+                    <img class="small-image" src="test.jpg" alt="">
+                </div>
+                <div class="message-info">
+                    <div class="message-options">
+                        <span class="author-name">Berat Dzhevdetov</span>
+                        <span class="message-sent-on">, Sent on: 09.10.2021 6:53 PM</span>
+                        <div class="message-options-right">
+                        </div>
+                    </div>
+                    <div class="content">
+                        a
+                    </div>
+                </div>
+            </div>
+            
+            <div class="messages-holder width-100 remove-margin replies-message-holder">
+                <h4>Replies:</h4>
+                <div class="message">
+                    <div class="image">
+                        <img class="small-image" src="test.jpg" alt="">
+                    </div>
+                    <div class="message-info">
+                        <div class="message-options">
+                            <span class="author-name">Berat Dzhevdetov</span>
+                            <span class="message-sent-on">, Sent on: 09.10.2021 6:53 PM</span>
+                        </div>
+                        <div class="content">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, quia aliquid rerum harum,
+                            possimus
+                            repudiandae laudantium alias excepturi tempora maxime, sapiente incidunt. Et tempore, veniam vel
+                            accusantium cumque laborum dignissimos ad.
+                        </div>
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="image">
+                        <img class="small-image" src="test.jpg" alt="">
+                    </div>
+                    <div class="message-info">
+                        <div class="message-options">
+                            <span class="author-name">Berat Dzhevdetov</span>
+                            <span class="message-sent-on">, Sent on: 09.10.2021 6:53 PM</span>
+                        </div>
+                        <div class="content">
+                            a
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-iteration" id="user-iteration">
+                <div class="write-question-image">
+                    <img class="smaller-image" src="./test.jpg">
+                </div>
+                <div class="ask-question-input-holder">
+                    <textarea type="text" id="ask-question-input" placeholder="Type your question"
+                        class="ask-question-input"></textarea>
+                        <!-- insert send btn here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Reply Message Modal ends -->
+
 
     <!-- Popup starts -->
 

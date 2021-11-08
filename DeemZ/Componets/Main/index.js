@@ -31,3 +31,11 @@ window.addEventListener('keyup', (e) => {
             break;
     }
 })
+
+function openReplies(e){
+    document.getElementById('reply-modal-container').classList.add('show');
+}
+
+function closeModala(){
+    document.getElementById('reply-modal-container').classList.remove('show');
+}
