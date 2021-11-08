@@ -7,9 +7,9 @@
     using DeemZ.Web.Controllers;
     using DeemZ.Services.SurveyServices;
     using DeemZ.Models.ViewModels.Surveys;
+    using DeemZ.Models.FormModels.Survey;
 
     using static DeemZ.Global.WebConstants.Constant;
-    using DeemZ.Models.FormModels.Survey;
 
     [Area(AreaName.SurveyArea)]
     [Authorize(Roles = Role.AdminRoleName)]
