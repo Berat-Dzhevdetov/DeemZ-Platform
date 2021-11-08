@@ -12,7 +12,7 @@
 
     using static DeemZ.Global.WebConstants.Constant;
 
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly IUserService userService;
         private readonly IFileService fileService;
@@ -41,15 +41,15 @@
         [ClientRequired]
         public async Task<IActionResult> Edit(string userId, EditUserFormModel user)
         {
-            if (user == null) return NotFound();
+            if (user == null) return HandleErrorRedirect(Models.HttpStatusCodes.NotFound);
 
             var isEmailFree = userService.IsEmailFree(userId, user.Email);
             var isUsernameFree = userService.IsUsernameFree(userId, user.UserName);
 
-            if (isEmailFree)
+            if (!isEmailFree)
                 ModelState.AddModelError(nameof(EditUserFormModel.Email), "The given email is already taken");
 
-            if (isUsernameFree)
+            if (!isUsernameFree)
                 ModelState.AddModelError(nameof(EditUserFormModel.UserName), "The given username is already taken");
 
             if (!ModelState.IsValid) return View(user);

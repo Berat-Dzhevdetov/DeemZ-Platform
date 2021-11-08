@@ -69,7 +69,6 @@
 
             context.Attach(userToEdit);
 
-
             userToEdit.FirstName = user.FirstName;
             userToEdit.LastName = user.LastName;
             userToEdit.UserName = user.UserName;
@@ -106,10 +105,10 @@
         }
 
         public bool IsEmailFree(string uid, string email)
-            => !context.Users.Any(x => x.Email == email && x.Id == uid);
+            => !context.Users.Any(x => x.Email == email && x.Id != uid);
 
         public bool IsUsernameFree(string uid, string userName)
-            => !context.Users.Any(x => x.UserName == userName && x.Id == uid);
+            => !context.Users.Any(x => x.UserName == userName && x.Id != uid);
 
         public IndexUserViewModel GetIndexInformaiton(string uid, bool isAdmin = false)
             => new()

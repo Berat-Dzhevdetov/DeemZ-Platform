@@ -212,7 +212,13 @@
         {
             var userId = User.GetId();
 
-            var isValid = promoCode.Length >= 1 && (string.IsNullOrEmpty(promoCode) || !promoCodeService.ValidatePromoCode(userId, promoCode));
+            bool isValid = false;
+
+            if (promoCode != null)
+            {
+                if (promoCodeService.ValidatePromoCode(userId, promoCode.Trim()))
+                    isValid = true;
+            }
 
             var price = courseService.GetCourseById<Course>(courseId).Price;
 

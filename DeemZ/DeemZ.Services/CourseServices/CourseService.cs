@@ -101,20 +101,21 @@
 
             var toPay = GetCourseById<Course>(cid).Price;
 
-            if (promoCode != null)
-                toPay -= promoCode.DiscountPrice;
-
             var userCourse = new UserCourse()
             {
                 CourseId = cid,
                 UserId = uid,
                 IsPaid = true,
                 PaidOn = DateTime.UtcNow,
-                Paid = toPay,
-                PromoCodeId = promoCode.Id,
+                Paid = toPay
             };
 
-            promoCodeService.MarkPromoCodeAsUsed(promoCode.Id);
+            if(promoCode != null)
+            {
+                userCourse.Paid -= promoCode.DiscountPrice;
+                userCourse.PromoCodeId = promoCode.Id;
+                promoCodeService.MarkPromoCodeAsUsed(promoCode.Id);
+            }
 
             context.UserCourses.Add(userCourse);
             context.SaveChanges();
