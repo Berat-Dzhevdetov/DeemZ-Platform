@@ -77,8 +77,11 @@
 
             if (isUserSignUpForThisCourse) return RedirectToAction(nameof(ViewCourse), new { courseId });
 
-            if (signUp.PromoCode.Length >= 1 || (string.IsNullOrEmpty(signUp.PromoCode.Trim()) && !promoCodeService.ValidatePromoCode(userId, signUp.PromoCode)))
-                ModelState.AddModelError(nameof(signUp.PromoCode), "The promo code is not valid. Please check it and try again");
+            if(signUp.PromoCode != null)
+            {
+                if (!promoCodeService.ValidatePromoCode(userId, signUp.PromoCode.Trim()))
+                    ModelState.AddModelError(nameof(signUp.PromoCode), "The promo code is not valid. Please check it and try again");
+            }
 
             if (!ModelState.IsValid) return View(signUp);
 
@@ -209,7 +212,7 @@
         {
             var userId = User.GetId();
 
-            var isValid = promoCode.Length >= 1 && !string.IsNullOrEmpty(promoCode.Trim()) && promoCodeService.ValidatePromoCode(userId, promoCode);
+            var isValid = promoCode.Length >= 1 && (string.IsNullOrEmpty(promoCode) || !promoCodeService.ValidatePromoCode(userId, promoCode));
 
             var price = courseService.GetCourseById<Course>(courseId).Price;
 

@@ -92,7 +92,7 @@
         public bool ValidatePromoCode(string uid, string promoCode)
             => context.PromoCodes
                 .Any(x => x.ApplicationUserId == uid
-                        && !x.IsUsed && x.Text == promoCode && x.ExpireOn <= DateTime.UtcNow);
+                        && !x.IsUsed && x.Text == promoCode && x.ExpireOn >= DateTime.UtcNow);
 
         public async Task<string> AddPromoCode(AddPromoCodeFormModel promoCode)
         {
