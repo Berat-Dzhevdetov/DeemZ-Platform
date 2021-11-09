@@ -1,1 +1,0 @@
-In order to start the Angular application, go into its folder, open a terminal and type 'ng serve --open' (--open will open the app in your default browser after compilation)
