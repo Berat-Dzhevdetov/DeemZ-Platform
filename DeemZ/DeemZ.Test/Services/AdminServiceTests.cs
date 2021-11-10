@@ -76,11 +76,10 @@ namespace DeemZ.Test.Services
             SeedUserCourse(courseId, userId);
 
             var indexInfo = adminService.GetIndexPageInfo();
-            ;
 
             Assert.Equal(expectedCourses,indexInfo.TotalCourses);
             Assert.Equal(expectedUsers,indexInfo.UsersCount);
-            Assert.Equal(expectedMoney, indexInfo.MoneyEarnedThisMonth);
+            Assert.Equal(expectedMoney, indexInfo.MoneyEarnedThisMonth); //not ok
             Assert.Equal(expectedUsersSignedUpThisMonth, indexInfo.UsersSignedUpThisMonth);
         }
 

@@ -39,8 +39,7 @@
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .FirstOrDefault();
 
-        public IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid, bool isPaid)
-            => context.Surveys
+        public IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid, bool isPaid) => context.Surveys
                 .Include(x => x.Course)
                 .ThenInclude(x => x.UserCourses)
                 .Where(x => x.Course.UserCourses.Any(x => x.IsPaid == isPaid && x.UserId == uid)

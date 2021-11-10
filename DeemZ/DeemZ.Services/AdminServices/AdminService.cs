@@ -61,11 +61,11 @@
             return model;
         }
 
-        private decimal GetMoneyEarntByDay(DateTime prevsDate)
+        private decimal GetMoneyEarntByDay(DateTime prevsDate) 
             => context.UserCourses
                 .Include(x => x.Course)
                 .Where(x => x.PaidOn >= prevsDate && x.IsPaid)
-                .ToList()
+            .ToList()
                 .Where(x => !IsInRole(x.UserId, Role.AdminRoleName))
                 .Sum(x => x.Paid);
 

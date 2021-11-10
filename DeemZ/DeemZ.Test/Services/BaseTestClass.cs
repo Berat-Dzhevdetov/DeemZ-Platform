@@ -212,15 +212,19 @@ namespace DeemZ.Test.Services
             context.SaveChanges();
         }
 
-        public void SeedCourseSurvey(string courseId)
+        public string SeedCourseSurvey(string courseId)
         {
             var survey = new Survey()
             {
                 CourseId = courseId,
                 Name = "Test-Course",
+                EndDate = DateTime.Today.AddDays(999),
             };
+
             context.Surveys.Add(survey);
             context.SaveChanges();
+
+            return survey.Id;
         }
 
         public void SeedUserSurvey(string userId, string surveyId)
@@ -252,8 +256,9 @@ namespace DeemZ.Test.Services
                 CourseId = courseId,
                 UserId = userId,
                 IsPaid = true,
+                Paid = 220,
                 PaidOn = DateTime.Today,
-            });
+            }) ;
             context.SaveChanges();
         }
 

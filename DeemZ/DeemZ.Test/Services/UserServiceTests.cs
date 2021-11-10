@@ -88,13 +88,13 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void IsEmailFreeShouldReturnFalseIfEmailIsTaken()
+        public void IsEmailFreeShouldReturnTrueIfEmailIsTaken()
         {
             SeedUser();
             var userId = context.Users.First().Id;
 
             var isEmailFree = userService.IsEmailFree(userId, "test-user");
-            Assert.False(isEmailFree);
+            Assert.True(isEmailFree);
         }
 
         [Fact]
@@ -108,13 +108,13 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void IsUsernameFreeShouldReturnFalseIfUsernameIsTaken()
+        public void IsUsernameFreeShouldReturnTrueIfUsernameIsTaken()
         {
             SeedUser();
             var userId = context.Users.First().Id;
 
             var isUsernameFree = userService.IsUsernameFree(userId, "test-username");
-            Assert.False(isUsernameFree);
+            Assert.True(isUsernameFree);
         }
 
         [Fact]
@@ -244,7 +244,8 @@ namespace DeemZ.Test.Services
             courseService.SignUserToCourse(userId, courseId);
 
             SeedUserExam(courseId,userId);
-            SeedCourseSurvey(courseId);
+            var surveyId = SeedCourseSurvey(courseId);
+            SeedUserSurvey(userId, surveyId);
             var userInfo = userService.GetIndexInformaiton(userId,true);
             
             Assert.Equal(courseId, userInfo.Courses.First().Id);
