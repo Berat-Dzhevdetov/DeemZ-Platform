@@ -3,18 +3,19 @@
     using System.Linq;
     using Xunit;
     using DeemZ.Models.FormModels.Resource;
+    using System.Threading.Tasks;
 
     public class ResourceServiceTests : BaseTestClass
     {
         public ResourceServiceTests() => SetUpServices();
 
         [Fact]
-        public void AddResourceToLectureShouldCorrectlyAddIt()
+        public async Task AddResourceToLectureShouldCorrectlyAddIt()
         {
             //Arange
             var expectedResourceCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -29,10 +30,10 @@
         }
 
         [Fact]
-        public void GettingResourceByIdReturnsCorrectValueWhenResourceIsPresent()
+        public async Task GettingResourceByIdReturnsCorrectValueWhenResourceIsPresent()
         {
             //Arange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -48,9 +49,9 @@
         public void GetResourceByIdShouldReturnFalseWhenResourseDoenstExist() => Assert.False(resourceService.GetResourceById("invalid-id"));
 
         [Fact]
-        public void GettingResourceByIdShouldReturnTheCorrectResource()
+        public async Task GettingResourceByIdShouldReturnTheCorrectResource()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -103,11 +104,11 @@
         }
 
         [Fact]
-        public void DeletingLectureResourcesShouldRemoveTheResourcesFromTheLecture()
+        public async Task DeletingLectureResourcesShouldRemoveTheResourcesFromTheLecture()
         {
             var expectedCountFromDb = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -125,11 +126,11 @@
         }
 
         [Fact]
-        public void DeletingAResourceTypeLinkShouldRemoveItFromTheDb()
+        public async Task DeletingAResourceTypeLinkShouldRemoveItFromTheDb()
         {
             var expectedCountFromDb = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -147,11 +148,11 @@
         }
 
         [Fact]
-        public void DeletingLectureResourcesOnRemoteShouldRemoveTheResourcesFromTheLecture()
+        public async Task DeletingLectureResourcesOnRemoteShouldRemoveTheResourcesFromTheLecture()
         {
             var expectedCountFromDb = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -169,11 +170,11 @@
         }
 
         [Fact]
-        public void DeletingARemoteResourceTypeLinkShouldRemoveItFromTheDb()
+        public async Task DeletingARemoteResourceTypeLinkShouldRemoveItFromTheDb()
         {
             var expectedCountFromDb = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -191,10 +192,10 @@
         }
 
         [Fact]
-        public void DoesUserHavePermissionShouldReturnFalseIfTheUserDoesNotHavePermissionToViewTheResource()
+        public async Task DoesUserHavePermissionShouldReturnFalseIfTheUserDoesNotHavePermissionToViewTheResource()
         {
             //Arange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -213,10 +214,10 @@
         }
 
         [Fact]
-        public void DoesUserHavePermissionShouldReturnTrueIfTheUserHasPermissionToViewTheResource()
+        public async Task DoesUserHavePermissionShouldReturnTrueIfTheUserHasPermissionToViewTheResource()
         {
             //Arange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -232,7 +233,7 @@
             SeedUserCourse(courseId, userId);
             
             var result = resourceService.DoesUserHavePermissionToThisResource(resourceId, userId);
-
+            
             Assert.True(result);
         }
     }

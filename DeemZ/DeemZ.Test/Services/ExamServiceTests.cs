@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DeemZ.Data.Models;
 using DeemZ.Models.FormModels.Exam;
 using DeemZ.Models.ViewModels.Exams;
@@ -16,11 +17,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void CreatingExamShouldAddItToTheDatabase()
+        public async Task CreatingExamShouldAddItToTheDatabase()
         {
             var expectedExamsCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             examService.CreateExam(courseId, new AddExamFormModel()
             {
@@ -37,9 +38,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DoesTheUserHavePermissionToExamShouldReturnTrueIfUserIsEnrolledAndHasNotTakenTheExam()
+        public async Task DoesTheUserHavePermissionToExamShouldReturnTrueIfUserIsEnrolledAndHasNotTakenTheExam()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -51,9 +52,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DoesTheUserHavePermissionToExamShouldReturnFalseIfUserIsEnrolledAndHasTakenTheExam()
+        public async Task DoesTheUserHavePermissionToExamShouldReturnFalseIfUserIsEnrolledAndHasTakenTheExam()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -67,9 +68,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DoesTheUserHavePermissionToExamShouldReturnFalseIfUserNotEnrolled()
+        public async Task DoesTheUserHavePermissionToExamShouldReturnFalseIfUserNotEnrolled()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             var examId = SeedExam(courseId);
@@ -80,11 +81,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EditingTheExamShouldChangeItsName()
+        public async Task EditingTheExamShouldChangeItsName()
         {
             var expectedName = "Changed-Name";
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var examId = SeedExam(courseId);
 
             var returnedExamId = examService.EditExam(examId, new AddExamFormModel()
@@ -113,9 +114,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingExamByIdShouldReturnTrueIfTheExamExists()
+        public async Task GettingExamByIdShouldReturnTrueIfTheExamExists()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var examId = SeedExam(courseId);
 
             var exists = examService.GetExamById(examId);
@@ -128,9 +129,9 @@ namespace DeemZ.Test.Services
             Assert.False(examService.GetExamById("invalid-id"));
 
         [Fact]
-        public void GettingExamsByCourseIdShouldReturnTheCorrectExams()
+        public async Task GettingExamsByCourseIdShouldReturnTheCorrectExams()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var expectedExamId = SeedExam(courseId);
 
             var actualExamId = examService.GetExamsByCourseId<BasicExamInfoViewModel>(courseId).First().Id;
@@ -139,9 +140,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void IsProvidedPasswordRightShouldReturnTrueIfPasswordIsCorrect()
+        public async Task IsProvidedPasswordRightShouldReturnTrueIfPasswordIsCorrect()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var examId = SeedExam(courseId);
 
             var password = "HackMe";
@@ -151,9 +152,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void IsProvidedPasswordRightShouldReturnFalseIfPasswordIsWrong()
+        public async Task IsProvidedPasswordRightShouldReturnFalseIfPasswordIsWrong()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var examId = SeedExam(courseId);
 
             var password = "InvalidPassword";
@@ -163,11 +164,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void SavingUserExamShouldReturnInvalidCodeIfExamDateIsInvalid()
+        public async Task SavingUserExamShouldReturnInvalidCodeIfExamDateIsInvalid()
         {
             var expectedPoints = -1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -181,11 +182,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void SavingUserExamShouldReturnTheCorrectPoints()
+        public async Task SavingUserExamShouldReturnTheCorrectPoints()
         {
             var expectedPoints = 99;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -200,11 +201,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnCorrectAmountOfPoints()
+        public async Task EvaluatingShouldReturnCorrectAmountOfPoints()
         {
             var expectedPoints = 10;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -230,11 +231,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnZeroPointsOnQuestionWithoutAnswers()
+        public async Task EvaluatingShouldReturnZeroPointsOnQuestionWithoutAnswers()
         {
             var expectedPoints = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -280,11 +281,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnZeroPointsOnQuestionWithMoreThanOneAnswers()
+        public async Task EvaluatingShouldReturnZeroPointsOnQuestionWithMoreThanOneAnswers()
         {
             var expectedPoints = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -349,11 +350,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnZeroPointsOnQuestionWithNoChosenAnswers()
+        public async Task EvaluatingShouldReturnZeroPointsOnQuestionWithNoChosenAnswers()
         {
             var expectedPoints = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -417,11 +418,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnZeroPointsOnInvalidQuestionId()
+        public async Task EvaluatingShouldReturnZeroPointsOnInvalidQuestionId()
         {
             var expectedPoints = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -475,11 +476,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnZeroPointsOnInvalidAnswerId()
+        public async Task EvaluatingShouldReturnZeroPointsOnInvalidAnswerId()
         {
             var expectedPoints = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -535,11 +536,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnZeroPointsOnInvalidAnswer()
+        public async Task EvaluatingShouldReturnZeroPointsOnInvalidAnswer()
         {
             var expectedPoints = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);
@@ -596,11 +597,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingShouldReturnZeroWhenTheCorrectAnswerIdIsNotPresent()
+        public async Task EvaluatingShouldReturnZeroWhenTheCorrectAnswerIdIsNotPresent()
         {
             var expectedPoints = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             SeedUser();
 
             SeedUserCourse(courseId, testUserId);

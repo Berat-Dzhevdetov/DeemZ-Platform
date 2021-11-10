@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using DeemZ.Models.FormModels.Course;
 
     public interface ICourseService
@@ -12,17 +13,17 @@
         bool GetCourseById(string cid);
         bool IsUserSignUpForThisCourse(string uid, string cid);
         IEnumerable<T> GetCoursesForSignUp<T>();
-        void SignUserToCourse(string uid, string cid, SignUpCourseFormModel signUp);
-        void SignUserToCourse(string uid, string cid, bool isPaid = true);
+        Task SignUserToCourse(string uid, string cid, SignUpCourseFormModel signUp);
+        Task SignUserToCourse(string uid, string cid, bool isPaid = true);
         IEnumerable<T> GetCourses<T>();
         int GetUserCoursesCount();
-        string CreateCourse(AddCourseFormModel course);
-        void Edit(EditCourseFormModel course, string cid);
-        void DeleteCourse(string cid);
+        Task<string> CreateCourse(AddCourseFormModel course);
+        Task Edit(EditCourseFormModel course, string cid);
+        Task DeleteCourse(string cid);
         void CreateBasicsLectures(string cid, AddCourseFormModel course);
         IEnumerable<T> GetUserCourses<T>(int page = 1, int quantity = 20);
         IEnumerable<KeyValuePair<string,string>> GetCourseByIdAsKeyValuePair(DateTime prevDate);
-        void DeleteUserFromCourse(string courseId, string userId);
+        Task DeleteUserFromCourse(string courseId, string userId);
         int UpCommingCoursesCount();
     }
 }

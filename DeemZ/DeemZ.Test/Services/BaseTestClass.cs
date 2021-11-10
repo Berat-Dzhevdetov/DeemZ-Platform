@@ -99,8 +99,8 @@ namespace DeemZ.Test.Services
             adminService = new AdminService(mapper, context, courseService, userService);
         }
 
-        public string SeedCourse()
-            => courseService.CreateCourse(new AddCourseFormModel
+        public async Task<string> SeedCourse()
+            => await courseService.CreateCourse(new AddCourseFormModel
             {
                 Name = courseName,
                 Credits = 15,
@@ -138,9 +138,9 @@ namespace DeemZ.Test.Services
             return context.ResourceTypes.First().Id;
         }
 
-        public string SeedResource()
+        public async Task<string> SeedResource()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -166,9 +166,9 @@ namespace DeemZ.Test.Services
             }, testUserId);
         }
 
-        public string SeedLectureWithDescriptions()
+        public async Task<string> SeedLectureWithDescriptions()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 

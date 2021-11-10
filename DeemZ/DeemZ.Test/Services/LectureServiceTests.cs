@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DeemZ.Data.Models;
 using DeemZ.Models.FormModels.Description;
 using DeemZ.Models.FormModels.Lecture;
@@ -16,12 +17,12 @@ namespace DeemZ.Test.Services
         public LectureServiceTests() => SetUpServices();
 
         [Fact]
-        public void EditLectureByIdShouldEditTheLecture()
+        public async Task EditLectureByIdShouldEditTheLecture()
         {
             //Arrange
             var expectedName = "TEST";
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -41,11 +42,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EditingALectureWithDateShouldSetTheDateToUTCStandard()
+        public async Task EditingALectureWithDateShouldSetTheDateToUTCStandard()
         {
             var expectedDate = DateTime.Today.AddDays(-50);
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = "Test-Lecture-Id";
 
@@ -73,11 +74,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EditLectureByIdShouldNotEditTheLectureWhenTheDescriptionNameIsTooShort()
+        public async Task EditLectureByIdShouldNotEditTheLectureWhenTheDescriptionNameIsTooShort()
         {
             var expectedLecturesCount = 0;
             //Arrange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -99,10 +100,10 @@ namespace DeemZ.Test.Services
 
 
         [Fact]
-        public void GetLectureResourcesByIdShouldReturnTheCorrectResources()
+        public async Task GetLectureResourcesByIdShouldReturnTheCorrectResources()
         {
             var expectedResourceName = "Test";
-            SeedResource();
+            await SeedResource();
             var lectureId = context.Lectures.ToArray().First().Id;
 
             var resourceName = lectureService.GetLectureResourcesById<IndexResourceViewModel>(lectureId).First().Name;
@@ -112,9 +113,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GetLectureByIdShouldReturnTrueIfLectureIsPresent()
+        public async Task GetLectureByIdShouldReturnTrueIfLectureIsPresent()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var lectureId = SeedLecture(courseId);
 
             var lectureExists = lectureService.GetLectureById(lectureId);
@@ -126,11 +127,11 @@ namespace DeemZ.Test.Services
         public void GetLectureByIdShouldReturnFalseIfLectureIsNotPresent() => Assert.False(lectureService.GetLectureById("invalid-id"));
 
         [Fact]
-        public void GettingLectureDescriptionsShouldReturnTheCorrectDescriptions()
+        public async Task GettingLectureDescriptionsShouldReturnTheCorrectDescriptions()
         {
             var expectedDescriptionName = "test";
 
-            var lectureId = SeedLectureWithDescriptions();
+            var lectureId = await SeedLectureWithDescriptions();
 
             var actualDescriptionName = lectureService.GetLectureDescriptions<DetailsDescriptionViewModel>(lectureId).First().Name;
 
@@ -138,9 +139,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingLecturesByCourseIdShouldReturnTheCorrectLectures()
+        public async Task GettingLecturesByCourseIdShouldReturnTheCorrectLectures()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -150,11 +151,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DeletingLectureShouldRemoveItFromTheDb()
+        public async Task DeletingLectureShouldRemoveItFromTheDb()
         {
             var expectedLecturesCount = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -166,11 +167,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DeletingAllDescriptionsShouldRemoveTheLectureDescriptions()
+        public async Task DeletingAllDescriptionsShouldRemoveTheLectureDescriptions()
         {
             var expectedLectureDescriptionsCount = 0;
 
-            var lectureId = SeedLectureWithDescriptions();
+            var lectureId = await SeedLectureWithDescriptions();
 
             lectureService.DeleteAllDescription(lectureId);
 

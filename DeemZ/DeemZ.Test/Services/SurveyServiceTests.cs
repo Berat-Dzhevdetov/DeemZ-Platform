@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using DeemZ.Models.ViewModels.Surveys;
 using Xunit;
 
@@ -12,11 +13,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingUserSurveysShouldReturnTheCorrectSurveys()
+        public async Task GettingUserSurveysShouldReturnTheCorrectSurveys()
         {
             var expectedUserSurveysCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var userId = "test-user";
             SeedUser();
@@ -30,9 +31,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingSurveyByIdShouldReturnTheCorrectSurvey()
+        public async Task GettingSurveyByIdShouldReturnTheCorrectSurvey()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedCourseSurvey(courseId);
             
@@ -44,9 +45,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DoesUserHavePermissionShouldReturnFalseWhenUserIsNotEnrolled()
+        public async Task DoesUserHavePermissionShouldReturnFalseWhenUserIsNotEnrolled()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var userId = "test-user";
             SeedUser();
@@ -60,9 +61,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DoesUserHavePermissionShouldReturnTrueWhenUserIsEnrolledAndHasNotTakenTheSurvey()
+        public async Task DoesUserHavePermissionShouldReturnTrueWhenUserIsEnrolledAndHasNotTakenTheSurvey()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var userId = "test-user";
             SeedUser();
@@ -77,9 +78,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DoesUserHavePermissionShouldReturnFalseWhenUserIsEnrolledAndHasTakenTheSurvey()
+        public async Task DoesUserHavePermissionShouldReturnFalseWhenUserIsEnrolledAndHasTakenTheSurvey()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var userId = "test-user";
             SeedUser();

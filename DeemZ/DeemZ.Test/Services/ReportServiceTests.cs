@@ -4,6 +4,7 @@
     using Xunit;
     using DeemZ.Models.FormModels.Reports;
     using DeemZ.Models.ViewModels.Reports;
+    using System.Threading.Tasks;
 
     public class ReportServiceTests : BaseTestClass
     {
@@ -24,11 +25,11 @@
         }
 
         [Fact]
-        public void GettingReportFromServiceShouldGetTheReports()
+        public async Task GettingReportFromServiceShouldGetTheReports()
         {
             //Arange
             var expectedCount = 2;
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -44,11 +45,11 @@
         }
 
         [Fact]
-        public void DeletingReportShouldRemoveTtFromTheDataBase()
+        public async Task DeletingReportShouldRemoveTtFromTheDataBase()
         {
             //Arange
             var expectedCount = 0;
-            var courseId = SeedCourse();
+            var courseId =await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -65,10 +66,10 @@
         }
 
         [Fact]
-        public void GettingReportByIdFromServiceShouldGetTheReport()
+        public async Task GettingReportByIdFromServiceShouldGetTheReport()
         {
             //Arange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 
@@ -83,10 +84,10 @@
         }
 
         [Fact]
-        public void GettingReportByIdFromServiceShouldReturnTrueIfReportExists()
+        public async Task GettingReportByIdFromServiceShouldReturnTrueIfReportExists()
         {
             //Arange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var lectureId = SeedLecture(courseId);
 

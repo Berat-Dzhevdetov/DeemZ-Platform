@@ -15,7 +15,6 @@
 
         public string CourseName { get; set; }
 
-        //TODO: ADD COURSE PROP
         public string CourseId { get; set; }
 
         public DateTime SentOn { get; set; } = DateTime.UtcNow;

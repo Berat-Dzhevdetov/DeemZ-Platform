@@ -217,15 +217,15 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingUserCoursesShouldReturnTheCorrectCoursesCount()
+        public async Task GettingUserCoursesShouldReturnTheCorrectCoursesCount()
         {
             var expectedCoursesCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var userId = "test-user";
             SeedUser();
 
-            courseService.SignUserToCourse(userId,courseId);
+            await courseService.SignUserToCourse(userId,courseId);
 
             var userCourses = userService.GetUserTakenCourses(userId);
 
@@ -233,15 +233,15 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingUserIndexInformationShouldGetAllUserInfo()
+        public async Task GettingUserIndexInformationShouldGetAllUserInfo()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             var creditsCount = 10;
             var userSurveysCount = 1;
             var userId = "test-user";
             SeedUser();
             
-            courseService.SignUserToCourse(userId, courseId);
+            await courseService.SignUserToCourse(userId, courseId);
 
             SeedUserExam(courseId,userId);
             var surveyId = SeedCourseSurvey(courseId);

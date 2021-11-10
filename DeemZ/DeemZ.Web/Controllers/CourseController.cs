@@ -106,11 +106,11 @@
         [HttpPost]
         [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
-        public IActionResult Add(AddCourseFormModel course)
+        public async Task<IActionResult> Add(AddCourseFormModel course)
         {
             if (!ModelState.IsValid) return View(course);
 
-            var courseId = courseService.CreateCourse(course);
+            var courseId = await courseService.CreateCourse(course);
 
             if (course.BasicLectures) courseService.CreateBasicsLectures(courseId, course);
 

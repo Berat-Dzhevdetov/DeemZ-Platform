@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using DeemZ.Models.ViewModels.Administration;
 using Xunit;
 
@@ -12,16 +13,16 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingUserCoursesShouldReturnTheCorrectAmountOfCourses()
+        public async Task GettingUserCoursesShouldReturnTheCorrectAmountOfCourses()
         {
             var expectedUserCourses = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
             
             SeedUser();
             var userId = "test-user";
             
-            SeedUserCourse(courseId, userId);
+             SeedUserCourse(courseId, userId);
 
             var actualUserCourses = adminService.GetUserCourses<UserCoursesViewModel>().Count();
 
@@ -29,11 +30,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingUserCoursesCountShouldReturnTheCorrectAmountOfCourses()
+        public async Task GettingUserCoursesCountShouldReturnTheCorrectAmountOfCourses()
         {
             var expectedUserCourses = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
             var userId = "test-user";
@@ -61,14 +62,14 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GetIndexPageInfoShouldReturnCorrectInfo()
+        public async Task GetIndexPageInfoShouldReturnCorrectInfo()
         {
             var expectedUsers = 1;
             var expectedCourses = 1;
             var expectedMoney = 220;
             var expectedUsersSignedUpThisMonth = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
             var userId = "test-user";
@@ -84,11 +85,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GetUserSignUpForCourseShouldReturnTheCorrectAmount()
+        public async Task GetUserSignUpForCourseShouldReturnTheCorrectAmount()
         {
             var expectedCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
             var userId = "test-user";
@@ -101,11 +102,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GetUserSignedUpForCourseShouldReturnTheCorrectAmount()
+        public async Task GetUserSignedUpForCourseShouldReturnTheCorrectAmount()
         {
             var expectedCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId =await SeedCourse();
 
             SeedUser();
             var userId = "test-user";

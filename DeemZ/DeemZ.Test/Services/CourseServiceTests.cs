@@ -6,6 +6,7 @@
     using DeemZ.Models.FormModels.Course;
     using DeemZ.Data.Models;
     using DeemZ.Models.ViewModels.Administration;
+    using System.Threading.Tasks;
 
     public class CourseServiceTests : BaseTestClass
     {
@@ -36,7 +37,7 @@
         }
 
         [Fact]
-        public void CreateBasicLecturesShouldCreateBasicLectures()
+        public async Task CreateBasicLecturesShouldCreateBasicLectures()
         {
             //Arange
             var expectedCount = 2;
@@ -52,7 +53,7 @@
                 Price = 220
             };
 
-            var courseId = courseService.CreateCourse(model);
+            var courseId = await courseService.CreateCourse(model);
 
             //Act
             courseService.CreateBasicsLectures(courseId, model);
@@ -64,15 +65,15 @@
         }
 
         [Fact]
-        public void DeleteCourseShouldDeleteCourseFromDb()
+        public async Task DeleteCourseShouldDeleteCourseFromDb()
         {
             //Arange
             var expectedCount = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             //Act
-            courseService.DeleteCourse(courseId);
+            await courseService.DeleteCourse(courseId);
 
             var actualCount = context.Countries.Count();
 
@@ -81,10 +82,10 @@
         }
 
         [Fact]
-        public void GetCourseByIdShouldReturnTrueIfCourseExists()
+        public async Task GetCourseByIdShouldReturnTrueIfCourseExists()
         {
             //Arange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             //Act
             var actualResult = courseService.GetCourseById(courseId);
@@ -104,10 +105,10 @@
         }
 
         [Fact]
-        public void GetCourseByIdShouldReturnTheCourse()
+        public async Task GetCourseByIdShouldReturnTheCourse()
         {
             //Arrange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             //Act
             var actualResult = courseService.GetCourseById<Course>(courseId).Name;
@@ -117,13 +118,13 @@
         }
 
         [Fact]
-        public void EditCourseShouldEditCourseDetails()
+        public async Task EditCourseShouldEditCourseDetails()
         {
             //Arrange
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             //Act
-            courseService.Edit(new EditCourseFormModel
+            await courseService.Edit(new EditCourseFormModel
             {
                 Credits = 15,
                 Name = "test"
@@ -136,17 +137,17 @@
         }
 
         [Fact]
-        public void SignUpForCourseShouldSignUpUserToCourse()
+        public async Task SignUpForCourseShouldSignUpUserToCourse()
         {
             //Arrange
             var expectedUserCourseCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, courseId, true);
+            await courseService.SignUserToCourse(testUserId, courseId, true);
 
             var actualResult = context.UserCourses
                 .Count(x => x.CourseId == courseId
@@ -157,17 +158,17 @@
         }
 
         [Fact]
-        public void AfterSignUpGetUserCourseCountShouldReturnCorrectNumer()
+        public async Task AfterSignUpGetUserCourseCountShouldReturnCorrectNumer()
         {
             //Arrange
             var expectedUserCourseCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, courseId, true);
+            await courseService.SignUserToCourse(testUserId, courseId, true);
 
             var actualResult = courseService.GetUserCoursesCount();
 
@@ -176,19 +177,19 @@
         }
 
         [Fact]
-        public void DeleteUserFromCourse()
+        public async Task DeleteUserFromCourse()
         {
             //Arrange
             var expectedUserCourseCount = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, courseId, true);
+            await courseService.SignUserToCourse(testUserId, courseId, true);
 
-            courseService.DeleteUserFromCourse(courseId, testUserId);
+            await courseService.DeleteUserFromCourse(courseId, testUserId);
 
             var actualResult = context.UserCourses
                 .Count(x => x.CourseId == courseId && x.UserId == testUserId);
@@ -198,19 +199,19 @@
         }
 
         [Fact]
-        public void DeleteUserFromInvalidCourseShouldNotDoAnything()
+        public async Task DeleteUserFromInvalidCourseShouldNotDoAnything()
         {
             //Arrange
             var expectedUserCourseCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, courseId, true);
+            await courseService.SignUserToCourse(testUserId, courseId, true);
 
-            courseService.DeleteUserFromCourse("invalid-courseId", testUserId);
+            await courseService.DeleteUserFromCourse("invalid-courseId", testUserId);
 
             var actualResult = context.UserCourses
                 .Count(x => x.CourseId == courseId && x.UserId == testUserId);
@@ -220,17 +221,17 @@
         }
 
         [Fact]
-        public void IsUserSignUpForThisCourseShouldReturnTrueIfUserIsSignedUp()
+        public async Task IsUserSignUpForThisCourseShouldReturnTrueIfUserIsSignedUp()
         {
             //Arrange
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var userId = "test-user";
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, courseId, true);
+            await courseService.SignUserToCourse(testUserId, courseId, true);
             var isSignedUp = courseService.IsUserSignUpForThisCourse(userId,courseId);
 
             //Assert
@@ -238,11 +239,11 @@
         }
 
         [Fact]
-        public void IsUserSignUpForThisCourseShouldReturnFalseIfUserIsNotSignedUp()
+        public async Task IsUserSignUpForThisCourseShouldReturnFalseIfUserIsNotSignedUp()
         {
             //Arrange
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var userId = "test-user";
             SeedUser();
@@ -255,15 +256,15 @@
         }
 
         [Fact]
-        public void GettingCoursesShouldReturnTheCorrectCourses()
+        public async Task GettingCoursesShouldReturnTheCorrectCourses()
         {
             //Arrange
-            var expectedCourseId = SeedCourse();
+            var expectedCourseId = await SeedCourse();
 
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, expectedCourseId, true);
+            await courseService.SignUserToCourse(testUserId, expectedCourseId, true);
             var actualCourseId = courseService.GetCourses<CoursesViewModel>().First().Id;
 
             //Assert
@@ -271,15 +272,15 @@
         }
 
         [Fact]
-        public void GetCourseByIdAsKeyValuePairShouldReturnCorrectInfo()
+        public async Task GetCourseByIdAsKeyValuePairShouldReturnCorrectInfo()
         {
             //Arrange
-            var expectedCourseId = SeedCourse();
+            var expectedCourseId = await SeedCourse();
 
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, expectedCourseId, true);
+            await courseService.SignUserToCourse(testUserId, expectedCourseId, true);
             
             var keyValuePairKey = courseService.GetCourseByIdAsKeyValuePair(DateTime.Today.AddDays(-30)).First().Key;
 
@@ -288,17 +289,17 @@
         }
 
         [Fact]
-        public void GettingUserCourses()
+        public async Task GettingUserCourses()
         {
             //Arrange
             var expectedUserCourseCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             SeedUser();
 
             //Act
-            courseService.SignUserToCourse(testUserId, courseId, true);
+            await courseService.SignUserToCourse(testUserId, courseId, true);
 
             var actualResult = courseService.GetUserCourses<UserCoursesViewModel>(1, 20)
                 .Count();

@@ -13,6 +13,7 @@
     using DeemZ.Services.LectureServices;
     using DeemZ.Global.Extensions;
     using DeemZ.Services.PromoCodeServices;
+    using System.Threading.Tasks;
 
     public class CourseService : ICourseService
     {
@@ -78,7 +79,7 @@
 
         
 
-        public void SignUserToCourse(string uid, string cid, bool isPaid = true)
+        public async Task SignUserToCourse(string uid, string cid, bool isPaid = true)
         {
             var toPay = GetCourseById<Course>(cid).Price;
 
@@ -92,10 +93,10 @@
             };
 
             context.UserCourses.Add(userCourse);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void SignUserToCourse(string uid, string cid, SignUpCourseFormModel signUp)
+        public async Task SignUserToCourse(string uid, string cid, SignUpCourseFormModel signUp)
         {
             var promoCode = promoCodeService.GetPromoCode(signUp.PromoCode);
 
@@ -118,7 +119,7 @@
             }
 
             context.UserCourses.Add(userCourse);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetCourses<T>()
@@ -130,17 +131,17 @@
 
         public int GetUserCoursesCount() => context.UserCourses.Count();
 
-        public string CreateCourse(AddCourseFormModel course)
+        public async Task<string> CreateCourse(AddCourseFormModel course)
         {
             var newlyCourse = mapper.Map<Course>(course);
 
             context.Courses.Add(newlyCourse);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return newlyCourse.Id;
         }
 
-        public void Edit(EditCourseFormModel course, string courseId)
+        public async Task Edit(EditCourseFormModel course, string courseId)
         {
             var courseToEdit = GetCourseById<Course>(courseId);
 
@@ -153,18 +154,18 @@
             courseToEdit.SignUpStartDate = course.SignUpStartDate.ToUniversalTime();
             courseToEdit.SignUpEndDate = course.SignUpEndDate.ToUniversalTime();
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public bool GetCourseById(string id)
             => context.Courses.Any(x => x.Id == id);
 
-        public void DeleteCourse(string cid)
+        public async Task DeleteCourse(string cid)
         {
             var courseToDelete = GetCourseById<Course>(cid);
 
             context.Courses.Remove(courseToDelete);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public void CreateBasicsLectures(string courseId, AddCourseFormModel course)
@@ -195,7 +196,7 @@
                 .ToDictionary(x => x.Id, x => x.Name)
                 .ToList();
 
-        public void DeleteUserFromCourse(string courseId, string userId)
+        public async Task DeleteUserFromCourse(string courseId, string userId)
         {
             var userCourse = context.UserCourses
                 .FirstOrDefault(x => x.UserId == userId && x.CourseId == courseId);
@@ -203,7 +204,7 @@
             if (userCourse == null) return;
 
             context.UserCourses.Remove(userCourse);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public int UpCommingCoursesCount()
@@ -212,7 +213,5 @@
                 x.SignUpStartDate <= DateTime.UtcNow
                 && x.SignUpEndDate > DateTime.UtcNow)
             .Count();
-
-        
     }
 }

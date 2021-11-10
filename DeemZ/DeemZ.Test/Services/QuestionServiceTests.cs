@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DeemZ.Data;
 using DeemZ.Data.Models;
 using DeemZ.Models.FormModels.Exam;
@@ -15,11 +16,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void AddingQuestionToExamShouldCorrectlyAddIt()
+        public async Task AddingQuestionToExamShouldCorrectlyAddIt()
         {
             var expectedQuestions = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var examId = SeedExam(courseId);
 
@@ -43,11 +44,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DeletingQuestionShouldRemoveItFromExam()
+        public async Task DeletingQuestionShouldRemoveItFromExam()
         {
             var expectedQuestions = 0;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var examId = SeedExam(courseId);
 
@@ -62,11 +63,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingQuestionByIdShouldReturnTheCorrectQuestion()
+        public async Task GettingQuestionByIdShouldReturnTheCorrectQuestion()
         {
             var expectedQuestionText = "Are you cool?";
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var examId = SeedExam(courseId);
 
@@ -79,9 +80,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingQuestionByIdShouldReturnTrueIfTheQuestionExists()
+        public async Task GettingQuestionByIdShouldReturnTrueIfTheQuestionExists()
         {
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var examId = SeedExam(courseId);
 
@@ -97,11 +98,11 @@ namespace DeemZ.Test.Services
         public void GettingQuestionByIdShouldReturnFalseIfTheQuestionDoesNotExists() => Assert.False(questionService.GetQuestionById("invalid-question-id"));
 
         [Fact]
-        public void GettingQuestionsByExamIdShouldReturnTheCorrectQuestions()
+        public async Task GettingQuestionsByExamIdShouldReturnTheCorrectQuestions()
         {
             var expectedQuestionsCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var examId = SeedExam(courseId);
 
@@ -113,11 +114,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EditingQuestionShouldChangeItsProperties()
+        public async Task EditingQuestionShouldChangeItsProperties()
         {
             var expectedQuestionPoints = 69;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var examId = SeedExam(courseId);
 
@@ -137,11 +138,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EditingQuestionShouldChangeTheAnswersOnlyIfTheirTextIsNotNull()
+        public async Task EditingQuestionShouldChangeTheAnswersOnlyIfTheirTextIsNotNull()
         {
             var expectedAnswersCount = 1;
 
-            var courseId = SeedCourse();
+            var courseId = await SeedCourse();
 
             var examId = SeedExam(courseId);
 
