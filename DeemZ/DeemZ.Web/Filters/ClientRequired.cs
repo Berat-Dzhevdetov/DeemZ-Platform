@@ -79,13 +79,5 @@
                     return entry.Key;
             return null;
         }
-
-        private object GetDefaultValue(Type t)
-        {
-            if (t.IsValueType)
-                return Activator.CreateInstance(t);
-
-            return null;
-        }
     }
 }

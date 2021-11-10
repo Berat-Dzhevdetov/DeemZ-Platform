@@ -44,7 +44,7 @@
             {
                 var resourceName = arg.Key.TrimEnd("Id");
 
-                var pluralizedName = PluralizationProvider.Pluralize(resourceName);
+                var pluralizedName = resourceName == "forum" ? "forums" : PluralizationProvider.Pluralize(resourceName);
 
                 var tableName = pluralizedName.First().ToString().ToUpper() + pluralizedName[1..];
 

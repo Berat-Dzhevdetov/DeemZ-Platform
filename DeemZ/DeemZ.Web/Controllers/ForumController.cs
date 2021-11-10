@@ -64,18 +64,19 @@
 
             var topicId = forumService.CreateTopic(topic, userId);
 
-            return RedirectToAction(nameof(Topic), new { topicId = topicId });
+            return RedirectToAction(nameof(Topic), new { topicId });
         }
 
         [ClientRequired]
         [IfExists]
-        public IActionResult Topic(string topicId)
+        public IActionResult Topic(string forumId)
         {
-            var topic = forumService.GetTopicById<TopicViewModel>(topicId);
+            var topic = forumService.GetTopicById<TopicViewModel>(forumId);
 
-            var viewModelTest = new ViewAndFormModelForTopics();
-
-            viewModelTest.ViewModel = topic;
+            var viewModelTest = new ViewAndFormModelForTopics
+            {
+                ViewModel = topic
+            };
 
             return View(viewModelTest);
         }
@@ -84,21 +85,21 @@
         [Authorize]
         [ClientRequired]
         [IfExists]
-        public IActionResult PostComment(string topicId, ViewAndFormModelForTopics model)
+        public IActionResult PostComment(string forumId, ViewAndFormModelForTopics model)
         {
             if (!ModelState.IsValid)
             {
-                model.ViewModel = forumService.GetTopicById<TopicViewModel>(topicId);
+                model.ViewModel = forumService.GetTopicById<TopicViewModel>(forumId);
                 return View(nameof(Topic), model);
             }
 
             var userId = User.GetId();
 
-            forumService.CreateComment(model.FormModel, topicId, userId);
+            forumService.CreateComment(model.FormModel, forumId, userId);
 
-            model.ViewModel = forumService.GetTopicById<TopicViewModel>(topicId);
+            model.ViewModel = forumService.GetTopicById<TopicViewModel>(forumId);
 
-            return RedirectToAction(nameof(Topic), new { topicId = topicId });
+            return RedirectToAction(nameof(Topic), new { forumId });
         }
 
         private AllForumTopicsViewModel AdjustPages(AllForumTopicsViewModel viewModel, int page, int allPages)

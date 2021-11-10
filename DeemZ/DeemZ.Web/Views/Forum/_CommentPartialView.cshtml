@@ -1,7 +1,7 @@
 ﻿@model ForumTopicsViewModel 
 <div class="topic flex">
     <img src="@Model.UserProfileImgUrl" />
-    <a asp-controller="Forum" asp-action="Topic" asp-route-topicId="@Model.Id">
+    <a asp-controller="Forum" asp-action="Topic" asp-route-forumId="@Model.Id">
         <div>
             <div class="topic-heading">
                 <p class="small custom-text-muted">From: @Model.Username; posted on @Model.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</p>
