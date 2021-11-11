@@ -144,7 +144,7 @@
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, courseId, true);
@@ -165,7 +165,7 @@
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, courseId, true);
@@ -184,7 +184,7 @@
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, courseId, true);
@@ -206,7 +206,7 @@
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, courseId, true);
@@ -228,7 +228,7 @@
             var courseId = await SeedCourse();
 
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, courseId, true);
@@ -246,7 +246,7 @@
             var courseId = await SeedCourse();
 
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             //Act
             var isSignedUp = courseService.IsUserSignUpForThisCourse(userId, courseId);
@@ -261,7 +261,7 @@
             //Arrange
             var expectedCourseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, expectedCourseId, true);
@@ -277,7 +277,7 @@
             //Arrange
             var expectedCourseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, expectedCourseId, true);
@@ -296,7 +296,7 @@
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
 
             //Act
             await courseService.SignUserToCourse(testUserId, courseId, true);

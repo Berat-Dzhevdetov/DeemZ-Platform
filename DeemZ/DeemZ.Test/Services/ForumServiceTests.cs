@@ -14,13 +14,13 @@
         }
 
         [Fact]
-        public void CreatingTopicShouldAddItToTheDb()
+        public async Task CreatingTopicShouldAddItToTheDb()
         {
             var expectedTopicsCount = 1;
 
-            SeedUser();
+            await SeedUser();
 
-            forumService.CreateTopic(new CreateForumTopicFormModel()
+            await forumService.CreateTopic(new CreateForumTopicFormModel()
             {
                 Title = "Test",
                 Description = "Test",

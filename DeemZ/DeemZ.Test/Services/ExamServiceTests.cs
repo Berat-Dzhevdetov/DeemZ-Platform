@@ -41,7 +41,7 @@ namespace DeemZ.Test.Services
         public async Task DoesTheUserHavePermissionToExamShouldReturnTrueIfUserIsEnrolledAndHasNotTakenTheExam()
         {
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -55,7 +55,7 @@ namespace DeemZ.Test.Services
         public async Task DoesTheUserHavePermissionToExamShouldReturnFalseIfUserIsEnrolledAndHasTakenTheExam()
         {
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -71,7 +71,7 @@ namespace DeemZ.Test.Services
         public async Task DoesTheUserHavePermissionToExamShouldReturnFalseIfUserNotEnrolled()
         {
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             var examId = SeedExam(courseId);
 
@@ -169,7 +169,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = -1;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -187,7 +187,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 99;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -206,7 +206,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 10;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -236,7 +236,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 0;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -286,7 +286,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 0;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -355,7 +355,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 0;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -423,7 +423,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 0;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -481,7 +481,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 0;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -541,7 +541,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 0;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 
@@ -602,7 +602,7 @@ namespace DeemZ.Test.Services
             var expectedPoints = 0;
 
             var courseId = await SeedCourse();
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourse(courseId, testUserId);
 

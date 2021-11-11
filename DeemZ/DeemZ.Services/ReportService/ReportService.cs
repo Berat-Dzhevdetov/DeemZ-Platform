@@ -9,6 +9,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Reports;
     using DeemZ.Global.Extensions;
+    using System.Threading.Tasks;
 
     public class ReportService : IReportService
     {
@@ -21,14 +22,14 @@
             this.mapper = mapper;
         }
 
-        public string AddReport(AddReportFormModel model,string uid)
+        public async Task<string> AddReport(AddReportFormModel model,string uid)
         {
             var report = mapper.Map<Report>(model);
 
             report.UserId = uid;
 
             context.Reports.Add(report);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return report.Id;
         }
@@ -46,12 +47,12 @@
         public bool GetReportById(string id)
             => context.Reports.Any(x => x.Id == id);
 
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
             var report = GetReportById<Report>(id);
 
             context.Reports.Remove(report);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetReports<T>(int page = 1, int quantity = 20)
