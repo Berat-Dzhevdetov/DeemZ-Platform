@@ -65,13 +65,13 @@
         }
 
         [Authorize]
-        public IActionResult DeleteProfilePicture()
+        public async Task<IActionResult> DeleteProfilePicture()
         {
             var userId = User.GetId();
 
             userService.DeleteUserProfileImg(userId);
 
-            userService.SetProfileImg(userId, Data.DataConstants.User.DefaultProfilePictureUrl, null);
+            await userService.SetProfileImg(userId, Data.DataConstants.User.DefaultProfilePictureUrl, null);
 
             return LocalRedirect("/Identity/Account/Manage");
         }

@@ -104,7 +104,7 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
 
                 (string url,string publicId) = fileService.PreparingFileForUploadAndUploadIt(Img);
 
-                userServices.SetProfileImg(user.Id, url, publicId);
+                await userServices.SetProfileImg(user.Id, url, publicId);
             }
 
         afterImg:;

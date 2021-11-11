@@ -30,7 +30,7 @@
             var toAddress = new EmailAddress(to);
             var message = MailHelper.CreateSingleEmail(fromAddress, toAddress, subject, null, htmlContent);
 
-            Console.WriteLine(await this.client.SendEmailAsync(message));
+            await this.client.SendEmailAsync(message);
         }
 
         public async Task SendEmailToUsers(string subject, string content, string[] users)

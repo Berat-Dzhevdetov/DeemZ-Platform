@@ -20,7 +20,7 @@
         IndexUserViewModel GetIndexInformaiton(string uid, bool isAdmin);
         bool GetUserByUserName(string username);
         string GetUserIdByUserName(string username);
-        void SetProfileImg(string id, string url, string publidId);
+        Task SetProfileImg(string id, string url, string publidId);
         void DeleteUserProfileImg(string userId);
     }
 }

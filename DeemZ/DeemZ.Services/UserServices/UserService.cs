@@ -51,7 +51,7 @@
 
             await userManager.AddToRoleAsync(user, role);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task RemoveUserFromRole(string userId, string role)
@@ -60,7 +60,7 @@
 
             await userManager.RemoveFromRoleAsync(user, role);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public async Task EditUser(string userId, EditUserFormModel user)
@@ -128,14 +128,14 @@
         public bool GetUserById(string uid)
             => context.Users.Any(x => x.Id == uid);
 
-        public void SetProfileImg(string id, string url, string publidId)
+        public async Task SetProfileImg(string id, string url, string publidId)
         {
             var user = GetUserById<ApplicationUser>(id);
 
             user.ImgUrl = url;
             user.ImgPublicId = publidId;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public void DeleteUserProfileImg(string userId)
