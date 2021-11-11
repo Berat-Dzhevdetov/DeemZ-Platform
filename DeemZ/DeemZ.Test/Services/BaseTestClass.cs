@@ -118,7 +118,7 @@ namespace DeemZ.Test.Services
             });
 
         //Seeding non admin user
-        public void SeedUser(string username = "test-username", string id = testUserId)
+        public async Task SeedUser(string username = "test-username", string id = testUserId)
         {
             context.Users.Add(new ApplicationUser
             {
@@ -126,14 +126,14 @@ namespace DeemZ.Test.Services
                 UserName = username,
                 Email = testUserId
             });
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public string SeedResourceTypes(bool isRemote = true)
+        public async Task<string> SeedResourceTypes(bool isRemote = true)
         {
             context.ResourceTypes.Add(new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>", IsRemote = isRemote });
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return context.ResourceTypes.First().Id;
         }
@@ -144,7 +144,7 @@ namespace DeemZ.Test.Services
 
             var lectureId = await SeedLecture(courseId);
 
-            var resourceTypeId = SeedResourceTypes();
+            var resourceTypeId = await SeedResourceTypes();
 
             var resourceToAdd = new AddResourceFormModel
             {
@@ -153,12 +153,12 @@ namespace DeemZ.Test.Services
                 ResourceTypeId = resourceTypeId
             };
 
-            return resourceService.AddResourceToLecture(lectureId, testUserId, resourceToAdd);
+            return await resourceService.AddResourceToLecture(lectureId, testUserId, resourceToAdd);
         }
 
         public async Task<string> SeedForumTopic(bool addUser = true)
         {
-            if (addUser) SeedUser();
+            if (addUser) await SeedUser();
             return await forumService.CreateTopic(new CreateForumTopicFormModel()
             {
                 Title = "Test",

@@ -132,7 +132,7 @@
         {
             var lecture = GetLectureById<Lecture>(lid);
 
-            resourceService.DeleteLectureResoureces(lid);
+            await resourceService.DeleteLectureResoureces(lid);
             await DeleteAllDescription(lid);
 
             context.Lectures.Remove(lecture);
