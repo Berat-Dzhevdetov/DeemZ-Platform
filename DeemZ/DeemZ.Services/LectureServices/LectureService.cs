@@ -11,6 +11,7 @@
     using DeemZ.Models.FormModels.Description;
     using DeemZ.Services.ResourceService;
     using System;
+    using System.Threading.Tasks;
 
     public class LectureService : ILectureService
     {
@@ -25,7 +26,7 @@
             this.resourceService = resourceService;
         }
 
-        public string AddLectureToCourse(string courseId, AddLectureFormModel lecture)
+        public async Task<string> AddLectureToCourse(string courseId, AddLectureFormModel lecture)
         {
             var newlyLecture = mapper.Map<Lecture>(lecture);
             newlyLecture.CourseId = courseId;
@@ -33,7 +34,7 @@
             if(lecture.Date != null) newlyLecture.Date = ((DateTime)lecture.Date).ToUniversalTime();
 
             context.Lectures.Add(newlyLecture);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return newlyLecture.Id;
         }
@@ -45,7 +46,7 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
-        public void EditLectureById(string lectureId, EditLectureFormModel lecture)
+        public async Task EditLectureById(string lectureId, EditLectureFormModel lecture)
         {
             var lectureToEdit = GetLectureById<Lecture>(lectureId);
 
@@ -65,10 +66,10 @@
                     context.Descriptions.Add(description);
                 }
                 description.Name = name;
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         private Description CreateDescription(string name, string lectureId)
@@ -117,34 +118,34 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .ToList();
 
-        public void DeleteDescription(string did)
+        public async Task DeleteDescription(string did)
         {
             var description = GetDescriptionById(did);
 
             if (description == null) return;
 
             context.Descriptions.Remove(description);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void DeleteLecture(string lid)
+        public async Task DeleteLecture(string lid)
         {
             var lecture = GetLectureById<Lecture>(lid);
 
             resourceService.DeleteLectureResoureces(lid);
-            DeleteAllDescription(lid);
+            await DeleteAllDescription(lid);
 
             context.Lectures.Remove(lecture);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void DeleteAllDescription(string lid)
+        public async Task DeleteAllDescription(string lid)
         {
             var descriptions = GetLectureDescriptions<Description>(lid);
 
             foreach (var description in descriptions)
             {
-                DeleteDescription(description.Id);
+                await DeleteDescription(description.Id);
             }
         }
     }

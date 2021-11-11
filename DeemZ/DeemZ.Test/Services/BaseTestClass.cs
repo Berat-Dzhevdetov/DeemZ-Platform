@@ -111,8 +111,8 @@ namespace DeemZ.Test.Services
                 Price = 220
             });
 
-        public string SeedLecture(string courseId)
-            => lectureService.AddLectureToCourse(courseId, new AddLectureFormModel
+        public async Task<string> SeedLecture(string courseId)
+            => await lectureService.AddLectureToCourse(courseId, new AddLectureFormModel
             {
                 Name = "Very important test"
             });
@@ -142,7 +142,7 @@ namespace DeemZ.Test.Services
         {
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var resourceTypeId = SeedResourceTypes();
 
@@ -170,10 +170,10 @@ namespace DeemZ.Test.Services
         {
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
-            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            await lectureService.EditLectureById(lectureId, new EditLectureFormModel()
             {
                 CourseId = courseId,
                 Descriptions = new List<EditDescriptionFormModel>()

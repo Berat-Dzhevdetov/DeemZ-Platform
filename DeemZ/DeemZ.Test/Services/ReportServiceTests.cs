@@ -31,7 +31,7 @@
             var expectedCount = 2;
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             SeedUser();
 
@@ -51,7 +51,7 @@
             var expectedCount = 0;
             var courseId =await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             SeedUser();
 
@@ -71,7 +71,7 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             SeedUser();
 
@@ -89,7 +89,7 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             SeedUser();
 

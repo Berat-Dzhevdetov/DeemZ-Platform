@@ -17,7 +17,7 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
             resourceService.AddResourceToLecture(lectureId, "testId",
@@ -35,7 +35,7 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
             var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
@@ -53,7 +53,7 @@
         {
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var resourceTypeId = SeedResourceTypes();
 
@@ -110,7 +110,7 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var resourceTypeId = SeedResourceTypes();
 
@@ -132,7 +132,7 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var resourceTypeId = SeedResourceTypes();
 
@@ -154,7 +154,7 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var resourceTypeId = SeedResourceTypes(false);
 
@@ -176,7 +176,7 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var resourceTypeId = SeedResourceTypes(false);
 
@@ -197,7 +197,7 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var username = "Bero";
             var userId = "test-user";
@@ -219,7 +219,7 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var username = "Bero";
             var userId = "test-user";
