@@ -11,6 +11,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.InformativeMessages;
     using DeemZ.Models.ViewModels.InformativeMessages;
+    using System.Threading.Tasks;
 
     public class InformativeMessageService : IInformativeMessageService
     {
@@ -23,36 +24,36 @@
             this.mapper = mapper;
         }
 
-        public void CreateInformativeMessagesHeading(string title)
+        public async Task CreateInformativeMessagesHeading(string title)
         {
             context.InformativeMessagesHeadings.Add(new InformativeMessagesHeading
             {
                 Title = title
             });
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void DeleteInformativeMessagesHeading(string imhId)
+        public async Task DeleteInformativeMessagesHeading(string imhId)
         {
             var imhToDel = context.InformativeMessagesHeadings
                     .Include(x => x.InformativeMessages)
                     .FirstOrDefault(x => x.Id == imhId);
 
             foreach (var imh in imhToDel.InformativeMessages)
-                DeleteInformativeMessage(imh.Id);
+                await DeleteInformativeMessage(imh.Id);
 
             context.InformativeMessagesHeadings.Remove(imhToDel);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public string DeleteInformativeMessage(string imId)
+        public async Task<string> DeleteInformativeMessage(string imId)
         {
             var msg = GetInformativeMessage<InformativeMessage>(imId);
 
             context.InformativeMessages.Remove(msg);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return msg.InformativeMessagesHeadingId;
         }
@@ -64,7 +65,7 @@
             return mapper.Map<T>(msg);
         }
 
-        public void EditInformativeMessagesHeading(string imhId, string title)
+        public async Task EditInformativeMessagesHeading(string imhId, string title)
         {
             var msgToEdit = GetInformativeMessagesHeading<InformativeMessagesHeading>(imhId);
 
@@ -72,7 +73,7 @@
 
             msgToEdit.Title = title;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetInformativeMessageHeadings<T>(int page = 1, int quantiy = 20)
@@ -120,7 +121,7 @@
                 .Paging(page, quantity)
                 .ToList();
 
-        public void CreateInformativeMessage<T>(string imhId, T message)
+        public async Task CreateInformativeMessage<T>(string imhId, T message)
         {
             var newlyMessage = mapper.Map<InformativeMessage>(message);
 
@@ -129,10 +130,10 @@
             newlyMessage.InformativeMessagesHeadingId = imhId;
 
             context.InformativeMessages.Add(newlyMessage);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public string EditInformativeMessage(string imId, InformativeMessageEditFormModel message)
+        public async Task<string> EditInformativeMessage(string imId, InformativeMessageEditFormModel message)
         {
             var msgToEdit = GetInformativeMessage<InformativeMessage>(imId);
 
@@ -142,7 +143,7 @@
             msgToEdit.ShowFrom = message.ShowFrom.ToUniversalTime();
             msgToEdit.ShowTo = message.ShowTo.ToUniversalTime();
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return msgToEdit.InformativeMessagesHeadingId;
         }
