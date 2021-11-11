@@ -24,7 +24,7 @@ namespace DeemZ.Test.Services
 
             var examId = SeedExam(courseId);
 
-            questionService.AddQuestionToExam(examId, new AddQuestionFormModel()
+            await questionService.AddQuestionToExam(examId, new AddQuestionFormModel()
             {
                 Text = "Test Question",
                 Points = 10,
@@ -55,7 +55,7 @@ namespace DeemZ.Test.Services
             SeedExamQuestionsAnswers(examId);
             var questionId = context.Questions.First().Id;
 
-            questionService.Delete(questionId);
+            await questionService.Delete(questionId);
 
             var actualQuestions = examService.GetExamById<TakeExamFormModel>(examId).Questions.Count;
 
@@ -125,7 +125,7 @@ namespace DeemZ.Test.Services
             SeedExamQuestions(examId);
             var questionId = context.Questions.First().Id;
 
-            questionService.Edit(questionId,
+            await questionService.Edit(questionId,
                 new AddQuestionFormModel()
                 {
                     Points = expectedQuestionPoints,
@@ -158,7 +158,7 @@ namespace DeemZ.Test.Services
             });
             context.SaveChanges();
 
-            questionService.Edit(questionId,
+            await questionService.Edit(questionId,
                 new AddQuestionFormModel()
                 {
                     Points = 69

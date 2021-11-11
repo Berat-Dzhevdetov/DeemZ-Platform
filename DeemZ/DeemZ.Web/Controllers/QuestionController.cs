@@ -10,6 +10,7 @@
     using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using System.Threading.Tasks;
 
     [Authorize(Roles = Role.AdminRoleName)]
     public class QuestionController : Controller
@@ -70,7 +71,7 @@
         [HttpPost]
         [ClientRequired]
         [IfExists]
-        public IActionResult Edit(string questionId, AddQuestionFormModel question)
+        public async Task<IActionResult> Edit(string questionId, AddQuestionFormModel question)
         {
             var error = questionService.ValidateQuestionFormModel(question);
 
@@ -78,7 +79,7 @@
 
             if (!ModelState.IsValid) return View(question);
 
-            string examId = questionService.Edit(questionId, question);
+            string examId = await questionService.Edit(questionId, question);
 
             return RedirectToAction(nameof(AdministrationController.Questions), typeof(AdministrationController).GetControllerName(), new { examId, area = AreaName.AdminArea });
         }
