@@ -156,10 +156,10 @@ namespace DeemZ.Test.Services
             return resourceService.AddResourceToLecture(lectureId, testUserId, resourceToAdd);
         }
 
-        public string SeedForumTopic(bool addUser = true)
+        public async Task<string> SeedForumTopic(bool addUser = true)
         {
             if (addUser) SeedUser();
-            return forumService.CreateTopic(new CreateForumTopicFormModel()
+            return await forumService.CreateTopic(new CreateForumTopicFormModel()
             {
                 Title = "Test",
                 Description = "Test",

@@ -47,12 +47,12 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingAllCoursesShouldReturnTheCorrectAmountOfCourses()
+        public async Task GettingAllCoursesShouldReturnTheCorrectAmountOfCourses()
         {
             var expectedCoursesCount = 1;
             var expectedCourseName = courseName;
 
-            SeedCourse();
+            await SeedCourse();
 
             var actualCoursesCount = adminService.GetAllCourses<CoursesViewModel>().Count();
             var actualCourseName = adminService.GetAllCourses<CoursesViewModel>().First().Name;
