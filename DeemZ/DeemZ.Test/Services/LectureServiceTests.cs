@@ -56,10 +56,10 @@ namespace DeemZ.Test.Services
                 Name = "Test Lecture",
                 Id = lectureId,
             });
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             ;
             //Act
-            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            await lectureService.EditLectureById(lectureId, new EditLectureFormModel()
             {
                 CourseId = courseId,
                 Descriptions = new List<EditDescriptionFormModel>()
@@ -173,7 +173,7 @@ namespace DeemZ.Test.Services
 
             var lectureId = await SeedLectureWithDescriptions();
 
-            lectureService.DeleteAllDescription(lectureId);
+            await lectureService.DeleteAllDescription(lectureId);
 
             var actualLectureDescriptionsCount = lectureService.GetLectureDescriptions<DetailsDescriptionViewModel>(lectureId).Count;
 

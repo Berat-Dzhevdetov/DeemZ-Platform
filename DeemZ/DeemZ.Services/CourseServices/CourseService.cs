@@ -115,7 +115,7 @@
             {
                 userCourse.Paid -= promoCode.DiscountPrice;
                 userCourse.PromoCodeId = promoCode.Id;
-                promoCodeService.MarkPromoCodeAsUsed(promoCode.Id);
+                await promoCodeService.MarkPromoCodeAsUsed(promoCode.Id);
             }
 
             context.UserCourses.Add(userCourse);
