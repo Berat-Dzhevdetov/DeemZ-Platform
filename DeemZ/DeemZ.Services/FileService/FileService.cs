@@ -79,7 +79,7 @@
 
             var publicId = $"{folder}{newFileName}";
 
-            publicId += isExtensionNeeded ? extension : string.Empty;
+            publicId += isExtensionNeeded ? $".{extension}" : string.Empty;
 
             return (UploadFileToCloud(file, folder, newFileName, extension), publicId);
         }

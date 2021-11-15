@@ -132,9 +132,9 @@
         [Authorize(Roles = Role.AdminRoleName)]
         [ClientRequired]
         [IfExists]
-        public IActionResult Delete(string resourceId)
+        public async Task<IActionResult> Delete(string resourceId)
         {
-            var lectureId = resourceService.Delete(resourceId);
+            var lectureId = await resourceService.Delete(resourceId);
 
             return RedirectToAction(nameof(AdministrationController.Resources), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea, lectureId });
         }
