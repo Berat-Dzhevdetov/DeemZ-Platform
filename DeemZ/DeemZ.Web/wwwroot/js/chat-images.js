@@ -2,6 +2,7 @@
 const messageHolder = document.getElementById('message-holder');
 const inputImageHolder = document.getElementById('input-image-holder');
 const images = document.querySelectorAll('.input-image');
+const label = document.querySelector('.chat-label');
 
 messageInput.onpaste = function (event) {
     var items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -35,14 +36,22 @@ function addNewImage(reader) {
 
     newI.addEventListener('click', (e) => removeImage(e))
 
+    label.style.background = 'white';
+
     newDiv.appendChild(newImage);
     newDiv.appendChild(newI);
 
-    inputImageHolder.appendChild(newDiv);
+    if (inputImageHolder.children.length < 16) {
+        inputImageHolder.appendChild(newDiv);
+    }
 }
 
 function removeImage(e) {
     let divToRemove = e.currentTarget.parentNode;
 
     divToRemove.remove();
+
+    if (inputImageHolder.children.length == 0) {
+        label.style.background = 'transparent';
+    }
 }

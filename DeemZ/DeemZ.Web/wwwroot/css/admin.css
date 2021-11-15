@@ -185,23 +185,29 @@ form {
 .input-image-holder {
     display: flex;
     flex-wrap: wrap;
-    gap: 0px 5px;
+    gap: 0px 10px;
+    position:absolute;
 }
 
 .new-message-holder {
     position: fixed;
     bottom: 0;
     width: 76%;
+    margin-bottom: 50px;
 }
 
 .input-image, .input-image > img {
     width: 50px;
     height: 50px;
     border-radius: 15px;
+    object-fit: cover;
 }
 
-div.input-image{
+div.input-image {
     position: relative;
+    top: 10px;
+    left:10px;
+    z-index: 9;
 }
 
 .input-image > i {
@@ -259,6 +265,37 @@ img.rounted-img {
     border-radius: 20px 4px 4px 20px;
     word-break: break-word;
 }
+
+.chat-label {
+    background-color: transparent;
+    height: 120px;
+    position: relative;
+    display: inline-block;
+    width: 1000px;
+    border-radius: 15px;
+}
+
+.chat-textarea {
+    position: absolute;
+    top: 99%;
+    height: 100px;
+    left: 0;
+    width: 1000px !important;
+    resize: none;
+    transform: translateY(-50%);
+    border: 0;
+    background: white;
+}
+
+    .chat-textarea:focus {
+        outline: 0;
+    }
+
+.send-btn {
+    position: absolute;
+    top: 110px;
+}
+
 
 @media only screen and (max-width: 800px) {
     .card {

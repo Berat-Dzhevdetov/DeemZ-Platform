@@ -11,11 +11,15 @@
     <div class="m-5"></div>
     <form class="wide-form" enctype="multipart/form-data">
         <div class="new-message-holder">
-            <div class="input-image-holder" id="input-image-holder">
-            </div>
-            <div id="message-holder" class="mt-3 d-flex justify-content-start">
-                <input autocomplete="off" class=" col-sm-10 col-md-10 form-control" style="height: 50px" type="text" id="messageInput" placeholder="Message..." />
-                <button id="sendButton" class="col-sm-2 col-md-2 btn btn-success btn-lg">Send</button>
+            <div id="message-holder" class="mt-3 justify-content-start">
+                <div class="input-image-holder" id="input-image-holder">
+                </div>
+                <div class="sender-holder">
+                    <label class="chat-label">
+                        <textarea autocomplete="off" class="chat-textarea" id="messageInput" placeholder="Message..."></textarea>
+                    </label>
+                    <button id="sendButton" class="col-sm-2 col-md-2 btn send-btn btn-success btn-lg">Send</button>
+                </div>
                 <input id="groupId" type="hidden" value="@ViewBag.GroupId" />
             </div>
         </div>
