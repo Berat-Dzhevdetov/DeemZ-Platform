@@ -5,6 +5,8 @@ var connection =
         .withAutomaticReconnect()
         .build();
 
+const right = document.querySelector('.right');
+
 connection.on("NewMessage",
     function (message) {
 
@@ -39,6 +41,8 @@ connection.on("NewMessage",
         }
 
         $("#messagesList").append(messageHtml);
+
+        right.scrollTop = right.scrollHeight;
     });
 
 $("form").submit(function (e) {

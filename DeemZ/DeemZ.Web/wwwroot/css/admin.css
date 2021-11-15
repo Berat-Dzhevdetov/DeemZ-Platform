@@ -182,9 +182,39 @@ form {
     color: #8b0000;
 }
 
+.input-image-holder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px 5px;
+}
+
+.new-message-holder {
+    position: fixed;
+    bottom: 0;
+    width: 76%;
+}
+
+.input-image, .input-image > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+}
+
+div.input-image{
+    position: relative;
+}
+
+.input-image > i {
+    font-size: 20px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: red;
+}
+
 .messages-holder {
     padding: 1rem 0rem;
-    height: 70vh;
+    height: auto;
 }
 
 .message-holder {
@@ -200,7 +230,7 @@ form {
     text-align: right;
 }
 
-.username{
+.username {
     margin-left: 8px;
 }
 
