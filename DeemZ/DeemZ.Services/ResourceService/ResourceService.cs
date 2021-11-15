@@ -11,6 +11,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Services.FileService;
     using DeemZ.Global.Extensions;
+    using System.Threading.Tasks;
 
     public class ResourceService : IResourceService
     {
@@ -28,14 +29,14 @@
         public bool IsValidResourceType(string rtid)
             => context.ResourceTypes.Any(x => x.Id == rtid);
 
-        public string AddResourceToLecture(string lid, string publicId, AddResourceFormModel resource)
+        public async Task<string> AddResourceToLecture(string lid, string publicId, AddResourceFormModel resource)
         {
             var newlyResource = mapper.Map<Resource>(resource);
             newlyResource.LectureId = lid;
             newlyResource.PublicId = publicId;
 
             context.Resources.Add(newlyResource);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return newlyResource.Id;
         }
@@ -83,7 +84,7 @@
         public bool GetResourceById(string rid)
             => context.Resources.Any(x => x.Id == rid);
 
-        public void DeleteLectureResoureces(string lid)
+        public async Task DeleteLectureResoureces(string lid)
         {
             var resources = context.Resources.Where(x => x.LectureId == lid).Include(x => x.ResourceType).ToList();
 
@@ -94,10 +95,10 @@
                 context.Resources.Remove(resource);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public string Delete(string resourceId)
+        public async Task<string> Delete(string resourceId)
         {
             var resource = GetResourceById<Resource>(resourceId);
             var lectureId = resource.LectureId;
@@ -107,7 +108,7 @@
             if (!resource.ResourceType.IsRemote) fileService.DeleteFile(resource.PublicId, isVideo: isVideo);
 
             context.Resources.Remove(resource);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return lectureId;
         }

@@ -16,14 +16,14 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EditingUserShouldChangeTheirProperties()
+        public async Task EditingUserShouldChangeTheirProperties()
         {
             var expectedUsername = "TEST";
-            SeedUser();
+            await SeedUser();
 
             var userId = context.Users.First().Id;
 
-            userService.EditUser(userId, new EditUserFormModel()
+            await userService.EditUser(userId, new EditUserFormModel()
             {
                 UserName = testUserId,
                 Email = testUserId,
@@ -36,12 +36,12 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingAllUsersShouldReturnTheCorrectUsers()
+        public async Task GettingAllUsersShouldReturnTheCorrectUsers()
         {
             var expectedFirstUserUsername = "Bobi";
-            SeedUser("Bobi", "user-1");
-            SeedUser("Vlado", "user-2");
-            SeedUser("Bero", "user-3");
+            await SeedUser("Bobi", "user-1");
+            await SeedUser("Vlado", "user-2");
+            await SeedUser("Bero", "user-3");
 
             var actualFirstUserUsername = userService.GetAllUsers<BasicUserInformationViewModel>().First().Username;
 
@@ -49,10 +49,10 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingUserByIdShouldReturnTheCorrectUser()
+        public async Task GettingUserByIdShouldReturnTheCorrectUser()
         {
             var expectedUsername = "test-username";
-            SeedUser(expectedUsername);
+            await SeedUser(expectedUsername);
 
             var userId = context.Users.First().Id;
 
@@ -62,9 +62,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingUserByIdShouldReturnTrueIfUserExists()
+        public async Task GettingUserByIdShouldReturnTrueIfUserExists()
         {
-            SeedUser();
+            await SeedUser();
 
             var userId = context.Users.First().Id;
 
@@ -78,9 +78,9 @@ namespace DeemZ.Test.Services
             Assert.False(userService.GetUserById("invalid-id"));
 
         [Fact]
-        public void IsEmailFreeShouldReturnTrueIfEmailIsFree()
+        public async Task IsEmailFreeShouldReturnTrueIfEmailIsFree()
         {
-            SeedUser();
+            await SeedUser();
             var userId = context.Users.First().Id;
 
             var isEmailFree = userService.IsEmailFree(userId, "test@test.com");
@@ -88,9 +88,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void IsEmailFreeShouldReturnTrueIfEmailIsTaken()
+        public async Task IsEmailFreeShouldReturnTrueIfEmailIsTaken()
         {
-            SeedUser();
+            await SeedUser();
             var userId = context.Users.First().Id;
 
             var isEmailFree = userService.IsEmailFree(userId, "test-user");
@@ -98,9 +98,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void IsUsernameFreeShouldReturnTrueIfUsernameIsFree()
+        public async Task IsUsernameFreeShouldReturnTrueIfUsernameIsFree()
         {
-            SeedUser();
+            await SeedUser();
             var userId = context.Users.First().Id;
 
             var isUsernameFree = userService.IsUsernameFree(userId, "test-username-123");
@@ -108,9 +108,9 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void IsUsernameFreeShouldReturnTrueIfUsernameIsTaken()
+        public async Task IsUsernameFreeShouldReturnTrueIfUsernameIsTaken()
         {
-            SeedUser();
+            await SeedUser();
             var userId = context.Users.First().Id;
 
             var isUsernameFree = userService.IsUsernameFree(userId, "test-username");
@@ -118,11 +118,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GetUserByUsernameShouldReturnTrueOnCorrectUsername()
+        public async Task GetUserByUsernameShouldReturnTrueOnCorrectUsername()
         {
             var expectedUsername = "test-username";
 
-            SeedUser(expectedUsername);
+            await SeedUser(expectedUsername);
 
             Assert.True(userService.GetUserByUserName(expectedUsername));
         }
@@ -132,11 +132,11 @@ namespace DeemZ.Test.Services
             Assert.False(userService.GetUserByUserName("invalid-username"));
 
         [Fact]
-        public void GetUserByUserNameShouldReturnCorrectUserId()
+        public async Task GetUserByUserNameShouldReturnCorrectUserId()
         {
             var expectedUserId = "testing";
             var username = "Bobby";
-            SeedUser(username, expectedUserId);
+            await SeedUser(username, expectedUserId);
 
             var actualUserId = userService.GetUserIdByUserName(username);
 
@@ -146,7 +146,7 @@ namespace DeemZ.Test.Services
         [Fact]
         public async Task AddingUserToRoleShouldAddThemSuccessfully()
         {
-            SeedUser();
+            await SeedUser();
             var userId = "test-user";
             await userService.AddUserToRole(userId, Constant.Role.LecturerRoleName);
 
@@ -158,7 +158,7 @@ namespace DeemZ.Test.Services
         [Fact]
         public async Task AddingUserToRoleWillNotAddThemIfRoleDoesNotExist()
         {
-            SeedUser();
+            await SeedUser();
             var userId = "test-user";
             var roleName = "test-role";
             await userService.AddUserToRole(userId, roleName);
@@ -173,15 +173,15 @@ namespace DeemZ.Test.Services
             Assert.False(await userService.IsInRoleAsync("invalid-user-id", "invalid-role"));
 
         [Fact]
-        public void SetProfileImgShouldSetTheCorrectUrl()
+        public async Task SetProfileImgShouldSetTheCorrectUrl()
         {
             var userId = "test-user";
             var photoPublicId = "public-photo-id";
             var photoUrl = "https://api.images.com/cat";
-            
-            SeedUser();
 
-            userService.SetProfileImg(userId,photoUrl,photoPublicId);
+            await SeedUser();
+
+            await userService.SetProfileImg(userId,photoUrl,photoPublicId);
 
             var user = userService.GetUserById<ApplicationUser>(userId);
 
@@ -190,15 +190,15 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DeletingUserImgShouldRemoveItFromCloudinary()
+        public async Task DeletingUserImgShouldRemoveItFromCloudinary()
         {
             var userId = "test-user";
             var photoPublicId = "public-photo-id";
             var photoUrl = "https://api.images.com/cat";
 
-            SeedUser();
+            await SeedUser();
 
-            userService.SetProfileImg(userId, photoUrl, photoPublicId);
+            await userService.SetProfileImg(userId, photoUrl, photoPublicId);
 
             userService.DeleteUserProfileImg(userId);
 
@@ -206,10 +206,10 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void DeletingUserImgShouldNotDoAnythingIfItIsTheDefaultImg()
+        public async Task DeletingUserImgShouldNotDoAnythingIfItIsTheDefaultImg()
         {
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             userService.DeleteUserProfileImg(userId);
 
@@ -223,7 +223,7 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             await courseService.SignUserToCourse(userId,courseId);
 
@@ -239,7 +239,7 @@ namespace DeemZ.Test.Services
             var creditsCount = 10;
             var userSurveysCount = 1;
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
             
             await courseService.SignUserToCourse(userId, courseId);
 

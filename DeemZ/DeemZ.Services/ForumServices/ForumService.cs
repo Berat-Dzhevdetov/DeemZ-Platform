@@ -9,6 +9,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Forum;
     using DeemZ.Global.Extensions;
+    using System.Threading.Tasks;
 
     public class ForumService : IForumService
     {
@@ -21,7 +22,7 @@
             this.mapper = mapper;
         }
 
-        public string CreateTopic(CreateForumTopicFormModel model, string uid)
+        public async Task<string> CreateTopic(CreateForumTopicFormModel model, string uid)
         {
             var newlyTopic = mapper.Map<Forum>(model);
             newlyTopic.UserId = uid;
@@ -29,7 +30,7 @@
             newlyTopic.CreatedOn = newlyTopic.CreatedOn.ToUniversalTime();
 
             context.Forums.Add(newlyTopic);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return newlyTopic.Id;
         }
@@ -67,7 +68,7 @@
                 .Paging(page, quantity)
                 .ToList();
 
-        public string CreateComment(AddCommentFormModel model, string tid, string uid)
+        public async Task<string> CreateComment(AddCommentFormModel model, string tid, string uid)
         {
             var comment = mapper.Map<Comment>(model);
 
@@ -75,7 +76,7 @@
             comment.ForumId = tid;
 
             context.Comments.Add(comment);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return comment.Id;
         }

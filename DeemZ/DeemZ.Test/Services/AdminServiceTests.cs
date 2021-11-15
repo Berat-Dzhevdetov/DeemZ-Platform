@@ -19,7 +19,7 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
             
-            SeedUser();
+            await SeedUser();
             var userId = "test-user";
             
              SeedUserCourse(courseId, userId);
@@ -36,7 +36,7 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
             var userId = "test-user";
 
             SeedUserCourse(courseId, userId);
@@ -47,12 +47,12 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void GettingAllCoursesShouldReturnTheCorrectAmountOfCourses()
+        public async Task GettingAllCoursesShouldReturnTheCorrectAmountOfCourses()
         {
             var expectedCoursesCount = 1;
             var expectedCourseName = courseName;
 
-            SeedCourse();
+            await SeedCourse();
 
             var actualCoursesCount = adminService.GetAllCourses<CoursesViewModel>().Count();
             var actualCourseName = adminService.GetAllCourses<CoursesViewModel>().First().Name;
@@ -71,7 +71,7 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
             var userId = "test-user";
 
             SeedUserCourse(courseId, userId);
@@ -91,7 +91,7 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
             var userId = "test-user";
 
             SeedUserCourse(courseId, userId);
@@ -108,7 +108,7 @@ namespace DeemZ.Test.Services
 
             var courseId =await SeedCourse();
 
-            SeedUser();
+            await SeedUser();
             var userId = "test-user";
 
             SeedUserCourse(courseId, userId);

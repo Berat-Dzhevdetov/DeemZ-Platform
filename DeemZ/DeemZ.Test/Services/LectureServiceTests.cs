@@ -24,10 +24,10 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
-            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            await lectureService.EditLectureById(lectureId, new EditLectureFormModel()
             {
                 CourseId = courseId,
                 Descriptions = new List<EditDescriptionFormModel>()
@@ -56,10 +56,10 @@ namespace DeemZ.Test.Services
                 Name = "Test Lecture",
                 Id = lectureId,
             });
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             ;
             //Act
-            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            await lectureService.EditLectureById(lectureId, new EditLectureFormModel()
             {
                 CourseId = courseId,
                 Descriptions = new List<EditDescriptionFormModel>()
@@ -80,10 +80,10 @@ namespace DeemZ.Test.Services
             //Arrange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
-            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            await lectureService.EditLectureById(lectureId, new EditLectureFormModel()
             {
                 CourseId = courseId,
                 Name = "a",
@@ -116,7 +116,7 @@ namespace DeemZ.Test.Services
         public async Task GetLectureByIdShouldReturnTrueIfLectureIsPresent()
         {
             var courseId = await SeedCourse();
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var lectureExists = lectureService.GetLectureById(lectureId);
 
@@ -143,7 +143,7 @@ namespace DeemZ.Test.Services
         {
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var lectureIdFromService = lectureService.GetLecturesByCourseId<DetailsLectureViewModel>(courseId).First().Id;
 
@@ -157,9 +157,9 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            lectureService.DeleteLecture(lectureId);
+            await lectureService.DeleteLecture(lectureId);
 
             var actualLecturesCount = context.Lectures.ToArray().Length;
 
@@ -173,7 +173,7 @@ namespace DeemZ.Test.Services
 
             var lectureId = await SeedLectureWithDescriptions();
 
-            lectureService.DeleteAllDescription(lectureId);
+            await lectureService.DeleteAllDescription(lectureId);
 
             var actualLectureDescriptionsCount = lectureService.GetLectureDescriptions<DetailsDescriptionViewModel>(lectureId).Count;
 

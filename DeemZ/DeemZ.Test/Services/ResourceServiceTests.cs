@@ -17,10 +17,10 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
-            resourceService.AddResourceToLecture(lectureId, "testId",
+            await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = "1" });
 
             var resourcesCountInDb = context.Resources.ToArray().Length;
@@ -35,10 +35,10 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
-            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+            var resourceId = await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = "1" });
 
             //Asert
@@ -53,9 +53,9 @@
         {
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            var resourceTypeId = SeedResourceTypes();
+            var resourceTypeId = await SeedResourceTypes();
 
             //Act
             var resourceToAdd = new AddResourceFormModel
@@ -65,7 +65,7 @@
                 ResourceTypeId = resourceTypeId
             };
 
-            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId", resourceToAdd);
+            var resourceId = await resourceService.AddResourceToLecture(lectureId, "testId", resourceToAdd);
 
             var resourceFromService = resourceService.GetResourceById<AddResourceFormModel>(resourceId);
 
@@ -74,9 +74,9 @@
         }
 
         [Fact]
-        public void IsValidResourceTypeShouldReturnIfResourceIdisCorrect()
+        public async Task IsValidResourceTypeShouldReturnIfResourceIdisCorrect()
         {
-            var resourceTypeId = SeedResourceTypes();
+            var resourceTypeId = await SeedResourceTypes();
 
             var responseFromService = resourceService.IsValidResourceType(resourceTypeId);
 
@@ -94,9 +94,9 @@
         }
 
         [Fact]
-        public void GetResourceTypesShouldReturnTheResourceTypes()
+        public async Task GetResourceTypesShouldReturnTheResourceTypes()
         {
-            var resourceTypeId = SeedResourceTypes();
+            var resourceTypeId = await SeedResourceTypes();
 
             var resourceTypeFromService = resourceService.GetResourceTypes<ResourceTypeFormModel>().First();
 
@@ -110,15 +110,15 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            var resourceTypeId = SeedResourceTypes();
+            var resourceTypeId = await SeedResourceTypes();
 
             //Act
-            resourceService.AddResourceToLecture(lectureId, "testId",
+            await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
 
-            resourceService.DeleteLectureResoureces(lectureId);
+            await resourceService.DeleteLectureResoureces(lectureId);
 
             var actualCountFromDb = context.Lectures.ToArray()[0].Resources.Count;
 
@@ -132,15 +132,15 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            var resourceTypeId = SeedResourceTypes();
+            var resourceTypeId = await SeedResourceTypes();
 
             //Act
-            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+            var resourceId = await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
 
-            resourceService.Delete(resourceId);
+            await resourceService.Delete(resourceId);
 
             var actualCountFromDb = context.Resources.ToArray().Length;
 
@@ -154,15 +154,15 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            var resourceTypeId = SeedResourceTypes(false);
+            var resourceTypeId =await SeedResourceTypes(false);
 
             //Act
-            resourceService.AddResourceToLecture(lectureId, "testId",
+            await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
 
-            resourceService.DeleteLectureResoureces(lectureId);
+            await resourceService.DeleteLectureResoureces(lectureId);
 
             var actualCountFromDb = context.Lectures.ToArray()[0].Resources.Count;
 
@@ -176,15 +176,15 @@
 
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            var resourceTypeId = SeedResourceTypes(false);
+            var resourceTypeId =await SeedResourceTypes(false);
 
             //Act
-            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+            var resourceId = await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = resourceTypeId });
 
-            resourceService.Delete(resourceId);
+            await resourceService.Delete(resourceId);
 
             var actualCountFromDb = context.Resources.ToArray().Length;
 
@@ -197,14 +197,14 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var username = "Bero";
             var userId = "test-user";
-            SeedUser(username, userId);
+            await SeedUser(username, userId);
 
             //Act
-            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+            var resourceId = await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = "1" });
 
             //User needs to be enrolled in the course
@@ -219,14 +219,14 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             var username = "Bero";
             var userId = "test-user";
-            SeedUser(username, userId);
+            await SeedUser(username, userId);
 
             //Act
-            var resourceId = resourceService.AddResourceToLecture(lectureId, "testId",
+            var resourceId = await resourceService.AddResourceToLecture(lectureId, "testId",
                 new AddResourceFormModel { Name = "Test", Path = "Test-path", ResourceTypeId = "1" });
 
             //User needs to be enrolled in the course

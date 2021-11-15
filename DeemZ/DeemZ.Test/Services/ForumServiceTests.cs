@@ -4,6 +4,7 @@
     using Xunit;
     using DeemZ.Models.FormModels.Forum;
     using DeemZ.Models.ViewModels.Forum;
+    using System.Threading.Tasks;
 
     public class ForumServiceTests : BaseTestClass
     {
@@ -13,13 +14,13 @@
         }
 
         [Fact]
-        public void CreatingTopicShouldAddItToTheDb()
+        public async Task CreatingTopicShouldAddItToTheDb()
         {
             var expectedTopicsCount = 1;
 
-            SeedUser();
+            await SeedUser();
 
-            forumService.CreateTopic(new CreateForumTopicFormModel()
+            await forumService.CreateTopic(new CreateForumTopicFormModel()
             {
                 Title = "Test",
                 Description = "Test",
@@ -31,9 +32,9 @@
         }
 
         [Fact]
-        public void GettingAllTopicsShouldReturnTheCorrectTopics()
+        public async Task GettingAllTopicsShouldReturnTheCorrectTopics()
         {
-            var expectedTopicId = SeedForumTopic();
+            var expectedTopicId = await SeedForumTopic();
 
             var topics = forumService.GetAllTopics<ForumTopicsViewModel>();
 
@@ -43,13 +44,13 @@
         }
 
         [Fact]
-        public void GettingAllTopicsPaginatedShouldReturnTheCorrectTopics()
+        public async Task GettingAllTopicsPaginatedShouldReturnTheCorrectTopics()
         {
             var expectedTopicsCount = 3;
 
-            SeedForumTopic();
-            SeedForumTopic(addUser: false);
-            SeedForumTopic(addUser: false);
+            await SeedForumTopic();
+            await SeedForumTopic(addUser: false);
+            await SeedForumTopic(addUser: false);
 
             var topics = forumService.GetAllTopics<ForumTopicsViewModel>(1, 10);
 
@@ -59,9 +60,9 @@
         }
 
         [Fact]
-        public void GettingTopicByIdShouldReturnTheCorrectlyTopic()
+        public async Task GettingTopicByIdShouldReturnTheCorrectlyTopic()
         {
-            var expectedTopicId = SeedForumTopic();
+            var expectedTopicId = await SeedForumTopic();
 
             var topics = forumService.GetTopicById<ForumTopicsViewModel>(expectedTopicId);
 
@@ -71,12 +72,12 @@
         }
 
         [Fact]
-        public void GettingForumTopicsCountShouldReturnTheCorrectAmountOfTopics()
+        public async Task GettingForumTopicsCountShouldReturnTheCorrectAmountOfTopics()
         {
             var expectedTopicsCount = 2;
 
-            SeedForumTopic();
-            SeedForumTopic(addUser: false);
+            await SeedForumTopic();
+            await SeedForumTopic(addUser: false);
 
             var actualTopicsCount = forumService.Count();
 
@@ -84,12 +85,12 @@
         }
 
         [Fact]
-        public void GettingTopicsByTitleShouldReturnTheCorrectTopics()
+        public async Task GettingTopicsByTitleShouldReturnTheCorrectTopics()
         {
             var expectedTopicsCount = 2;
 
-            SeedForumTopic();
-            SeedForumTopic(addUser: false);
+            await SeedForumTopic();
+            await SeedForumTopic(addUser: false);
 
             var actualTopicsCount = forumService.GetTopicsByTitleName<ForumTopicsViewModel>("Test").Count();
 
@@ -97,17 +98,16 @@
         }
 
         [Fact]
-        public void CreatingCommentShouldAddTheCommentToTheTopic()
+        public async Task CreatingCommentShouldAddTheCommentToTheTopic()
         {
             var expectedCommentText = "Test-Comment";
 
-            var topicId = SeedForumTopic();
+            var topicId = await SeedForumTopic();
 
-            forumService.CreateComment(new AddCommentFormModel()
+            await forumService.CreateComment(new AddCommentFormModel()
             {
                 Text = expectedCommentText,
             }, topicId, testUserId);
-
 
             var topicComments = forumService.GetTopicById<TopicViewModel>(topicId).Comments;
 
@@ -117,13 +117,13 @@
         }
 
         [Fact]
-        public void GettingCommentByIdShouldReturnTheCorrectComment()
+        public async Task GettingCommentByIdShouldReturnTheCorrectComment()
         {
             var expectedCommentText = "Test-Comment";
 
-            var topicId = SeedForumTopic();
+            var topicId = await SeedForumTopic();
 
-            var commentId = forumService.CreateComment(new AddCommentFormModel()
+            var commentId =await forumService.CreateComment(new AddCommentFormModel()
             {
                 Text = expectedCommentText,
             }, topicId, testUserId);

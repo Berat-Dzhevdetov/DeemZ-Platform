@@ -71,7 +71,6 @@
             await context.SaveChangesAsync();
 
             return chatMessage.Id;
-
         }
     }
 }

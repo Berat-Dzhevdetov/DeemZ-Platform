@@ -8,7 +8,7 @@
     public interface IPromoCodeService
     {
         PromoCode GetPromoCode(string promoCode);
-        void MarkPromoCodeAsUsed(string pcid);
+        Task MarkPromoCodeAsUsed(string pcid);
         bool ValidatePromoCode(string uid, string promoCode);
         int GetPromoCodesCount();
         IEnumerable<T> GetPromoCodes<T>(string promoCode);
@@ -17,7 +17,7 @@
         bool IfExists(string promoCode);
         Task<string> AddPromoCode(AddPromoCodeFormModel promoCode);
         T GetPromoCodeById<T>(string pcid);
-        void EditPromoCode(string pcid, EditPromoCodeFormModel promoCode);
+        Task EditPromoCode(string pcid, EditPromoCodeFormModel promoCode);
         void Delete(string pcid);
         void DeleteAllExipiredCodes();
     }

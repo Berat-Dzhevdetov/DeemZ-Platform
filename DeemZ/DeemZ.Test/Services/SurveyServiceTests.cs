@@ -20,7 +20,7 @@ namespace DeemZ.Test.Services
             var courseId = await SeedCourse();
 
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             SeedUserExam(courseId, userId);
             SeedUserCourseSurvey(courseId, userId);
@@ -50,7 +50,7 @@ namespace DeemZ.Test.Services
             var courseId = await SeedCourse();
 
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             SeedCourseSurvey(courseId);
             var surveyId = context.Surveys.First().Id;
@@ -66,7 +66,7 @@ namespace DeemZ.Test.Services
             var courseId = await SeedCourse();
 
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             SeedCourseSurvey(courseId);
             SeedUserCourseSurvey(courseId,userId);
@@ -83,7 +83,7 @@ namespace DeemZ.Test.Services
             var courseId = await SeedCourse();
 
             var userId = "test-user";
-            SeedUser();
+            await SeedUser();
 
             SeedUserCourseSurvey(courseId, userId);
 

@@ -4,7 +4,6 @@
     ViewData["Title"] = Model.Name;
     int index = 0;
 }
-
 <div class="course">
     <div class="course-heading text-center flex flex-column">
         <h1>@Model.Name</h1>
@@ -27,6 +26,12 @@
             </div>
         }
     </div>
+        @if (Model.SignUpStartDate.ToLocalTime() <= DateTime.Now && Model.SignUpEndDate.ToLocalTime() > DateTime.Now && !Model.IsUserSignUpForThisCourse)
+    {
+        <div class="sign-up-for-course white-text text-center">
+            You haven't sign up for this course yet, but you still can do it! By clicking <a asp-action="SignUp" asp-controller="Course" asp-route-courseId="@Model.Id">here</a>.
+        </div>
+    }
     <div class="course-subjects box-shadow-all-corners rounded">
         <h2 class="subjects">Subjects</h2>
         <ul class="course-list course-list-enroled no-bullets">
@@ -165,12 +170,7 @@
             </p>
         }
     </div>
-    @if (Model.SignUpStartDate.ToLocalTime() <= DateTime.Now && Model.SignUpEndDate.ToLocalTime() > DateTime.Now && !Model.IsUserSignUpForThisCourse)
-    {
-        <div class="sign-up-for-course white-text text-center">
-            You haven't sign up for this course yet, but you still can do it! By clicking <a asp-action="SignUp" asp-controller="Course" asp-route-courseId="@Model.Id">here</a>.
-        </div>
-    }
+
 </div>
 
 

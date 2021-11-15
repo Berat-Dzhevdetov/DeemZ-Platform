@@ -31,13 +31,13 @@
             var expectedCount = 2;
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            SeedUser();
+            await SeedUser();
 
             //Act
-            reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
-            reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
+            await reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
+            await reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
             var countsInDb = reportService.GetReports<PreviewReportViewModel>(1, 20).ToArray().Length;
             ;
             //Assert
@@ -51,13 +51,13 @@
             var expectedCount = 0;
             var courseId =await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            SeedUser();
+            await SeedUser();
 
             //Act
-            var reportId = reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
-            reportService.Delete(reportId);
+            var reportId = await reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
+            await reportService.Delete(reportId);
 
             var countsInDb = context.Reports.ToArray().Length;
 
@@ -71,12 +71,12 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            SeedUser();
+            await SeedUser();
 
             //Act
-            var reportId = reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
+            var reportId = await reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
             var report = reportService.GetReportById<PreviewReportViewModel>(reportId);
 
             //Assert
@@ -89,12 +89,12 @@
             //Arange
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            SeedUser();
+            await SeedUser();
 
             //Act
-            var reportId = reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
+            var reportId = await reportService.AddReport(new AddReportFormModel { IssueDescription = issueDescription, LectureId = lectureId }, testUserId);
             var report = reportService.GetReportById(reportId);
 
             //Assert

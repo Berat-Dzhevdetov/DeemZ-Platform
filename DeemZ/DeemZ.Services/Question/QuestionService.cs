@@ -8,6 +8,7 @@
     using DeemZ.Data;
     using DeemZ.Data.Models;
     using DeemZ.Models.FormModels.Exam;
+    using System.Threading.Tasks;
 
     public class QuestionService : IQuestionService
     {
@@ -20,27 +21,27 @@
             this.mapper = mapper;
         }
 
-        public void AddQuestionToExam(string examId, AddQuestionFormModel question)
+        public async Task AddQuestionToExam(string examId, AddQuestionFormModel question)
         {
             var newlyQuestion = mapper.Map<Question>(question);
             newlyQuestion.ExamId = examId;
             newlyQuestion.Answers = newlyQuestion.Answers.Where(x => x.Text != null).ToList();
 
             context.Questions.Add(newlyQuestion);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public string Delete(string qid)
+        public async Task<string> Delete(string qid)
         {
             var question = GetQuestionById<Question>(qid);
 
             foreach (var answer in question.Answers)
             {
-                DeleteAnswer(answer.Id);
+                await DeleteAnswer(answer.Id);
             }
 
             context.Questions.Remove(question);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return question.ExamId;
         }
@@ -52,12 +53,12 @@
             return mapper.Map<T>(answer);
         }
 
-        private void DeleteAnswer(string aid)
+        private async Task DeleteAnswer(string aid)
         {
             var answerToDel = GetAnswerById<Answer>(aid);
 
             context.Answers.Remove(answerToDel);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public bool GetQuestionById(string qid)
@@ -92,7 +93,7 @@
             return null;
         }
 
-        public string Edit(string questionId, AddQuestionFormModel question)
+        public async Task<string> Edit(string questionId, AddQuestionFormModel question)
         {
             var questionToEdit = GetQuestionById<Question>(questionId);
             var examId = questionToEdit.ExamId;
@@ -101,7 +102,7 @@
 
             questionToEdit.Answers = questionToEdit.Answers.Where(x => x.Text != null).ToList();
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return examId;
         }

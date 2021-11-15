@@ -80,13 +80,13 @@
             => context.PromoCodes
                 .Count();
 
-        public void MarkPromoCodeAsUsed(string pcid)
+        public async Task MarkPromoCodeAsUsed(string pcid)
         {
             var promoCode = context.PromoCodes.FirstOrDefault(x => x.Id == pcid);
 
             promoCode.IsUsed = true;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public bool ValidatePromoCode(string uid, string promoCode)
@@ -126,7 +126,7 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .FirstOrDefault();
 
-        public void EditPromoCode(string pcid, EditPromoCodeFormModel promoCode)
+        public async Task EditPromoCode(string pcid, EditPromoCodeFormModel promoCode)
         {
             var promoCodeToEdit = context.PromoCodes.FirstOrDefault(x => x.Id == pcid);
             var userId = context.Users.FirstOrDefault(x => x.UserName == promoCode.ApplicationUserUserName).Id;
@@ -136,7 +136,7 @@
             promoCodeToEdit.ExpireOn = promoCode.ExpireOn.ToUniversalTime();
             promoCodeToEdit.ApplicationUserId = userId;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public void Delete(string pcid)

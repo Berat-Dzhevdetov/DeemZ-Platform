@@ -111,14 +111,14 @@ namespace DeemZ.Test.Services
                 Price = 220
             });
 
-        public string SeedLecture(string courseId)
-            => lectureService.AddLectureToCourse(courseId, new AddLectureFormModel
+        public async Task<string> SeedLecture(string courseId)
+            => await lectureService.AddLectureToCourse(courseId, new AddLectureFormModel
             {
                 Name = "Very important test"
             });
 
         //Seeding non admin user
-        public void SeedUser(string username = "test-username", string id = testUserId)
+        public async Task SeedUser(string username = "test-username", string id = testUserId)
         {
             context.Users.Add(new ApplicationUser
             {
@@ -126,14 +126,14 @@ namespace DeemZ.Test.Services
                 UserName = username,
                 Email = testUserId
             });
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public string SeedResourceTypes(bool isRemote = true)
+        public async Task<string> SeedResourceTypes(bool isRemote = true)
         {
             context.ResourceTypes.Add(new ResourceType() { Name = "Youtube link", Icon = "<i class=\"fab fa-youtube\"></i>", IsRemote = isRemote });
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return context.ResourceTypes.First().Id;
         }
@@ -142,9 +142,9 @@ namespace DeemZ.Test.Services
         {
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
-            var resourceTypeId = SeedResourceTypes();
+            var resourceTypeId = await SeedResourceTypes();
 
             var resourceToAdd = new AddResourceFormModel
             {
@@ -153,13 +153,13 @@ namespace DeemZ.Test.Services
                 ResourceTypeId = resourceTypeId
             };
 
-            return resourceService.AddResourceToLecture(lectureId, testUserId, resourceToAdd);
+            return await resourceService.AddResourceToLecture(lectureId, testUserId, resourceToAdd);
         }
 
-        public string SeedForumTopic(bool addUser = true)
+        public async Task<string> SeedForumTopic(bool addUser = true)
         {
-            if (addUser) SeedUser();
-            return forumService.CreateTopic(new CreateForumTopicFormModel()
+            if (addUser) await SeedUser();
+            return await forumService.CreateTopic(new CreateForumTopicFormModel()
             {
                 Title = "Test",
                 Description = "Test",
@@ -170,10 +170,10 @@ namespace DeemZ.Test.Services
         {
             var courseId = await SeedCourse();
 
-            var lectureId = SeedLecture(courseId);
+            var lectureId = await SeedLecture(courseId);
 
             //Act
-            lectureService.EditLectureById(lectureId, new EditLectureFormModel()
+            await lectureService.EditLectureById(lectureId, new EditLectureFormModel()
             {
                 CourseId = courseId,
                 Descriptions = new List<EditDescriptionFormModel>()
