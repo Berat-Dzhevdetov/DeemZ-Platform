@@ -6,34 +6,56 @@
 <div>
     @if (Model.UpcomingCourses.Any())
     {
-        @foreach (var course in Model.UpcomingCourses)
-        {
-            <div class="form gray-background mt-4 round-bottom pb-2">
-                <div class="p-3">
-                    <div class="form-group">
-                        <h1>@course.Name</h1>
+        <div class="upcoming-courses-holder">
+            @foreach (var course in Model.UpcomingCourses)
+            {
+                var description = course.Description.Length <= 200 ? course.Description : $"{course.Description.Substring(0, 197)}...";
+                <div class="upcoming-course-card">
+                    <div class="upcoming-course-header">@course.Name</div>
+                    <div class="upcoming-course-description">
+                        Description: <br>
+                        @Html.Raw(description)
                     </div>
-                    <div class="form-group">
-                        <div class="inner-addon">
-                            @if (course.Description.Length <= 200)
-                            {
-                                <p>
-                                    @Html.Raw(course.Description)
-                                </p>
-                            }
-                        </div>
+                    <div class="upcoming-course-details">
+                        <ul class="no-bullets">
+                            <li><i class="fas fa-coins" title="Credits"></i> @course.Credits</li>
+                            <li><i class="fas fa-calendar-day" title="Start date"></i> @course.StartDate.ToShortDateString()</li>
+                            <li><i class="fas fa-dollar-sign"></i> @course.Price.ToString("f0")</li>
+                            <li>
+                                <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@course.Id" class="btn btn-primary">More Details</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <ul class="no-bullets">
-                    <li><i class="fas fa-coins"></i> @course.Credits</li>
-                    <li><i class="fas fa-calendar-day"></i> @course.StartDate.ToShortDateString()</li>
-                    <li><p><i class="fas fa-money-check-alt"></i> @course.Price.ToString("f0")lv.</p></li>
-                    <li>
-                        <a asp-controller="Course" asp-action="ViewCourse" asp-route-courseId="@course.Id" class="btn btn-primary">Info</a>
-                    </li>
-                </ul>
-            </div>
-        }
+            }
+        </div>
+
+        <div class="pages flex">
+            @if (Model.PreviousPage != null)
+            {
+                <div class="page-number">
+                    <a asp-controller="Course" asp-action="UpcomingCourses" asp-route-page="@Model.PreviousPage">
+                        Last Page
+                    </a>
+                </div>
+            }
+            @for (int i = 1; i <= Model.MaxPages; i++)
+            {
+                <div class="page-number">
+                    <a asp-controller="Course" asp-action="UpcomingCourses" asp-route-page="@i">
+                        @i
+                    </a>
+                </div>
+            }
+            @if (Model.NextPage != null)
+            {
+                <div class="page-number">
+                    <a asp-controller="Course" asp-action="UpcomingCourses" asp-route-page="@Model.NextPage">
+                        Next Page
+                    </a>
+                </div>
+            }
+        </div>
     }
     else
     {
@@ -41,5 +63,4 @@
             <h2>There are not currently any upcoming courses!</h2>
         </div>
     }
-
 </div>

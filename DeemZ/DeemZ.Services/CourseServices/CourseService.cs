@@ -77,7 +77,14 @@
             .ProjectTo<T>(mapper.ConfigurationProvider)
             .ToList();
 
-        
+        public IEnumerable<T> GetCoursesForSignUp<T>(int page = 1, int quantity = 20)
+            => context.Courses
+            .Where(x =>
+                x.SignUpStartDate <= DateTime.UtcNow
+                && x.SignUpEndDate > DateTime.UtcNow)
+            .ProjectTo<T>(mapper.ConfigurationProvider)
+            .Paging(page, quantity)
+            .ToList();
 
         public async Task SignUserToCourse(string uid, string cid, bool isPaid = true)
         {

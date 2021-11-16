@@ -16,6 +16,7 @@
         Task SignUserToCourse(string uid, string cid, SignUpCourseFormModel signUp);
         Task SignUserToCourse(string uid, string cid, bool isPaid = true);
         IEnumerable<T> GetCourses<T>();
+        IEnumerable<T> GetCoursesForSignUp<T>(int page = 1, int quantity = 20);
         int GetUserCoursesCount();
         Task<string> CreateCourse(AddCourseFormModel course);
         Task Edit(EditCourseFormModel course, string cid);

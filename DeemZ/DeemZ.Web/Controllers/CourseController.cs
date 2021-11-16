@@ -17,6 +17,7 @@
     using DeemZ.Services.PromoCodeServices;
 
     using static Global.WebConstants.Constant;
+    using DeemZ.Models.Shared;
 
     public class CourseController : BaseController
     {
@@ -90,12 +91,18 @@
             return RedirectToAction(nameof(ViewCourse), new { courseId });
         }
 
-        public IActionResult UpcomingCourses()
+        public IActionResult UpcomingCourses(int page = 1, int quantity = 20)
         {
-            var viewModel = new UpcomingCoursesViewModel
-            {
-                UpcomingCourses = courseService.GetCoursesForSignUp<UpcomingCourseViewModel>(),
-            };
+            var viewModel = new UpcomingCoursesViewModel();
+
+            var allPages = courseService.UpCommingCoursesCount();
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            viewModel.UpcomingCourses = courseService.GetCoursesForSignUp<UpcomingCourseViewModel>(page, quantity);
+
             return View(viewModel);
         }
 
@@ -228,6 +235,16 @@
                 price -= promoCodeObj.DiscountPrice;
 
             return Json(new { isValid, price });
+        }
+        private T AdjustPages<T>(T viewModel, int page, int allPages)
+           where T : PagingBaseModel
+        {
+            viewModel.CurrentPage = page;
+            viewModel.NextPage = page >= allPages ? null : page + 1;
+            viewModel.PreviousPage = page <= 1 ? null : page - 1;
+            viewModel.MaxPages = allPages;
+
+            return viewModel;
         }
     }
 }
