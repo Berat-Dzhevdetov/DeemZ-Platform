@@ -73,6 +73,11 @@ On this page you can see information about the course such as when it starts, wh
 
 ### Pages for Logged Users:
 
+**Home Page**
+
+On this page, users can see their current courses, surveys and resources.
+![image](https://user-images.githubusercontent.com/56674380/141983858-33b5fc2d-bc10-4573-8af7-415012b5d694.png)
+
 **Posting a Topic**
 
 From this page, you can create a new topic. After choosing an appropriate title and description you can click the button Create in the bottom of the form.
