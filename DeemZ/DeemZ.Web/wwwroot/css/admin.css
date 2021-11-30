@@ -1,4 +1,4 @@
-﻿* {
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -192,7 +192,7 @@ form {
 .new-message-holder {
     position: fixed;
     bottom: 0;
-    width: 76%;
+    width: 60%;
     margin-bottom: 50px;
 }
 
@@ -271,16 +271,18 @@ img.rounted-img {
     height: 120px;
     position: relative;
     display: inline-block;
-    width: 1000px;
     border-radius: 15px;
+}
+
+.chat-textarea-width {
+    width: 100%;
 }
 
 .chat-textarea {
     position: absolute;
     top: 99%;
-    height: 100px;
+    height: 50px;
     left: 0;
-    width: 1000px !important;
     resize: none;
     transform: translateY(-50%);
     border: 0;
@@ -292,67 +294,98 @@ img.rounted-img {
     }
 
 .send-btn {
+    right: 0;
     position: absolute;
-    top: 110px;
+    top: 96px;
+    width: 50px;
+    height: 50px;
+    color: white;
 }
 
-
-@media only screen and (max-width: 800px) {
-    .card {
-        padding: 14px 35px;
+@media only screen and (max-width: 1335px) {
+    .new-message-holder {
+        width: 70%;
     }
 
-    .cards {
-        grid-template-columns: repeat(1, 1fr);
-        grid-gap: 5px;
+    .send-btn {
+        right: -60px;
     }
 }
 
-@media only screen and (max-width: 700px) {
-    .page-holder {
-        flex-direction: column;
-    }
-
-    .right {
-        width: 100%;
-    }
-
-    .left {
-        width: 100%;
-        height: auto;
-    }
-
-    .logo img {
-        display: block;
-        width: 200px;
-        margin: 0 auto;
-    }
-
-    .links-holder {
-        display: none;
-    }
-
-    .mobile-dropdown {
-        display: flex;
-    }
-
-    .container-fluid {
-        margin: 0;
-        padding: 0;
-    }
-
-    th, td {
-        border-style: solid;
-        border-width: 5px;
-        word-wrap: break-word;
-    }
-
-    table {
-        width: 100%;
-        overflow-x: auto !important;
-    }
-
-    form {
-        width: 90%;
+@media only screen and (max-width: 900px) {
+    .send-btn {
+        right: -15px;
     }
 }
+
+    @media only screen and (max-width: 800px) {
+        .card {
+            padding: 14px 35px;
+        }
+
+        .cards {
+            grid-template-columns: repeat(1, 1fr);
+            grid-gap: 5px;
+        }
+
+        .send-btn {
+            right: -20px;
+        }
+    }
+
+    @media only screen and (max-width: 700px) {
+        .page-holder {
+            flex-direction: column;
+        }
+
+        .new-message-holder {
+            width: 80%;
+        }
+
+        .send-btn {
+            right: -25px;
+        }
+
+        .right {
+            width: 100%;
+        }
+
+        .left {
+            width: 100%;
+            height: auto;
+        }
+
+        .logo img {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+        }
+
+        .links-holder {
+            display: none;
+        }
+
+        .mobile-dropdown {
+            display: flex;
+        }
+
+        .container-fluid {
+            margin: 0;
+            padding: 0;
+        }
+
+        th, td {
+            border-style: solid;
+            border-width: 5px;
+            word-wrap: break-word;
+        }
+
+        table {
+            width: 100%;
+            overflow-x: auto !important;
+        }
+
+        form {
+            width: 90%;
+        }
+    }

@@ -26,7 +26,7 @@
             </div>
         }
     </div>
-        @if (Model.SignUpStartDate.ToLocalTime() <= DateTime.Now && Model.SignUpEndDate.ToLocalTime() > DateTime.Now && !Model.IsUserSignUpForThisCourse)
+    @if (Model.SignUpStartDate.ToLocalTime() <= DateTime.Now && Model.SignUpEndDate.ToLocalTime() > DateTime.Now && !Model.IsUserSignUpForThisCourse)
     {
         <div class="sign-up-for-course white-text text-center">
             You haven't sign up for this course yet, but you still can do it! By clicking <a asp-action="SignUp" asp-controller="Course" asp-route-courseId="@Model.Id">here</a>.
@@ -175,23 +175,23 @@
 
 
 @section Scripts{
-    <script>
-        const more = document.getElementById("read-more");
-        const less = document.getElementById("read-less");
-        const secondPart = $("#more");
+<script>
+    const more = document.getElementById("read-more");
+    const less = document.getElementById("read-less");
+    const secondPart = $("#more");
 
-        more.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.currentTarget.style.display = 'none';
-            secondPart.slideToggle(600);
-            less.style.display = 'inline';
-        });
+    more.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.currentTarget.style.display = 'none';
+        secondPart.slideToggle(600);
+        less.style.display = 'inline';
+    });
 
-        less.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.currentTarget.style.display = 'none';
-            secondPart.slideToggle(600);
-            more.style.display = 'inline';
-        });
-    </script>
+    less.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.currentTarget.style.display = 'none';
+        secondPart.slideToggle(600);
+        more.style.display = 'inline';
+    });
+</script>
 }
