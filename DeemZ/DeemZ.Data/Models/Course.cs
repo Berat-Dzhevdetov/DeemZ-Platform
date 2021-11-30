@@ -26,6 +26,16 @@
 
         public int Credits { get; set; }
 
+        [Required]
+        [MaxLength(MaxDescriptionLength)]
+        public string StartDateDescription { get; set; }
+        [Required]
+        [MaxLength(MaxDescriptionLength)]
+        public string LectureDescription { get; set; }
+        [Required]
+        [MaxLength(MaxDescriptionLength)]
+        public string ExamDescription { get; set; }
+
         public DateTime SignUpStartDate { get; set; } = DateTime.UtcNow;
         public DateTime SignUpEndDate { get; set; } = DateTime.UtcNow.AddDays(14);
 

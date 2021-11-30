@@ -22,7 +22,7 @@
         @if (Model.IsUserSignUpForThisCourse)
         {
             <div>
-                <a class="btn btn-info" href="http://localhost:4200/?courseId=@Model.Id&courseName=@Model.Name&applicationUserId=@ViewData["UserId"]">Join Chat</a>
+                <a class="btn btn-info" href="http://localhost:4200/?courseId=@Model.Id&courseName=@Model.Name&applicationUserId=@ViewBag.UserId">Join Chat</a>
             </div>
         }
     </div>
@@ -170,6 +170,32 @@
             </p>
         }
     </div>
+    <div class="additional-course-details-holder">
+        <div class="additional-course-details">
+            <h3 class="additional-course-details-heading">When does the course start?</h3>
+            <p>@Html.Raw(Model.StartDateDescription)</p>
+        </div>
+        <div class="separator"></div>
+        <div class="additional-course-details">
+            <h3 class="additional-course-details-heading">When and where will the classes be held?</h3>
+            <p>@Html.Raw(Model.LectureDescription)</p>
+        </div>
+        <div class="separator"></div>
+        <div class="additional-course-details">
+            <h3 class="additional-course-details-heading">What is the exam and when will it take place?</h3>
+            <p>@Html.Raw(Model.ExamDescription)</p>
+        </div>
+        <div class="separator"></div>
+        <div class="additional-course-details">
+            <h3 class="additional-course-details-heading">Will I receive a certificate after the exam?</h3>
+            <p>
+                After passing the exam, you will receive a certificate from DeemZ,
+                if you receive a grade above Very Good 5.00, and
+                you will also have the opportunity to receive state recognition
+                "Certificate of Vocational Training", valid throughout the European Union.
+            </p>
+        </div>
+    </div>
 
 </div>
 
@@ -180,18 +206,33 @@
     const less = document.getElementById("read-less");
     const secondPart = $("#more");
 
-    more.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.currentTarget.style.display = 'none';
-        secondPart.slideToggle(600);
-        less.style.display = 'inline';
-    });
+    if(more != undefined)
+    {
+        more.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.currentTarget.style.display = 'none';
+            secondPart.slideToggle(600);
+            less.style.display = 'inline';
+        });
+    }
 
-    less.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.currentTarget.style.display = 'none';
-        secondPart.slideToggle(600);
-        more.style.display = 'inline';
+    if(less != undefined)
+    {
+        less.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.currentTarget.style.display = 'none';
+            secondPart.slideToggle(600);
+            more.style.display = 'inline';
+        });
+    }
+
+    //Removing extra spaces
+    $('p').each(function() {
+        var $p = $(this),
+            txt = $p.html();
+        if (txt=='&nbsp;') {
+            $p.remove();
+        }
     });
 </script>
 }

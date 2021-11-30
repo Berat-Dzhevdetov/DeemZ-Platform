@@ -36,5 +36,21 @@
         [StringLength(MaxDescriptionLength,
                 MinimumLength = MinDescriptionLength)]
         public string Description { get; set; }
+
+        [Required]
+        [StringLength(MaxDescriptionLength,
+                MinimumLength = MinDescriptionLength)]
+        [Display(Name = "Start Date Description")]
+        public string StartDateDescription { get; set; }
+        [Required]
+        [StringLength(MaxDescriptionLength,
+                MinimumLength = MinDescriptionLength)]
+        [Display(Name = "Lecture Description")]
+        public string LectureDescription { get; set; }
+        [Required]
+        [StringLength(MaxDescriptionLength,
+                MinimumLength = MinDescriptionLength)]
+        [Display(Name = "Exam Description")]
+        public string ExamDescription { get; set; }
     }
 }

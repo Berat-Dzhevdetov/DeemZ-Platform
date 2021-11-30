@@ -49,6 +49,21 @@
             <textarea class="form-control ckeditor" placeholder="@Model.Description" asp-for="Description" ></textarea>
             <span asp-validation-for="Description" class="small text-danger"></span>
         </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="StartDateDescription"></label>
+            <textarea class="form-control ckeditor" asp-for="StartDateDescription" ></textarea>
+            <span asp-validation-for="StartDateDescription" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="LectureDescription"></label>
+            <textarea class="form-control ckeditor" asp-for="LectureDescription" ></textarea>
+            <span asp-validation-for="LectureDescription" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="text-light" asp-for="ExamDescription"></label>
+            <textarea class="form-control ckeditor" asp-for="ExamDescription" ></textarea>
+            <span asp-validation-for="ExamDescription" class="small text-danger"></span>
+        </div>
         <div class="form-group text-center">
             <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
         </div>

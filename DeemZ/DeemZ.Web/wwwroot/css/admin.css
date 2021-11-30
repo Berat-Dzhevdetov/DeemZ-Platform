@@ -294,7 +294,7 @@ img.rounted-img {
     }
 
 .send-btn {
-    right: 0;
+    right: -65px;
     position: absolute;
     top: 96px;
     width: 50px;
