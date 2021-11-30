@@ -50,7 +50,7 @@ $("form").submit(function (e) {
     var message = $("#messageInput").val();
     var groupId = $("#groupId").val();
     if (message !== "") {
-        connection.invoke("Send", message, groupId); //Invokes controller method
+        connection.invoke("Send", message, groupId,imageUrls); //Invokes controller method
         $("#messageInput").val("");
 
         $("#messageInput").focus();

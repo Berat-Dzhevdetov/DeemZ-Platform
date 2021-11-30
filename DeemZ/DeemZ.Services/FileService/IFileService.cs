@@ -10,5 +10,6 @@
         (string url, string publicId) PreparingFileForUploadAndUploadIt(IFormFile file, string path = null);
         void DeleteFile(string publicId, bool isImg = false, bool isVideo = false);
         (byte[] fileContents, string contentType, string downloadName) GetFileBytesByResourceId(string rid);
+        (string url, string publicId) UploadFileBytesToCloud(byte[] fileBytes, string newFileName);
     }
 }

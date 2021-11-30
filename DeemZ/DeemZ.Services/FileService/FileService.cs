@@ -19,6 +19,8 @@
         private string wordsFolder = "msword";
         private string videosFolder = "Videos";
         private string imagesFolder = "Images";
+        private string chatImagesFolder = "Chat-Images";
+        private string chatImagesExtention = "jpeg";
         private const int defaultSizeOfFile = 2; // MB
         private readonly DeemZDbContext context;
 
@@ -108,6 +110,27 @@
             }
 
             return uploadResult?.SecureUrl.AbsoluteUri;
+        }
+
+        public (string url, string publicId) UploadFileBytesToCloud(byte[] fileBytes, string newFileName)
+        {
+            UploadResult uploadResult = null;
+
+            using (var memoryStream = new MemoryStream(fileBytes))
+            {
+                RawUploadParams uploadParams = new RawUploadParams
+                {
+                    Folder = $"{chatImagesFolder}/",
+                    File = new FileDescription(newFileName + "." + chatImagesExtention, memoryStream),
+                    PublicId = newFileName
+                };
+
+                uploadResult = cloudinary.Upload(uploadParams);
+            }
+
+            var publicId = $"{chatImagesFolder}{newFileName}.jpeg";
+
+            return (uploadResult?.SecureUrl.AbsoluteUri, publicId);
         }
 
         public void DeleteFile(string publicId, bool isImg = false, bool isVideo = false)

@@ -4,6 +4,8 @@ const inputImageHolder = document.getElementById('input-image-holder');
 const images = document.querySelectorAll('.input-image');
 const label = document.querySelector('.chat-label');
 
+const imageUrls = [""];
+
 messageInput.onpaste = function (event) {
     var items = (event.clipboardData || event.originalEvent.clipboardData).items;
     console.log(JSON.stringify(items));
@@ -32,6 +34,7 @@ function addNewImage(reader) {
 
     reader.onload = function (event) {
         newImage.src = event.target.result;
+        imageUrls.push(newImage.src);
     };
 
     newI.addEventListener('click', (e) => removeImage(e))
