@@ -69,7 +69,11 @@ In this page, all written topics are displayed, here you can get brief informati
 **Course information**
 
 On this page you can see information about the course such as when it starts, what will be studied during the course and etc.
+
+Part I
 ![image](https://user-images.githubusercontent.com/56674380/129883919-887da01f-693e-4d3d-8e35-183bbe054889.png)
+Part II
+![image](https://user-images.githubusercontent.com/56674380/144140326-fc84f234-d114-43ea-8241-46c240650880.png)
 
 ### Pages for Logged Users:
 
