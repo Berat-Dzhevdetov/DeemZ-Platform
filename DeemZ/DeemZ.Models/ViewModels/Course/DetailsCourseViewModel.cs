@@ -24,7 +24,7 @@
         public List<BasicExamInfoViewModel> Exams { get; set; }
 
         public bool IsUserSignUpForThisCourse { get; set; }
-
+        public string SuitableForDescription { get; set; }
         public string StartDateDescription { get; set; }
         public string LectureDescription { get; set; }
         public string ExamDescription { get; set; }

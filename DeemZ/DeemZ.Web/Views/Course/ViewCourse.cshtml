@@ -170,6 +170,13 @@
             </p>
         }
     </div>
+    <div class="suitable-for-description">
+        <div class="additional-course-details">
+            <h3 class="suitable-for-description-heading">Who is the course suitable for?</h3>
+            @Html.Raw(Model.SuitableForDescription)
+        </div>
+    </div>
+
     <div class="additional-course-details-holder">
         <div class="additional-course-details">
             <h3 class="additional-course-details-heading">When does the course start?</h3>
@@ -234,5 +241,10 @@
             $p.remove();
         }
     });
+
+    document.querySelectorAll('pre').forEach(x => {
+        x.outerHTML = '<p>' + x.innerText + '</p>';
+    })
+
 </script>
 }

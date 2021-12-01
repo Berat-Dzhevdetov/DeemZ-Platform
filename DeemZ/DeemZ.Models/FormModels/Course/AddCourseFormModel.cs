@@ -44,6 +44,11 @@
         [Required]
         [StringLength(MaxDescriptionLength,
                 MinimumLength = MinDescriptionLength)]
+        [Display(Name = "Suitable For Description")]
+        public string SuitableForDescription { get; set; }
+        [Required]
+        [StringLength(MaxDescriptionLength,
+                MinimumLength = MinDescriptionLength)]
         [Display(Name = "Start Date Description")]
         public string StartDateDescription { get; set; }
         [Required]

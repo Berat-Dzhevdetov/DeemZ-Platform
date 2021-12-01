@@ -1072,7 +1072,7 @@ span.lecture-number::after {
     padding: 1.5rem;
     width: 90%;
     margin: 0 auto;
-    margin-top: 5rem;
+    margin-top: 2rem;
     margin-bottom: 5rem;
 }
 
@@ -1080,7 +1080,9 @@ span.lecture-number::after {
     padding: 0 10px;
     color: #565656;
     font-weight: 500;
+    margin: 1rem 0rem;
 }
+
 h3.additional-course-details-heading {
     color: #234465;
 }
@@ -1090,6 +1092,24 @@ h3.additional-course-details-heading {
         background: #ccc;
         height: 1px;
     }
+
+.suitable-for-description {
+    background-color: #234465;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    border-radius: 6px;
+    padding: 1.5rem;
+    width: 90%;
+    margin: 0 auto;
+}
+
+    .suitable-for-description p {
+        color: #fff;
+    }
+
+h3.suitable-for-description-heading{
+    color: #fff;
+}
+
 
 @media only screen and (max-width: 950px) {
     .guest-users-container .seo-section {

@@ -36,7 +36,11 @@
         [StringLength(MaxDescriptionLength,
                 MinimumLength = MinDescriptionLength)]
         public string Description { get; set; }
-
+        [Required]
+        [StringLength(MaxDescriptionLength,
+                MinimumLength = MinDescriptionLength)]
+        [Display(Name = "Suitable For Description")]
+        public string SuitableForDescription { get; set; }
         [Required]
         [StringLength(MaxDescriptionLength,
                 MinimumLength = MinDescriptionLength)]

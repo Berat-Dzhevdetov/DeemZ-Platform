@@ -160,6 +160,7 @@
             courseToEdit.Description = course.Description;
             courseToEdit.SignUpStartDate = course.SignUpStartDate.ToUniversalTime();
             courseToEdit.SignUpEndDate = course.SignUpEndDate.ToUniversalTime();
+            courseToEdit.SuitableForDescription = course.SuitableForDescription;
             courseToEdit.StartDateDescription = course.StartDateDescription;
             courseToEdit.LectureDescription = course.LectureDescription;
             courseToEdit.ExamDescription = course.ExamDescription;

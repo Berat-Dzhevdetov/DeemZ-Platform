@@ -28,6 +28,9 @@
 
         [Required]
         [MaxLength(MaxDescriptionLength)]
+        public string SuitableForDescription { get; set; }
+        [Required]
+        [MaxLength(MaxDescriptionLength)]
         public string StartDateDescription { get; set; }
         [Required]
         [MaxLength(MaxDescriptionLength)]
