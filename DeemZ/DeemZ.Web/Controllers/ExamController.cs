@@ -35,6 +35,7 @@
         private const string PasswordIsRequired = "Password is required";
         private const string WrongPassword = "Wrong password";
         private const string MessageAfterExam = "Congratulations, you have earned {0}/{1} points";
+        private const string MessageAfterExamWithCertificate = $"{MessageAfterExam} and you can also see your certificate in your profile.";
         private const string LateHandOverExam = "Sorry, but you hand over the exam too late and you officially receive 0 points";
 
         public ExamController(Guard guard, IExamService examService, ICourseService courseService, IUserService userService, IPdfService pdfService)
@@ -155,6 +156,8 @@
                 return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
             }
 
+            var message = string.Empty;
+
             if (points >= 0 || maxPoints > 0)
             {
                 var grade = Math.Round(points / (maxPoints * 1.0)) * 100;
@@ -163,11 +166,16 @@
                     var serverLink = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
                     var courseId = examService.GetCourseIdByExamId(examId);
                     await pdfService.GenerateCertificate(grade, courseId, userId, serverLink);
+                    message = MessageAfterExamWithCertificate;
+                }
+                else
+                {
+                    message = MessageAfterExam;
                 }
             }
 
-            TempData[GlobalMessageKey] = string.Format(MessageAfterExam, points, maxPoints);
-
+            TempData[GlobalMessageKey] = string.Format(message, points, maxPoints);
+            
             return RedirectToAction(nameof(GetUserExams));
         }
 

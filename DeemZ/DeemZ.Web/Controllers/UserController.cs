@@ -9,6 +9,9 @@
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Services.FileService;
     using DeemZ.Web.Filters;
+    using DeemZ.Services.CertificateServices;
+    using DeemZ.Models.ViewModels.Certificates;
+    using DeemZ.Services;
 
     using static DeemZ.Global.WebConstants.Constant;
 
@@ -16,11 +19,15 @@
     {
         private readonly IUserService userService;
         private readonly IFileService fileService;
+        private readonly ICertificateService certificateService;
+        private readonly Guard guard;
 
-        public UserController(IUserService userService, IFileService fileService)
+        public UserController(IUserService userService, IFileService fileService, ICertificateService certificateService, Guard guard)
         {
             this.userService = userService;
             this.fileService = fileService;
+            this.certificateService = certificateService;
+            this.guard = guard;
         }
 
         [Authorize(Roles = Role.AdminRoleName)]
@@ -64,11 +71,17 @@
             return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
-        [ClientRequired]
-        [IfExists]
-        public IActionResult ViewCertificate(string certificateId)
+        public IActionResult ViewCertificate(int id)
         {
-            return View();
+            if (guard.AgainstNull(id, nameof(id)))
+                return HandleErrorRedirect(Models.HttpStatusCodes.BadRequest);
+
+            var certificate = certificateService.GetCertificateByExternalNumber<CertificateBasicViewModel>(id);
+
+            if (certificate == null)
+                return HandleErrorRedirect(Models.HttpStatusCodes.NotFound);
+
+            return View(certificate);
         }
 
         [Authorize]

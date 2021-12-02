@@ -15,9 +15,9 @@
     using DeemZ.Data.Models;
     using DeemZ.Models;
     using DeemZ.Services.PromoCodeServices;
+    using DeemZ.Models.Shared;
 
     using static Global.WebConstants.Constant;
-    using DeemZ.Models.Shared;
 
     public class CourseController : BaseController
     {

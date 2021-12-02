@@ -14,5 +14,6 @@
         public string Path { get; set; }
         [Required]
         public DateTime CreatedOn { get; set; }
+        public int ExternalNumber { get; set; }
     }
 }

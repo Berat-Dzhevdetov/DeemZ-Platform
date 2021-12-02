@@ -1,0 +1,21 @@
+﻿@model DeemZ.Models.ViewModels.Certificates.CertificateBasicViewModel
+
+<div class="resource">
+    <div class="resource-holder">
+        <object id="iframe1" data="@Model.Path" type="application/pdf">
+            <embed id="iframe" src="@Model.Path" type="application/pdf" />
+        </object>
+    </div>
+</div>
+
+
+@section Scripts{
+<script>
+    let googleViewerUrl = "https://drive.google.com/viewerng/viewer?url=";
+    let resourceUrl = "@Model.Path";
+
+    document.getElementById('iframe').src = googleViewerUrl + resourceUrl +"&embedded=true";
+    document.getElementById('iframe1').data = googleViewerUrl + resourceUrl + "&embedded=true";
+
+</script>
+}

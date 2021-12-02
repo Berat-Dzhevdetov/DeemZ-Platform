@@ -10,6 +10,7 @@
     using DeemZ.Services.FileService;
     using DeemZ.Global.Extensions;
     using DeemZ.Data;
+    using System.Linq;
 
     public class PdfService : IPdfService
     {
@@ -17,6 +18,7 @@
         private readonly ICourseService courseService;
         private readonly IFileService fileService;
         private readonly DeemZDbContext context;
+        private readonly Random rnd;
 
         public PdfService(UserManager<ApplicationUser> userManager, ICourseService courseService, IFileService fileService, DeemZDbContext context)
         {
@@ -24,6 +26,7 @@
             this.courseService = courseService;
             this.fileService = fileService;
             this.context = context;
+            this.rnd = new Random();
         }
 
         public async Task<bool> GenerateCertificate(double grade, string cid, string uid, string serverLink)
@@ -38,11 +41,24 @@
 
             var id = Guid.NewGuid().ToString();
 
+            var externalNumber = await Task.Run(() =>
+            {
+                int externalNumber = 1;
+                do
+                {
+                    externalNumber = rnd.Next(int.MaxValue);
+                }
+                while (context.Certificates.Any(x => x.ExternalNumber == externalNumber));
+
+                return externalNumber;
+            });
+
             var certificate = new Certificate
             {
                 CreatedOn = DateTime.UtcNow,
                 Id = id,
                 UserId = user.Id,
+                ExternalNumber = externalNumber
             };
 
             var html = await File.ReadAllTextAsync("wwwroot/media/templates/template.html");
@@ -51,7 +67,7 @@
             html = html.Replace("{{GRADE}}", grade.ToString());
             html = html.Replace("{{DATE}}", date);
             html = html.ReplaceAll("{{SERVER_LINK}}", serverLink);
-            html = html.ReplaceAll("{{LINK}}", $"{serverLink}/User/ViewCertificate?id={id}");
+            html = html.ReplaceAll("{{LINK}}", $"{serverLink}/User/ViewCertificate?id={externalNumber}");
 
             var memoryStream = new MemoryStream
             {
@@ -65,6 +81,7 @@
             certificate.Path = path;
             certificate.PublicId = publicId;
 
+            context.Certificates.Add(certificate);
             await context.SaveChangesAsync();
 
             return true;
