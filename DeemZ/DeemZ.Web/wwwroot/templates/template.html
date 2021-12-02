@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <title>Document</title>
+</head>
+<style>
+    @page {
+        margin: 0pt;
+    }
+
+    .holder {
+        width: 100%;
+        text-align: center;
+        height: 100vh;
+        margin: 0 auto;
+        z-index: 10;
+    }
+
+    .logo img {
+        width: 250px;
+        height: 130px;
+        object-fit: cover;
+    }
+
+    body {
+        font-family: 'Lato', sans-serif;
+        background-color: #C47A23;
+        color: #FFF;
+        position: relative;
+    }
+
+    .certificate {
+        font-weight: bold;
+        font-size: 50px;
+        letter-spacing: 5px;
+        margin: 90px 0;
+    }
+
+    .small-text {
+        font-size: 15px;
+        margin: 20px 0;
+    }
+
+    .medium-text {
+        font-size: 33px;
+        margin: 20px 0;
+    }
+
+    .qr-code {
+        position: absolute;
+        bottom: 7;
+        left: 7;
+        display: flex;
+    }
+
+    p {
+        margin: 0;
+        font-size: 15px;
+        padding-bottom: 15px;
+    }
+
+    .additional-information {
+        margin-left: 13px;
+    }
+
+    .water-mark {
+        z-index: 1;
+        opacity: 0.4;
+        margin: 0 auto;
+        position: absolute;
+        top: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+</style>
+
+<body>
+    <img src="https://localhost:5001/media/transperant-logo.png" class="water-mark" alt="">
+    <div class="holder">
+        <div class="logo">
+            <img src="https://localhost:5001/media/logo.png" alt="">
+        </div>
+        <div class="certificate">
+            CERTIFICATE
+        </div>
+        <div class="small-text">
+            This certificate is issued by DeemZ University to acknowledge that
+        </div>
+        <div class="medium-text">
+            {{STUDENT_NAME}}
+        </div>
+        <div class="small-text">
+            has successfully completed a course
+        </div>
+        <div class="medium-text">
+            {{COURSE_NAME}}
+        </div>
+        <div class="small-text">
+            with <b>{{GRADE}}% / 100%</b>
+        </div>
+    </div>
+    <div class="qr-code">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data={{LINK}}&amp;size=100x100" alt="">
+        <div class="additional-information">
+            <p>Issue Date: {{DATE}}</p>
+            <p>Check the validity of this document here:</p>
+            <p>{{LINK}}</p>
+        </div>
+    </div>
+</body>
+
+</html>

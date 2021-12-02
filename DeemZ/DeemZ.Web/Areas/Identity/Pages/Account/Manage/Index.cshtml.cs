@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using DeemZ.Data.Models;
-using DeemZ.Services.FileService;
-using DeemZ.Services.UserServices;
-
-namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
+    using DeemZ.Data.Models;
+    using DeemZ.Services.FileService;
+    using DeemZ.Services.UserServices;
     public partial class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;

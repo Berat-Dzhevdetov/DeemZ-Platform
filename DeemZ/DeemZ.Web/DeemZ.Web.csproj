@@ -38,6 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\media\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\media\notification_sound.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

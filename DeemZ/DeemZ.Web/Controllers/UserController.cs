@@ -64,6 +64,13 @@
             return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
+        [ClientRequired]
+        [IfExists]
+        public IActionResult ViewCertificate(string certificateId)
+        {
+            return View();
+        }
+
         [Authorize]
         public async Task<IActionResult> DeleteProfilePicture()
         {

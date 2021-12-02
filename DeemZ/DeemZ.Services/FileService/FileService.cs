@@ -118,7 +118,7 @@
 
             using (var memoryStream = new MemoryStream(fileBytes))
             {
-                RawUploadParams uploadParams = new RawUploadParams
+                RawUploadParams uploadParams = new()
                 {
                     Folder = $"{chatImagesFolder}/",
                     File = new FileDescription(newFileName + "." + chatImagesExtention, memoryStream),
@@ -129,6 +129,26 @@
             }
 
             var publicId = $"{chatImagesFolder}{newFileName}.jpeg";
+
+            return (uploadResult?.SecureUrl.AbsoluteUri, publicId);
+        }
+
+        public (string url, string publicId) UploadMemoryStreamToCloud(byte[] bytes, string newFileName, string folderName, string extension)
+        {
+            UploadResult uploadResult = null;
+
+            using (var memoryStream = new MemoryStream(bytes))
+            {
+                RawUploadParams uploadParams = new()
+                {
+                    Folder = $"{folderName}/",
+                    File = new FileDescription(newFileName + "." + extension, memoryStream),
+                    PublicId = newFileName
+                };
+                uploadResult = cloudinary.Upload(uploadParams);
+            }
+
+            var publicId = $"{folderName}/{newFileName}.{extension}";
 
             return (uploadResult?.SecureUrl.AbsoluteUri, publicId);
         }

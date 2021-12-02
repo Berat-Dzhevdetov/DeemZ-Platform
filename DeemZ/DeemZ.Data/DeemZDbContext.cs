@@ -38,6 +38,7 @@
         public DbSet<ApplicationUserSurveyAnswer> ApplicationUserSurveyAnswers { get; set; }
         public DbSet<AnswerUsers> AnswerUsers { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

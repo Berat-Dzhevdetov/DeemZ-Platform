@@ -34,5 +34,6 @@
         public ICollection<Forum> Forums { get; set; } = new HashSet<Forum>();
         public ICollection<ChatMessage> Messages { get; set; } = new HashSet<ChatMessage>();
         public ICollection<PromoCode> PromoCodes { set; get; } = new HashSet<PromoCode>();
+        public ICollection<Certificate> Certificates { set; get; } = new HashSet<Certificate>();
     }
 }

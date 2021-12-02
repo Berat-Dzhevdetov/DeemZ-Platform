@@ -11,6 +11,14 @@
             return word;
         }
 
+        public static string ReplaceAll(this string word, string oldString, string newString)
+        {
+            while (word.Contains(oldString))
+                word = word.Replace(oldString, newString);
+
+            return word;
+        }
+
         public static string TrimEnd(this string input, string suffixToRemove, StringComparison comparisonType = StringComparison.CurrentCulture)
         {
             if (suffixToRemove != null && input.EndsWith(suffixToRemove, comparisonType))

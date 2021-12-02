@@ -20,6 +20,7 @@
     using DeemZ.Services.EmailSender;
     using DeemZ.Services.ChatMessageService;
     using DeemZ.Services.PromoCodeServices;
+    using DeemZ.Services.PdfServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -67,6 +68,7 @@
             services.AddTransient<IEmailSenderService, EmailSenderService>();
             services.AddTransient<IChatMessageService, ChatMessageService>();
             services.AddTransient<IPromoCodeService, PromoCodeService>();
+            services.AddTransient<IPdfService, PdfService>();
         }
     }
 }

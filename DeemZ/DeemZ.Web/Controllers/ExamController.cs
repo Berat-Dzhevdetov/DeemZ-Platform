@@ -16,6 +16,7 @@
     using DeemZ.Infrastructure;
     using DeemZ.Web.Filters;
     using DeemZ.Models;
+    using DeemZ.Services.PdfServices;
 
     using static DeemZ.Global.WebConstants.Constant;
     using static DeemZ.Global.WebConstants.UserErrorMessages;
@@ -27,6 +28,7 @@
         private readonly IExamService examService;
         private readonly ICourseService courseService;
         private readonly IUserService userService;
+        private readonly IPdfService pdfService;
 
         private const string IsPasswordProvidedKey = "IsPasswordProvided";
         private const string PassingTheTest = "PassingTheTestKey";
@@ -35,12 +37,13 @@
         private const string MessageAfterExam = "Congratulations, you have earned {0}/{1} points";
         private const string LateHandOverExam = "Sorry, but you hand over the exam too late and you officially receive 0 points";
 
-        public ExamController(Guard guard, IExamService examService, ICourseService courseService, IUserService userService)
+        public ExamController(Guard guard, IExamService examService, ICourseService courseService, IUserService userService, IPdfService pdfService)
         {
             this.guard = guard;
             this.examService = examService;
             this.courseService = courseService;
             this.userService = userService;
+            this.pdfService = pdfService;
         }
 
         [ClientRequired]
@@ -126,7 +129,7 @@
         [HttpPost]
         [ClientRequired]
         [IfExists]
-        public IActionResult Take(string examId, TakeExamFormModel exam)
+        public async Task<IActionResult> Take(string examId, TakeExamFormModel exam)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { InvalidForm });
@@ -150,6 +153,17 @@
             {
                 TempData[GlobalMessageKey] = LateHandOverExam;
                 return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
+            }
+
+            if (points >= 0 || maxPoints > 0)
+            {
+                var grade = Math.Round(points / (maxPoints * 1.0)) * 100;
+                if (grade >= 80)
+                {
+                    var serverLink = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+                    var courseId = examService.GetCourseIdByExamId(examId);
+                    await pdfService.GenerateCertificate(grade, courseId, userId, serverLink);
+                }
             }
 
             TempData[GlobalMessageKey] = string.Format(MessageAfterExam, points, maxPoints);
