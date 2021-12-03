@@ -93,6 +93,10 @@ When you click on course's resource window will appear in which you will be able
 
 ![image](https://user-images.githubusercontent.com/56674380/129884999-5253563c-09da-4f29-b819-defcb18193cb.png)
 
+After taking the exam with 80% or more, a pdf file will be automatically generated, which is a certificate and proves that you have passed the course succsessfully
+
+![image](https://user-images.githubusercontent.com/56674380/144577699-b9ac62ef-a380-42a3-982a-c00e656cca76.png)
+
 **Report issue with course's resource or lecture**
 
 If you find any issue with the course's resource or lecture you can describe your problem which will be directly send to admin for a look. Every resource have link under it for report.
