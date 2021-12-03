@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DeemZ.Models.ViewModels.Certificates.CertificateDetailsViewModel>
+@{
+    ViewData["Title"] = "My certificates";
+}
+
+<div class="container-fluid">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    @if (!Model.Any())
+    {
+        <h1 class="mt-4 text-center">You don't have any certificates, yet! Change that <a asp-action="UpcomingCourses" asp-controller="Course">here</a>.</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">External Number</th>
+                    <th scope="col">Created On</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var certificate in Model.OrderByDescending(x => x.CreatedOn))
+                {
+                    <tr>
+                        <td>@certificate.CourseName</td>
+                        <td>@certificate.ExternalNumber</td>
+                        <td>@certificate.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                        <td>
+                            <a class="btn btn-info" asp-area="" asp-controller="User" asp-action="ViewCertificate" asp-route-id="@certificate.ExternalNumber">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

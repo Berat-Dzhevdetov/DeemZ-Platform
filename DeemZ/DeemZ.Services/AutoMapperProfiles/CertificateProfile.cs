@@ -9,6 +9,7 @@
         public CertificateProfile()
         {
             CreateMap<Certificate, CertificateBasicViewModel>();
+            CreateMap<Certificate, CertificateDetailsViewModel>();
         }
     }
 }

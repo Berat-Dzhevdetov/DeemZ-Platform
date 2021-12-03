@@ -84,6 +84,15 @@
             return View(certificate);
         }
 
+        public IActionResult MyCertificates()
+        {
+            var userId = User.GetId();
+
+            var certificates = certificateService.GetUserCertificates<CertificateDetailsViewModel>(userId);
+
+            return View(certificates);
+        }
+
         [Authorize]
         public async Task<IActionResult> DeleteProfilePicture()
         {

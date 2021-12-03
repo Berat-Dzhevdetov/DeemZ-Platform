@@ -7,6 +7,7 @@
         public const string InformativeMessagesCacheKey = "InformativeMessagesCache";
         public const string UpCommingCoursesCacheKey = "UpCommingCoursesCacheKey";
         public const string AdminDashboradStatisticsCacheKey = "AdminDashboradStatisticsCache";
+        public const string CertificateTemplateCacheKey = "CertificateTemplateCache";
 
         public static class WebApi
         {

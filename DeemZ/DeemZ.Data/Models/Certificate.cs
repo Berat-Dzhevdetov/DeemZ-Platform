@@ -15,5 +15,7 @@
         [Required]
         public DateTime CreatedOn { get; set; }
         public int ExternalNumber { get; set; }
+        public string CourseId { get; set; }
+        public Course Course { get; set; }
     }
 }

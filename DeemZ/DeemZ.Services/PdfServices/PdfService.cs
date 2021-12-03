@@ -1,8 +1,10 @@
 ﻿namespace DeemZ.Services.PdfServices
 {
     using Microsoft.AspNetCore.Identity;
+    using System.Linq;
     using System;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Caching.Memory;
     using iText.Html2pdf;
     using System.IO;
     using DeemZ.Data.Models;
@@ -10,7 +12,9 @@
     using DeemZ.Services.FileService;
     using DeemZ.Global.Extensions;
     using DeemZ.Data;
-    using System.Linq;
+    using DeemZ.Services.CachingService;
+
+    using static DeemZ.Global.WebConstants.Constant;
 
     public class PdfService : IPdfService
     {
@@ -19,14 +23,16 @@
         private readonly IFileService fileService;
         private readonly DeemZDbContext context;
         private readonly Random rnd;
+        private readonly IMemoryCachingService memoryCache;
 
-        public PdfService(UserManager<ApplicationUser> userManager, ICourseService courseService, IFileService fileService, DeemZDbContext context)
+        public PdfService(UserManager<ApplicationUser> userManager, ICourseService courseService, IFileService fileService, DeemZDbContext context, IMemoryCachingService memoryCache)
         {
             this.userManager = userManager;
             this.courseService = courseService;
             this.fileService = fileService;
             this.context = context;
             this.rnd = new Random();
+            this.memoryCache = memoryCache;
         }
 
         public async Task<bool> GenerateCertificate(double grade, string cid, string uid, string serverLink)
@@ -58,10 +64,17 @@
                 CreatedOn = DateTime.UtcNow,
                 Id = id,
                 UserId = user.Id,
-                ExternalNumber = externalNumber
+                ExternalNumber = externalNumber,
+                CourseId = cid
             };
 
-            var html = await File.ReadAllTextAsync("wwwroot/media/templates/template.html");
+            if (!memoryCache.ItemExists(CertificateTemplateCacheKey, out string html))
+            {
+                html = await File.ReadAllTextAsync("wwwroot/media/templates/template.html");
+
+                memoryCache.CreateItem(CertificateTemplateCacheKey, html, TimeSpan.FromHours(1));
+            }
+
             html = html.Replace("{{STUDENT_NAME}}", studentName);
             html = html.Replace("{{COURSE_NAME}}", courseName);
             html = html.Replace("{{GRADE}}", grade.ToString());
@@ -76,7 +89,10 @@
 
             HtmlConverter.ConvertToPdf(html, memoryStream);
 
-            var (path, publicId) = fileService.UploadMemoryStreamToCloud(memoryStream.ToArray(), $"{studentName} - {courseName}", "Certificates", "pdf");
+            studentName = studentName.ReplaceAll(" ", "-");
+            courseName = courseName.ReplaceAll(" ", "-");
+
+            var (path, publicId) = fileService.UploadMemoryStreamToCloud(memoryStream.ToArray(), $"{studentName}-{courseName}", "Certificates", "pdf");
 
             certificate.Path = path;
             certificate.PublicId = publicId;

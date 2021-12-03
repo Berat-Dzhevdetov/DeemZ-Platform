@@ -81,7 +81,7 @@
             var userId = User.GetId();
 
             if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
-                return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
+                return HandleErrorRedirect(HttpStatusCodes.Forbidden);
 
             var isProvidedPasswordRight = examService.IsProvidedPasswordRight(examId, password);
 
@@ -100,6 +100,11 @@
         [IfExists]
         public async Task<IActionResult> Take(string examId)
         {
+            var userId = User.GetId();
+
+            if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
+                return HandleErrorRedirect(HttpStatusCodes.Forbidden);
+
             bool isPasswordProvided = TempData[IsPasswordProvidedKey] is bool;
 
             if (!isPasswordProvided) return RedirectToAction(nameof(ExamController.Access), new { examId });
@@ -108,8 +113,6 @@
 
             exam.StartDate = exam.StartDate.ToLocalTime();
             exam.EndDate = exam.EndDate.ToLocalTime();
-
-            var userId = User.GetId();
 
             var isUserAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
 
@@ -132,14 +135,17 @@
         [IfExists]
         public async Task<IActionResult> Take(string examId, TakeExamFormModel exam)
         {
+            var userId = User.GetId();
+
+            if (!examService.DoesTheUserHavePermissionToExam(userId, examId))
+                return HandleErrorRedirect(HttpStatusCodes.Forbidden);
+
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(HomeController.UserErrorPage), typeof(HomeController).GetControllerName(), new { InvalidForm });
 
             bool passingTheTest = TempData[PassingTheTest] is bool;
 
             if (!passingTheTest) return RedirectToAction(nameof(HomeController.Index), typeof(HomeController).GetControllerName());
-
-            var userId = User.GetId();
 
             var isUserAdmin = User.IsAdmin() || User.IsLecture();
 
