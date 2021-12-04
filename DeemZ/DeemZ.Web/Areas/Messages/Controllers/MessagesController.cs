@@ -50,7 +50,7 @@
         [HttpGet("GetUserData/{userId}")]
         public JsonResult GetUserData(string userId)
         {
-            var userData = userService.GetUserById<GetUserDataDTO>(userId);
+            var userData = Task.Run(async () => await userService.GetUserById<GetUserDataDTO>(userId)).Result;
             userData.ApplicationUserImgUrl = GetUserImageLink(userData.ApplicationUserImgUrl);
             return new(userData);
         }
@@ -123,7 +123,7 @@
             if (!chatMessageService.CanUserSendMessage(courseId, applicationUserId) && !isAdmin)
                 return GetAccessDeniedMessage();
 
-            var user = userService.GetUserById<ApplicationUser>(applicationUserId);
+            var user = await userService.GetUserById<ApplicationUser>(applicationUserId);
 
             var course = courseService.GetCourseById<Course>(courseId);
 

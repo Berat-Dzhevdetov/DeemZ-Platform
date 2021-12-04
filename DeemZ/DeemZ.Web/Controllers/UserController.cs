@@ -36,7 +36,7 @@
         {
             if (!userService.GetUserById(userId)) return NotFound();
 
-            var user = userService.GetUserById<EditUserFormModel>(userId);
+            var user = await userService.GetUserById<EditUserFormModel>(userId);
 
             user.IsAdmin = await userService.IsInRoleAsync(userId, Role.AdminRoleName);
 
@@ -68,7 +68,7 @@
             else if (!user.IsAdmin && await userService.IsInRoleAsync(userId, Role.AdminRoleName))
                 await userService.RemoveUserFromRole(userId, Role.AdminRoleName);
 
-            return RedirectToAction(nameof(AdministrationController.Users), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+            return RedirectToAction(nameof(AdministrationController.UsersAsync), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
         public IActionResult ViewCertificate(int id)

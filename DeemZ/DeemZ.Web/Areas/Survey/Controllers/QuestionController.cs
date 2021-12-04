@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
+    using System.Threading.Tasks;
     using DeemZ.Web.Controllers;
     using DeemZ.Web.Filters;
     using DeemZ.Services.SurveyServices;
@@ -34,19 +35,24 @@
         public IActionResult Add(string surveyId)
             => View();
 
+        public ISurveyService GetSurveyService()
+        {
+            return surveyService;
+        }
+
         [ClientRequired]
         [IfExists]
         [HttpPost]
-        public IActionResult Add(string surveyId, AddSurveyQuestionFormModel model)
+        public async Task<IActionResult> AddAsync(string surveyId, AddSurveyQuestionFormModel model, ISurveyService surveyService)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var questionId = surveyService.AddQuestionToSurvey(surveyId, model);
+            var questionId = await surveyService.AddQuestionToSurvey(surveyId, model);
 
             if(model.CreateRatingScale)
             {
-                surveyService.AddRatingScaleToQuestion(questionId);
+                await surveyService.AddRatingScaleToQuestion(questionId);
             }
 
             return RedirectToAction(nameof(All), new { surveyId });

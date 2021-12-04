@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using DeemZ.Models.ViewModels.Surveys;
-using Xunit;
-
-namespace DeemZ.Test.Services
+﻿namespace DeemZ.Test.Services
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using DeemZ.Models.ViewModels.Surveys;
+    using Xunit;
     public class SurveyServiceTests : BaseTestClass
     {
         public SurveyServiceTests()
@@ -25,7 +24,7 @@ namespace DeemZ.Test.Services
             SeedUserExam(courseId, userId);
             SeedUserCourseSurvey(courseId, userId);
 
-            var actualUserSurveysCount = surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId, false).Count();
+            var actualUserSurveysCount = (await surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId, false)).Count();
 
             Assert.Equal(expectedUserSurveysCount, actualUserSurveysCount);
         }
@@ -39,7 +38,7 @@ namespace DeemZ.Test.Services
             
             var expectedSurveyId = context.Surveys.First().Id;
 
-            var actualSurveyId = surveyService.GetSurveyById<IndexSurveyViewModel>(expectedSurveyId).Id;
+            var actualSurveyId = (await surveyService.GetSurveyById<IndexSurveyViewModel>(expectedSurveyId)).Id;
 
             Assert.Equal(expectedSurveyId,actualSurveyId);
         }

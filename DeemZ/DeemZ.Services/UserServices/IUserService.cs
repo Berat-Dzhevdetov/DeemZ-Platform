@@ -8,8 +8,8 @@
     public interface IUserService
     {
         IEnumerable<T> GetAllUsers<T>(int page = 1, int quantity = 20);
-        int GetUserTakenCourses(string uid);
-        T GetUserById<T>(string uid);
+        Task<int> GetUserTakenCourses(string uid);
+        Task<T> GetUserById<T>(string uid);
         bool GetUserById(string uid);
         Task<bool> IsInRoleAsync(string uid, string role);
         Task EditUser(string uid, EditUserFormModel user);
@@ -17,10 +17,10 @@
         Task RemoveUserFromRole(string uid, string role);
         bool IsEmailFree(string uid, string email);
         bool IsUsernameFree(string uid, string userName);
-        IndexUserViewModel GetIndexInformaiton(string uid, bool isAdmin);
+        Task<IndexUserViewModel> GetIndexInformaiton(string uid, bool isAdmin);
         bool GetUserByUserName(string username);
-        string GetUserIdByUserName(string username);
+        Task<string> GetUserIdByUserName(string username);
         Task SetProfileImg(string id, string url, string publidId);
-        void DeleteUserProfileImg(string userId);
+        Task DeleteUserProfileImg(string userId);
     }
 }

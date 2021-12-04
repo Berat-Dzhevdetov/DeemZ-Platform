@@ -179,7 +179,7 @@
         [Authorize(Roles = Role.AdminRoleName)]
         [HttpPost]
         [ClientRequired]
-        public IActionResult AddUserToCourse(AddUserToCourseFormModel model)
+        public async Task<IActionResult> AddUserToCourseAsync(AddUserToCourseFormModel model)
         {
             if (!courseService.GetCourseById(model.CourseId)) ModelState.AddModelError(nameof(AddUserToCourseFormModel.CourseId), "Invalid course!");
 
@@ -192,7 +192,7 @@
                 return View(model);
             }
 
-            var userId = userService.GetUserIdByUserName(model.Username);
+            var userId = await userService.GetUserIdByUserName(model.Username);
 
             courseService.SignUserToCourse(userId, model.CourseId, model.IsPaid);
 

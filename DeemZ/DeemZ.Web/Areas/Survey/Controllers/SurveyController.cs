@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Web.Filters;
     using DeemZ.Services.SurveyServices;
@@ -69,9 +70,9 @@
 
         [ClientRequired]
         [IfExists]
-        public IActionResult Edit(string surveyId)
+        public async Task<IActionResult> EditAsync(string surveyId)
         {
-            var survey = surveyService.GetSurveyById<EditSurveyFormModel>(surveyId);
+            var survey = await surveyService.GetSurveyById<EditSurveyFormModel>(surveyId);
 
             survey.StartDate = survey.StartDate.ToLocalTime();
             survey.EndDate = survey.EndDate.ToLocalTime();
@@ -94,9 +95,9 @@
 
         [ClientRequired]
         [IfExists]
-        public IActionResult Delete(string surveyId)
+        public async Task<IActionResult> DeleteAsync(string surveyId)
         {
-            string courseId = surveyService.DeleteSurvey(surveyId);
+            string courseId = await surveyService.DeleteSurvey(surveyId);
 
             return RedirectToAction(nameof(All), new { courseId });
         }
@@ -150,13 +151,13 @@
         }
 
         [Authorize]
-        public IActionResult MySurveys(int page = 1)
+        public async Task<IActionResult> MySurveysAsync(int page = 1)
         {
             var model = new MySurveyPagingViewModel();
 
             var userId = User.GetId();
 
-            var allPages = (int)Math.Ceiling(surveyService.GetUserAllSurveysCount(userId) / (25 * 1.0));
+            var allPages = (int)Math.Ceiling(await surveyService.GetUserAllSurveysCount(userId) / (25 * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
 
@@ -170,7 +171,7 @@
         [Authorize]
         [ClientRequired]
         [IfExists]
-        public IActionResult Preview(string surveyId)
+        public async Task<IActionResult> PreviewAsync(string surveyId)
         {
             var isAdmin = User.IsAdmin();
 
@@ -183,9 +184,9 @@
                     HandleErrorRedirect(Models.HttpStatusCodes.Forbidden);
             }
 
-            var surveys = surveyService.GetSurveyById<MySurveyViewModel>(surveyId);
+            var surveys = await surveyService.GetSurveyById<MySurveyViewModel>(surveyId);
 
-            surveys.UserAnswers = surveyService.GetUserAnswers(userId, surveyId);
+            surveys.UserAnswers = await surveyService.GetUserAnswers(userId, surveyId);
 
             return View(surveys);
         }

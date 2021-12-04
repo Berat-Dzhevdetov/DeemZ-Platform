@@ -57,7 +57,7 @@
                     cachingService.CreateItem(UpCommingCoursesCacheKey, upCommingCourses, TimeSpan.FromMinutes(30));
                 }
 
-                var viewModel = userService.GetIndexInformaiton(userId, !isAdmin);
+                var viewModel = await userService.GetIndexInformaiton(userId, !isAdmin);
 
                 viewModel.InformativeMessagesHeadings = informativeMessages;
                 viewModel.SignUpCourses = upCommingCourses;

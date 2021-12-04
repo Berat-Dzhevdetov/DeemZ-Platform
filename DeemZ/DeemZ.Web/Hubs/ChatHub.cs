@@ -34,7 +34,7 @@
         public async Task Send(string message, string groupId, string[] imageUrls)
         {
             var userId = Context.User.GetId();
-            var user = userService.GetUserById<ApplicationUser>(userId);
+            var user = await userService.GetUserById<ApplicationUser>(userId);
 
             DecodeAndUploadImages(imageUrls.Where(x => !String.IsNullOrEmpty(x)).ToArray());
 

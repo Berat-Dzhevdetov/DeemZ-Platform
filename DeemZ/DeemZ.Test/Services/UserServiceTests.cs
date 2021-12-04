@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using DeemZ.Data.Models;
-using DeemZ.Global.WebConstants;
-using DeemZ.Models.FormModels.User;
-using DeemZ.Models.ViewModels.User;
-using Xunit;
-
-namespace DeemZ.Test.Services
+﻿namespace DeemZ.Test.Services
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using DeemZ.Data.Models;
+    using DeemZ.Global.WebConstants;
+    using DeemZ.Models.FormModels.User;
+    using DeemZ.Models.ViewModels.User;
+    using Xunit;
     public class UserServiceTests : BaseTestClass
     {
         public UserServiceTests()
@@ -56,7 +55,7 @@ namespace DeemZ.Test.Services
 
             var userId = context.Users.First().Id;
 
-            var actualUsername = userService.GetUserById<BasicUserInformationViewModel>(userId).Username;
+            var actualUsername = (await userService.GetUserById<BasicUserInformationViewModel>(userId)).Username;
 
             Assert.Equal(expectedUsername, actualUsername);
         }
@@ -138,7 +137,7 @@ namespace DeemZ.Test.Services
             var username = "Bobby";
             await SeedUser(username, expectedUserId);
 
-            var actualUserId = userService.GetUserIdByUserName(username);
+            var actualUserId = await userService.GetUserIdByUserName(username);
 
             Assert.Equal(expectedUserId, actualUserId);
         }
@@ -183,7 +182,7 @@ namespace DeemZ.Test.Services
 
             await userService.SetProfileImg(userId,photoUrl,photoPublicId);
 
-            var user = userService.GetUserById<ApplicationUser>(userId);
+            var user = await userService.GetUserById<ApplicationUser>(userId);
 
             Assert.Equal(photoPublicId, user.ImgPublicId);
             Assert.Equal(photoUrl,user.ImgUrl);
@@ -227,7 +226,7 @@ namespace DeemZ.Test.Services
 
             await courseService.SignUserToCourse(userId,courseId);
 
-            var userCourses = userService.GetUserTakenCourses(userId);
+            var userCourses = await userService.GetUserTakenCourses(userId);
 
             Assert.Equal(expectedCoursesCount,userCourses);
         }
@@ -246,7 +245,7 @@ namespace DeemZ.Test.Services
             SeedUserExam(courseId,userId);
             var surveyId = SeedCourseSurvey(courseId);
             SeedUserSurvey(userId, surveyId);
-            var userInfo = userService.GetIndexInformaiton(userId,true);
+            var userInfo = await userService.GetIndexInformaiton(userId,true);
             
             Assert.Equal(courseId, userInfo.Courses.First().Id);
             Assert.Equal(creditsCount, userInfo.Credits);

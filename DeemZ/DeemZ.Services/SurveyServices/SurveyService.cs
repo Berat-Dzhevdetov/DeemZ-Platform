@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using AutoMapper.QueryableExtensions;
     using System.Linq;
+    using System.Threading.Tasks;
     using System;
     using Microsoft.EntityFrameworkCore;
     using DeemZ.Data;
@@ -31,31 +32,32 @@
             return permission && takenOrNot;
         }
 
-        public T GetSurveyById<T>(string sid)
-            => context.Surveys
+        public async Task<T> GetSurveyById<T>(string sid)
+            => await context.Surveys
             .Include(x => x.Questions)
             .ThenInclude(x => x.Answers)
             .Where(x => x.Id == sid)
             .ProjectTo<T>(mapper.ConfigurationProvider)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
 
-        public IEnumerable<T> GetUserCurrentCourseSurveys<T>(string uid, bool isPaid) => context.Surveys
+        public async Task<IEnumerable<T>> GetUserCurrentCourseSurveys<T>(string uid, bool isPaid) 
+            =>  await context.Surveys
                 .Include(x => x.Course)
                 .ThenInclude(x => x.UserCourses)
                 .Where(x => x.Course.UserCourses.Any(x => x.IsPaid == isPaid && x.UserId == uid)
                         && x.StartDate <= DateTime.UtcNow && x.EndDate > DateTime.UtcNow)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
-                .ToList();
+                .ToListAsync();
 
-        public IEnumerable<T> GetSurveysByCourseId<T>(string cid)
-            => context.Surveys
+        public async Task<IEnumerable<T>> GetSurveysByCourseId<T>(string cid)
+            => await context.Surveys
                 .Include(x => x.Questions)
                 .ThenInclude(x => x.Answers)
                 .Where(x => x.CourseId == cid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
-                .ToList();
+                .ToListAsync();
 
-        public void AddSurveyToCourse(string cid, AddSurveyFormModel survey)
+        public async Task AddSurveyToCourse(string cid, AddSurveyFormModel survey)
         {
             var newlySurvey = new Survey
             {
@@ -67,10 +69,10 @@
 
             context.Surveys.Add(newlySurvey);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public string EditSurvey(string sid, EditSurveyFormModel survey)
+        public async Task<string> EditSurvey(string sid, EditSurveyFormModel survey)
         {
             var surveyToEdit = context.Surveys.FirstOrDefault(x => x.Id == sid);
 
@@ -78,14 +80,14 @@
             surveyToEdit.EndDate = survey.EndDate.ToUniversalTime();
             surveyToEdit.Name = survey.Name;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return surveyToEdit.CourseId;
         }
 
-        public string DeleteSurvey(string sid)
+        public async Task<string> DeleteSurvey(string sid)
         {
-            var survey = GetSurveyById<Survey>(sid);
+            var survey = await GetSurveyById<Survey>(sid);
 
             foreach (var question in survey.Questions)
             {
@@ -100,18 +102,18 @@
 
             context.Surveys.Remove(survey);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return courseId;
         }
 
-        public IEnumerable<T> GetSurveyQuestions<T>(string sid)
-            => context.SurveyQuestions
+        public async Task<IEnumerable<T>> GetSurveyQuestions<T>(string sid)
+            => await context.SurveyQuestions
                 .Where(x => x.SurveyId == sid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
-                .ToList();
+                .ToListAsync();
 
-        public string AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question)
+        public async Task<string> AddQuestionToSurvey(string sid, AddSurveyQuestionFormModel question)
         {
             var newlyQuestion = new SurveyQuestion
             {
@@ -122,21 +124,21 @@
 
             context.SurveyQuestions.Add(newlyQuestion);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return newlyQuestion.Id;
         }
 
-        public T GetQuestionById<T>(string sqid)
+        public async Task<T> GetQuestionById<T>(string sqid)
         {
-            var question = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+            var question = await context.SurveyQuestions.FirstOrDefaultAsync(x => x.Id == sqid);
 
             return mapper.Map<T>(question);
         }
 
-        public string EditQuestion(string sqid, EditSurveyQuestionFormModel question)
+        public async Task<string> EditQuestion(string sqid, EditSurveyQuestionFormModel question)
         {
-            var questionToEdit = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+            var questionToEdit = await context.SurveyQuestions.FirstOrDefaultAsync(x => x.Id == sqid);
 
 
             questionToEdit.Question = question.Question;
@@ -144,14 +146,14 @@
 
             DeleteQuestionAllAnswers(questionToEdit);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return questionToEdit.SurveyId;
         }
 
-        public string DeleteQuestion(string sqid)
+        public async Task<string> DeleteQuestion(string sqid)
         {
-            var questionToDel = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+            var questionToDel = await context.SurveyQuestions.FirstOrDefaultAsync(x => x.Id == sqid);
 
             DeleteQuestionAllAnswers(questionToDel);
 
@@ -159,7 +161,7 @@
 
             context.SurveyQuestions.Remove(questionToDel);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return surveyId;
         }
@@ -175,13 +177,13 @@
             }
         }
 
-        public IEnumerable<T> GetAllAnswers<T>(string sqid)
-            => context.SurveyAnswers
+        public async Task<IEnumerable<T>> GetAllAnswers<T>(string sqid)
+            => await context.SurveyAnswers
                 .Where(x => x.SurveyQuestionId == sqid)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
-                .ToList();
+                .ToListAsync();
 
-        public void AddAnswerToQuestion(string sqid, AddSurveyAnswerFormModel answer)
+        public async Task AddAnswerToQuestion(string sqid, AddSurveyAnswerFormModel answer)
         {
             var newlyAnswer = new SurveyAnswer()
             {
@@ -191,35 +193,35 @@
 
             context.SurveyAnswers.Add(newlyAnswer);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public T GetAnswerById<T>(string said)
+        public async Task<T> GetAnswerById<T>(string said)
         {
-            var answer = context.SurveyAnswers.FirstOrDefault(x => x.Id == said);
+            var answer = await context.SurveyAnswers.FirstOrDefaultAsync(x => x.Id == said);
 
             return mapper.Map<T>(answer);
         }
 
-        public string EditAnswer(string said, EditSurveyAnswerFormModel answer)
+        public async Task<string> EditAnswer(string said, EditSurveyAnswerFormModel answer)
         {
-            var answerEdit = context.SurveyAnswers.FirstOrDefault(x => x.Id == said);
+            var answerEdit = await context.SurveyAnswers.FirstOrDefaultAsync(x => x.Id == said);
 
             answerEdit.Text = answer.Text;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return answerEdit.SurveyQuestionId;
         }
 
-        public string DeleteAnswer(string said)
+        public async Task<string> DeleteAnswer(string said)
         {
-            var answerToDelete = context.SurveyAnswers.FirstOrDefault(x => x.Id == said);
+            var answerToDelete = await context.SurveyAnswers.FirstOrDefaultAsync(x => x.Id == said);
 
             var surveyQuestionId = answerToDelete.SurveyQuestionId;
 
             context.SurveyAnswers.Remove(answerToDelete);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return surveyQuestionId;
         }
@@ -232,7 +234,7 @@
 
         public void PrepareSurvey(string surveyId, out TakeSurveyFormModel survey)
         {
-            survey = GetSurveyById<TakeSurveyFormModel>(surveyId);
+            survey = Task.Run(async () => await GetSurveyById<TakeSurveyFormModel>(surveyId)).Result; 
 
             survey.Questions.ForEach(x =>
             {
@@ -294,7 +296,7 @@
         private bool IfAnswerExists(string aid)
             => context.SurveyAnswers.Any(x => x.Id == aid);
 
-        public void SaveSurvey(string sid, string uid, List<string> correctAnswerIds)
+        public async Task SaveSurvey(string sid, string uid, List<string> correctAnswerIds)
         {
             foreach (var answerId in correctAnswerIds)
             {
@@ -315,12 +317,12 @@
 
             context.ApplicationUserSurveys.Add(applicationUserSurvey);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public void AddRatingScaleToQuestion(string sqid)
+        public async Task AddRatingScaleToQuestion(string sqid)
         {
-            var question = context.SurveyQuestions.FirstOrDefault(x => x.Id == sqid);
+            var question = await context.SurveyQuestions.FirstOrDefaultAsync(x => x.Id == sqid);
 
             for (int i = 2; i <= 6; i++)
             {
@@ -333,7 +335,7 @@
                 else if (i == 6)
                     text += " - Excellent";
 
-                AddAnswerToQuestion(sqid, new AddSurveyAnswerFormModel
+                await AddAnswerToQuestion(sqid, new AddSurveyAnswerFormModel
                 {
                     Text = text
                 });
@@ -348,15 +350,15 @@
                 .Paging(page, 25)
                 .ToList();
 
-        public IDictionary<string, string> GetUserAnswers(string uid, string sid)
-            => context.ApplicationUserSurveyAnswers
+        public async Task<IDictionary<string, string>> GetUserAnswers(string uid, string sid)
+            => await context.ApplicationUserSurveyAnswers
                 .Include(x => x.SurveyAnswer)
                 .ThenInclude(x => x.SurveyQuestion)
                 .Where(x => x.ApplicationUserId == uid && x.SurveyAnswer.SurveyQuestion.SurveyId == sid)
-                .ToDictionary(x => x.SurveyAnswer.SurveyQuestionId, x => x.SurveyAnswerId);
+                .ToDictionaryAsync(x => x.SurveyAnswer.SurveyQuestionId, x => x.SurveyAnswerId);
 
-        public int GetUserAllSurveysCount(string userId)
-            => context.ApplicationUserSurveys
-                .Count(x => x.ApplicationUserId == userId);
+        public async Task<int> GetUserAllSurveysCount(string userId)
+            => await context.ApplicationUserSurveys
+                .CountAsync(x => x.ApplicationUserId == userId);
     }
 }

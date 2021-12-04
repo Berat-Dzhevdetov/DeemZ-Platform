@@ -31,6 +31,7 @@
     using DeemZ.Models.ViewModels.PromoCodes;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using System.Threading.Tasks;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]
@@ -170,7 +171,7 @@
             return View(viewModel);
         }
 
-        public IActionResult Users(int page = 1, int quantity = 20)
+        public async Task<IActionResult> UsersAsync(int page = 1, int quantity = 20)
         {
             var viewModel = new AdmistrationUsersViewModel();
 
@@ -185,7 +186,7 @@
             viewModel = AdjustPages(viewModel, page, allPages);
 
             foreach (var user in viewModel.Users)
-                user.TakenCoursesCount = userService.GetUserTakenCourses(user.Id);
+                user.TakenCoursesCount = await userService.GetUserTakenCourses(user.Id);
 
             return View(viewModel);
         }
