@@ -1,21 +1,23 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using DeemZ.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using DeemZ.Data;
-namespace DeemZ.Web.Areas.Identity.Pages.Account
+﻿namespace DeemZ.Web.Areas.Identity.Pages.Account
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using DeemZ.Data.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.WebUtilities;
+    using Microsoft.Extensions.Logging;
+    using DeemZ.Data;
+
+    using static Data.DataConstants.User;
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
@@ -59,6 +61,16 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [StringLength(MaxFirstNameLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = MinFirstNameLength)]
+            [Display(Name = "Fisrt Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(MaxLastNameLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = MinLastNameLength)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -93,9 +105,11 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
                 {
                     UserName = Input.Username,
                     Email = Input.Email,
-                    PrivacyConfirm = Input.PrivacyConfirm
+                    PrivacyConfirm = Input.PrivacyConfirm,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName
                 };
-                ;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
