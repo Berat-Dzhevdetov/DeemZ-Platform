@@ -1,0 +1,80 @@
+﻿@model DeemZ.Models.ViewModels.Administration.AdministrationPartnersViewModel;
+@{
+    Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
+    ViewData["Title"] = "Partners";
+}
+
+<div class="container-fluid">
+    <div class="text-center mt-5">
+        <a asp-area="Partner" asp-controller="Partner" asp-action="Add" class="btn btn-success">Add Partner</a>
+    </div>
+    <form method="get" class="mt-5">
+        <div>
+            <label asp-for="Name" class="text-light"></label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div>
+            <label asp-for="Tier" class="text-light"></label>
+            <input asp-for="Tier" class="form-control" />
+        </div>
+    </form>
+
+    <table class="table table-striped table-dark mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Partner from</th>
+                <th scope="col">Tier</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var partner in Model.Partners)
+            {
+                <tr>
+                    <td>@partner.Name</td>
+                    <td>@partner.From.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                    <td>@partner.Tier</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Partner" asp-controller="Partner" asp-action="Edit" asp-route-courseId="@partner.Id">Edit</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" asp-area="Partner" asp-controller="Partner" asp-action="Delete" asp-route-courseId="@partner.Id">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pages flex">
+        @if (Model.PreviousPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Partners" asp-route-page="@Model.PreviousPage" asp-route-tier="Model.Tier" asp-route-tier="Model.Name">
+                    Last Page
+                </a>
+            </div>
+        }
+        @for (int i = 1; i <= Model.MaxPages; i++)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Partners" asp-route-page="@i" asp-route-tier="Model.Tier" asp-route-tier="Model.Name">
+                    @i
+                </a>
+            </div>
+        }
+        @if (Model.NextPage != null)
+        {
+            <div class="page-number">
+                <a class="text-light" asp-controller="Administration" asp-action="Partners" asp-route-page="@Model.NextPage" asp-route-tier="Model.Tier" asp-route-tier="Model.Name">
+                    Next Page
+                </a>
+            </div>
+        }
+    </div>
+</div>

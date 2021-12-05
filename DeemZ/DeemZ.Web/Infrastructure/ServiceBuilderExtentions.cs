@@ -22,6 +22,7 @@
     using DeemZ.Services.PromoCodeServices;
     using DeemZ.Services.PdfServices;
     using DeemZ.Services.CertificateServices;
+    using DeemZ.Services.PartnerServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -43,6 +44,7 @@
                 mc.AddProfile(new ChatMessagesProfile());
                 mc.AddProfile(new PromoCodeProfile());
                 mc.AddProfile(new CertificateProfile());
+                mc.AddProfile(new PartnerProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -72,6 +74,7 @@
             services.AddTransient<IPromoCodeService, PromoCodeService>();
             services.AddTransient<IPdfService, PdfService>();
             services.AddTransient<ICertificateService, CertificateService>();
+            services.AddTransient<IPartnerService, PartnerService>();
         }
     }
 }

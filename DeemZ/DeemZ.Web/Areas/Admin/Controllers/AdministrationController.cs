@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using DeemZ.Services.AdminServices;
     using DeemZ.Models.ViewModels.Administration;
     using DeemZ.Services.CourseServices;
@@ -29,9 +30,11 @@
     using DeemZ.Models.Shared;
     using DeemZ.Services.PromoCodeServices;
     using DeemZ.Models.ViewModels.PromoCodes;
+    using DeemZ.Services;
+    using DeemZ.Services.PartnerServices;
+    using DeemZ.Models.ViewModels.Partners;
 
     using static DeemZ.Global.WebConstants.Constant;
-    using System.Threading.Tasks;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]
@@ -48,8 +51,10 @@
         private readonly IEmailSenderService emailSenderService;
         private readonly IInformativeMessageService informativeMessageService;
         private readonly IPromoCodeService promoCodeService;
+        private readonly IPartnerService partnerService;
+        private readonly Guard guard;
 
-        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService, IEmailSenderService emailSenderService, IInformativeMessageService informativeMessageService, IPromoCodeService promoCodeService)
+        public AdministrationController(IAdminService adminService, ICourseService courseService, ILectureService lectureService, IUserService userService, IReportService reportService, IExamService examService, IQuestionService questionService, IMemoryCachingService cachingService, IEmailSenderService emailSenderService, IInformativeMessageService informativeMessageService, IPromoCodeService promoCodeService, Guard guard, IPartnerService partnerService)
         {
             this.adminService = adminService;
             this.courseService = courseService;
@@ -62,6 +67,8 @@
             this.emailSenderService = emailSenderService;
             this.informativeMessageService = informativeMessageService;
             this.promoCodeService = promoCodeService;
+            this.guard = guard;
+            this.partnerService = partnerService;
         }
 
         public IActionResult Index(int page = 1, int quantity = 20)
@@ -308,6 +315,24 @@
             var allPages = (int)Math.Ceiling(viewModel.InformativeMessagesHeadingViewModel.Count() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
+
+            viewModel = AdjustPages(viewModel, page, allPages);
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Partners(int page = 1, int quantity = 20)
+        {
+            var viewModel = new AdministrationPartnersViewModel()
+            {
+                Tiers = await partnerService.GetTiers(),
+            };
+
+            var allPages = (int)Math.Ceiling(await partnerService.GetPartnersCount() / (quantity * 1.0));
+
+            if (page <= 0 || page > allPages) page = 1;
+
+            viewModel.Partners = await partnerService.GetPartners<PartnersDetailsViewModel>(viewModel.Tier, viewModel.Name, page, quantity);
 
             viewModel = AdjustPages(viewModel, page, allPages);
 

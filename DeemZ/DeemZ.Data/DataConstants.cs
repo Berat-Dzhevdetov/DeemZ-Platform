@@ -100,12 +100,20 @@
             public const int MaxIconLength = 50;
         }
 
+        public class Partners
+        {
+            public const int MinNameLength = 2;
+            public const int MaxNameLength = 40;
+
+        }
+
         public class Survey
         {
             public const int MinNameLength = 5;
             public const int MaxNameLength = 150;
 
         }
+
 
         public class SurveyQuestion
         {
