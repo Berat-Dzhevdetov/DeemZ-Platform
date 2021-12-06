@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Web.Areas.Informative.Controllers
+﻿namespace DeemZ.Web.Areas.PromoCode.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using System.Threading.Tasks;
@@ -11,7 +11,6 @@
     using DeemZ.Web.Filters;
 
     using static DeemZ.Global.WebConstants.Constant;
-    using DeemZ.Services.EmailSender;
 
     [Area(AreaName.PromoCodeArea)]
     [Authorize(Roles = Role.AdminRoleName)]

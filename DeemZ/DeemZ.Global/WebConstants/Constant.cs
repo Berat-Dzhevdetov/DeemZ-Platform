@@ -45,6 +45,7 @@
             public const string SurveyArea = "Survey";
             public const string InformativeArea = "Informative";
             public const string PromoCodeArea = "PromoCode";
+            public const string PartnerArea = "Partner";
         }
     }
 }

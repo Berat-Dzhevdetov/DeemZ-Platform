@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using DeemZ.Models.FormModels.Partner;
 
     public interface IPartnerService
     {
@@ -9,6 +10,7 @@
         Task<int> GetPartnersCount();
         Task<IDictionary<int, string>> GetTiers();
         Task<bool> ValidateTier(int tier);
-
+        Task Create(AddPartnerFormModel partner);
+        Task Delete(string pid);
     }
 }

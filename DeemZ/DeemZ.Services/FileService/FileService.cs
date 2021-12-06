@@ -19,6 +19,7 @@
         private string wordsFolder = "msword";
         private string videosFolder = "Videos";
         private string imagesFolder = "Images";
+        private string partnersFolder = "Partners";
         private string chatImagesFolder = "Chat-Images";
         private string chatImagesExtention = "jpeg";
         private const int defaultSizeOfFile = 2; // MB
@@ -48,6 +49,8 @@
 
         public (string url, string publicId) PreparingFileForUploadAndUploadIt(IFormFile file, string path = null)
         {
+            if(file == null) return (null, null);
+
             var newFileName = Guid.NewGuid().ToString();
 
             string folder = string.Empty;
@@ -72,7 +75,10 @@
             }
             else if (CheckIfFileIsImage(file))
             {
-                folder = $"{imagesFolder}/";
+                if (path == "partner")
+                    folder = $"{partnersFolder}/";
+                else
+                    folder = $"{imagesFolder}/";
             }
             else
             {

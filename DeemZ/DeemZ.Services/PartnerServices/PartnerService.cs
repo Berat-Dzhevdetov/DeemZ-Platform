@@ -9,16 +9,48 @@
     using System.Linq;
     using System.Threading.Tasks;
     using DeemZ.Global.Extensions;
+    using DeemZ.Models.FormModels.Partner;
+    using DeemZ.Data.Models;
+    using DeemZ.Services.FileService;
 
     public class PartnerService : IPartnerService
     {
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
+        private readonly IFileService fileService;
 
-        public PartnerService(DeemZDbContext context, IMapper mapper)
+        public PartnerService(DeemZDbContext context, IMapper mapper, IFileService fileService)
         {
             this.context = context;
             this.mapper = mapper;
+            this.fileService = fileService;
+        }
+
+        public async Task Create(AddPartnerFormModel partner)
+        {
+            var newPartner = mapper.Map<Partner>(partner);
+
+            newPartner.From = DateTime.UtcNow;
+
+            (newPartner.Path, newPartner.PublicId) = fileService.PreparingFileForUploadAndUploadIt(partner.LogoImage, "partner");
+
+            if (newPartner.Path == null || newPartner.PublicId == null)
+                return;
+
+            context.Partners.Add(newPartner);
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Delete(string pid)
+        {
+            var partnerToDel = await context.Partners.FirstOrDefaultAsync(x => x.Id == pid);
+
+            fileService.DeleteFile(partnerToDel.PublicId, isImg: true);
+
+            context.Remove(partnerToDel);
+
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetPartners<T>(int? tier, string name, int page = 1, int quantity = 20)

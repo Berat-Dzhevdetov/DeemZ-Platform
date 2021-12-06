@@ -1,4 +1,4 @@
-﻿namespace DeemZ.Web.Controllers
+﻿namespace DeemZ.Web.Areas.Survey.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -12,6 +12,7 @@
     using DeemZ.Data.Models;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Models.Shared;
+    using DeemZ.Web.Controllers;
 
     using static DeemZ.Global.WebConstants.Constant;
 

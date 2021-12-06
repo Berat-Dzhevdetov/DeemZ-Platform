@@ -1,6 +1,7 @@
-﻿namespace DeemZ.Web.Controllers
+﻿namespace DeemZ.Web.Areas.Report.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using DeemZ.Web.Controllers;
     using Microsoft.AspNetCore.Authorization;
     using DeemZ.Services.LectureServices;
     using DeemZ.Models.FormModels.Reports;

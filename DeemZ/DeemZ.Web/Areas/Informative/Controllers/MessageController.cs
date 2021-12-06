@@ -5,10 +5,10 @@
     using DeemZ.Web.Filters;
     using DeemZ.Models.FormModels.InformativeMessages;
     using DeemZ.Services.InformativeMessageServices;
-
-    using static DeemZ.Global.WebConstants.Constant;
     using DeemZ.Web.Areas.Administration.Controllers;
     using DeemZ.Web.Infrastructure;
+
+    using static DeemZ.Global.WebConstants.Constant;
 
     [Area(AreaName.InformativeArea)]
     [Authorize(Roles = Role.AdminRoleName)]
