@@ -52,6 +52,33 @@
             return RedirectToAction(nameof(AdministrationController.Partners), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
+        public async Task<IActionResult> Edit(string partnerId)
+        {
+            var formModel = await partnerService.GetPartnerById<EditPartnerFormModel>(partnerId);
+            formModel.Tiers = await partnerService.GetTiers();
+            return View(formModel);
+        }
+
+        [HttpPost]
+        [ClientRequired]
+        public async Task<IActionResult> Edit(string partnerId, EditPartnerFormModel formModel)
+        {
+            if (!await partnerService.ValidateTier((int)formModel.Tier))
+            {
+                ModelState.AddModelError(nameof(formModel.Tier), "Invalid tier rank");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                formModel.Tiers = await partnerService.GetTiers();
+                return View(formModel);
+            }
+
+            await partnerService.Edit(partnerId, formModel);
+
+            return RedirectToAction(nameof(AdministrationController.Partners), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
+        }
+
         //[Authorize(Roles = Role.AdminRoleName)]
         //[ClientRequired]
         //[IfExists]

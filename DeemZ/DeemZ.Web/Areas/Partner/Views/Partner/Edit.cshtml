@@ -1,8 +1,8 @@
 ﻿@{
     Layout = DeemZ.Global.WebConstants.Constant.LayOut.AdminLayout;
-    ViewData["Title"] = "Add Partner";
+    ViewData["Title"] = "Edit Partner";
 }
-@model DeemZ.Models.FormModels.Partner.AddPartnerFormModel
+@model DeemZ.Models.FormModels.Partner.EditPartnerFormModel
 
 <div class="container-fluid">
     <form method="post" class="mt-4" enctype="multipart/form-data">
@@ -12,7 +12,7 @@
         <div class="form-group">
             <label class="text-light" asp-for="LogoImage"></label>
             <input accept=".jpeg,.jpg,.png" id="logoInput" class="form-control" asp-for="LogoImage" />
-            <img hidden id="partnerLogo" alt="Upload partners logo" />
+            <img class="wide-image" src="@Model.Path" id="partnerLogo" alt="Upload partners logo" />
             <span asp-validation-for="LogoImage" class="small text-danger"></span>
         </div>
         <div class="form-group">
@@ -23,7 +23,8 @@
         <div class="form-group">
             <label class="text-light" asp-for="Tier"></label>
             <select class="form-control" asp-for="Tier">
-                @foreach (var tier in Model.Tiers){
+                @foreach (var tier in Model.Tiers)
+                {
                     <option value="@tier.Key">@tier.Value</option>
                 }
             </select>
@@ -38,19 +39,18 @@
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />
 <script>
-        const input = document.getElementById('logoInput');
-        input.addEventListener('change', (e) => {
-            let output = document.getElementById('partnerLogo');
-            
-            if(output.hidden === true){
-                output.hidden = false;
-                output.classList.add('wide-image');
-                output.classList.add('mt-3');
-            }
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
-              URL.revokeObjectURL(output.src); // free memory
-            }
-        })
+    const input = document.getElementById('logoInput');
+
+    input.addEventListener('change', (e) => {
+        
+        @{
+            Model.IsImageChanged = true;
+        }
+        output.src = URL.createObjectURL(event.target.files[0]);
+
+        output.onload = function() {
+          URL.revokeObjectURL(output.src); // free memory
+        }
+    })
 </script>
 }

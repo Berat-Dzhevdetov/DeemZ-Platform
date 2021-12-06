@@ -12,5 +12,7 @@
         Task<bool> ValidateTier(int tier);
         Task Create(AddPartnerFormModel partner);
         Task Delete(string pid);
+        Task Edit(string partnerId, EditPartnerFormModel formModel);
+        Task<T> GetPartnerById<T>(string partnerId);
     }
 }

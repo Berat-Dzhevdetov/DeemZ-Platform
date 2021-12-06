@@ -18,6 +18,7 @@
         private readonly DeemZDbContext context;
         private readonly IMapper mapper;
         private readonly IFileService fileService;
+        private readonly string secretKey = "partner";
 
         public PartnerService(DeemZDbContext context, IMapper mapper, IFileService fileService)
         {
@@ -32,7 +33,7 @@
 
             newPartner.From = DateTime.UtcNow;
 
-            (newPartner.Path, newPartner.PublicId) = fileService.PreparingFileForUploadAndUploadIt(partner.LogoImage, "partner");
+            (newPartner.Path, newPartner.PublicId) = fileService.PreparingFileForUploadAndUploadIt(partner.LogoImage, secretKey);
 
             if (newPartner.Path == null || newPartner.PublicId == null)
                 return;
@@ -52,6 +53,26 @@
 
             await context.SaveChangesAsync();
         }
+
+        public async Task Edit(string partnerId, EditPartnerFormModel formModel)
+        {
+            var partnerToEdit = await context.Partners.FirstOrDefaultAsync(x => x.Id == partnerId);
+
+            partnerToEdit.Name = formModel.Name;
+            partnerToEdit.Tier = formModel.Tier;
+
+            if(formModel.IsImageChanged)
+            {
+                fileService.DeleteFile(partnerToEdit.PublicId, isImg: true);
+
+                fileService.PreparingFileForUploadAndUploadIt(formModel.LogoImage, secretKey);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<T> GetPartnerById<T>(string partnerId)
+            => await context.Partners.Where(x => x.Id == partnerId).ProjectTo<T>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<T>> GetPartners<T>(int? tier, string name, int page = 1, int quantity = 20)
             => await Task.Run(async () =>
