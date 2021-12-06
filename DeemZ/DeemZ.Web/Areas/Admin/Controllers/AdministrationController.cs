@@ -127,7 +127,7 @@
             else
             {
                 viewModel.PromoCode = null;
-                viewModel.PromoCodes = promoCodeService.GetPromoCodes <PromoCodeDetailsViewModel>(page, quantity);
+                viewModel.PromoCodes = promoCodeService.GetPromoCodes<PromoCodeDetailsViewModel>(page, quantity);
             }
 
             viewModel = AdjustPages(viewModel, page, allPages);
@@ -321,12 +321,15 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Partners(int page = 1, int quantity = 20)
+        public async Task<IActionResult> Partners(int? tier, string name, int page = 1, int quantity = 20)
         {
             var viewModel = new AdministrationPartnersViewModel()
             {
                 Tiers = await partnerService.GetTiers(),
             };
+
+            viewModel.Tier = tier;
+            viewModel.Name = name;
 
             var allPages = (int)Math.Ceiling(await partnerService.GetPartnersCount() / (quantity * 1.0));
 

@@ -8,7 +8,7 @@
     {
         public IEnumerable<PartnersDetailsViewModel> Partners { get; set; }
         public IDictionary<int,string> Tiers { get; set; }
-        public int Tier { get; set; }
+        public int? Tier { get; set; }
         public string Name { get; set; }
     }
 }

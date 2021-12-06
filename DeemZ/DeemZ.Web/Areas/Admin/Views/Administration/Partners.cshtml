@@ -15,7 +15,13 @@
         </div>
         <div>
             <label asp-for="Tier" class="text-light"></label>
-            <input asp-for="Tier" class="form-control" />
+            <select asp-for="Tier" class="form-control">
+                <option value=""></option>
+                @foreach (var tier in Model.Tiers)
+                {
+                    <option value="@tier.Key">@tier.Value</option>
+                }
+            </select>
         </div>
         <div class="text-center">
             <input type="submit" class="btn btn-primary" value="Search" />
