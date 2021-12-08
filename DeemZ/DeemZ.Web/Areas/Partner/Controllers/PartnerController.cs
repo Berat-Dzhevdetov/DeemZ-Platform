@@ -9,6 +9,7 @@
     using DeemZ.Web.Infrastructure;
     using DeemZ.Web.Controllers;
     using DeemZ.Models.FormModels.Partner;
+    using DeemZ.Data.Models;
 
     using static DeemZ.Global.WebConstants.Constant;
 
@@ -79,13 +80,11 @@
             return RedirectToAction(nameof(AdministrationController.Partners), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
 
-        //[Authorize(Roles = Role.AdminRoleName)]
-        //[ClientRequired]
-        //[IfExists]
-        //public IActionResult All()
-        //{
-        //    return View(report);
-        //}
+        [AllowAnonymous]
+        public IActionResult All()
+        {
+            return View();
+        }
 
         [ClientRequired]
         [IfExists]

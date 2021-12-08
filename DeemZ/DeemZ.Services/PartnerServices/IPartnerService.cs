@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using DeemZ.Models.FormModels.Partner;
+    using DeemZ.Data.Models;
 
     public interface IPartnerService
     {
