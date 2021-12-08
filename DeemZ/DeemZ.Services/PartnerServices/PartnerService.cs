@@ -12,6 +12,7 @@
     using DeemZ.Models.FormModels.Partner;
     using DeemZ.Data.Models;
     using DeemZ.Services.FileService;
+    using DeemZ.Models.ViewModels.Partners;
 
     public class PartnerService : IPartnerService
     {
@@ -61,7 +62,7 @@
             partnerToEdit.Name = formModel.Name;
             partnerToEdit.Tier = formModel.Tier;
 
-            if(formModel.IsImageChanged)
+            if (formModel.IsImageChanged)
             {
                 fileService.DeleteFile(partnerToEdit.PublicId, isImg: true);
 
@@ -70,6 +71,13 @@
 
             await context.SaveChangesAsync();
         }
+
+        public List<IGrouping<PartnerTiers, PartnersDetailsViewModel>> GetAllPartners()
+            => context.Partners
+                .ProjectTo<PartnersDetailsViewModel>(mapper.ConfigurationProvider)
+            .ToList()
+                .GroupBy(x => x.Tier)
+                .ToList();
 
         public async Task<T> GetPartnerById<T>(string partnerId)
             => await context.Partners.Where(x => x.Id == partnerId).ProjectTo<T>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
@@ -94,7 +102,7 @@
 
                 return allPartners
                     .ProjectTo<T>(mapper.ConfigurationProvider)
-                    .Paging(page,quantity)
+                    .Paging(page, quantity)
                     .ToList();
             });
 

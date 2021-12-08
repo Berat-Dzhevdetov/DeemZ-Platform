@@ -1,9 +1,11 @@
 ﻿namespace DeemZ.Services.PartnerServices
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+    using DeemZ.Data;
     using DeemZ.Models.FormModels.Partner;
-    using DeemZ.Data.Models;
+    using DeemZ.Models.ViewModels.Partners;
 
     public interface IPartnerService
     {
@@ -15,5 +17,6 @@
         Task Delete(string pid);
         Task Edit(string partnerId, EditPartnerFormModel formModel);
         Task<T> GetPartnerById<T>(string partnerId);
+        List<IGrouping<PartnerTiers, PartnersDetailsViewModel>> GetAllPartners();
     }
 }

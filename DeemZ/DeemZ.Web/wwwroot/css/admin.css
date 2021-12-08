@@ -59,6 +59,7 @@ img.wide-image {
     height: 150px;
     object-fit: fill;
     margin-top: 1rem;
+    background:#f1f1f1;
 }
 
 .mobile-dropdown {

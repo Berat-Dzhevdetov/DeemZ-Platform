@@ -83,7 +83,8 @@
         [AllowAnonymous]
         public IActionResult All()
         {
-            return View();
+            var partners = partnerService.GetAllPartners();
+            return View(partners);
         }
 
         [ClientRequired]

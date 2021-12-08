@@ -1,62 +1,53 @@
-﻿@{
+﻿@model List<IGrouping<DeemZ.Data.PartnerTiers, DeemZ.Models.ViewModels.Partners.PartnersDetailsViewModel>>
+@{
     ViewData["Title"] = "All Partners";
     Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
+    var tiersLength = Model.Count;
+    var index = -1;
 }
-
 <div class="flex partner-header">
     <h1>Partners</h1>
-    <p>To start a partnership with DeemZ or just want to send an inquiry, use the "Make an inquiry"
-        button or contact us by email: deemzonline@gmail.com</p>
-</div>
-<div class="partner-tier-navigation flex">
-    <div class="partner-tier">
-        <a href="#">Diamond</a>
-    </div>
+    <p>
+        To start a partnership with DeemZ or just want to send an inquiry, use the "Make an inquiry"
+        button or contact us by email: deemzonline@gmail.com
+    </p>
 </div>
 
-<div class="star-tier-partners-holder">
-    <div class="tier-partners">
-        <div class="tier-stars">
-            <img src="~/media/star_icon.svg" />
-            <img src="~/media/star_icon.svg" />
-            <img src="~/media/star_icon.svg" />
+<div class="partner-tier-navigation flex mb-5">
+    @foreach (var tier in Model.OrderBy(x => x.Key))
+    {
+        <div class="partner-tier">
+            <a href="#@tier.Key">@tier.Key</a>
         </div>
-        <span class="mt-4">
-            The Diamonds
-        </span>
-    </div>
-    <div class="partner-cards-holder flex mt-4">
-        <div class="partner-card">
-            <div class="partner-logo">
-                <img src="~/media/logo.png" />
-            </div>
-            <div class="partner-name">
-                DeemZ
-            </div>
-        </div>
-        <div class="partner-card">
-            <div class="partner-logo">
-                <img src="~/media/logo.png" />
-            </div>
-            <div class="partner-name">
-                DeemZ
-            </div>
-        </div>
-        <div class="partner-card">
-            <div class="partner-logo">
-                <img src="~/media/logo.png" />
-            </div>
-            <div class="partner-name">
-                DeemZ
-            </div>
-        </div>
-        <div class="partner-card">
-            <div class="partner-logo">
-                <img src="~/media/logo.png" />
-            </div>
-            <div class="partner-name">
-                DeemZ
-            </div>
-        </div>
-    </div>
+    }
 </div>
+@foreach (var tier in Model.OrderBy(x => x.Key))
+{
+    index += 1;
+    <div class="star-tier-partners-holder" id="@tier.Key">
+        <div class="tier-partners">
+            <div class="tier-stars">
+                @for (var i = index; i < tiersLength; i++)
+                {
+                    <img src="~/media/star_icon.svg" />
+                }
+            </div>
+            <span class="mt-4">
+                The @(tier.Key)s
+            </span>
+        </div>
+        <div class="partner-cards-holder flex mt-4">
+            @foreach (var item in tier)
+            {
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <img src="@item.Path" />
+                    </div>
+                    <div class="partner-name">
+                        @item.Name
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
