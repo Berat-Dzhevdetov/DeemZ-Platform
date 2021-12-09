@@ -30,6 +30,7 @@ namespace DeemZ.Test.Services
     using DeemZ.Services.UserServices;
     using DeemZ.Services.ForumServices;
     using DeemZ.Models.FormModels.Forum;
+    using DeemZ.Services.EmailSender;
 
     public abstract class BaseTestClass
     {
@@ -45,6 +46,7 @@ namespace DeemZ.Test.Services
         public IExamService examService;
         public IQuestionService questionService;
         public IAdminService adminService;
+        public IEmailSenderService emailSender;
         public Guard guard = new Guard();
 
         public const string testUserId = "test-user";
@@ -93,8 +95,10 @@ namespace DeemZ.Test.Services
             surveyService = new SurveyService(context, mapper);
             examService = new ExamService(context, mapper);
             questionService = new QuestionService(context, mapper);
+            
+            emailSender = new EmailSenderService(context);
 
-            userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService);
+            userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService, emailSender);
 
             adminService = new AdminService(mapper, context, courseService, userService);
         }

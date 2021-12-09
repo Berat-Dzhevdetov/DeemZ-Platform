@@ -19,6 +19,7 @@
     using DeemZ.Services.ResourceService;
     using DeemZ.Global.Extensions;
     using DeemZ.Services.FileService;
+    using DeemZ.Services.EmailSender;
 
     public class UserService : IUserService
     {
@@ -30,8 +31,9 @@
         private readonly ISurveyService surveyService;
         private readonly IResourceService resourceService;
         private readonly IFileService fileService;
+        private readonly IEmailSenderService emailSender;
 
-        public UserService(DeemZDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ICourseService courseService, ISurveyService surveyService, IResourceService resourceService, IFileService fileService)
+        public UserService(DeemZDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ICourseService courseService, ISurveyService surveyService, IResourceService resourceService, IFileService fileService, IEmailSenderService emailSender)
         {
             this.context = context;
             this.mapper = mapper;
@@ -41,6 +43,7 @@
             this.surveyService = surveyService;
             this.resourceService = resourceService;
             this.fileService = fileService;
+            this.emailSender = emailSender;
         }
 
         //If the given role doesn't exists it will create it automatically
@@ -69,6 +72,11 @@
             var userToEdit = await GetUserById<ApplicationUser>(userId);
 
             context.Attach(userToEdit);
+
+            if(userToEdit.Email != user.Email)
+            {
+                await emailSender.SendEmailAsync(user.Email, "Your email is changed!", $"You have successfully changed your email address to <strong>{user.Email}</strong>!");
+            }
 
             userToEdit.FirstName = user.FirstName;
             userToEdit.LastName = user.LastName;
