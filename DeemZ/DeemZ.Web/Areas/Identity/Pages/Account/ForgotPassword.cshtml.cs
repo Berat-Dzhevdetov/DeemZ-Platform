@@ -1,18 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using DeemZ.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using DeemZ.Services.EmailSender;
-
-namespace DeemZ.Web.Areas.Identity.Pages.Account
+﻿namespace DeemZ.Web.Areas.Identity.Pages.Account
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Text.Encodings.Web;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using DeemZ.Data.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.WebUtilities;
+    using DeemZ.Services.EmailSender;
+
+    using static DeemZ.Global.WebConstants.Constant;
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
@@ -56,10 +56,22 @@ namespace DeemZ.Web.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
+                var content = $@"
+<div>
+Hello,<br>
+Someone has just requested that the password needs to be reset in {EmailSender.Name}. We, from the team of {EmailSender.Name} cannot be sure whether you have requested a new password or not, but we are obliged to warn you that if you receive this email without requesting a new password then do not press the button below. But if you forgot the password, which happens often to everyone, and you just want a new one then press the button.<br>
+    
+    <div style='margin: 10px 0; text-align:center;'>
+    <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' style='border-radius:15px;text-decoration:none;color:white;padding: 10px 15px;text-align: center;background-color:#E9806E'>Reset password</a>
+    </div>
+
+   In other case just ignore this message.
+</div>";
+
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    content);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
