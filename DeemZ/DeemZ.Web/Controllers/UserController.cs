@@ -98,7 +98,7 @@
         {
             var userId = User.GetId();
 
-            userService.DeleteUserProfileImg(userId);
+            await userService.DeleteUserProfileImg(userId);
 
             await userService.SetProfileImg(userId, Data.DataConstants.User.DefaultProfilePictureUrl, null);
 

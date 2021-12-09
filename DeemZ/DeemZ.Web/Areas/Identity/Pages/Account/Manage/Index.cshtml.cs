@@ -99,7 +99,7 @@
                     goto afterImg;
                 }
 
-                userServices.DeleteUserProfileImg(user.Id);
+                await userServices.DeleteUserProfileImg(user.Id);
 
                 (string url,string publicId) = fileService.PreparingFileForUploadAndUploadIt(Img);
 

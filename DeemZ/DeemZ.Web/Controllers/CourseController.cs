@@ -194,7 +194,7 @@
 
             var userId = await userService.GetUserIdByUserName(model.Username);
 
-            courseService.SignUserToCourse(userId, model.CourseId, model.IsPaid);
+            await courseService.SignUserToCourse(userId, model.CourseId, model.IsPaid);
 
             return RedirectToAction(nameof(AdministrationController.UserCourses), typeof(AdministrationController).GetControllerName(), new { area = AreaName.AdminArea });
         }
