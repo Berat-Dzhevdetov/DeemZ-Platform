@@ -1,4 +1,4 @@
-﻿@model List<IGrouping<DeemZ.Data.PartnerTiers, DeemZ.Models.ViewModels.Partners.PartnersDetailsViewModel>>
+﻿@model List<IGrouping<DeemZ.Data.PartnerTiers, DeemZ.Models.ViewModels.Partners.PartnerBasicDetailsViewModel>>
 @{
     ViewData["Title"] = "All Partners";
     Layout = DeemZ.Global.WebConstants.Constant.LayOut.DefaultLayOut;
@@ -39,15 +39,24 @@
         <div class="partner-cards-holder flex mt-4">
             @foreach (var item in tier)
             {
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <img src="@item.Path" />
+                <a href="@item.Url" target="_blank">
+                    <div class="partner-card">
+                        <div class="partner-logo">
+                            <div class="partner-link">
+                                <img src="~/media/partners-company-link.png" alt="link" />
+                            </div>
+                            <img class="partner-logo-img" alt="@item.Name - logo" src="@item.Path" />
+                        </div>
+                        <div class="partner-name">
+                            @item.Name
+                        </div>
                     </div>
-                    <div class="partner-name">
-                        @item.Name
-                    </div>
-                </div>
+                </a>
             }
         </div>
     </div>
 }
+
+<script>
+    
+</script>

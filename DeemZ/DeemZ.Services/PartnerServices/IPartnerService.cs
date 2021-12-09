@@ -17,6 +17,6 @@
         Task Delete(string pid);
         Task Edit(string partnerId, EditPartnerFormModel formModel);
         Task<T> GetPartnerById<T>(string partnerId);
-        List<IGrouping<PartnerTiers, PartnersDetailsViewModel>> GetAllPartners();
+        List<IGrouping<PartnerTiers, PartnerBasicDetailsViewModel>> GetAllPartners();
     }
 }

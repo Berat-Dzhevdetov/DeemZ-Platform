@@ -15,5 +15,7 @@
         [Required]
         public int Tier { get; set; }
         public IDictionary<int, string> Tiers { get; set; }
+        [Url]
+        public string Url { get; set; }
     }
 }

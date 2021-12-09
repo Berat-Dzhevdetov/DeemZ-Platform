@@ -16,5 +16,6 @@
         public string Path { get; set; }
         public PartnerTiers Tier { get; set; }
         public DateTime From { get; set; }
+        public string Url { get; set; }
     }
 }

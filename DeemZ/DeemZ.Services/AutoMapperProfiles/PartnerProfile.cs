@@ -12,6 +12,7 @@
             CreateMap<Partner, PartnersDetailsViewModel>();
             CreateMap<Partner, EditPartnerFormModel>();
             CreateMap<AddPartnerFormModel, Partner>();
+            CreateMap<Partner, PartnerBasicDetailsViewModel>();
         }
     }
 }

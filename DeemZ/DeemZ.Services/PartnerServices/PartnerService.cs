@@ -60,6 +60,7 @@
             var partnerToEdit = await context.Partners.FirstOrDefaultAsync(x => x.Id == partnerId);
 
             partnerToEdit.Name = formModel.Name;
+            partnerToEdit.Url = formModel.Url;
             partnerToEdit.Tier = formModel.Tier;
 
             if (formModel.IsImageChanged)
@@ -72,10 +73,10 @@
             await context.SaveChangesAsync();
         }
 
-        public List<IGrouping<PartnerTiers, PartnersDetailsViewModel>> GetAllPartners()
+        public List<IGrouping<PartnerTiers, PartnerBasicDetailsViewModel>> GetAllPartners()
             => context.Partners
-                .ProjectTo<PartnersDetailsViewModel>(mapper.ConfigurationProvider)
-            .ToList()
+                .ProjectTo<PartnerBasicDetailsViewModel>(mapper.ConfigurationProvider)
+                .ToList()
                 .GroupBy(x => x.Tier)
                 .ToList();
 

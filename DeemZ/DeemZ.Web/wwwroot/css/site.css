@@ -1086,12 +1086,13 @@ span.lecture-number::after {
 h3.additional-course-details-heading {
     color: #234465;
 }
-    .separator {
-        width: 95%;
-        margin: 0 auto;
-        background: #ccc;
-        height: 1px;
-    }
+
+.separator {
+    width: 95%;
+    margin: 0 auto;
+    background: #ccc;
+    height: 1px;
+}
 
 .suitable-for-description {
     background-color: #234465;
@@ -1106,7 +1107,7 @@ h3.additional-course-details-heading {
         color: #fff;
     }
 
-h3.suitable-for-description-heading{
+h3.suitable-for-description-heading {
     color: #fff;
 }
 
@@ -1128,17 +1129,18 @@ h3.suitable-for-description-heading{
     margin-top: 10px;
 }
 
-.partner-tier-navigation a {
-    color: #234465;
-    font-family: "Lato","Arial","Helvetica",sans-serif;
-    font-size: 18px;
-    transition: all .2s ease;
-}
-    .partner-tier-navigation a:hover {
-        color: #ffa000;
+    .partner-tier-navigation a {
+        color: #234465;
+        font-family: "Lato","Arial","Helvetica",sans-serif;
+        font-size: 18px;
+        transition: all .2s ease;
     }
 
-.partner-tier{
+        .partner-tier-navigation a:hover {
+            color: #ffa000;
+        }
+
+.partner-tier {
     padding: 1rem .5rem;
 }
 
@@ -1185,10 +1187,35 @@ h3.suitable-for-description-heading{
     padding: 0 15px;
 }
 
-.partner-logo {
-    border: 1px solid #ccc;
-    padding: 10px 20px;
+    .partner-cards-holder a {
+        text-decoration: none;
+    }
+
+.partner-link {
+    display: none;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
 }
+
+.partner-card:hover div:is(.partner-link) {
+    display: block;
+}
+
+.partner-logo {
+    position: relative;
+    justify-content: center;
+    display: flex;
+}
+
+    .partner-link > img {
+        height: 50px;
+        width: 50px;
+        transform: translateY(100%);
+    }
 
 .partner-card {
     box-shadow: 0 1px 3px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 12%), 0 0 2px rgb(0 0 0 / 14%);
@@ -1196,18 +1223,20 @@ h3.suitable-for-description-heading{
     border-radius: 5px;
     transition: all .2s ease;
     margin-bottom: 15px;
+    width: 300px;
+    position: relative;
 }
 
-.partner-logo img {
-    width: 300px;
-    height: 150px;
+img.partner-logo-img {
+    width: 160px;
+    height: 160px;
     object-fit: contain;
 }
 
 .partner-name {
     padding: 5px 0;
     text-align: center;
-    border: 1px solid #ccc;
+    border-top: 0.5px solid #ccc;
     color: #565656;
     background-color: #F1F1F1;
     font-weight: 600;
@@ -1247,7 +1276,7 @@ h3.suitable-for-description-heading{
         padding-bottom: 10px;
     }
 
-    .partner-header p{
+    .partner-header p {
         padding: 0 1.4rem;
     }
 

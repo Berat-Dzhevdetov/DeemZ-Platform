@@ -21,6 +21,11 @@
             <span asp-validation-for="Name" class="small text-danger"></span>
         </div>
         <div class="form-group">
+            <label class="text-light" asp-for="Url"></label>
+            <input class="form-control" asp-for="Url" />
+            <span asp-validation-for="Url" class="small text-danger"></span>
+        </div>
+        <div class="form-group">
             <label class="text-light" asp-for="Tier"></label>
             <select class="form-control" asp-for="Tier">
                 @foreach (var tier in Model.Tiers)

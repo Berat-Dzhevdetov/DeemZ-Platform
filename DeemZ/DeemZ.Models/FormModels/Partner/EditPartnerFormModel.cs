@@ -17,6 +17,8 @@
         [Required]
         public PartnerTiers Tier { get; set; }
         public IDictionary<int, string> Tiers { get; set; }
+        [Url]
+        public string Url { get; set; }
         public bool IsImageChanged { get; set; }
     }
 }
