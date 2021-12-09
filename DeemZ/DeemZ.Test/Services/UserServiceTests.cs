@@ -199,7 +199,7 @@
 
             await userService.SetProfileImg(userId, photoUrl, photoPublicId);
 
-            userService.DeleteUserProfileImg(userId);
+            await userService.DeleteUserProfileImg(userId);
 
             //Can't really test cloudinary functionality
         }
@@ -210,7 +210,7 @@
             var userId = "test-user";
             await SeedUser();
 
-            userService.DeleteUserProfileImg(userId);
+            await userService.DeleteUserProfileImg(userId);
 
             //Can't really test cloudinary functionality
         }

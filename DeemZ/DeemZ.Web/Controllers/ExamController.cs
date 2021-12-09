@@ -152,9 +152,9 @@
             if (!exam.IsPublic && !isUserAdmin)
                 return RedirectToAction(nameof(BaseController.HandleErrorRedirect), typeof(BaseController).GetControllerName(), new { errorCode = HttpStatusCodes.Forbidden });
 
-            var points = examService.EvaluateExam(exam, userId);
+            var points = await examService.EvaluateExam(exam, userId);
 
-            var maxPoints = examService.SaveUserExam(userId, points, examId);
+            var maxPoints = await examService.SaveUserExam(userId, points, examId);
 
             if (maxPoints == -1)
             {

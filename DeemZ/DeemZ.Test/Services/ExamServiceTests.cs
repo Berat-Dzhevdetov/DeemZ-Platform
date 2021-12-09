@@ -23,7 +23,7 @@ namespace DeemZ.Test.Services
 
             var courseId = await SeedCourse();
 
-            examService.CreateExam(courseId, new AddExamFormModel()
+            await examService.CreateExam(courseId, new AddExamFormModel()
             {
                 Name = "Test",
                 StartDate = DateTime.Today,
@@ -88,7 +88,7 @@ namespace DeemZ.Test.Services
             var courseId = await SeedCourse();
             var examId = SeedExam(courseId);
 
-            var returnedExamId = examService.EditExam(examId, new AddExamFormModel()
+            var returnedExamId = await examService.EditExam(examId, new AddExamFormModel()
             {
                 Name = expectedName,
                 StartDate = DateTime.Today.AddDays(-1),
@@ -104,11 +104,11 @@ namespace DeemZ.Test.Services
         }
 
         [Fact]
-        public void EvaluatingAnEmptyExamReturnsZeroPoints()
+        public async Task EvaluatingAnEmptyExamReturnsZeroPoints()
         {
             var expectedPoints = 0;
 
-            var actualPoints = examService.EvaluateExam(null, null);
+            var actualPoints = await examService.EvaluateExam(null, null);
 
             Assert.Equal(expectedPoints, actualPoints);
         }
@@ -176,7 +176,7 @@ namespace DeemZ.Test.Services
             SeedExpiredExam(courseId);
             var examId = context.Exams.First().Id;
 
-            var actualPoints = examService.SaveUserExam(testUserId, 999, examId);
+            var actualPoints = await examService.SaveUserExam(testUserId, 999, examId);
 
             Assert.Equal(expectedPoints, actualPoints);
         }
@@ -195,7 +195,7 @@ namespace DeemZ.Test.Services
             var examId = context.Exams.First().Id;
             SeedExamQuestions(examId);
 
-            var actualPoints = examService.SaveUserExam(testUserId, 999, examId);
+            var actualPoints = await examService.SaveUserExam(testUserId, 999, examId);
 
             Assert.Equal(expectedPoints, actualPoints);
         }
@@ -217,7 +217,7 @@ namespace DeemZ.Test.Services
 
             var questions = GetTakeExamQuestionFormModels(examId);
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -266,7 +266,7 @@ namespace DeemZ.Test.Services
                 }
             };
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -335,7 +335,7 @@ namespace DeemZ.Test.Services
                 }
             };
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -403,7 +403,7 @@ namespace DeemZ.Test.Services
                 }
             };
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -461,7 +461,7 @@ namespace DeemZ.Test.Services
                 }
             };
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -521,7 +521,7 @@ namespace DeemZ.Test.Services
                 }
             };
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -582,7 +582,7 @@ namespace DeemZ.Test.Services
                 }
             };
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -593,7 +593,6 @@ namespace DeemZ.Test.Services
             }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
-
         }
 
         [Fact]
@@ -642,7 +641,7 @@ namespace DeemZ.Test.Services
                 }
             };
 
-            var actualPoints = examService.EvaluateExam(new TakeExamFormModel()
+            var actualPoints = await examService.EvaluateExam(new TakeExamFormModel()
             {
                 Name = "Test-Exam",
                 EndDate = DateTime.Today.AddDays(5),
@@ -653,7 +652,6 @@ namespace DeemZ.Test.Services
             }, testUserId);
 
             Assert.Equal(expectedPoints, actualPoints);
-
         }
     }
 }

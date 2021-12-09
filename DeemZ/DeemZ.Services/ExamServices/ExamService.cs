@@ -10,6 +10,7 @@
     using DeemZ.Models.FormModels.Exam;
     using DeemZ.Data.Models;
     using DeemZ.Global.Extensions;
+    using System.Threading.Tasks;
 
     public class ExamService : IExamService
     {
@@ -22,7 +23,7 @@
             this.mapper = mapper;
         }
 
-        public void CreateExam(string cid, AddExamFormModel exam)
+        public async Task CreateExam(string cid, AddExamFormModel exam)
         {
             var newlyExam = mapper.Map<Exam>(exam);
             newlyExam.CourseId = cid;
@@ -31,7 +32,7 @@
             newlyExam.EndDate = newlyExam.EndDate.ToUniversalTime();
 
             context.Exams.Add(newlyExam);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public bool DoesTheUserHavePermissionToExam(string uid, string eid)
@@ -46,7 +47,7 @@
             return DoesTheUserHavePermissionToExam && !doesUserHaveAlreadyTakeThisExam;
         }
 
-        public string EditExam(string eid, AddExamFormModel exam)
+        public async Task<string> EditExam(string eid, AddExamFormModel exam)
         {
             var examToEdit = GetExamById<Exam>(eid);
 
@@ -58,12 +59,12 @@
             examToEdit.StartDate = exam.StartDate.ToUniversalTime();
             examToEdit.EndDate = exam.EndDate.ToUniversalTime();
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return eid;
         }
 
-        public int EvaluateExam(TakeExamFormModel exam, string uid)
+        public async Task<int> EvaluateExam(TakeExamFormModel exam, string uid)
         {
             if (exam == null) return 0;
 
@@ -84,7 +85,7 @@
                 points += CalculatePoints(question.Id, userAnswerId);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return points;
         }
@@ -145,7 +146,7 @@
             => context.Exams
                 .Any(x => x.Password == password && x.Id == eid);
 
-        public int SaveUserExam(string uid, int points, string eid)
+        public async Task<int> SaveUserExam(string uid, int points, string eid)
         {
             var exam = GetExamById<Exam>(eid);
 
@@ -170,7 +171,7 @@
             };
 
             context.ApplicationUserExams.Add(userExam);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             return maxExamPoints;
         }
