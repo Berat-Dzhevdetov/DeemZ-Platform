@@ -178,7 +178,7 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> UsersAsync(int page = 1, int quantity = 20)
+        public async Task<IActionResult> Users(int page = 1, int quantity = 20)
         {
             var viewModel = new AdmistrationUsersViewModel();
 

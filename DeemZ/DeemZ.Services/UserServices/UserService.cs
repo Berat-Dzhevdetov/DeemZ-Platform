@@ -73,7 +73,9 @@
             userToEdit.FirstName = user.FirstName;
             userToEdit.LastName = user.LastName;
             userToEdit.UserName = user.UserName;
+            userToEdit.NormalizedUserName = user.UserName.ToUpper();
             userToEdit.Email = user.Email;
+            userToEdit.NormalizedEmail = user.Email.ToUpper();
             userToEdit.EmailConfirmed = user.EmailConfirmed;
             userToEdit.LockoutEnd = user.LockoutEndDateUtc;
             userToEdit.PhoneNumber = user.PhoneNumber;

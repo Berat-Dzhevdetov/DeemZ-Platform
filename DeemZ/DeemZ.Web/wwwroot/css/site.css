@@ -749,8 +749,8 @@ input[type=checkbox] {
 }
 
 .upcoming-courses-holder {
-    padding: 2rem 1rem;
-    margin: 2rem 1rem;
+    padding: 1rem;
+    margin: 1rem;
 }
 
 .upcoming-course-card {
@@ -758,6 +758,8 @@ input[type=checkbox] {
     padding: 20px 10px;
     text-align: center;
     border-radius: 15px;
+    width: 65%;
+    margin: 30px auto;
 }
 
 .upcoming-course-header {
@@ -766,8 +768,8 @@ input[type=checkbox] {
 }
 
 .upcoming-course-description {
-    text-align: justify;
     padding: 10px 20px;
+    text-align: center;
 }
 
 .horizontial-line,
