@@ -2,8 +2,9 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using DeemZ.Models.ViewModels.Surveys;
     using Xunit;
+    using DeemZ.Models.ViewModels.Surveys;
+
     public class SurveyServiceTests : BaseTestClass
     {
         public SurveyServiceTests()
@@ -19,12 +20,14 @@
             var courseId = await SeedCourse();
 
             var userId = "test-user";
+
             await SeedUser();
 
-            SeedUserExam(courseId, userId);
-            SeedUserCourseSurvey(courseId, userId);
+            SeedUserCourse(courseId, userId);
 
-            var actualUserSurveysCount = (await surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId, false)).Count();
+            await SeedSurvey(courseId);
+
+            var actualUserSurveysCount = (await surveyService.GetUserCurrentCourseSurveys<IndexSurveyViewModel>(userId, true)).Count();
 
             Assert.Equal(expectedUserSurveysCount, actualUserSurveysCount);
         }

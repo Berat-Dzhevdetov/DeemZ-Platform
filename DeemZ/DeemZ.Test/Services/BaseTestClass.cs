@@ -121,6 +121,22 @@ namespace DeemZ.Test.Services
                 Name = "Very important test"
             });
 
+        public async Task<string> SeedSurvey(string courseId)
+        {
+            var survey = new Survey
+            {
+                CourseId = courseId,
+                StartDate = DateTime.UtcNow.AddDays(-10),
+                EndDate = DateTime.UtcNow.AddDays(20),
+                Name = "test-survey"
+            };
+
+            context.Surveys.Add(survey);
+            await context.SaveChangesAsync();
+
+            return survey.Id;
+        }
+
         //Seeding non admin user
         public async Task SeedUser(string username = "test-username", string id = testUserId)
         {
@@ -262,7 +278,8 @@ namespace DeemZ.Test.Services
                 IsPaid = true,
                 Paid = 220,
                 PaidOn = DateTime.Today,
-            }) ;
+            });
+
             context.SaveChanges();
         }
 

@@ -29,7 +29,7 @@
                 .Any(x => x.UserCourses.Any(c => c.CourseId == x.Id && c.UserId == uid && c.IsPaid));
             var takenOrNot = context.ApplicationUserSurveys
                 .Any(x => x.ApplicationUserId == uid && x.SurveyId == sid);
-            return permission && takenOrNot;
+            return permission && !takenOrNot;
         }
 
         public async Task<T> GetSurveyById<T>(string sid)
