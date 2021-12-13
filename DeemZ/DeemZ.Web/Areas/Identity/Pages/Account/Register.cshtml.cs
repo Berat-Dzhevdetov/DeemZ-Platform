@@ -16,9 +16,10 @@
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
     using DeemZ.Data;
+    using DeemZ.Services.EmailSender;
 
     using static Data.DataConstants.User;
-    using DeemZ.Services.EmailSender;
+    using static Global.WebConstants.Constant;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -100,6 +101,7 @@
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
@@ -122,15 +124,27 @@
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                        values: new { area = "Identity", userId = user.Id, code, returnUrl },
                         protocol: Request.Scheme);
 
+                    var html = $@"
+<div>
+    Hello {user.UserName},<br>
+    We're happy you signed up for {EmailSender.Name}. To start exploring the app, please confirm your email.
+    <div style='margin: 20px 0; text-align:center;'>
+        <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' style='border-radius:15px;text-decoration:none;color:white;padding: 10px 15px;text-align: center;background-color:#E9806E'>Confirm account</a>
+    </div>
+    
+    Welcome to {EmailSender.Name}.<br>
+</div>
+";
+
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        html);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
                     }
                     else
                     {

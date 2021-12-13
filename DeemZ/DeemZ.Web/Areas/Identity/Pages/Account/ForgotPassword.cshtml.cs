@@ -58,7 +58,7 @@
 
                 var content = $@"
 <div>
-Hello,<br>
+Hello {user.UserName},<br>
 Someone has just requested that the password needs to be reset in {EmailSender.Name}. We, from the team of {EmailSender.Name} cannot be sure whether you have requested a new password or not, but we are obliged to warn you that if you receive this email without requesting a new password then do not press the button below. But if you forgot the password, which happens often to everyone, and you just want a new one then press the button.<br>
     
     <div style='margin: 10px 0; text-align:center;'>
