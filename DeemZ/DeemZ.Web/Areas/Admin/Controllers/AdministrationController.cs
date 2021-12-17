@@ -83,7 +83,7 @@
             var allPages = (int)Math.Ceiling(adminService.GetUserCoursesCount() / (quantity * 1.0));
 
             if (page <= 0 || page > allPages) page = 1;
-
+            
             viewModel.UserCourses = adminService.GetUserCourses<UserCoursesViewModel>(page, quantity);
 
             viewModel = AdjustPages(viewModel, page, allPages);
@@ -178,11 +178,13 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Users(int page = 1, int quantity = 20)
+        public async Task<IActionResult> Users(string searchTerm = null,int page = 1, int quantity = 20)
         {
             var viewModel = new AdmistrationUsersViewModel();
 
-            var users = userService.GetAllUsers<BasicUserInformationViewModel>(page, quantity);
+            viewModel.SearchTerm = searchTerm;
+
+            var users = userService.GetAllUsers<BasicUserInformationViewModel>(searchTerm, page, quantity);
 
             var allPages = (int)Math.Ceiling(users.Count() / (quantity * 1.0));
 

@@ -7,7 +7,7 @@
 
     public interface IUserService
     {
-        IEnumerable<T> GetAllUsers<T>(int page = 1, int quantity = 20);
+        IEnumerable<T> GetAllUsers<T>(string searchTerm = null, int page = 1, int quantity = 20);
         Task<int> GetUserTakenCourses(string uid);
         Task<T> GetUserById<T>(string uid);
         bool GetUserById(string uid);

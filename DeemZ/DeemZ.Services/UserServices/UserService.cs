@@ -73,7 +73,7 @@
 
             context.Attach(userToEdit);
 
-            if(userToEdit.Email != user.Email)
+            if (userToEdit.Email != user.Email)
             {
                 await emailSender.SendEmailAsync(user.Email, "Your email is changed!", $"You have successfully changed your email address to <strong>{user.Email}</strong>!");
             }
@@ -91,11 +91,23 @@
             await context.SaveChangesAsync();
         }
 
-        public IEnumerable<T> GetAllUsers<T>(int page = 1, int quantity = 20)
-            => context.Users
-                .ProjectTo<T>(mapper.ConfigurationProvider)
-                .ToList()
-                .Paging(page, quantity);
+        public IEnumerable<T> GetAllUsers<T>(string searchTerm = null, int page = 1, int quantity = 20)
+        {
+            var users = context.Users
+                            .OrderByDescending(x => x.CreatedOn)
+                            .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                users = users.Where(x => x.Email.Contains(searchTerm) || x.UserName.Contains(searchTerm)).AsQueryable();
+            }
+
+            var returnUsers = users
+                        .ProjectTo<T>(mapper.ConfigurationProvider)
+                        .Paging(page, quantity);
+
+            return returnUsers;
+        }
 
         public async Task<T> GetUserById<T>(string uid)
         {
@@ -106,6 +118,7 @@
 
         public async Task<int> GetUserTakenCourses(string uid)
             => await context.UserCourses
+                .AsNoTracking()
                 .CountAsync(x => x.IsPaid == true && x.UserId == uid);
 
         public async Task<bool> IsInRoleAsync(string userId, string role)

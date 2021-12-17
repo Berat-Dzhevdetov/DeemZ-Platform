@@ -37,7 +37,7 @@
         [Fact]
         public async Task GettingAllUsersShouldReturnTheCorrectUsers()
         {
-            var expectedFirstUserUsername = "Bobi";
+            var expectedFirstUserUsername = "Bero";
             await SeedUser("Bobi", "user-1");
             await SeedUser("Vlado", "user-2");
             await SeedUser("Bero", "user-3");
