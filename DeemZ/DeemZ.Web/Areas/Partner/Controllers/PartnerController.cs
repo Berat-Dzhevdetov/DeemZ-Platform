@@ -1,8 +1,10 @@
 ﻿namespace DeemZ.Web.Areas.Partner.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
+    using System.Linq;
     using DeemZ.Web.Filters;
     using DeemZ.Services.PartnerServices;
     using DeemZ.Web.Areas.Administration.Controllers;
@@ -10,6 +12,10 @@
     using DeemZ.Web.Controllers;
     using DeemZ.Models.FormModels.Partner;
     using DeemZ.Data.Models;
+    using DeemZ.Services.CachingService;
+    using System.Collections.Generic;
+    using DeemZ.Data;
+    using DeemZ.Models.ViewModels.Partners;
 
     using static DeemZ.Global.WebConstants.Constant;
 
@@ -18,10 +24,12 @@
     public class PartnerController : BaseController
     {
         private readonly IPartnerService partnerService;
+        private readonly IMemoryCachingService memoryCache;
 
-        public PartnerController(IPartnerService partnerService)
+        public PartnerController(IPartnerService partnerService, IMemoryCachingService memoryCache)
         {
             this.partnerService = partnerService;
+            this.memoryCache = memoryCache;
         }
 
         public async Task<IActionResult> Add()
@@ -83,7 +91,13 @@
         [AllowAnonymous]
         public IActionResult All()
         {
-            var partners = partnerService.GetAllPartners();
+            if(!memoryCache.ItemExists(CachingKey.PartnersCacheKey, out List<IGrouping<PartnerTiers, PartnerBasicDetailsViewModel>> partners))
+            {
+                partners = partnerService.GetAllPartners();
+
+                memoryCache.CreateItem(CachingKey.PartnersCacheKey, partners, TimeSpan.FromDays(1));
+            }
+
             return View(partners);
         }
 

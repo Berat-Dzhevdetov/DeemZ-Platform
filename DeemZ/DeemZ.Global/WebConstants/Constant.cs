@@ -4,10 +4,15 @@
     {
         public const string GlobalMessageKey = "GlobalMessage";
         public const string DateTimeFormat = "dd.MM.yyyy HH:mm";
-        public const string InformativeMessagesCacheKey = "InformativeMessagesCache";
-        public const string UpCommingCoursesCacheKey = "UpCommingCoursesCacheKey";
-        public const string AdminDashboradStatisticsCacheKey = "AdminDashboradStatisticsCache";
-        public const string CertificateTemplateCacheKey = "CertificateTemplateCache";
+        
+        public static class CachingKey
+        {
+            public const string InformativeMessagesCacheKey = "InformativeMessagesCache";
+            public const string UpCommingCoursesCacheKey = "UpCommingCoursesCacheKey";
+            public const string AdminDashboradStatisticsCacheKey = "AdminDashboradStatisticsCache";
+            public const string CertificateTemplateCacheKey = "CertificateTemplateCache";
+            public const string PartnersCacheKey = "PartnersCache";
+        }
 
         public static class WebApi
         {
