@@ -4,7 +4,6 @@
     using System.Linq;
     using System;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Caching.Memory;
     using iText.Html2pdf;
     using System.IO;
     using DeemZ.Data.Models;
@@ -14,7 +13,7 @@
     using DeemZ.Data;
     using DeemZ.Services.CachingService;
 
-    using static DeemZ.Global.WebConstants.Constant;
+    using static DeemZ.Global.WebConstants.Constant.CachingKey;
 
     public class PdfService : IPdfService
     {

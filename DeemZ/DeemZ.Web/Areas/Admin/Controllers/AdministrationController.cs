@@ -35,6 +35,7 @@
     using DeemZ.Models.ViewModels.Partners;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using static DeemZ.Global.WebConstants.Constant.CachingKey;
 
     [Authorize(Roles = Role.AdminRoleName)]
     [Area(AreaName.AdminArea)]
