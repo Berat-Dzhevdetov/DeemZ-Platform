@@ -4,6 +4,11 @@
 
     public static class Secret
     {
+        public static class IpLoggSetup
+        {
+            public const string key = "";
+        }
+        
         public class CloudinarySetup
         {
             private const string cloudName = "";
