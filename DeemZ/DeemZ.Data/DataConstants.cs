@@ -134,5 +134,10 @@
             public const int MaxDescriptionLength = 100_000;
             public const int MinDescriptionLength = 20;
         }
+
+        public class IpLogger
+        {
+            public const int MaxIpLength = 20;
+        }
     }
 }

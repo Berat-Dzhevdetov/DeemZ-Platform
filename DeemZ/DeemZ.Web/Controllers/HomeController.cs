@@ -19,6 +19,7 @@
     using static Global.WebConstants.Constant;
     using static Global.WebConstants.Constant.CachingKey;
     using static Global.WebConstants.UserErrorMessages;
+    using DeemZ.Web.Filters;
 
     public class HomeController : BaseController
     {
@@ -86,6 +87,7 @@
             return View(errorMessage);
         }
 
+        [IpLogger]
         public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

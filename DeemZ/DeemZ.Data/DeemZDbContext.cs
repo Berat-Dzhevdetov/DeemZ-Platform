@@ -40,6 +40,7 @@
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<Partner> Partners { get; set; }
+        public DbSet<IpLogg> IpLoggs { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
