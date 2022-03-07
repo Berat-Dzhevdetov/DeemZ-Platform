@@ -35,6 +35,6 @@
         public ICollection<ChatMessage> Messages { get; set; } = new HashSet<ChatMessage>();
         public ICollection<PromoCode> PromoCodes { set; get; } = new HashSet<PromoCode>();
         public ICollection<Certificate> Certificates { set; get; } = new HashSet<Certificate>();
-        public ICollection<IpLogg> Ips { set; get; } = new HashSet<IpLogg>();
+        public ICollection<IpLogg> Loggs { set; get; } = new HashSet<IpLogg>();
     }
 }

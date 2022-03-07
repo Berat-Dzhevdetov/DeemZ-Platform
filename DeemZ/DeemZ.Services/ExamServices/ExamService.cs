@@ -208,5 +208,12 @@
                 .ProjectTo<T>(mapper.ConfigurationProvider)
                 .Paging(page, quantity)
                 .ToList();
+
+        public IEnumerable<T> GetUserExamsById<T>(string uid)
+            => context.ApplicationUserExams.Where(x => x.ApplicationUserId == uid)
+                .Include(x => x.Exam.Course)
+                .OrderByDescending(x => x.HandOverOn)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
     }
 }

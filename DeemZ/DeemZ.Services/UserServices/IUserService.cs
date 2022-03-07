@@ -22,5 +22,7 @@
         Task<string> GetUserIdByUserName(string username);
         Task SetProfileImg(string id, string url, string publidId);
         Task DeleteUserProfileImg(string userId);
+        Task<DetailsUserInformationViewModel> GetUserInformation(string uid);
+        Task<bool> UserExists(string uid);
     }
 }

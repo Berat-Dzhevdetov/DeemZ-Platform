@@ -47,6 +47,8 @@
             CreateMap<Answer, ViewExamQuestionAnswersViewModel>();
             CreateMap<ApplicationUserExam, UserExamViewModel>()
                 .ForMember(x => x.MaxPoints, o => o.MapFrom(src => src.Exam.Questions.Sum(x => x.Points)));
+            CreateMap<ApplicationUserExam, GetUserExamInfoViewModel>();
+
         }
     }
 }

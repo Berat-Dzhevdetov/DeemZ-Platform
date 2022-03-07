@@ -26,5 +26,6 @@
         IEnumerable<KeyValuePair<string,string>> GetCourseByIdAsKeyValuePair(DateTime prevDate);
         Task DeleteUserFromCourse(string courseId, string userId);
         int UpCommingCoursesCount();
+        IEnumerable<T> GetUserCoursesById<T>(string uid);
     }
 }

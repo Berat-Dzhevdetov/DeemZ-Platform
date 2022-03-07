@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using DeemZ.Models.FormModels.Exam;
-
-namespace DeemZ.Models.ViewModels.Exams
+﻿namespace DeemZ.Models.ViewModels.Exams
 {
     using System;
     using Data.Models;
+    using System.Collections.Generic;
+    using DeemZ.Models.FormModels.Exam;
 
     public class GetUserExamInfoViewModel
     {

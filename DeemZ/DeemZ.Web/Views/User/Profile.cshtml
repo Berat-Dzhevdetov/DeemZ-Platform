@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "User profile";
+}
+@model DeemZ.Models.ViewModels.User.DetailsUserInformationViewModel
+
+<div class="p-4">
+    <h3>User data for @Model.UserName</h3>
+    <div class="user-data">
+        <div class="flex-grow-1">
+            <table class="user-data-table-information">
+                <tr>
+                    <th>FirstName:</th>
+                    <td>@Model.FirstName</td>
+                </tr>
+                <tr>
+                    <th>LastName:</th>
+                    <td>@Model.LastName</td>
+                </tr>
+                <tr>
+                    <th>Telephone:</th>
+                    <td>@(Model.Telephone != null ? @Model.Telephone : "N/A")</td>
+                </tr>
+                <tr>
+                    <th>Member since:</th>
+                    <td>@Model.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                </tr>
+            </table>
+        </div>
+        <div class="user-data-img">
+            <img class="user-data-img" src="@Model.ImgUrl" alt="Image didn't load" />
+        </div>
+    </div>
+    <h6>Courses information:</h6>
+    @if (!Model.UserCourses.Any())
+    {
+        <h1 class="mt-4 text-center">@Model.UserName don't have any enrolls in courses, yet!</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Paid On</th>
+                    <th scope="col">PromoCode</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model.UserCourses)
+                {
+                    <tr>
+                        <td>@course.CourseName</td>
+                        <td>@course.PaidOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                        <td>@course.PromoCodeText</td>
+                        <td>@course.Paid.ToString("F2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <h6>Exams information:</h6>
+    @if (!Model.Exams.Any())
+    {
+        <h1 class="mt-4 text-center">@Model.UserName don't have any taken exams, yet!</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Exam Name</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var exam in Model.Exams)
+                {
+                    <tr>
+                        <td>@exam.Name</td>
+                        <td>@exam.StartDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                        <td>@exam.EndDate.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <h6>Surveys information:</h6>
+    @if (!Model.Exams.Any())
+    {
+        <h1 class="mt-4 text-center">@Model.UserName don't have any taken surveys, yet!</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Survey Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var survey in Model.Surveys)
+                {
+                    <tr>
+                        <td>@survey.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <h6>Certificates information:</h6>
+    @if (!Model.Exams.Any())
+    {
+        <h1 class="mt-4 text-center">@Model.UserName don't have any certificates, yet!</h1>
+    }
+    else
+    {
+        <table class="table table-striped mt-4 table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Created on</th>
+                    <th scope="col">External number</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var certificate in Model.Certificates.OrderByDescending(x => x.CreatedOn))
+                {
+                    <tr>
+                        <td>@certificate.CourseName</td>
+                        <td>@certificate.CreatedOn.ToLocalTime().ToString()</td>
+                        <td>@certificate.ExternalNumber</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="ViewCertificate" asp-route-Id="@certificate.ExternalNumber">Preview</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+

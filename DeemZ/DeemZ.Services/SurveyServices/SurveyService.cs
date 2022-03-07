@@ -342,12 +342,12 @@
             }
         }
 
-        public IEnumerable<T> GetUserAllSurveys<T>(string uid, int page = 1)
+        public IEnumerable<T> GetUserAllSurveys<T>(string uid, int page = 1, int quantity = 25)
             => context.Surveys
                 .Where(x => x.Users.Any(x => x.ApplicationUserId == uid))
                 .OrderByDescending(x => x.StartDate)
                 .ProjectTo<T>(mapper.ConfigurationProvider)
-                .Paging(page, 25)
+                .Paging(page, quantity)
                 .ToList();
 
         public async Task<IDictionary<string, string>> GetUserAnswers(string uid, string sid)

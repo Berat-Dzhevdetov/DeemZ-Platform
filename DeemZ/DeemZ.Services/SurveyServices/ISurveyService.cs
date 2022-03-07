@@ -28,7 +28,7 @@
         (Dictionary<string, string>, List<string>) ValidateSurvey(TakeSurveyFormModel survey);
         Task SaveSurvey(string sid, string uid,List<string> correctAnswerIds);
         Task AddRatingScaleToQuestion(string sqid);
-        IEnumerable<T> GetUserAllSurveys<T>(string uid, int page = 1);
+        IEnumerable<T> GetUserAllSurveys<T>(string uid, int page = 1, int quantity = 25);
         Task<IDictionary<string, string>> GetUserAnswers(string uid, string sid);
         Task<int> GetUserAllSurveysCount(string userId);
     }

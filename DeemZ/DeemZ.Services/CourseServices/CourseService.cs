@@ -118,7 +118,7 @@
                 Paid = toPay
             };
 
-            if(promoCode != null)
+            if (promoCode != null)
             {
                 userCourse.Paid -= promoCode.DiscountPrice;
                 userCourse.PromoCodeId = promoCode.Id;
@@ -224,5 +224,11 @@
                 x.SignUpStartDate <= DateTime.UtcNow
                 && x.SignUpEndDate > DateTime.UtcNow)
             .Count();
+
+        public IEnumerable<T> GetUserCoursesById<T>(string uid)
+            => context.UserCourses.Where(x => x.UserId == uid)
+                .OrderByDescending(x => x.PaidOn)
+                .ProjectTo<T>(mapper.ConfigurationProvider)
+                .ToList();
     }
 }

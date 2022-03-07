@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeemZ.Models.ViewModels.Course
+﻿namespace DeemZ.Models.ViewModels.Course
 {
+    using System;
     public class UpcomingCourseViewModel
     {
         public string Id { get; set; }

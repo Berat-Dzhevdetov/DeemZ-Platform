@@ -20,6 +20,11 @@
     using DeemZ.Global.Extensions;
     using DeemZ.Services.FileService;
     using DeemZ.Services.EmailSender;
+    using DeemZ.Services.CertificateServices;
+    using DeemZ.Models.ViewModels.Certificates;
+    using DeemZ.Models.ViewModels.Administration;
+    using DeemZ.Services.ExamServices;
+    using DeemZ.Models.ViewModels.Exams;
 
     public class UserService : IUserService
     {
@@ -32,8 +37,10 @@
         private readonly IResourceService resourceService;
         private readonly IFileService fileService;
         private readonly IEmailSenderService emailSender;
+        private readonly ICertificateService certificateService;
+        private readonly IExamService examService;
 
-        public UserService(DeemZDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ICourseService courseService, ISurveyService surveyService, IResourceService resourceService, IFileService fileService, IEmailSenderService emailSender)
+        public UserService(DeemZDbContext context, IMapper mapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ICourseService courseService, ISurveyService surveyService, IResourceService resourceService, IFileService fileService, IEmailSenderService emailSender, ICertificateService certificateService, IExamService examService)
         {
             this.context = context;
             this.mapper = mapper;
@@ -44,6 +51,8 @@
             this.resourceService = resourceService;
             this.fileService = fileService;
             this.emailSender = emailSender;
+            this.certificateService = certificateService;
+            this.examService = examService;
         }
 
         //If the given role doesn't exists it will create it automatically
@@ -170,5 +179,29 @@
 
             fileService.DeleteFile(user.ImgPublicId, isImg: true);
         }
+
+        public async Task<DetailsUserInformationViewModel> GetUserInformation(string uid)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Id == uid);
+
+            var model = new DetailsUserInformationViewModel()
+            {
+                Telephone = user.PhoneNumber,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CreatedOn = user.CreatedOn,
+                ImgUrl = user.ImgUrl,
+                Certificates = certificateService.GetUserCertificates<CertificateDetailsViewModel>(uid),
+                UserCourses = courseService.GetUserCoursesById<UserCoursesViewModel>(uid),
+                Surveys = surveyService.GetUserAllSurveys<IndexSurveyViewModel>(uid, quantity: 100_000),
+                Exams = examService.GetUserExamsById<GetUserExamInfoViewModel>(uid)
+            };
+
+            return model;
+        }
+
+        public async Task<bool> UserExists(string uid)
+            => await context.Users.AnyAsync(x => x.Id == uid);
     }
 }

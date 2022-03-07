@@ -23,6 +23,8 @@
     using DeemZ.Services.PdfServices;
     using DeemZ.Services.CertificateServices;
     using DeemZ.Services.PartnerServices;
+    using DeemZ.Services.IpLoggServices;
+    using DeemZ.Services.LocationServices;
 
     public static class ServiceBuilderExtentions
     {
@@ -75,6 +77,8 @@
             services.AddTransient<IPdfService, PdfService>();
             services.AddTransient<ICertificateService, CertificateService>();
             services.AddTransient<IPartnerService, PartnerService>();
+            services.AddTransient<IIpLoggerService, IpLoggerService>();
+            services.AddTransient<ILocationService, LocationService>();
         }
     }
 }

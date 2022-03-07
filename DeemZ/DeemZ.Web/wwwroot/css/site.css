@@ -1249,6 +1249,24 @@ img.partner-logo-img {
     flex-direction: column;
 }
 
+.user-data {
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user-data-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.user-data-table-information{
+    width: 50%;
+}
+
 @media only screen and (max-width: 950px) {
     .guest-users-container .seo-section {
         display: block;
@@ -1327,6 +1345,14 @@ img.partner-logo-img {
 }
 
 @media only screen and (max-width: 550px) {
+    .user-data {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .user-data-table-information{
+        width: 100%;
+    }
     .course .course-heading {
         flex-direction: column !important;
     }

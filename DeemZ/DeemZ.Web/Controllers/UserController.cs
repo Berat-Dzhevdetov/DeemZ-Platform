@@ -14,6 +14,7 @@
     using DeemZ.Services;
 
     using static DeemZ.Global.WebConstants.Constant;
+    using DeemZ.Models.ViewModels.User;
 
     public class UserController : BaseController
     {
@@ -84,6 +85,7 @@
             return View(certificate);
         }
 
+        [Authorize]
         public IActionResult MyCertificates()
         {
             var userId = User.GetId();
@@ -103,6 +105,19 @@
             await userService.SetProfileImg(userId, Data.DataConstants.User.DefaultProfilePictureUrl, null);
 
             return LocalRedirect("/Identity/Account/Manage");
+        }
+
+        [Authorize(Roles = Role.AdminRoleName)]
+        [ClientRequired]
+        [IfExists]
+        public async Task<IActionResult> Profile(string userId)
+        {
+            if (await userService.UserExists(userId))
+                HandleErrorRedirect(Models.HttpStatusCodes.NotFound);
+
+            var userInformation = await userService.GetUserInformation(userId);
+            
+            return View(userInformation);
         }
     }
 }

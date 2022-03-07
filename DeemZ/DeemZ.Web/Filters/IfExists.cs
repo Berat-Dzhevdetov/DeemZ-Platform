@@ -4,6 +4,7 @@
     using PluralizeService.Core;
     using System;
     using System.Linq;
+    using Microsoft.Extensions.DependencyInjection;
     using DeemZ.Global.Extensions;
     using DeemZ.Data;
     using DeemZ.Models.DTOs;
@@ -38,7 +39,7 @@
 
             if (argumentsToCheck.Count <= 0 || argumentsToCheck.Any(x => x.Value == null)) return;
 
-            context = (DeemZDbContext)filterContext.HttpContext.RequestServices.GetService(typeof(DeemZDbContext));
+            context = filterContext.HttpContext.RequestServices.GetService<DeemZDbContext>();
 
             foreach (var arg in argumentsToCheck)
             {

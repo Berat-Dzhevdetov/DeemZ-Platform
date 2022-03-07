@@ -9,7 +9,7 @@
     using DeemZ.Models.ViewModels.User;
     using DeemZ.Web.Controllers;
 
-    using static DeemZ.Global.WebConstants.Constant;
+    using static DeemZ.Global.WebConstants.Constant.CachingKey;
     using DeemZ.Data.Models;
 
     public class HomeControllerTests

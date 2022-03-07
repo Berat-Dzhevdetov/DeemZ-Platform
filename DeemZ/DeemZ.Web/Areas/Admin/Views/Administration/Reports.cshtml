@@ -8,7 +8,6 @@
     <table class="table table-striped table-dark mt-4">
         <thead>
             <tr>
-                <th scope="col">Link</th>
                 <th scope="col">Username</th>
                 <th scope="col">Lecture name</th>
                 <th scope="col">Created on</th>
@@ -18,22 +17,23 @@
         <tbody>
             @foreach (var report in Model.Reports)
             {
-            <tr>
-                <td><a asp-area="Report" asp-controller="Report" asp-action="Preview" asp-route-reportId="@report.Id">#</a></td>
-                <td>@report.UserUsername</td>
-                <td>@report.LectureName</td>
-                <td>@report.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
-                <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Actions
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item text-danger" asp-area="Report" asp-controller="Report" asp-action="Delete" asp-route-reportId="@report.Id">Delete</a>
+                <tr>
+                    <td>@report.UserUsername</td>
+                    <td>@report.LectureName</td>
+                    <td>@report.CreatedOn.ToLocalTime().ToString(DeemZ.Global.WebConstants.Constant.DateTimeFormat)</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Report" asp-controller="Report" asp-action="Preview" asp-route-reportId="@report.Id">Preview</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" asp-area="Report" asp-controller="Report" asp-action="Delete" asp-route-reportId="@report.Id">Delete</a>
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
