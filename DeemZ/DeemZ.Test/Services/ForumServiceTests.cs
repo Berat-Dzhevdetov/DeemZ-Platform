@@ -64,7 +64,7 @@
         {
             var expectedTopicId = await SeedForumTopic();
 
-            var topics = forumService.GetTopicById<ForumTopicsViewModel>(expectedTopicId);
+            var topics = await forumService.GetTopicById<ForumTopicsViewModel>(expectedTopicId);
 
             var actualTopicId = topics.Id;
 
@@ -109,7 +109,7 @@
                 Text = expectedCommentText,
             }, topicId, testUserId);
 
-            var topicComments = forumService.GetTopicById<TopicViewModel>(topicId).Comments;
+            var topicComments = (await forumService.GetTopicById<TopicViewModel>(topicId)).Comments;
 
             var actualCommentText = topicComments.First().Description;
 

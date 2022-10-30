@@ -846,22 +846,29 @@ span.lecture-number::after {
         flex-direction: column;
     }
 
-    .forum-holder .topics-holder {
-        display: flex;
-        flex-direction: column;
-        padding: 2rem;
-    }
-
-        .forum-holder .topics-holder .topic {
-            flex-direction: row;
-            padding: 2rem;
-            border: 1px solid #ccc;
-            margin-bottom: 1.5rem;
+        .forum-holder .topics-holder textarea {
+            border-radius: 10px;
+            padding: 5px 10px;
         }
 
+        .forum-holder .topics-holder {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+            .forum-holder .topics-holder .topic {
+                flex-direction: row;
+                padding: 0.5em 1em;
+                border: 1px solid rgb(204, 204, 204);
+                margin-bottom: 1.5rem;
+                border-radius: 10px;
+                box-shadow: -1px -1px 7px 0px;
+            }
+
             .forum-holder .topics-holder .topic img {
-                width: 150px;
-                height: 150px;
+                width: 100px;
+                height: 100px;
                 margin-right: 1.5rem;
                 border-radius: 50%;
             }
@@ -1136,6 +1143,7 @@ h3.suitable-for-description-heading {
         font-family: "Lato","Arial","Helvetica",sans-serif;
         font-size: 18px;
         transition: all .2s ease;
+        text-decoration: none;
     }
 
         .partner-tier-navigation a:hover {
@@ -1359,12 +1367,13 @@ img.partner-logo-img {
 
     .forum-holder .topics-holder .topic {
         padding: 0;
+        margin: 5px 10px;
     }
 
         .forum-holder .topics-holder .topic img {
             width: 100px;
             height: 100px;
-            margin: 0;
+            margin: 5px 10px;
         }
 
     .forum-holder .topics-holder {

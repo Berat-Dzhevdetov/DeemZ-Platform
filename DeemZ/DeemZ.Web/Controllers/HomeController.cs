@@ -15,11 +15,11 @@
     using DeemZ.Services.CachingService;
     using DeemZ.Models.ViewModels.Course;
     using DeemZ.Services.CourseServices;
+    using DeemZ.Web.Filters;
 
     using static Global.WebConstants.Constant;
     using static Global.WebConstants.Constant.CachingKey;
     using static Global.WebConstants.UserErrorMessages;
-    using DeemZ.Web.Filters;
 
     public class HomeController : BaseController
     {

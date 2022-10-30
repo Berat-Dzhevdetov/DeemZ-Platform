@@ -11,6 +11,7 @@
     using DeemZ.Services.ForumServices;
     using DeemZ.Web.Infrastructure;
     using DeemZ.Web.Filters;
+    using System.Threading.Tasks;
 
     public class ForumController : Controller
     {
@@ -69,9 +70,9 @@
 
         [ClientRequired]
         [IfExists]
-        public IActionResult Topic(string forumId)
+        public async Task<IActionResult> Topic(string forumId)
         {
-            var topic = forumService.GetTopicById<TopicViewModel>(forumId);
+            var topic = await forumService.GetTopicById<TopicViewModel>(forumId);
 
             var viewModelTest = new ViewAndFormModelForTopics
             {
@@ -85,19 +86,19 @@
         [Authorize]
         [ClientRequired]
         [IfExists]
-        public IActionResult PostComment(string forumId, ViewAndFormModelForTopics model)
+        public async Task<IActionResult> PostCommentAsync(string forumId, ViewAndFormModelForTopics model)
         {
             if (!ModelState.IsValid)
             {
-                model.ViewModel = forumService.GetTopicById<TopicViewModel>(forumId);
+                model.ViewModel = await forumService.GetTopicById<TopicViewModel>(forumId);
                 return View(nameof(Topic), model);
             }
 
             var userId = User.GetId();
 
-            forumService.CreateComment(model.FormModel, forumId, userId);
+            await forumService.CreateComment(model.FormModel, forumId, userId);
 
-            model.ViewModel = forumService.GetTopicById<TopicViewModel>(forumId);
+            model.ViewModel = await forumService.GetTopicById<TopicViewModel>(forumId);
 
             return RedirectToAction(nameof(Topic), new { forumId });
         }

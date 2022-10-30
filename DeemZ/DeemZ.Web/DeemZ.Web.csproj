@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\Account\Manage\UserExams.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Controllers\uo4vlfdc.zp5~" />
   </ItemGroup>
 
@@ -44,6 +48,18 @@
     <Content Update="wwwroot\media\notification_sound.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Identity\Pages\Account\Manage\UserExams.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\UserExams.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Identity\Pages\Account\Manage\UserExams.cshtml" />
   </ItemGroup>
 
 </Project>

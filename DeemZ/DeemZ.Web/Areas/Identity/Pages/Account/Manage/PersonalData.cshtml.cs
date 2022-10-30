@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using DeemZ.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace DeemZ.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System.Threading.Tasks;
+    using DeemZ.Data.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+
     public class PersonalDataModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;

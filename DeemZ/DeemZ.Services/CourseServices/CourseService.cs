@@ -34,7 +34,7 @@
             => context
                .Users
                .Include(x => x.Exams)
-               .FirstOrDefault(x => x.Id == id)
+               .FirstOrDefaultAsync(x => x.Id == id).Result
                .Exams
                .Sum(x => x.EarnedCredits);
 

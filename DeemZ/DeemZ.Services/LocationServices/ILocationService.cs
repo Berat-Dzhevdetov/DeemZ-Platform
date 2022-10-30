@@ -6,5 +6,6 @@
     {
         Task<bool> LocationExists(string country, string region, string city);
         Task CreateLocation(string country, string region, string city);
+        Task<string> GetCityId(string city);
     }
 }

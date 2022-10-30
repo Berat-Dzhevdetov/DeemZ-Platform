@@ -9,6 +9,7 @@
         public static string Email => "Email";
 
         public static string ChangePassword => "ChangePassword";
+        public static string MyExams => "GetUserExams";
 
         public static string DownloadPersonalData => "DownloadPersonalData";
 
@@ -25,6 +26,7 @@
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
+        public static string MyExamsNavClass(ViewContext viewContext) => PageNavClass(viewContext, MyExams);
 
         public static string DownloadPersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, DownloadPersonalData);
 

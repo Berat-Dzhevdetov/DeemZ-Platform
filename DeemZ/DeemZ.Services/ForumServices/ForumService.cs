@@ -47,13 +47,13 @@
                 .Paging(page, quantity)
                 .ToList();
 
-        public T GetTopicById<T>(string tid)
+        public async Task<T> GetTopicById<T>(string tid)
         {
-            var topic = context.Forums
+            var topic = await context.Forums
                 .Include(x => x.Comments)
                 .Include(x => x.User)
                 .OrderBy(x => x.CreatedOn)
-                .FirstOrDefault(x => x.Id == tid);
+                .FirstOrDefaultAsync(x => x.Id == tid);
 
             return mapper.Map<T>(topic);
         }

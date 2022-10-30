@@ -8,6 +8,7 @@
     using DeemZ.Global.WebConstants;
     using DeemZ.Data;
     using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
 
     public class EmailSenderService : IEmailSenderService
     {
@@ -56,5 +57,14 @@
     <span style='color:#E9806E'>{Constant.EmailSender.Name}</span>
     </div>
 </div>";
+
+        public async Task SendEmailById(string uid, string subject, string htmlContent)
+        {
+            var user = (await dbContext.Users.FirstOrDefaultAsync(x => x.Id == uid));
+
+            if (!user.EmailConfirmed) return;
+
+            await SendEmailAsync(user.Email, subject, htmlContent);
+        }
     }
 }

@@ -1,15 +1,14 @@
-﻿using System.Threading.Tasks;
-using DeemZ.Models.FormModels.Exam;
-using DeemZ.Services;
-using DeemZ.Services.AdminServices;
-using DeemZ.Services.ExamServices;
-using DeemZ.Services.Question;
-using DeemZ.Services.SurveyServices;
-using Microsoft.AspNetCore.Identity;
-using Moq;
-
-namespace DeemZ.Test.Services
+﻿namespace DeemZ.Test.Services
 {
+    using System.Threading.Tasks;
+    using DeemZ.Models.FormModels.Exam;
+    using DeemZ.Services;
+    using DeemZ.Services.AdminServices;
+    using DeemZ.Services.ExamServices;
+    using DeemZ.Services.Question;
+    using DeemZ.Services.SurveyServices;
+    using Microsoft.AspNetCore.Identity;
+    using Moq;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
@@ -31,6 +30,7 @@ namespace DeemZ.Test.Services
     using DeemZ.Services.ForumServices;
     using DeemZ.Models.FormModels.Forum;
     using DeemZ.Services.EmailSender;
+    using DeemZ.Services.CertificateServices;
 
     public abstract class BaseTestClass
     {
@@ -47,6 +47,7 @@ namespace DeemZ.Test.Services
         public IQuestionService questionService;
         public IAdminService adminService;
         public IEmailSenderService emailSender;
+        public ICertificateService certificateService;
         public Guard guard = new Guard();
 
         public const string testUserId = "test-user";
@@ -97,8 +98,9 @@ namespace DeemZ.Test.Services
             questionService = new QuestionService(context, mapper);
             
             emailSender = new EmailSenderService(context);
+            certificateService = new CertificateService(context, mapper);
 
-            userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService, emailSender);
+            userService = new UserService(context, mapper, GetMockUserManager(context), GetMockRoleManager(context), courseService, surveyService, resourceService, fileService, emailSender, certificateService, examService);
 
             adminService = new AdminService(mapper, context, courseService, userService);
         }

@@ -20,12 +20,12 @@
             string areaId = null;
 
             if (!await CountryExists(country))
-                await CreateCountry(country);
+                countryId = await CreateCountry(country);
             else
                 countryId = await GetCountryId(country);
 
             if (!await AreaExists(region))
-                await CreateArea(region, countryId);
+                areaId = await CreateArea(region, countryId);
             else
                 areaId = await GetAreaId(region);
 
@@ -50,37 +50,47 @@
             await context.SaveChangesAsync();
         }
 
-        private async Task CreateArea(string region, string countryId)
+        private async Task<string> CreateArea(string region, string countryId)
         {
-            context.Areas.Add(new Area
+            var newlyArea = new Area
             {
                 Name = region,
                 CountryId = countryId
-            });
+            };
+
+            context.Areas.Add(newlyArea);
 
             await context.SaveChangesAsync();
+
+            return newlyArea.Id;
         }
 
-        private Task<bool> CityExists(string city)
-            => context.Cities.AnyAsync(x => x.Name == city);
+        private async Task<bool> CityExists(string city)
+            => await context.Cities.AnyAsync(x => x.Name == city);
 
-        private Task<bool> AreaExists(string region)
-            => context.Areas.AnyAsync(x => x.Name == region);
+        private async Task<bool> AreaExists(string region)
+            => await context.Areas.AnyAsync(x => x.Name == region);
 
-        public async Task CreateCountry(string country)
+        public async Task<string> CreateCountry(string country)
         {
-            context.Countries.Add(new Country
+            var newlyCountry = new Country
             {
                 Name = country
-            });
+            };
+
+            context.Countries.Add(newlyCountry);
 
             await context.SaveChangesAsync();
+            return newlyCountry.Id;
         }
 
-        public Task<bool> LocationExists(string country, string region, string city)
-            => context.Cities.AnyAsync(x => x.Name == city && x.Area.Name == region && x.Area.Country.Name == country);
+        public async Task<bool> LocationExists(string country, string region, string city)
+            => await context.Cities.AnyAsync(x => x.Name == city && x.Area.Name == region && x.Area.Country.Name == country);
 
-        private Task<bool> CountryExists(string country)
-            => context.Countries.AnyAsync(x => x.Name == country);
+        private async Task<bool> CountryExists(string country)
+            => await context.Countries.AnyAsync(x => x.Name == country);
+
+        public async Task<string> GetCityId(string city)
+            => (await context.Cities.FirstOrDefaultAsync(x => x.Name == city)).Id;
     }
 }

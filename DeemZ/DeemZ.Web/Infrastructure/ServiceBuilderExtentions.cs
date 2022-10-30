@@ -55,7 +55,7 @@
 
         public static void AddCustomServices(this IServiceCollection services)
         {
-            services.AddSingleton<Guard>();
+            services.AddTransient<Guard>();
 
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISurveyService, SurveyService>();
